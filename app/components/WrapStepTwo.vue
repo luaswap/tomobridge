@@ -1,20 +1,24 @@
 <template>
-    <div id="app">
-        <div class="page-layout">
-            <router-view />
+    <div style="text-align: center">
+        A big search icon
+        <div>
+            We are looking for you transaction
+            Please stay tuned
+        </div>
+        <div>
+            <b-button>Back</b-button>
         </div>
     </div>
 </template>
 
 <script>
-import Welcome from './components/Home'
 export default {
     name: 'App',
     components: {
-        Welcome
     },
     data () {
-        return { }
+        return {
+        }
     },
     async updated () { },
     destroyed () { },
