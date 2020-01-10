@@ -5,6 +5,7 @@ const router = express.Router()
 
 router.get('/', async function (req, res, next) {
     let appConfig = {}
+    appConfig.blockchain = config.get('blockchain')
     return res.json(appConfig)
 })
 

@@ -1,18 +1,15 @@
 <template>
-    <div id="app">
-        <div class="page-layout">
-            <router-view />
+    <div>
+        <div style="text-align:center">
+            <h1>TomoBridge</h1>
         </div>
     </div>
 </template>
 
 <script>
-import Welcome from './components/Home'
 export default {
     name: 'App',
-    components: {
-        Welcome
-    },
+    components: { },
     data () {
         return { }
     },
