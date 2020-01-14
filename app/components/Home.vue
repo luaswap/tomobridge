@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-row style="height:100vh">
-            <b-col style="background: red">
+            <b-col style="background-color: #1d1e31">
                 <welcome />
             </b-col>
             <b-col>

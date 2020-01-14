@@ -23,7 +23,7 @@
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>
-        <div>
+        <div class="">
             <span>Wrap your token</span>
             <b-row>
                 <b-col>
@@ -77,8 +77,14 @@
             </b-row>
             <div style="margin-top: 20px">
                 <b-button
+                    v-if="wrapType === 'wrap'"
                     :disabled="!isAgreed"
                     @click="wrapToken">Wrap Now</b-button>
+                <b-button
+                    v-else
+                    :disabled="!isAgreed"
+                    @click="unWrapToken">
+                    UnWrap Now</b-button>
                 <b-form-checkbox
                     v-model="isAgreed">
                     By Wrapping, you agree to the
@@ -123,6 +129,18 @@
                 </b-form>
             </div>
         </b-modal>
+
+        <!-- UnWrap Modal-->
+        <b-modal
+            id="unWrapModal"
+            ref="unWrapModal"
+            centered
+            scrollable
+            size="md"
+            hide-header
+            hide-footer>
+            <UnWrap :parent="this" />
+        </b-modal>
     </div>
 </template>
 
@@ -133,10 +151,13 @@ import { validationMixin } from 'vuelidate'
 import {
     required
 } from 'vuelidate/lib/validators'
+import UnWrap from './UnWrap'
 
 export default {
     name: 'App',
-    components: { },
+    components: {
+        UnWrap
+    },
     mixins: [validationMixin],
     data () {
         return {
@@ -151,7 +172,8 @@ export default {
             privateKey: '',
             config: {},
             address: '',
-            loginError: false
+            loginError: false,
+            wrapType: 'wrap'
         }
     },
     validations: {
@@ -159,7 +181,12 @@ export default {
             required
         }
     },
-    async updated () { },
+    async updated () {
+        const self = this
+        if (self.address) {
+            self.loginError = false
+        }
+    },
     destroyed () { },
     created: async function () {
         this.config = await this.appConfig()
@@ -167,7 +194,6 @@ export default {
     methods: {
         validate () {
             const self = this
-            console.log(1)
             self.$v.$touch()
             if (!self.$v.$invalid) {
                 self.login('privateKey')
@@ -183,7 +209,6 @@ export default {
                 provider = 'privateKey'
                 self.privateKey = self.privateKey.trim()
                 walletProvider = new PrivateKeyProvider(self.privateKey, config.blockchain.rpc)
-                console.log(walletProvider)
             }
 
             self.setupProvider(provider, walletProvider)
@@ -195,7 +220,7 @@ export default {
         wrapToken () {
             const self = this
             if (self.address) {
-
+                self.$router.push({ path: '/wrapToken' })
             } else {
                 self.loginError = true
             }
@@ -208,6 +233,8 @@ export default {
             this.toData = temp1
             this.fromWrapSelected = this.toWrapSelected
             this.toWrapSelected = temp2
+            console.log(this.wrapType)
+            this.wrapType = this.wrapType === 'wrap' ? 'unwrap' : 'wrap'
         },
         loginPrivateKey () {
             this.$refs.privateKeyModal.show()
@@ -222,6 +249,15 @@ export default {
                 privateKeyField.setAttribute('type', 'text')
             } else {
                 privateKeyField.setAttribute('type', 'password')
+            }
+        },
+        unWrapToken () {
+            console.log(this.wrapType)
+            const self = this
+            if (self.address) {
+                this.$refs.unWrapModal.show()
+            } else {
+                self.loginError = true
             }
         }
     }

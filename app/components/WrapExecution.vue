@@ -44,7 +44,7 @@
             </b-row>
         </div>
         <div v-if="step === 1">
-            <WrapStepOne />
+            <WrapStepOne :parent="this"/>
         </div>
         <div v-if="step === 2">
             <WrapStepTwo/>
@@ -69,10 +69,11 @@ export default {
     },
     data () {
         return {
-            step: 3
+            step: 1
         }
     },
-    async updated () { },
+    async updated () {
+    },
     destroyed () { },
     created: async function () { },
     methods: {

@@ -17,8 +17,8 @@
             we can verify your transaction
         </div>
         <div style="text-align:center">
-            <b-button>Cancel</b-button>
-            <b-button>Confirm transaction</b-button>
+            <b-button @click="back">Cancel</b-button>
+            <b-button @click="nextStep">Confirm transaction</b-button>
         </div>
     </div>
 </template>
@@ -29,6 +29,12 @@ export default {
     name: 'App',
     components: {
         VueQrcode
+    },
+    props: {
+        parent: {
+            type: Object,
+            default: () => {}
+        }
     },
     data () {
         return {
@@ -42,6 +48,13 @@ export default {
     methods: {
         onCopy () {
             this.$toasted.show('Copied!')
+        },
+        nextStep () {
+            const par = this.parent
+            par.step++
+        },
+        back () {
+            this.$router.push({ path: '/' })
         }
     }
 }
