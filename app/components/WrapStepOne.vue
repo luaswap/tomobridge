@@ -17,7 +17,7 @@
             we can verify your transaction
         </div>
         <div style="text-align:center">
-            <b-button>Cancel</b-button>
+            <b-button @click="back">Cancel</b-button>
             <b-button @click="nextStep">Confirm transaction</b-button>
         </div>
     </div>
@@ -52,6 +52,9 @@ export default {
         nextStep () {
             const par = this.parent
             par.step++
+        },
+        back () {
+            this.$router.push({ path: '/' })
         }
     }
 }
