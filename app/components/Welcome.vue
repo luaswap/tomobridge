@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div style="text-align:center; top: 50%; left: 50%; color: #7573a6">
+        <div>
             <div>Logo here</div>
             <h1>TomoBridge</h1>
             <div>THE FIRST DECENTRALIZED EXCHANGE PLATFORM</div>
