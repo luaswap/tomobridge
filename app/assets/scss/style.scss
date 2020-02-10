@@ -35,3 +35,48 @@ If your tooling is more complex you can split it up like:
 */
 @import '02.tools/mixins';
 @import '02.tools/placeholders';
+
+/*
+GENERIC
+================================================
+reset and/or normalize styles, box-sizing definition, etc.
+This is the first layer which generates actual CSS.
+*/
+@import '../../../node_modules/bootstrap/scss/reboot';
+
+/*
+ELEMENTS
+================================================
+styling for bare HTML elements (like H1, A, etc.).
+moThese come with default styling from the browser so we can redefine them here.
+*/
+@import '03.elements/buttons';
+
+/*
+OBJECTS
+================================================
+"formless", in other words invisible to the user, no cosmetics
+  Eg. wrappers, grid systems, etc.
+This is the first layer of classes and should be agnostically named
+  Eg. list-inline, ui-list, etc.
+*/
+@import '../../../node_modules/bootstrap/scss/grid';
+// @import '04.objects/*';
+
+/*
+COMPONENTS
+================================================
+Specific UI components.
+This is where majority of our work takes place
+and our UI components are often composed of Objects and Components
+*/
+// @import '05.components/*';
+
+/*
+Trumps
+================================================
+utilities and helper classes with ability to override anything
+which goes before in the triangle, eg. .hide helper class
+*/
+@import '../../../node_modules/bootstrap/scss/utilities';
+@import '06.trumps/custom.scss'
