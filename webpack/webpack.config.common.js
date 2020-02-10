@@ -38,6 +38,16 @@ const webpackConfig = {
                         options: {
                             importer: globImporter()
                         }
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            ident: 'postcss',
+                            plugins: [
+                                require('stylelint')(),
+                                require('autoprefixer')()
+                            ]
+                        }
                     }
                 ]
             },

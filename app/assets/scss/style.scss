@@ -1,4 +1,4 @@
-/*--------------------------------------------------------------
+/* --------------------------------------------------------------
 >>> TABLE OF CONTENTS:
 ----------------------------------------------------------------
 # Settings
@@ -8,7 +8,7 @@
 # Objects
 # Components
 # Trumps
---------------------------------------------------------------*/
+-------------------------------------------------------------- */
 
 /*
 SETTINGS
@@ -61,7 +61,6 @@ This is the first layer of classes and should be agnostically named
   Eg. list-inline, ui-list, etc.
 */
 @import '../../../node_modules/bootstrap/scss/grid';
-// @import '04.objects/*';
 
 /*
 COMPONENTS
