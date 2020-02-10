@@ -1,0 +1,24 @@
+/* Grid breakpoints
+========================================================================== */
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  2xl: 1440px,
+  3xl: 1920px
+) !default;
+
+/* Fonts
+========================================================================== */
+$global-fonts: 'Nunito Sans', 'Helvetica Neue', 'Arial', sans-serif !default;
+$global-font-size: 18px;
+
+/* Colors
+========================================================================== */
+$color-primary: #4b8aff;
+$color-text: #1d1e31;
+$color-error: #bd1212;
+$color-input-bg: #f6f7fa;
+$color-placeholder: rbga(29, 30, 49, .2);
