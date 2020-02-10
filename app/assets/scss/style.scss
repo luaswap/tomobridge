@@ -17,9 +17,6 @@ Split up into logical sections, the smaller and simpler the better.
 used with preprocessors and contain font, colors definitions, etc
 ================================================
 */
-@import '../../../node_modules/bootstrap/scss/functions';
-@import '../../../node_modules/bootstrap/scss/variables';
-@import '../../../node_modules/bootstrap/scss/mixins';
 @import '01.settings/variables';
 
 /*
@@ -42,7 +39,6 @@ GENERIC
 reset and/or normalize styles, box-sizing definition, etc.
 This is the first layer which generates actual CSS.
 */
-@import '../../../node_modules/bootstrap/scss/reboot';
 
 /*
 ELEMENTS
@@ -60,7 +56,6 @@ OBJECTS
 This is the first layer of classes and should be agnostically named
   Eg. list-inline, ui-list, etc.
 */
-@import '../../../node_modules/bootstrap/scss/grid';
 
 /*
 COMPONENTS
@@ -77,5 +72,4 @@ Trumps
 utilities and helper classes with ability to override anything
 which goes before in the triangle, eg. .hide helper class
 */
-@import '../../../node_modules/bootstrap/scss/utilities';
 @import '06.trumps/custom.scss'
