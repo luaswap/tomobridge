@@ -2,6 +2,35 @@
   margin: 0 -15px;
 }
 
+.navbar-nav .nav-item {
+  .nav-link {
+    color: $color-primary;
+    font-size: 16px;
+  }
+
+  .dropdown-toggle::after {
+    border: none;
+    font-size: 12px;
+    margin-left: 10px;
+    vertical-align: middle;
+
+    @include tb_icon('\e905');
+  }
+}
+
+.navbar-nav .nav-item--dark {
+  .nav-link {
+    color: $color-text;
+  }
+}
+
+.nav-item__icon {
+  display: inline-block;
+  font-size: 7px;
+  margin-left: 10px;
+  vertical-align: 2px;
+}
+
 .navbar-toggler {
   border: none;
   height: 40px;

@@ -1,3 +1,9 @@
 @mixin transition() {
   transition: all .3s ease;
 }
+
+@mixin tb_icon($icon) {
+  content: $icon;
+
+  @extend %tb_icon;
+}

@@ -17,15 +17,13 @@
                 is-nav>
                 <b-navbar-nav class="ml-auto navbar-buttons">
                     <b-nav-item>
-                        Transaction History -->
+                        Transaction History<i class="nav-item__icon tb-long-arrow-right" />
                     </b-nav-item>
                     <b-nav-item-dropdown
-                        offset="25"
-                        right>
-                        <template
-                            slot="button-content">
-                            English
-                        </template>
+                        class="nav-item--dark"
+                        text="English">
+                        <b-dropdown-item class="current-lang">English</b-dropdown-item>
+                        <b-dropdown-item>Tiếng Việt</b-dropdown-item>
                     </b-nav-item-dropdown>
                 </b-navbar-nav>
             </b-collapse>
