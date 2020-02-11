@@ -29,19 +29,23 @@
                 </b-navbar-nav>
             </b-collapse>
         </b-navbar>
-        <div class="">
-            <span>Wrap your token</span>
+        <div id="wrapbox">
+            <p>Wrap your token</p>
             <b-row>
                 <b-col>
-                    <b-form-select
+                    <multiselect
                         v-model="fromWrapSelected"
-                        :options="fromData">
-                        <template v-slot:first>
-                            <option
-                                :value="null"
-                                disabled>Ê chọn 1 cái coi</option>
+                        :options="fromData"
+                        track-by="name">
+                        <template
+                            slot="option"
+                            slot-scope="props">
+                            <img
+                                :src="props.option.image"
+                                :alt="props.option.name"
+                                class="option__image"><span class="option__name">{{ props.option.name }}</span>
                         </template>
-                    </b-form-select>
+                    </multiselect>
                 </b-col>
                 <b-col>
                     <b-button @click="changeWrap">Đổi</b-button>
@@ -152,6 +156,7 @@
 
 <script>
 // import Web3 from 'web3'
+import Multiselect from 'vue-multiselect'
 import PrivateKeyProvider from 'truffle-privatekey-provider'
 import { validationMixin } from 'vuelidate'
 import {
@@ -162,12 +167,30 @@ import UnWrap from './UnWrap'
 export default {
     name: 'App',
     components: {
+        Multiselect,
         UnWrap
     },
     mixins: [validationMixin],
     data () {
         return {
-            fromData: ['BTC'],
+            fromData: [
+                {
+                    name: 'BTC',
+                    image: 'app/assets/images/crypto-logos/btc.png'
+                },
+                {
+                    name: 'ETH',
+                    image: 'app/assets/images/crypto-logos/eth.png'
+                },
+                {
+                    name: 'USDT',
+                    image: 'app/assets/images/crypto-logos/usdt.png'
+                },
+                {
+                    name: 'XLM',
+                    image: 'app/assets/images/crypto-logos/xlm.png'
+                }
+            ],
             toData: ['TRC21'],
             languages: ['english', 'vietnamese'],
             selectedLanguage: 'english',

@@ -30,8 +30,7 @@ If your tooling is more complex you can split it up like:
   tools.typography
   etc.
 */
-@import '02.tools/mixins';
-@import '02.tools/placeholders';
+@import '02.tools/*';
 
 /*
 GENERIC

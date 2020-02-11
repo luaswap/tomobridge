@@ -1,4 +1,8 @@
 #home-section {
   background-color: $color-background;
   height: 100vh;
+
+  .navbar {
+    box-shadow: none;
+  }
 }
