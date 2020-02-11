@@ -2,6 +2,7 @@
     <b-col
         cols="12"
         md="5"
+        lg="6"
         class="text-center d-none d-md-block">
         <div>Logo here</div>
         <h1>TomoBridge</h1>

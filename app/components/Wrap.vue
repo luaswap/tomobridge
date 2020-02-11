@@ -1,7 +1,8 @@
 <template>
     <b-col
         cols="12"
-        md="7">
+        md="7"
+        lg="6">
         <b-navbar
             toggleable="lg"
             variant="white"
