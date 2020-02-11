@@ -44,9 +44,9 @@ This is the first layer which generates actual CSS.
 ELEMENTS
 ================================================
 styling for bare HTML elements (like H1, A, etc.).
-moThese come with default styling from the browser so we can redefine them here.
+These come with default styling from the browser so we can redefine them here.
 */
-@import '03.elements/buttons';
+@import '03.elements/*';
 
 /*
 OBJECTS
