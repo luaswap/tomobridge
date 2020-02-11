@@ -3,17 +3,9 @@
         <section
             id="home-section"
             class="container-fluid">
-            <b-row class="align-items-center h-100">
-                <b-col
-                    cols="12"
-                    md="6">
-                    <welcome />
-                </b-col>
-                <b-col
-                    cols="12"
-                    md="6">
-                    <wrap />
-                </b-col>
+            <b-row class="align-items-md-center h-100">
+                <welcome />
+                <wrap />
             </b-row>
         </section>
         <section

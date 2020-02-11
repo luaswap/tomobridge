@@ -1,12 +1,19 @@
 <template>
-    <div>
+    <b-col
+        cols="12"
+        md="7">
         <b-navbar
             toggleable="lg"
             variant="white"
             type="light">
-            <b-navbar-toggle target="lang-collapse"/>
+            <b-navbar-brand to="/">
+                <img src="/app/assets/images/logo.svg" >
+            </b-navbar-brand>
+            <b-navbar-toggle target="nav-collapse">
+                <span />
+            </b-navbar-toggle>
             <b-collapse
-                id="lang-collapse"
+                id="nav-collapse"
                 is-nav>
                 <b-navbar-nav class="ml-auto navbar-buttons">
                     <b-nav-item>
@@ -141,7 +148,7 @@
             hide-footer>
             <UnWrap :parent="this" />
         </b-modal>
-    </div>
+    </b-col>
 </template>
 
 <script>

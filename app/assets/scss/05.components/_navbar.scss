@@ -1,0 +1,57 @@
+.navbar {
+  margin: 0 -15px;
+}
+
+.navbar-toggler {
+  border: none;
+  height: 40px;
+  padding: 0;
+  position: relative;
+  width: 40px;
+
+  &::before,
+  &::after,
+  span {
+    background-color: #595959;
+    content: '';
+    display: block;
+    height: 2px;
+    left: 25%;
+    position: absolute;
+    transition-duration: .2s;
+    transition-timing-function: cubic-bezier(.215, .61, .355, 1);
+    width: 60%;
+
+    @extend %transition;
+  }
+
+  &::before {
+    top: 30%;
+  }
+
+  span {
+    top: 50%;
+  }
+
+  &::after {
+    top: 70%;
+  }
+
+  &[aria-expanded='true'] {
+    &::before {
+      top: 50%;
+      transform: rotate(45deg);
+    }
+
+    span {
+      opacity: 0;
+      top: 50%;
+      transform: translateX(-6px);
+    }
+
+    &::after {
+      top: 50%;
+      transform: rotate(-45deg);
+    }
+  }
+}
