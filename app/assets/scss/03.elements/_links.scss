@@ -1,7 +1,12 @@
 a {
   color: $color-primary;
 
-  &:hover {
+  &:hover,
+  &:focus {
     color: $color-text;
+  }
+
+  &:focus {
+    outline: none;
   }
 }
