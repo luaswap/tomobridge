@@ -196,10 +196,10 @@
         <b-modal
             id="unWrapModal"
             ref="unWrapModal"
+            title="UnWrap"
             centered
             scrollable
             size="md"
-            hide-header
             hide-footer>
             <UnWrap :parent="this" />
         </b-modal>
@@ -351,6 +351,7 @@ export default {
         unWrapToken () {
             console.log(this.wrapType)
             const self = this
+            // this.$refs.unWrapModal.show()
             if (self.address) {
                 this.$refs.unWrapModal.show()
             } else {
