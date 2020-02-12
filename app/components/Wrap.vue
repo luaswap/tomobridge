@@ -30,75 +30,125 @@
             </b-collapse>
         </b-navbar>
         <div id="wrapbox">
-            <p>Wrap your token</p>
-            <b-row>
-                <b-col>
+            <p class="wrapbox__text">Wrap your token</p>
+            <b-row class="wrapbox__row">
+                <b-col
+                    cols="5">
                     <multiselect
+                        id="fromwrap-select"
                         v-model="fromWrapSelected"
                         :options="fromData"
+                        :custom-label="customLabel"
+                        :show-labels="false"
                         track-by="name">
+                        <template
+                            slot="singleLabel"
+                            slot-scope="props">
+                            <img
+                                :src="props.option.img"
+                                :alt="props.option.name"
+                                class="option__image">
+                            <span class="option__name">{{ props.option.name }}</span>
+                        </template>
                         <template
                             slot="option"
                             slot-scope="props">
                             <img
-                                :src="props.option.image"
+                                :src="props.option.img"
                                 :alt="props.option.name"
                                 class="option__image"><span class="option__name">{{ props.option.name }}</span>
                         </template>
                     </multiselect>
                 </b-col>
-                <b-col>
-                    <b-button @click="changeWrap">Đổi</b-button>
+                <b-col
+                    cols="2">
+                    <b-button
+                        id="swap-button"
+                        @click="changeWrap">
+                        Swap
+                        <i class="tb-swap-arrow-right"/>
+                        <i class="tb-swap-arrow-left"/>
+                    </b-button>
                 </b-col>
-                <b-col>
-                    <b-form-select
+                <b-col
+                    cols="5">
+                    <multiselect
+                        id="towrap-select"
                         v-model="toWrapSelected"
-                        :options="toData" >
-                        <template v-slot:first>
-                            <option
-                                :value="null"
-                                disabled>Ê chọn 1 cái coi</option>
+                        :options="toData"
+                        :custom-label="customLabel"
+                        :show-labels="false"
+                        track-by="name">
+                        <template
+                            slot="singleLabel"
+                            slot-scope="props">
+                            <img
+                                :src="props.option.img"
+                                :alt="props.option.name"
+                                class="option__image">
+                            <span class="option__name">{{ props.option.name }}</span>
                         </template>
-                    </b-form-select>
+                        <template
+                            slot="option"
+                            slot-scope="props">
+                            <img
+                                :src="props.option.img"
+                                :alt="props.option.name"
+                                class="option__image"><span class="option__name">{{ props.option.name }}</span>
+                        </template>
+                    </multiselect>
                 </b-col>
             </b-row>
-            <b-row>
+            <b-row class="wrapbox__row">
                 <b-col>
-                    <label for="address-input">{{ toWrapSelected }} receive address</label>
+                    <label for="address-input">{{ toWrapSelected ? toWrapSelected.name : '' }} receive address</label>
                     <b-form-input
                         id="address-input"
                         v-model="receiveAddress"/>
                 </b-col>
             </b-row>
-            <b-row>
+            <b-row class="wrapbox__row">
                 <b-col>
-                    <label>Connect with</label>
-                    <br>
-                    <b-button>Tomowallet</b-button>
-                    <b-button>Ledger</b-button>
-                    <b-button @click="loginPrivateKey">Private key</b-button>
+                    <p class="wrapbox__text">Or Connect with</p>
+                    <b-button>
+                        <img
+                            src="app/assets/images/tomowallet.svg"
+                            alt="TomoWallet">TomoWallet
+                    </b-button>
+                    <b-button>
+                        <img
+                            src="app/assets/images/ledger.svg"
+                            alt="TomoWallet">Ledger
+                    </b-button>
+                    <b-button @click="loginPrivateKey">
+                        <img
+                            src="app/assets/images/key.svg"
+                            alt="TomoWallet">
+                        Private key
+                    </b-button>
                 </b-col>
             </b-row>
-            <b-row>
+            <b-row class="wrapbox__row">
                 {{ address }}
-                <div v-if="loginError">
-                    Please connect your TOMO wallet
-                </div>
+                <p
+                    v-if="loginError"
+                    class="text-error">Please connect your TOMO wallet</p>
             </b-row>
-            <div style="margin-top: 20px">
+            <div>
                 <b-button
                     v-if="wrapType === 'wrap'"
                     :disabled="!isAgreed"
+                    variant="primary"
                     @click="wrapToken">Wrap Now</b-button>
                 <b-button
                     v-else
                     :disabled="!isAgreed"
+                    variant="primary"
                     @click="unWrapToken">
                     UnWrap Now</b-button>
                 <b-form-checkbox
                     v-model="isAgreed">
-                    By Wrapping, you agree to the
-                    <a href="#">Terms and Conditions</a>
+                    By Wrapping, you agree to the <a href="#">Terms and Conditions</a>
                 </b-form-checkbox>
             </div>
         </div>
@@ -176,22 +226,31 @@ export default {
             fromData: [
                 {
                     name: 'BTC',
-                    image: 'app/assets/images/crypto-logos/btc.png'
+                    img: 'app/assets/images/crypto-logos/btc.png'
                 },
                 {
                     name: 'ETH',
-                    image: 'app/assets/images/crypto-logos/eth.png'
+                    img: 'app/assets/images/crypto-logos/eth.png'
                 },
                 {
                     name: 'USDT',
-                    image: 'app/assets/images/crypto-logos/usdt.png'
+                    img: 'app/assets/images/crypto-logos/usdt.png'
                 },
                 {
                     name: 'XLM',
-                    image: 'app/assets/images/crypto-logos/xlm.png'
+                    img: 'app/assets/images/crypto-logos/xlm.png'
                 }
             ],
-            toData: ['TRC21'],
+            toData: [
+                {
+                    name: 'TRC21',
+                    img: 'app/assets/images/crypto-logos/tomo-green.png'
+                },
+                {
+                    name: 'TRC20',
+                    img: 'app/assets/images/crypto-logos/tomo-green.png'
+                }
+            ],
             languages: ['english', 'vietnamese'],
             selectedLanguage: 'english',
             fromWrapSelected: null,
@@ -221,6 +280,9 @@ export default {
         this.config = await this.appConfig()
     },
     methods: {
+        customLabel ({ name }) {
+            return `${name}`
+        },
         validate () {
             const self = this
             self.$v.$touch()
