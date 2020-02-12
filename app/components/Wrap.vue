@@ -134,7 +134,7 @@
                     v-if="loginError"
                     class="text-error">Please connect your TOMO wallet</p>
             </b-row>
-            <b-row class="wrapbox__row">
+            <div>
                 <b-button
                     v-if="wrapType === 'wrap'"
                     :disabled="!isAgreed"
@@ -150,7 +150,7 @@
                     v-model="isAgreed">
                     By Wrapping, you agree to the <a href="#">Terms and Conditions</a>
                 </b-form-checkbox>
-            </b-row>
+            </div>
         </div>
 
         <!-- Login Modals-->
