@@ -157,47 +157,39 @@
         <b-modal
             id="privateKeyModal"
             ref="privateKeyModal"
-            title="Please select the address you would like to interact with"
+            title="Connect with Private Key"
             centered
             scrollable
-            size="md"
-            hide-header
-            hide-footer>
-            <div>
-                <b-form
-                    novalidate
-                    @submit.prevent="validate()">
-                    <b-row>
-                        <b-col>
-                            <h2>Connect with Private Key</h2>
-                            <b-form-group
-                                id="pk-form-group"
-                                label="Private Key"
-                                label-for="pk-input">
-                                <b-form-input
-                                    id="pk-input"
-                                    v-model="privateKey"
-                                    placeholder="Enter private key"
-                                    type="password"/>
-                                <div
-                                    v-if="$v.privateKey.$dirty && !$v.privateKey.required"
-                                    class="text-danger pt-2">Required field</div>
-                                <b-button
-                                    id="show-pk-button"
-                                    @click="showPrivateKey">
-                                    Show
-                                    <i class="tb-eye"/>
-                                </b-button>
-                            </b-form-group>
-                        </b-col>
-                    </b-row>
-                    <b-row/>
-                    <div>
-                        <b-button @click="closePrivateKeyModal">Cancel</b-button>
-                        <b-button type="submit">Confirm</b-button>
-                    </div>
-                </b-form>
-            </div>
+            hide-footer
+            size="md">
+            <b-form
+                id="pk-form"
+                novalidate
+                @submit.prevent="validate()">
+                <b-form-group
+                    class="pk-form__group"
+                    label="Private Key"
+                    label-for="pk-input">
+                    <b-form-input
+                        id="pk-input"
+                        v-model="privateKey"
+                        placeholder="Enter private key"
+                        type="password"/>
+                    <div
+                        v-if="$v.privateKey.$dirty && !$v.privateKey.required"
+                        class="text-danger pt-2">Required field</div>
+                    <b-button
+                        id="show-pk-button"
+                        @click="showPrivateKey">
+                        Show
+                        <i class="tb-eye"/>
+                    </b-button>
+                </b-form-group>
+                <div class="pk-form__buttons">
+                    <b-button @click="closePrivateKeyModal">Cancel</b-button>
+                    <b-button type="submit">Confirm</b-button>
+                </div>
+            </b-form>
         </b-modal>
 
         <!-- UnWrap Modal-->
