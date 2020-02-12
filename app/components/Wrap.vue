@@ -110,25 +110,27 @@
             <b-row class="wrapbox__row">
                 <b-col>
                     <p class="wrapbox__text">Or Connect with</p>
-                    <b-button>
-                        <img
-                            src="app/assets/images/tomowallet.svg"
-                            alt="TomoWallet">TomoWallet
-                    </b-button>
-                    <b-button>
-                        <img
-                            src="app/assets/images/ledger.svg"
-                            alt="TomoWallet">Ledger
-                    </b-button>
-                    <b-button @click="loginPrivateKey">
-                        <img
-                            src="app/assets/images/key.svg"
-                            alt="TomoWallet">
-                        Private key
-                    </b-button>
+                    <div class="wrapbox__buttons">
+                        <b-button>
+                            <img
+                                src="app/assets/images/tomowallet.svg"
+                                alt="TomoWallet">TomoWallet
+                        </b-button>
+                        <b-button>
+                            <img
+                                src="app/assets/images/ledger.svg"
+                                alt="TomoWallet">Ledger
+                        </b-button>
+                        <b-button @click="loginPrivateKey">
+                            <img
+                                src="app/assets/images/key.svg"
+                                alt="TomoWallet">
+                            Private key
+                        </b-button>
+                    </div>
                 </b-col>
             </b-row>
-            <b-row class="wrapbox__row">
+            <b-row class="wrapbox__row pb-2">
                 {{ address }}
                 <p
                     v-if="loginError"
