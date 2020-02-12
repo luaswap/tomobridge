@@ -168,20 +168,30 @@
                     novalidate
                     @submit.prevent="validate()">
                     <b-row>
-                        <h2>Connect with Pivate Key</h2>
+                        <b-col>
+                            <h2>Connect with Private Key</h2>
+                            <b-form-group
+                                id="pk-form-group"
+                                label="Private Key"
+                                label-for="pk-input">
+                                <b-form-input
+                                    id="pk-input"
+                                    v-model="privateKey"
+                                    placeholder="Enter private key"
+                                    type="password"/>
+                                <div
+                                    v-if="$v.privateKey.$dirty && !$v.privateKey.required"
+                                    class="text-danger pt-2">Required field</div>
+                                <b-button
+                                    id="show-pk-button"
+                                    @click="showPrivateKey">
+                                    Show
+                                    <i class="tb-eye"/>
+                                </b-button>
+                            </b-form-group>
+                        </b-col>
                     </b-row>
-                    <b-row>
-                        <label>Private Key</label>
-                        <b-form-input
-                            id="privateKeyInput"
-                            v-model="privateKey"
-                            placeholder="Enter private key"
-                            type="password"/>
-                        <div
-                            v-if="$v.privateKey.$dirty && !$v.privateKey.required"
-                            class="text-danger pt-2">Required field</div>
-                        <b-button @click="showPrivateKey">Show</b-button>
-                    </b-row>
+                    <b-row/>
                     <div>
                         <b-button @click="closePrivateKeyModal">Cancel</b-button>
                         <b-button type="submit">Confirm</b-button>
@@ -335,11 +345,15 @@ export default {
             this.$refs.privateKeyModal.hide()
         },
         showPrivateKey () {
-            const privateKeyField = document.querySelector('#privateKeyInput')
-            if (privateKeyField.getAttribute('type') === 'password') {
-                privateKeyField.setAttribute('type', 'text')
+            let pkInput = document.querySelector('#pk-input')
+            let showPkButton = document.querySelector('#show-pk-button')
+
+            if (pkInput.getAttribute('type') === 'password') {
+                pkInput.setAttribute('type', 'text')
+                showPkButton.classList.add('active')
             } else {
-                privateKeyField.setAttribute('type', 'password')
+                pkInput.setAttribute('type', 'password')
+                showPkButton.classList.remove('active')
             }
         },
         unWrapToken () {
