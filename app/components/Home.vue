@@ -11,11 +11,7 @@
         <section
             id="wrap-section"
             class="container-fluid">
-            <b-row id="wrap-history">
-                <b-col>
-                    <transaction />
-                </b-col>
-            </b-row>
+            <WrapHistory />
         </section>
     </div>
 </template>
@@ -23,13 +19,13 @@
 <script>
 import Welcome from './Welcome'
 import Wrap from './Wrap'
-import Transaction from './Transaction'
+import WrapHistory from './WrapHistory'
 export default {
     name: 'App',
     components: {
         Welcome,
         Wrap,
-        Transaction
+        WrapHistory
     },
     data () {
         return { }
