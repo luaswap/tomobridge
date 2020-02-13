@@ -1,161 +1,169 @@
 <template>
     <b-col
         cols="12"
-        lg="6">
-        <b-navbar
-            toggleable="md"
-            variant="white"
-            type="light">
-            <b-navbar-brand to="/">
-                <img
-                    class="d-lg-none"
-                    src="/app/assets/images/logo.svg" >
-            </b-navbar-brand>
-            <b-navbar-toggle target="nav-collapse">
-                <span />
-            </b-navbar-toggle>
-            <b-collapse
-                id="nav-collapse"
-                is-nav>
-                <b-navbar-nav class="ml-auto navbar-buttons">
-                    <b-nav-item>
-                        Transaction History<i class="nav-item__icon tb-long-arrow-right" />
-                    </b-nav-item>
-                    <b-nav-item-dropdown
-                        class="nav-item--dark"
-                        text="English">
-                        <b-dropdown-item class="current-lang">English</b-dropdown-item>
-                        <b-dropdown-item>Tiếng Việt</b-dropdown-item>
-                    </b-nav-item-dropdown>
-                </b-navbar-nav>
-            </b-collapse>
-        </b-navbar>
-        <div id="wrapbox">
-            <p class="wrapbox__text">Wrap your token</p>
-            <b-row class="wrapbox__row">
-                <b-col
-                    cols="5">
-                    <multiselect
-                        id="fromwrap-select"
-                        v-model="fromWrapSelected"
-                        :options="fromData"
-                        :custom-label="customLabel"
-                        :show-labels="false"
-                        track-by="name">
-                        <template
-                            slot="singleLabel"
-                            slot-scope="props">
-                            <img
-                                :src="props.option.img"
-                                :alt="props.option.name"
-                                class="multiselect__img">
-                            <span class="multiselect__name">{{ props.option.name }}</span>
-                        </template>
-                        <template
-                            slot="option"
-                            slot-scope="props">
-                            <img
-                                :src="props.option.img"
-                                :alt="props.option.name"
-                                class="multiselect__img"><span class="multiselect__name">{{ props.option.name }}</span>
-                        </template>
-                    </multiselect>
-                </b-col>
-                <b-col
-                    cols="2">
+        lg="7"
+        xl="6"
+        class="home-section__col home-section__col--right">
+        <div class="home-section__col-inner">
+            <b-navbar
+                toggleable="md"
+                variant="white"
+                type="light">
+                <b-navbar-brand to="/">
+                    <img
+                        class="d-lg-none"
+                        src="/app/assets/images/logo.svg" >
+                </b-navbar-brand>
+                <b-navbar-toggle target="nav-collapse">
+                    <span />
+                </b-navbar-toggle>
+                <b-collapse
+                    id="nav-collapse"
+                    is-nav>
+                    <b-navbar-nav class="ml-auto navbar-buttons">
+                        <b-nav-item>
+                            Transaction History<i class="nav-item__icon tb-long-arrow-right" />
+                        </b-nav-item>
+                        <b-nav-item-dropdown
+                            class="nav-item--dark"
+                            text="English">
+                            <b-dropdown-item class="current-lang">English</b-dropdown-item>
+                            <b-dropdown-item>Tiếng Việt</b-dropdown-item>
+                        </b-nav-item-dropdown>
+                    </b-navbar-nav>
+                </b-collapse>
+            </b-navbar>
+            <div id="wrapbox">
+                <p class="wrapbox__text">Wrap your token</p>
+                <b-row class="wrapbox__row">
+                    <b-col
+                        cols="5">
+                        <multiselect
+                            id="fromwrap-select"
+                            v-model="fromWrapSelected"
+                            :options="fromData"
+                            :custom-label="customLabel"
+                            :show-labels="false"
+                            track-by="name">
+                            <template
+                                slot="singleLabel"
+                                slot-scope="props">
+                                <img
+                                    :src="props.option.img"
+                                    :alt="props.option.name"
+                                    class="multiselect__img">
+                                <span class="multiselect__name">{{ props.option.name }}</span>
+                            </template>
+                            <template
+                                slot="option"
+                                slot-scope="props">
+                                <img
+                                    :src="props.option.img"
+                                    :alt="props.option.name"
+                                    class="multiselect__img">
+                                <span class="multiselect__name">{{ props.option.name }}</span>
+                            </template>
+                        </multiselect>
+                    </b-col>
+                    <b-col
+                        cols="2">
+                        <b-button
+                            class="wrapbox__swap-btn"
+                            @click="changeWrap">
+                            Swap
+                            <i class="tb-swap-arrow-right"/>
+                            <i class="tb-swap-arrow-left"/>
+                        </b-button>
+                    </b-col>
+                    <b-col
+                        cols="5">
+                        <multiselect
+                            id="towrap-select"
+                            v-model="toWrapSelected"
+                            :options="toData"
+                            :custom-label="customLabel"
+                            :show-labels="false"
+                            track-by="name">
+                            <template
+                                slot="singleLabel"
+                                slot-scope="props">
+                                <img
+                                    :src="props.option.img"
+                                    :alt="props.option.name"
+                                    class="multiselect__img">
+                                <span class="multiselect__name">{{ props.option.name }}</span>
+                            </template>
+                            <template
+                                slot="option"
+                                slot-scope="props">
+                                <img
+                                    :src="props.option.img"
+                                    :alt="props.option.name"
+                                    class="multiselect__img">
+                                <span class="multiselect__name">{{ props.option.name }}</span>
+                            </template>
+                        </multiselect>
+                    </b-col>
+                </b-row>
+                <b-row class="wrapbox__row">
+                    <b-col>
+                        <label
+                            class="wrapbox__text"
+                            for="address-input">{{ toWrapSelected ? toWrapSelected.name : '' }} receive address</label>
+                        <b-form-input
+                            id="address-input"
+                            v-model="receiveAddress"
+                            placeholder="Please connect your TOMO wallet…"/>
+                    </b-col>
+                </b-row>
+                <b-row class="wrapbox__row">
+                    <b-col>
+                        <p class="wrapbox__text">Or Connect with</p>
+                        <div class="wrapbox__buttons">
+                            <b-button>
+                                <img
+                                    src="app/assets/images/tomowallet.svg"
+                                    alt="TomoWallet">
+                                <span>TomoWallet</span>
+                            </b-button>
+                            <b-button>
+                                <img
+                                    src="app/assets/images/ledger.svg"
+                                    alt="Ledger">
+                                <span>Ledger</span>
+                            </b-button>
+                            <b-button @click="loginPrivateKey">
+                                <img
+                                    src="app/assets/images/key.svg"
+                                    alt="Private key">
+                                <span>Private key</span>
+                            </b-button>
+                        </div>
+                        {{ address }}
+                        <p
+                            v-if="loginError"
+                            class="text-error">Please connect your TOMO wallet</p>
+                    </b-col>
+                </b-row>
+                <div class="text-sm-center">
                     <b-button
-                        class="wrapbox__swap-btn"
-                        @click="changeWrap">
-                        Swap
-                        <i class="tb-swap-arrow-right"/>
-                        <i class="tb-swap-arrow-left"/>
-                    </b-button>
-                </b-col>
-                <b-col
-                    cols="5">
-                    <multiselect
-                        id="towrap-select"
-                        v-model="toWrapSelected"
-                        :options="toData"
-                        :custom-label="customLabel"
-                        :show-labels="false"
-                        track-by="name">
-                        <template
-                            slot="singleLabel"
-                            slot-scope="props">
-                            <img
-                                :src="props.option.img"
-                                :alt="props.option.name"
-                                class="multiselect__img">
-                            <span class="multiselect__name">{{ props.option.name }}</span>
-                        </template>
-                        <template
-                            slot="option"
-                            slot-scope="props">
-                            <img
-                                :src="props.option.img"
-                                :alt="props.option.name"
-                                class="multiselect__img"><span class="multiselect__name">{{ props.option.name }}</span>
-                        </template>
-                    </multiselect>
-                </b-col>
-            </b-row>
-            <b-row class="wrapbox__row">
-                <b-col>
-                    <label
-                        class="wrapbox__text"
-                        for="address-input">{{ toWrapSelected ? toWrapSelected.name : '' }} receive address</label>
-                    <b-form-input
-                        id="address-input"
-                        v-model="receiveAddress"
-                        placeholder="Please connect your TOMO wallet…"/>
-                </b-col>
-            </b-row>
-            <b-row class="wrapbox__row">
-                <b-col>
-                    <p class="wrapbox__text">Or Connect with</p>
-                    <div class="wrapbox__buttons">
-                        <b-button>
-                            <img
-                                src="app/assets/images/tomowallet.svg"
-                                alt="TomoWallet">TomoWallet
-                        </b-button>
-                        <b-button>
-                            <img
-                                src="app/assets/images/ledger.svg"
-                                alt="TomoWallet">Ledger
-                        </b-button>
-                        <b-button @click="loginPrivateKey">
-                            <img
-                                src="app/assets/images/key.svg"
-                                alt="TomoWallet">
-                            Private key
-                        </b-button>
-                    </div>
-                    {{ address }}
-                    <p
-                        v-if="loginError"
-                        class="text-error">Please connect your TOMO wallet</p>
-                </b-col>
-            </b-row>
-            <div class="text-sm-center">
-                <b-button
-                    v-if="wrapType === 'wrap'"
-                    :disabled="!isAgreed"
-                    class="wrapbox__big-button"
-                    variant="primary"
-                    @click="wrapToken">Wrap Now</b-button>
-                <b-button
-                    v-else
-                    :disabled="!isAgreed"
-                    class="wrapbox__big-button"
-                    variant="primary"
-                    @click="unWrapToken">
-                    UnWrap Now</b-button>
-                <b-form-checkbox
-                    v-model="isAgreed">
-                    By Wrapping, you agree to the <a href="#">Terms and Conditions</a>
-                </b-form-checkbox>
+                        v-if="wrapType === 'wrap'"
+                        :disabled="!isAgreed"
+                        class="wrapbox__big-button"
+                        variant="primary"
+                        @click="wrapToken">Wrap Now</b-button>
+                    <b-button
+                        v-else
+                        :disabled="!isAgreed"
+                        class="wrapbox__big-button"
+                        variant="primary"
+                        @click="unWrapToken">
+                        UnWrap Now</b-button>
+                    <b-form-checkbox
+                        v-model="isAgreed">
+                        By Wrapping, you agree to the <a href="#">Terms and Conditions</a>
+                    </b-form-checkbox>
+                </div>
             </div>
         </div>
 

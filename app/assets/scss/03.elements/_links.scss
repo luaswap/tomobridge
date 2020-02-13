@@ -1,6 +1,8 @@
 a {
   color: $color-primary;
 
+  @extend %transition;
+
   &:hover,
   &:focus {
     color: $color-text;

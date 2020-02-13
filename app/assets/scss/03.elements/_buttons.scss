@@ -28,4 +28,9 @@ button,
 .btn-secondary {
   background-color: #f6f7fa;
   color: #1d1e31;
+
+  &:hover {
+    background-color: $color-primary;
+    color: #fff;
+  }
 }

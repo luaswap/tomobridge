@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:400,600&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,800&display=swap');
 
 /* Grid breakpoints
 ========================================================================== */
@@ -7,7 +7,9 @@ $grid-breakpoints: (
   sm: 576px,
   md: 768px,
   lg: 992px,
-  xl: 1200px
+  xl: 1200px,
+  xxl: 1440px,
+  xxxl: 1920px,
 ) !default;
 
 /* Fonts
@@ -15,7 +17,7 @@ $grid-breakpoints: (
 $global-fonts: 'Nunito Sans', 'Helvetica Neue', 'Arial', sans-serif !default;
 $global-font-size-xs: 15px;
 $global-font-size-md: 16px;
-$global-font-size-lg: 18px;
+$global-font-size-xl: 18px;
 
 /* Colors
 ========================================================================== */

@@ -4,8 +4,22 @@ input[type='password'] {
   border: none;
   border-radius: 4px;
   font-size: 14px;
+  height: auto;
 
   @extend %transition;
+
+  @include media-breakpoint-up(md) {
+    font-size: $global-font-size-md;
+    padding: 10px 20px;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding: 16px 20px;
+  }
+
+  @include media-breakpoint-up(xl) {
+    font-size: $global-font-size-xl;
+  }
 
   &:focus,
   &:active {
