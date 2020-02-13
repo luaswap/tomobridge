@@ -3,7 +3,7 @@
         cols="12"
         lg="6">
         <b-navbar
-            toggleable="lg"
+            toggleable="md"
             variant="white"
             type="light">
             <b-navbar-brand to="/">
@@ -107,7 +107,8 @@
                         for="address-input">{{ toWrapSelected ? toWrapSelected.name : '' }} receive address</label>
                     <b-form-input
                         id="address-input"
-                        v-model="receiveAddress"/>
+                        v-model="receiveAddress"
+                        placeholder="Please connect your TOMO wallet…"/>
                 </b-col>
             </b-row>
             <b-row class="wrapbox__row">
@@ -131,15 +132,13 @@
                             Private key
                         </b-button>
                     </div>
+                    {{ address }}
+                    <p
+                        v-if="loginError"
+                        class="text-error">Please connect your TOMO wallet</p>
                 </b-col>
             </b-row>
-            <b-row class="wrapbox__row pb-2">
-                {{ address }}
-                <p
-                    v-if="loginError"
-                    class="text-error">Please connect your TOMO wallet</p>
-            </b-row>
-            <div>
+            <div class="text-sm-center">
                 <b-button
                     v-if="wrapType === 'wrap'"
                     :disabled="!isAgreed"

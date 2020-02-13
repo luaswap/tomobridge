@@ -20,15 +20,23 @@
   background-color: #f6f7fa;
   border-radius: 4px;
   font-size: 14px;
-  padding: 10px 15px;
+  padding: 5px 15px;
+
+  @extend %transition;
+}
+
+.multiselect--active .multiselect__tags {
+  background-color: #eaeaea;
 }
 
 .multiselect__placeholder {
-  line-height: 30px;
+  line-height: 25px;
 }
 
 .multiselect__input {
   background-color: transparent !important;
+  border: none !important;
+  line-height: 23px;
   transition: none !important;
 }
 
@@ -60,13 +68,14 @@
 
 .multiselect__img {
   display: inline-block;
-  height: 30px;
+  height: 25px;
   margin-right: 5px;
   vertical-align: middle;
-  width: 30px;
+  width: 25px;
 }
 
 .multiselect__name {
   display: inline-block;
+  font-size: 14px;
   vertical-align: middle;
 }

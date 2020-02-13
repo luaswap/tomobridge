@@ -65,7 +65,7 @@
   .dropdown-toggle {
     &::after {
       border: none;
-      font-size: 12px;
+      font-size: 10px;
       margin-left: 10px;
       vertical-align: middle;
 
@@ -76,6 +76,12 @@
 
     &[aria-expanded='true']::after {
       transform: translateY(-2px) rotate(180deg);
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    &:not(.dropdown) {
+      margin-right: 100px;
     }
   }
 }

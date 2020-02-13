@@ -1,0 +1,17 @@
+.custom-checkbox {
+  font-size: 14px;
+  line-height: 25px;
+
+  .custom-control-label::before {
+    border-color: $color-primary;
+    border-radius: 4px;
+  }
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+  background-color: $color-primary;
+}
+
+.custom-control-input:focus ~ .custom-control-label::before {
+  box-shadow: none;
+}

@@ -3,6 +3,7 @@ input[type='password'] {
   background-color: #f6f7fa;
   border: none;
   border-radius: 4px;
+  font-size: 14px;
 
   @extend %transition;
 
@@ -11,5 +12,9 @@ input[type='password'] {
     background-color: #eaeaea;
     box-shadow: none !important;
     outline: none;
+  }
+
+  &:placeholder {
+    color: rgba(29, 30, 49, .2);
   }
 }
