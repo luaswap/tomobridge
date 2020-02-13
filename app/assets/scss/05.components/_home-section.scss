@@ -1,8 +1,11 @@
 #home-section {
   background-color: $color-background;
-  height: 100vh;
 
   .navbar {
     box-shadow: none;
+  }
+
+  @include media-breakpoint-up(lg) {
+    height: 100vh;
   }
 }

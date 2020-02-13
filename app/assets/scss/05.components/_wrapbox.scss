@@ -1,9 +1,12 @@
 #wrapbox {
   background-color: #fff;
   border-radius: 10px;
-  height: calc(100% - 90px);
   margin: 15px 0;
   padding: 30px;
+
+  @include media-breakpoint-up(lg) {
+    height: calc(100% - 90px);
+  }
 
   .btn-primary {
     @include media-breakpoint-up(md) {
@@ -69,35 +72,4 @@
   grid-gap: 10px;
   grid-template-columns: repeat(3,1fr);
   padding: 0;
-
-  button {
-    background: #f6f7fa;
-    border: none;
-    border-radius: 4px;
-    color: #1d1e31;
-    display: inline-block;
-    font-size: 12px;
-    width: 100%;
-
-    @include media-breakpoint-up(md) {
-      align-items: center;
-      display: flex;
-      font-size: 18px;
-      justify-content: center;
-      padding: 15px 0;
-      width: 100%;
-    }
-
-    img {
-      display: block;
-      margin: 5px auto;
-      width: 15px;
-
-      @include media-breakpoint-up(md) {
-        display: inline-block;
-        margin: 0 20px 0 0;
-        width: 30px;
-      }
-    }
-  }
 }
