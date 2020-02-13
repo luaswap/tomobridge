@@ -10,10 +10,11 @@
 }
 
 .wrapbox__swap-btn {
-  background: transparent;
+  background: transparent !important;
   border: none;
   font-size: 0;
   padding: 0;
+  width: 100%;
 
   .tb-swap-arrow-right,
   .tb-swap-arrow-left {
@@ -72,6 +73,7 @@
   display: block;
   margin: 0 auto 30px;
   max-width: 400px;
+  min-width: 300px;
 
   @include media-breakpoint-up(md) {
     font-size: 18px;

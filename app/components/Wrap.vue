@@ -48,8 +48,8 @@
                             <img
                                 :src="props.option.img"
                                 :alt="props.option.name"
-                                class="option__image">
-                            <span class="option__name">{{ props.option.name }}</span>
+                                class="multiselect__img">
+                            <span class="multiselect__name">{{ props.option.name }}</span>
                         </template>
                         <template
                             slot="option"
@@ -57,7 +57,7 @@
                             <img
                                 :src="props.option.img"
                                 :alt="props.option.name"
-                                class="option__image"><span class="option__name">{{ props.option.name }}</span>
+                                class="multiselect__img"><span class="multiselect__name">{{ props.option.name }}</span>
                         </template>
                     </multiselect>
                 </b-col>
@@ -86,8 +86,8 @@
                             <img
                                 :src="props.option.img"
                                 :alt="props.option.name"
-                                class="option__image">
-                            <span class="option__name">{{ props.option.name }}</span>
+                                class="multiselect__img">
+                            <span class="multiselect__name">{{ props.option.name }}</span>
                         </template>
                         <template
                             slot="option"
@@ -95,7 +95,7 @@
                             <img
                                 :src="props.option.img"
                                 :alt="props.option.name"
-                                class="option__image"><span class="option__name">{{ props.option.name }}</span>
+                                class="multiselect__img"><span class="multiselect__name">{{ props.option.name }}</span>
                         </template>
                     </multiselect>
                 </b-col>
