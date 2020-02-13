@@ -3,11 +3,7 @@
         cols="12"
         lg="6"
         class="text-center d-none d-lg-block">
-        <div>
-            <img
-                class="d-none d-md-block"
-                src="/app/assets/images/logo-pc.svg" >
-        </div>
+        <img src="/app/assets/images/logo-pc.svg" >
         <h1>TomoBridge</h1>
         <div>THE FIRST DECENTRALIZED EXCHANGE PLATFORM</div>
         <div>The fastest, simplest and most secure way to exchange tokens</div>
