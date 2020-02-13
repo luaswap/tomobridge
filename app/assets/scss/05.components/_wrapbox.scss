@@ -2,23 +2,14 @@
   background-color: #fff;
   border-radius: 10px;
   margin: 15px 0;
-  padding: 30px;
+  padding: 20px;
 
   @include media-breakpoint-up(lg) {
     height: calc(100% - 90px);
   }
-
-  .btn-primary {
-    @include media-breakpoint-up(md) {
-      display: block;
-      font-size: 18px;
-      margin: 0 auto 30px auto;
-      max-width: 400px;
-    }
-  }
 }
 
-#swap-button {
+.wrapbox__swap-btn {
   background: transparent;
   border: none;
   font-size: 0;
@@ -38,12 +29,6 @@
   .tb-swap-arrow-left {
     color: #a4a5ad;
   }
-}
-
-#address-input {
-  background: #f6f7fa;
-  border: none;
-  border-radius: 4px;
 }
 
 .wrapbox__row {
@@ -70,6 +55,25 @@
 .wrapbox__buttons {
   display: grid;
   grid-gap: 10px;
-  grid-template-columns: repeat(3,1fr);
-  padding: 0;
+  grid-template-columns: repeat(3, 1fr);
+
+  img {
+    display: block;
+    margin: 0 auto 5px;
+    max-width: 25px;
+  }
+
+  button {
+    font-size: 14px;
+  }
+}
+
+.wrapbox__big-button {
+  display: block;
+  margin: 0 auto 30px;
+  max-width: 400px;
+
+  @include media-breakpoint-up(md) {
+    font-size: 18px;
+  }
 }

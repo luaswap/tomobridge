@@ -64,7 +64,7 @@
                 <b-col
                     cols="2">
                     <b-button
-                        id="swap-button"
+                        class="wrapbox__swap-btn"
                         @click="changeWrap">
                         Swap
                         <i class="tb-swap-arrow-right"/>
@@ -143,11 +143,13 @@
                 <b-button
                     v-if="wrapType === 'wrap'"
                     :disabled="!isAgreed"
+                    class="wrapbox__big-button"
                     variant="primary"
                     @click="wrapToken">Wrap Now</b-button>
                 <b-button
                     v-else
                     :disabled="!isAgreed"
+                    class="wrapbox__big-button"
                     variant="primary"
                     @click="unWrapToken">
                     UnWrap Now</b-button>
