@@ -1,8 +1,7 @@
 <template>
     <b-col
         cols="12"
-        lg="6"
-        class="wrap-wrapbox">
+        lg="6">
         <b-navbar
             toggleable="lg"
             variant="white"
@@ -103,7 +102,9 @@
             </b-row>
             <b-row class="wrapbox__row">
                 <b-col>
-                    <label for="address-input">{{ toWrapSelected ? toWrapSelected.name : '' }} receive address</label>
+                    <label
+                        class="wrapbox__text"
+                        for="address-input">{{ toWrapSelected ? toWrapSelected.name : '' }} receive address</label>
                     <b-form-input
                         id="address-input"
                         v-model="receiveAddress"/>

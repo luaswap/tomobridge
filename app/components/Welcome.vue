@@ -2,7 +2,7 @@
     <b-col
         cols="12"
         lg="6"
-        class="col-left text-center d-none d-lg-block">
+        class="text-center d-none d-lg-block">
         <div>
             <img
                 class="d-none d-md-block"

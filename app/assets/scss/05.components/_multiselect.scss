@@ -1,0 +1,45 @@
+.multiselect__content,
+.multiselect__tags {
+  background: #f6f7fa;
+  border-radius: 4px;
+  list-style: none;
+  padding-left: 0;
+  width: 100%;
+}
+
+.multiselect__content-wrapper {
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+}
+
+.multiselect__placeholder {
+  display: block;
+  padding: 10px;
+
+  @include media-breakpoint-up(md) {
+    line-height: 40px;
+  }
+}
+
+.multiselect__element,
+.multiselect__single {
+  align-items: center;
+  display: flex;
+  padding: 8px 10px;
+  width: 100%;
+
+  @include media-breakpoint-up(md) {
+    line-height: 40px;
+    padding: 10px;
+  }
+
+  img {
+    width: 26px;
+  }
+
+  .option__name {
+    font-weight: 600;
+    padding-left: 10px;
+  }
+}

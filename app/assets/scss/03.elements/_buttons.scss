@@ -1,5 +1,26 @@
-button {
+button,
+.btn {
   &:focus {
+    box-shadow: none;
     outline: none;
+  }
+}
+
+.btn-primary {
+  background-color: $color-primary;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 15px;
+  letter-spacing: 0;
+  margin-bottom: 30px;
+  padding: 12px;
+  text-align: center;
+  width: 100%;
+
+  @extend %transition;
+
+  &.disabled {
+    background-color: #d2d2d6;
   }
 }
