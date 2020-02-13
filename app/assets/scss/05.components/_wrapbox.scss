@@ -11,6 +11,10 @@
     padding-bottom: 30px;
     text-align: center;
 
+    @include media-breakpoint-up(md) {
+      padding-bottom: 80px;
+    }
+
     label,
     .wrapbox__text {
       display: block;
@@ -18,6 +22,10 @@
       margin-bottom: 1rem;
       text-align: left;
       text-transform: capitalize;
+
+      @include media-breakpoint-up(md) {
+        margin-bottom: 20px;
+      }
     }
   }
 
@@ -39,6 +47,10 @@
   .multiselect__placeholder {
     display: block;
     padding: 10px;
+
+    @include media-breakpoint-up(md) {
+      line-height: 40px;
+    }
   }
 
   #fromwrap-select,
@@ -52,6 +64,11 @@
     display: flex;
     padding: 8px 10px;
     width: 100%;
+
+    @include media-breakpoint-up(md) {
+      line-height: 40px;
+      padding: 10px;
+    }
 
     img {
       width: 26px;
@@ -95,6 +112,10 @@
   .col {
     .wrapbox__text {
       font-size: 15px;
+
+      @include media-breakpoint-up(md) {
+        font-size: 18px;
+      }
     }
   }
 
@@ -113,10 +134,25 @@
       font-size: 12px;
       width: 100%;
 
+      @include media-breakpoint-up(md) {
+        align-items: center;
+        display: flex;
+        font-size: 18px;
+        justify-content: center;
+        padding: 15px 0;
+        width: 100%;
+      }
+
       img {
         display: block;
         margin: 5px auto;
         width: 15px;
+
+        @include media-breakpoint-up(md) {
+          display: inline-block;
+          margin: 0 20px 0 0;
+          width: 30px;
+        }
       }
     }
   }
@@ -125,10 +161,79 @@
     background-color: #d2d2d6;
     border: none;
     color: #fff;
+    cursor: pointer;
     font-size: 15px;
     letter-spacing: 0;
+    margin-bottom: 30px;
     padding: 12px;
     text-align: center;
+    transition: all .5s;
     width: 100%;
+
+    &:hover,
+    &:active,
+    &:focus {
+      background-color: #4b8aff;
+    }
+
+    @include media-breakpoint-up(md) {
+      display: block;
+      font-size: 18px;
+      margin: 0 auto 30px auto;
+      max-width: 400px;
+    }
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  .wrap-wrapbox {
+    background-color: #fff;
+    border-radius: 10px;
+    height: calc(100% - 70px);
+    padding: 30px;
+
+    .form-control {
+      height: calc(2.5em + .75rem + 8px);
+    }
+
+    .custom-control.custom-checkbox {
+      text-align: center;
+    }
+
+    .custom-control-label {
+      font-size: 16px;
+    }
+  }
+
+  .col-left {
+    img {
+      margin: 0 auto 50px auto;
+    }
+
+    h1 {
+      color: #4b8aff;
+      font-size: 65px;
+      font-weight: bold;
+      letter-spacing: 0;
+      margin-bottom: 25px;
+      text-align: center;
+    }
+
+    div {
+      color: #fff;
+      font-size: 24px;
+      font-weight: bold;
+      letter-spacing: 1.78px;
+      margin-bottom: 20px;
+      text-align: center;
+
+      &:last-child() {
+        color: #fff;
+        font-size: 22px;
+        font-weight: 400;
+        letter-spacing: 0;
+        opacity: .7;
+      }
+    }
   }
 }

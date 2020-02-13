@@ -1,14 +1,16 @@
 <template>
     <b-col
         cols="12"
-        md="7"
-        lg="6">
+        lg="6"
+        class="wrap-wrapbox">
         <b-navbar
             toggleable="lg"
             variant="white"
             type="light">
             <b-navbar-brand to="/">
-                <img src="/app/assets/images/logo.svg" >
+                <img
+                    class="d-lg-none"
+                    src="/app/assets/images/logo.svg" >
             </b-navbar-brand>
             <b-navbar-toggle target="nav-collapse">
                 <span />

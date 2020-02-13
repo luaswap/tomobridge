@@ -2,4 +2,8 @@ body {
   font-family: $global-fonts;
   font-size: $global-font-size-xs;
   -webkit-font-smoothing: antialiased;
+
+  @include media-breakpoint-up(lg) {
+    font-size: $global-font-size-lg;
+  }
 }

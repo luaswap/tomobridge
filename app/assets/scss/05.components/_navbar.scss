@@ -105,4 +105,8 @@
   .dropdown-item {
     padding: 10px 0;
   }
+
+  @include media-breakpoint-up(md) {
+    transform: translateX(-70px);
+  }
 }
