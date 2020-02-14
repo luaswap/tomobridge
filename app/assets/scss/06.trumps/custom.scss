@@ -20,6 +20,22 @@
   box-shadow: none;
 }
 
+// Custom Scrollbar
+.ps__thumb-y {
+  background-color: #dfe0e5;
+  border-radius: 4px;
+  width: 5px;
+}
+
+.ps__rail-y {
+  width: 12px;
+}
+
+.ps__rail-y:hover > .ps__thumb-y {
+  background-color: #aaa;
+  width: 8px;
+}
+
 .text-red,
 .text-error {
   color: $color-red;

@@ -97,70 +97,227 @@
                             <i class="tb-long-arrow-right"/>
                         </a>
                     </div>
-                    <ul class="wrap-history__txs-list">
-                        <li class="wrap-history__txs-item">
-                            <p class="wrap-history__tx-row text-truncate">
-                                <span>TX#1:</span>
-                                <a
-                                    href="#"
-                                    class="wrap-history__tx-hash">
-                                    0cf90s8f90d8f90ds8f90ds8f90sd8f98dsf908ds90f8
-                                </a>
-                            </p>
-                            <p class="wrap-history__tx-row">
-                                <span class="wrap-history__tx-from">
-                                    <span class="wrap-history__tx-text">From: </span>
-                                    <span class="wrap-history__tx-addr">
-                                        <a href="#">0x9ffd9g8545435…</a>
+                    <custom-scrollbar>
+                        <ul class="wrap-history__txs-list">
+                            <li class="wrap-history__txs-item">
+                                <p class="wrap-history__tx-row text-truncate">
+                                    <span>TX#1:</span>
+                                    <a
+                                        href="#"
+                                        class="wrap-history__tx-hash">
+                                        0cf90s8f90d8f90ds8f90ds8f90sd8f98dsf908ds90f8
+                                    </a>
+                                </p>
+                                <p class="wrap-history__tx-row">
+                                    <span class="wrap-history__tx-from">
+                                        <span class="wrap-history__tx-text">From: </span>
+                                        <span class="wrap-history__tx-addr">
+                                            <a href="#">0x9ffd9g8545435…</a>
+                                        </span>
                                     </span>
-                                </span>
-                                <span class="wrap-history__tx-date">Dec-10-2019 14:24:29</span>
-                            </p>
-                            <p class="wrap-history__tx-row">
-                                <span class="wrap-history__tx-to">
-                                    <span class="wrap-history__tx-text">To: </span>
-                                    <span class="wrap-history__tx-addr">
-                                        <a href="#">0x9ffd9g8545435…</a>
+                                    <span class="wrap-history__tx-date">Dec-10-2019 14:24:29</span>
+                                </p>
+                                <p class="wrap-history__tx-row">
+                                    <span class="wrap-history__tx-to">
+                                        <span class="wrap-history__tx-text">To: </span>
+                                        <span class="wrap-history__tx-addr">
+                                            <a href="#">0x9ffd9g8545435…</a>
+                                        </span>
                                     </span>
-                                </span>
-                                <span class="wrap-history__tx-qty">
-                                    <i class="tb-arrow-left"/>
-                                    5ETH
-                                </span>
-                            </p>
-                        </li>
-                        <li class="wrap-history__txs-item">
-                            <p class="wrap-history__tx-row text-truncate">
-                                <span>TX#1:</span>
-                                <a
-                                    href="#"
-                                    class="wrap-history__tx-hash">
-                                    0cf90s8f90d8f90ds8f90ds8f90sd8f98dsf908ds90f8
-                                </a>
-                            </p>
-                            <p class="wrap-history__tx-row">
-                                <span class="wrap-history__tx-from">
-                                    <span class="wrap-history__tx-text">From: </span>
-                                    <span class="wrap-history__tx-addr">
-                                        <a href="#">0x9ffd9g8545435…</a>
+                                    <span class="wrap-history__tx-qty">
+                                        <i class="tb-arrow-left"/>
+                                        5ETH
                                     </span>
-                                </span>
-                                <span class="wrap-history__tx-date">Dec-10-2019 14:24:29</span>
-                            </p>
-                            <p class="wrap-history__tx-row">
-                                <span class="wrap-history__tx-to">
-                                    <span class="wrap-history__tx-text">To: </span>
-                                    <span class="wrap-history__tx-addr">
-                                        <a href="#">0x9ffd9g8545435…</a>
+                                </p>
+                            </li>
+                            <li class="wrap-history__txs-item">
+                                <p class="wrap-history__tx-row text-truncate">
+                                    <span>TX#1:</span>
+                                    <a
+                                        href="#"
+                                        class="wrap-history__tx-hash">
+                                        0cf90s8f90d8f90ds8f90ds8f90sd8f98dsf908ds90f8
+                                    </a>
+                                </p>
+                                <p class="wrap-history__tx-row">
+                                    <span class="wrap-history__tx-from">
+                                        <span class="wrap-history__tx-text">From: </span>
+                                        <span class="wrap-history__tx-addr">
+                                            <a href="#">0x9ffd9g8545435…</a>
+                                        </span>
                                     </span>
-                                </span>
-                                <span class="wrap-history__tx-qty">
-                                    <i class="tb-arrow-right"/>
-                                    5ETH
-                                </span>
-                            </p>
-                        </li>
-                    </ul>
+                                    <span class="wrap-history__tx-date">Dec-10-2019 14:24:29</span>
+                                </p>
+                                <p class="wrap-history__tx-row">
+                                    <span class="wrap-history__tx-to">
+                                        <span class="wrap-history__tx-text">To: </span>
+                                        <span class="wrap-history__tx-addr">
+                                            <a href="#">0x9ffd9g8545435…</a>
+                                        </span>
+                                    </span>
+                                    <span class="wrap-history__tx-qty">
+                                        <i class="tb-arrow-right"/>
+                                        5ETH
+                                    </span>
+                                </p>
+                            </li>
+                            <li class="wrap-history__txs-item">
+                                <p class="wrap-history__tx-row text-truncate">
+                                    <span>TX#1:</span>
+                                    <a
+                                        href="#"
+                                        class="wrap-history__tx-hash">
+                                        0cf90s8f90d8f90ds8f90ds8f90sd8f98dsf908ds90f8
+                                    </a>
+                                </p>
+                                <p class="wrap-history__tx-row">
+                                    <span class="wrap-history__tx-from">
+                                        <span class="wrap-history__tx-text">From: </span>
+                                        <span class="wrap-history__tx-addr">
+                                            <a href="#">0x9ffd9g8545435…</a>
+                                        </span>
+                                    </span>
+                                    <span class="wrap-history__tx-date">Dec-10-2019 14:24:29</span>
+                                </p>
+                                <p class="wrap-history__tx-row">
+                                    <span class="wrap-history__tx-to">
+                                        <span class="wrap-history__tx-text">To: </span>
+                                        <span class="wrap-history__tx-addr">
+                                            <a href="#">0x9ffd9g8545435…</a>
+                                        </span>
+                                    </span>
+                                    <span class="wrap-history__tx-qty">
+                                        <i class="tb-arrow-right"/>
+                                        5ETH
+                                    </span>
+                                </p>
+                            </li>
+                            <li class="wrap-history__txs-item">
+                                <p class="wrap-history__tx-row text-truncate">
+                                    <span>TX#1:</span>
+                                    <a
+                                        href="#"
+                                        class="wrap-history__tx-hash">
+                                        0cf90s8f90d8f90ds8f90ds8f90sd8f98dsf908ds90f8
+                                    </a>
+                                </p>
+                                <p class="wrap-history__tx-row">
+                                    <span class="wrap-history__tx-from">
+                                        <span class="wrap-history__tx-text">From: </span>
+                                        <span class="wrap-history__tx-addr">
+                                            <a href="#">0x9ffd9g8545435…</a>
+                                        </span>
+                                    </span>
+                                    <span class="wrap-history__tx-date">Dec-10-2019 14:24:29</span>
+                                </p>
+                                <p class="wrap-history__tx-row">
+                                    <span class="wrap-history__tx-to">
+                                        <span class="wrap-history__tx-text">To: </span>
+                                        <span class="wrap-history__tx-addr">
+                                            <a href="#">0x9ffd9g8545435…</a>
+                                        </span>
+                                    </span>
+                                    <span class="wrap-history__tx-qty">
+                                        <i class="tb-arrow-right"/>
+                                        5ETH
+                                    </span>
+                                </p>
+                            </li>
+                            <li class="wrap-history__txs-item">
+                                <p class="wrap-history__tx-row text-truncate">
+                                    <span>TX#1:</span>
+                                    <a
+                                        href="#"
+                                        class="wrap-history__tx-hash">
+                                        0cf90s8f90d8f90ds8f90ds8f90sd8f98dsf908ds90f8
+                                    </a>
+                                </p>
+                                <p class="wrap-history__tx-row">
+                                    <span class="wrap-history__tx-from">
+                                        <span class="wrap-history__tx-text">From: </span>
+                                        <span class="wrap-history__tx-addr">
+                                            <a href="#">0x9ffd9g8545435…</a>
+                                        </span>
+                                    </span>
+                                    <span class="wrap-history__tx-date">Dec-10-2019 14:24:29</span>
+                                </p>
+                                <p class="wrap-history__tx-row">
+                                    <span class="wrap-history__tx-to">
+                                        <span class="wrap-history__tx-text">To: </span>
+                                        <span class="wrap-history__tx-addr">
+                                            <a href="#">0x9ffd9g8545435…</a>
+                                        </span>
+                                    </span>
+                                    <span class="wrap-history__tx-qty">
+                                        <i class="tb-arrow-right"/>
+                                        5ETH
+                                    </span>
+                                </p>
+                            </li>
+                            <li class="wrap-history__txs-item">
+                                <p class="wrap-history__tx-row text-truncate">
+                                    <span>TX#1:</span>
+                                    <a
+                                        href="#"
+                                        class="wrap-history__tx-hash">
+                                        0cf90s8f90d8f90ds8f90ds8f90sd8f98dsf908ds90f8
+                                    </a>
+                                </p>
+                                <p class="wrap-history__tx-row">
+                                    <span class="wrap-history__tx-from">
+                                        <span class="wrap-history__tx-text">From: </span>
+                                        <span class="wrap-history__tx-addr">
+                                            <a href="#">0x9ffd9g8545435…</a>
+                                        </span>
+                                    </span>
+                                    <span class="wrap-history__tx-date">Dec-10-2019 14:24:29</span>
+                                </p>
+                                <p class="wrap-history__tx-row">
+                                    <span class="wrap-history__tx-to">
+                                        <span class="wrap-history__tx-text">To: </span>
+                                        <span class="wrap-history__tx-addr">
+                                            <a href="#">0x9ffd9g8545435…</a>
+                                        </span>
+                                    </span>
+                                    <span class="wrap-history__tx-qty">
+                                        <i class="tb-arrow-right"/>
+                                        5ETH
+                                    </span>
+                                </p>
+                            </li>
+                            <li class="wrap-history__txs-item">
+                                <p class="wrap-history__tx-row text-truncate">
+                                    <span>TX#1:</span>
+                                    <a
+                                        href="#"
+                                        class="wrap-history__tx-hash">
+                                        0cf90s8f90d8f90ds8f90ds8f90sd8f98dsf908ds90f8
+                                    </a>
+                                </p>
+                                <p class="wrap-history__tx-row">
+                                    <span class="wrap-history__tx-from">
+                                        <span class="wrap-history__tx-text">From: </span>
+                                        <span class="wrap-history__tx-addr">
+                                            <a href="#">0x9ffd9g8545435…</a>
+                                        </span>
+                                    </span>
+                                    <span class="wrap-history__tx-date">Dec-10-2019 14:24:29</span>
+                                </p>
+                                <p class="wrap-history__tx-row">
+                                    <span class="wrap-history__tx-to">
+                                        <span class="wrap-history__tx-text">To: </span>
+                                        <span class="wrap-history__tx-addr">
+                                            <a href="#">0x9ffd9g8545435…</a>
+                                        </span>
+                                    </span>
+                                    <span class="wrap-history__tx-qty">
+                                        <i class="tb-arrow-right"/>
+                                        5ETH
+                                    </span>
+                                </p>
+                            </li>
+                        </ul>
+                    </custom-scrollbar>
                 </div>
             </b-col>
             <b-col
@@ -196,70 +353,227 @@
                             <i class="tb-long-arrow-right"/>
                         </a>
                     </div>
-                    <ul class="wrap-history__txs-list">
-                        <li class="wrap-history__txs-item">
-                            <p class="wrap-history__tx-row text-truncate">
-                                <span>TX#1:</span>
-                                <a
-                                    href="#"
-                                    class="wrap-history__tx-hash">
-                                    0cf90s8f90d8f90ds8f90ds8f90sd8f98dsf908ds90f8
-                                </a>
-                            </p>
-                            <p class="wrap-history__tx-row">
-                                <span class="wrap-history__tx-from">
-                                    <span class="wrap-history__tx-text">From: </span>
-                                    <span class="wrap-history__tx-addr">
-                                        <a href="#">0x9ffd9g8545435…</a>
+                    <custom-scrollbar>
+                        <ul class="wrap-history__txs-list">
+                            <li class="wrap-history__txs-item">
+                                <p class="wrap-history__tx-row text-truncate">
+                                    <span>TX#1:</span>
+                                    <a
+                                        href="#"
+                                        class="wrap-history__tx-hash">
+                                        0cf90s8f90d8f90ds8f90ds8f90sd8f98dsf908ds90f8
+                                    </a>
+                                </p>
+                                <p class="wrap-history__tx-row">
+                                    <span class="wrap-history__tx-from">
+                                        <span class="wrap-history__tx-text">From: </span>
+                                        <span class="wrap-history__tx-addr">
+                                            <a href="#">0x9ffd9g8545435…</a>
+                                        </span>
                                     </span>
-                                </span>
-                                <span class="wrap-history__tx-date">Dec-10-2019 14:24:29</span>
-                            </p>
-                            <p class="wrap-history__tx-row">
-                                <span class="wrap-history__tx-to">
-                                    <span class="wrap-history__tx-text">To: </span>
-                                    <span class="wrap-history__tx-addr">
-                                        <a href="#">0x9ffd9g8545435…</a>
+                                    <span class="wrap-history__tx-date">Dec-10-2019 14:24:29</span>
+                                </p>
+                                <p class="wrap-history__tx-row">
+                                    <span class="wrap-history__tx-to">
+                                        <span class="wrap-history__tx-text">To: </span>
+                                        <span class="wrap-history__tx-addr">
+                                            <a href="#">0x9ffd9g8545435…</a>
+                                        </span>
                                     </span>
-                                </span>
-                                <span class="wrap-history__tx-qty">
-                                    <i class="tb-arrow-left"/>
-                                    5ETH
-                                </span>
-                            </p>
-                        </li>
-                        <li class="wrap-history__txs-item">
-                            <p class="wrap-history__tx-row text-truncate">
-                                <span>TX#1:</span>
-                                <a
-                                    href="#"
-                                    class="wrap-history__tx-hash">
-                                    0cf90s8f90d8f90ds8f90ds8f90sd8f98dsf908ds90f8
-                                </a>
-                            </p>
-                            <p class="wrap-history__tx-row">
-                                <span class="wrap-history__tx-from">
-                                    <span class="wrap-history__tx-text">From: </span>
-                                    <span class="wrap-history__tx-addr">
-                                        <a href="#">0x9ffd9g8545435…</a>
+                                    <span class="wrap-history__tx-qty">
+                                        <i class="tb-arrow-left"/>
+                                        5ETH
                                     </span>
-                                </span>
-                                <span class="wrap-history__tx-date">Dec-10-2019 14:24:29</span>
-                            </p>
-                            <p class="wrap-history__tx-row">
-                                <span class="wrap-history__tx-to">
-                                    <span class="wrap-history__tx-text">To: </span>
-                                    <span class="wrap-history__tx-addr">
-                                        <a href="#">0x9ffd9g8545435…</a>
+                                </p>
+                            </li>
+                            <li class="wrap-history__txs-item">
+                                <p class="wrap-history__tx-row text-truncate">
+                                    <span>TX#1:</span>
+                                    <a
+                                        href="#"
+                                        class="wrap-history__tx-hash">
+                                        0cf90s8f90d8f90ds8f90ds8f90sd8f98dsf908ds90f8
+                                    </a>
+                                </p>
+                                <p class="wrap-history__tx-row">
+                                    <span class="wrap-history__tx-from">
+                                        <span class="wrap-history__tx-text">From: </span>
+                                        <span class="wrap-history__tx-addr">
+                                            <a href="#">0x9ffd9g8545435…</a>
+                                        </span>
                                     </span>
-                                </span>
-                                <span class="wrap-history__tx-qty">
-                                    <i class="tb-arrow-right"/>
-                                    5ETH
-                                </span>
-                            </p>
-                        </li>
-                    </ul>
+                                    <span class="wrap-history__tx-date">Dec-10-2019 14:24:29</span>
+                                </p>
+                                <p class="wrap-history__tx-row">
+                                    <span class="wrap-history__tx-to">
+                                        <span class="wrap-history__tx-text">To: </span>
+                                        <span class="wrap-history__tx-addr">
+                                            <a href="#">0x9ffd9g8545435…</a>
+                                        </span>
+                                    </span>
+                                    <span class="wrap-history__tx-qty">
+                                        <i class="tb-arrow-right"/>
+                                        5ETH
+                                    </span>
+                                </p>
+                            </li>
+                            <li class="wrap-history__txs-item">
+                                <p class="wrap-history__tx-row text-truncate">
+                                    <span>TX#1:</span>
+                                    <a
+                                        href="#"
+                                        class="wrap-history__tx-hash">
+                                        0cf90s8f90d8f90ds8f90ds8f90sd8f98dsf908ds90f8
+                                    </a>
+                                </p>
+                                <p class="wrap-history__tx-row">
+                                    <span class="wrap-history__tx-from">
+                                        <span class="wrap-history__tx-text">From: </span>
+                                        <span class="wrap-history__tx-addr">
+                                            <a href="#">0x9ffd9g8545435…</a>
+                                        </span>
+                                    </span>
+                                    <span class="wrap-history__tx-date">Dec-10-2019 14:24:29</span>
+                                </p>
+                                <p class="wrap-history__tx-row">
+                                    <span class="wrap-history__tx-to">
+                                        <span class="wrap-history__tx-text">To: </span>
+                                        <span class="wrap-history__tx-addr">
+                                            <a href="#">0x9ffd9g8545435…</a>
+                                        </span>
+                                    </span>
+                                    <span class="wrap-history__tx-qty">
+                                        <i class="tb-arrow-right"/>
+                                        5ETH
+                                    </span>
+                                </p>
+                            </li>
+                            <li class="wrap-history__txs-item">
+                                <p class="wrap-history__tx-row text-truncate">
+                                    <span>TX#1:</span>
+                                    <a
+                                        href="#"
+                                        class="wrap-history__tx-hash">
+                                        0cf90s8f90d8f90ds8f90ds8f90sd8f98dsf908ds90f8
+                                    </a>
+                                </p>
+                                <p class="wrap-history__tx-row">
+                                    <span class="wrap-history__tx-from">
+                                        <span class="wrap-history__tx-text">From: </span>
+                                        <span class="wrap-history__tx-addr">
+                                            <a href="#">0x9ffd9g8545435…</a>
+                                        </span>
+                                    </span>
+                                    <span class="wrap-history__tx-date">Dec-10-2019 14:24:29</span>
+                                </p>
+                                <p class="wrap-history__tx-row">
+                                    <span class="wrap-history__tx-to">
+                                        <span class="wrap-history__tx-text">To: </span>
+                                        <span class="wrap-history__tx-addr">
+                                            <a href="#">0x9ffd9g8545435…</a>
+                                        </span>
+                                    </span>
+                                    <span class="wrap-history__tx-qty">
+                                        <i class="tb-arrow-right"/>
+                                        5ETH
+                                    </span>
+                                </p>
+                            </li>
+                            <li class="wrap-history__txs-item">
+                                <p class="wrap-history__tx-row text-truncate">
+                                    <span>TX#1:</span>
+                                    <a
+                                        href="#"
+                                        class="wrap-history__tx-hash">
+                                        0cf90s8f90d8f90ds8f90ds8f90sd8f98dsf908ds90f8
+                                    </a>
+                                </p>
+                                <p class="wrap-history__tx-row">
+                                    <span class="wrap-history__tx-from">
+                                        <span class="wrap-history__tx-text">From: </span>
+                                        <span class="wrap-history__tx-addr">
+                                            <a href="#">0x9ffd9g8545435…</a>
+                                        </span>
+                                    </span>
+                                    <span class="wrap-history__tx-date">Dec-10-2019 14:24:29</span>
+                                </p>
+                                <p class="wrap-history__tx-row">
+                                    <span class="wrap-history__tx-to">
+                                        <span class="wrap-history__tx-text">To: </span>
+                                        <span class="wrap-history__tx-addr">
+                                            <a href="#">0x9ffd9g8545435…</a>
+                                        </span>
+                                    </span>
+                                    <span class="wrap-history__tx-qty">
+                                        <i class="tb-arrow-right"/>
+                                        5ETH
+                                    </span>
+                                </p>
+                            </li>
+                            <li class="wrap-history__txs-item">
+                                <p class="wrap-history__tx-row text-truncate">
+                                    <span>TX#1:</span>
+                                    <a
+                                        href="#"
+                                        class="wrap-history__tx-hash">
+                                        0cf90s8f90d8f90ds8f90ds8f90sd8f98dsf908ds90f8
+                                    </a>
+                                </p>
+                                <p class="wrap-history__tx-row">
+                                    <span class="wrap-history__tx-from">
+                                        <span class="wrap-history__tx-text">From: </span>
+                                        <span class="wrap-history__tx-addr">
+                                            <a href="#">0x9ffd9g8545435…</a>
+                                        </span>
+                                    </span>
+                                    <span class="wrap-history__tx-date">Dec-10-2019 14:24:29</span>
+                                </p>
+                                <p class="wrap-history__tx-row">
+                                    <span class="wrap-history__tx-to">
+                                        <span class="wrap-history__tx-text">To: </span>
+                                        <span class="wrap-history__tx-addr">
+                                            <a href="#">0x9ffd9g8545435…</a>
+                                        </span>
+                                    </span>
+                                    <span class="wrap-history__tx-qty">
+                                        <i class="tb-arrow-right"/>
+                                        5ETH
+                                    </span>
+                                </p>
+                            </li>
+                            <li class="wrap-history__txs-item">
+                                <p class="wrap-history__tx-row text-truncate">
+                                    <span>TX#1:</span>
+                                    <a
+                                        href="#"
+                                        class="wrap-history__tx-hash">
+                                        0cf90s8f90d8f90ds8f90ds8f90sd8f98dsf908ds90f8
+                                    </a>
+                                </p>
+                                <p class="wrap-history__tx-row">
+                                    <span class="wrap-history__tx-from">
+                                        <span class="wrap-history__tx-text">From: </span>
+                                        <span class="wrap-history__tx-addr">
+                                            <a href="#">0x9ffd9g8545435…</a>
+                                        </span>
+                                    </span>
+                                    <span class="wrap-history__tx-date">Dec-10-2019 14:24:29</span>
+                                </p>
+                                <p class="wrap-history__tx-row">
+                                    <span class="wrap-history__tx-to">
+                                        <span class="wrap-history__tx-text">To: </span>
+                                        <span class="wrap-history__tx-addr">
+                                            <a href="#">0x9ffd9g8545435…</a>
+                                        </span>
+                                    </span>
+                                    <span class="wrap-history__tx-qty">
+                                        <i class="tb-arrow-right"/>
+                                        5ETH
+                                    </span>
+                                </p>
+                            </li>
+                        </ul>
+                    </custom-scrollbar>
                 </div>
             </b-col>
         </b-row>
@@ -268,10 +582,12 @@
 
 <script>
 import Multiselect from 'vue-multiselect'
+import CustomScrollbar from 'vue-custom-scrollbar'
 export default {
     name: 'App',
     components: {
-        Multiselect
+        Multiselect,
+        CustomScrollbar
     },
     data () {
         return {

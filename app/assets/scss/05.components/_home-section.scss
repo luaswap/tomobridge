@@ -1,5 +1,6 @@
 #home-section {
   background-color: $color-background;
+  overflow: hidden;
 
   .navbar {
     box-shadow: none;
@@ -11,13 +12,12 @@
 }
 
 .home-section__col--right {
-  @include media-breakpoint-up(xl) {
+  @include media-breakpoint-up(lg) {
     height: calc(100vh - 60px);
 
     .home-section__col-inner {
       height: 100%;
       margin: 0 15px;
-      overflow: auto;
     }
   }
 }

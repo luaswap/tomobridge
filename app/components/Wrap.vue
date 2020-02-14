@@ -33,7 +33,7 @@
                     </b-navbar-nav>
                 </b-collapse>
             </b-navbar>
-            <div id="wrapbox">
+            <custom-scrollbar id="wrapbox">
                 <p class="wrapbox__text">Wrap your token</p>
                 <b-row class="wrapbox__row">
                     <b-col
@@ -109,7 +109,8 @@
                     <b-col>
                         <label
                             class="wrapbox__text"
-                            for="address-input">{{ toWrapSelected ? toWrapSelected.name : '' }} receive address</label>
+                            for="address-input">{{ toWrapSelected ? toWrapSelected.name : '' }} receive address
+                        </label>
                         <b-form-input
                             id="address-input"
                             v-model="receiveAddress"
@@ -164,7 +165,7 @@
                         By Wrapping, you agree to the <a href="#">Terms and Conditions</a>
                     </b-form-checkbox>
                 </div>
-            </div>
+            </custom-scrollbar>
         </div>
 
         <!-- Login Modals-->
@@ -223,6 +224,7 @@
 <script>
 // import Web3 from 'web3'
 import Multiselect from 'vue-multiselect'
+import CustomScrollbar from 'vue-custom-scrollbar'
 import PrivateKeyProvider from 'truffle-privatekey-provider'
 import { validationMixin } from 'vuelidate'
 import {
@@ -234,6 +236,7 @@ export default {
     name: 'App',
     components: {
         Multiselect,
+        CustomScrollbar,
         UnWrap
     },
     mixins: [validationMixin],

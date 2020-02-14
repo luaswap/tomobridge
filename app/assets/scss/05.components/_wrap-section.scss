@@ -69,17 +69,21 @@
   background-color: #f6f7fa;
   border-radius: 4px;
   margin-bottom: 30px;
-  padding: 20px;
 }
 
 .wrap-history__txs-header {
   border-bottom: 1px solid #dfe1e5;
   display: flex;
   justify-content: space-between;
-  padding-bottom: 15px;
+  padding: 20px 20px 15px;
 
   h4 {
     margin-bottom: 0;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-bottom: 20px;
+    padding-top: 30px;
   }
 }
 
@@ -94,9 +98,10 @@
 }
 
 .wrap-history__txs-list {
+  height: 400px;
   list-style-type: none;
   margin: 0;
-  padding: 0;
+  padding: 0 20px;
 }
 
 .wrap-history__txs-item {
