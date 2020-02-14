@@ -19,3 +19,13 @@
 .custom-control-input:focus ~ .custom-control-label::before {
   box-shadow: none;
 }
+
+.text-red,
+.text-error {
+  color: $color-red;
+  font-size: 14px;
+
+  @include media-breakpoint-up(lg) {
+    font-size: 16px;
+  }
+}

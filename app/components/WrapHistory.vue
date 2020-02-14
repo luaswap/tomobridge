@@ -67,7 +67,7 @@
                 </multiselect>
             </b-col>
         </b-row>
-        <b-row class="wrap-history__row wrap-history__row--scroll">
+        <b-row class="wrap-history__row">
             <b-col
                 cols="12"
                 md="6"
@@ -93,28 +93,35 @@
                         <h4 class="wrap-history__title">Transactions</h4>
                         <a
                             href="#"
-                            class="wrap-history__link">View all
+                            class="wrap-history__txs-link">View all
                             <i class="tb-long-arrow-right"/>
                         </a>
                     </div>
                     <ul class="wrap-history__txs-list">
                         <li class="wrap-history__txs-item">
-                            <p class="wrap-history__tx-row">TX#1:
-                                <span class="wrap-history__tx-hash">
+                            <p class="wrap-history__tx-row text-truncate">
+                                <span>TX#1:</span>
+                                <a
+                                    href="#"
+                                    class="wrap-history__tx-hash">
                                     0cf90s8f90d8f90ds8f90ds8f90sd8f98dsf908ds90f8
-                                </span>
+                                </a>
                             </p>
                             <p class="wrap-history__tx-row">
                                 <span class="wrap-history__tx-from">
                                     <span class="wrap-history__tx-text">From: </span>
-                                    <span class="wrap-history__tx-addr">0x9ffd9g8545435…</span>
+                                    <span class="wrap-history__tx-addr">
+                                        <a href="#">0x9ffd9g8545435…</a>
+                                    </span>
                                 </span>
                                 <span class="wrap-history__tx-date">Dec-10-2019 14:24:29</span>
                             </p>
                             <p class="wrap-history__tx-row">
                                 <span class="wrap-history__tx-to">
                                     <span class="wrap-history__tx-text">To: </span>
-                                    <span class="wrap-history__tx-addr">0x9ffd9g8545435…</span>
+                                    <span class="wrap-history__tx-addr">
+                                        <a href="#">0x9ffd9g8545435…</a>
+                                    </span>
                                 </span>
                                 <span class="wrap-history__tx-qty">
                                     <i class="tb-arrow-left"/>
@@ -123,22 +130,29 @@
                             </p>
                         </li>
                         <li class="wrap-history__txs-item">
-                            <p class="wrap-history__tx-row">TX#1:
-                                <span class="wrap-history__tx-hash">
+                            <p class="wrap-history__tx-row text-truncate">
+                                <span>TX#1:</span>
+                                <a
+                                    href="#"
+                                    class="wrap-history__tx-hash">
                                     0cf90s8f90d8f90ds8f90ds8f90sd8f98dsf908ds90f8
-                                </span>
+                                </a>
                             </p>
                             <p class="wrap-history__tx-row">
                                 <span class="wrap-history__tx-from">
                                     <span class="wrap-history__tx-text">From: </span>
-                                    <span class="wrap-history__tx-addr">0x9ffd9g8545435…</span>
+                                    <span class="wrap-history__tx-addr">
+                                        <a href="#">0x9ffd9g8545435…</a>
+                                    </span>
                                 </span>
                                 <span class="wrap-history__tx-date">Dec-10-2019 14:24:29</span>
                             </p>
                             <p class="wrap-history__tx-row">
                                 <span class="wrap-history__tx-to">
                                     <span class="wrap-history__tx-text">To: </span>
-                                    <span class="wrap-history__tx-addr">0x9ffd9g8545435…</span>
+                                    <span class="wrap-history__tx-addr">
+                                        <a href="#">0x9ffd9g8545435…</a>
+                                    </span>
                                 </span>
                                 <span class="wrap-history__tx-qty">
                                     <i class="tb-arrow-right"/>
@@ -178,28 +192,35 @@
                         <h4 class="wrap-history__title">Transactions</h4>
                         <a
                             href="#"
-                            class="wrap-history__link">View all
+                            class="wrap-history__txs-link">View all
                             <i class="tb-long-arrow-right"/>
                         </a>
                     </div>
                     <ul class="wrap-history__txs-list">
                         <li class="wrap-history__txs-item">
-                            <p class="wrap-history__tx-row">TX#1:
-                                <span class="wrap-history__tx-hash">
+                            <p class="wrap-history__tx-row text-truncate">
+                                <span>TX#1:</span>
+                                <a
+                                    href="#"
+                                    class="wrap-history__tx-hash">
                                     0cf90s8f90d8f90ds8f90ds8f90sd8f98dsf908ds90f8
-                                </span>
+                                </a>
                             </p>
                             <p class="wrap-history__tx-row">
                                 <span class="wrap-history__tx-from">
                                     <span class="wrap-history__tx-text">From: </span>
-                                    <span class="wrap-history__tx-addr">0x9ffd9g8545435…</span>
+                                    <span class="wrap-history__tx-addr">
+                                        <a href="#">0x9ffd9g8545435…</a>
+                                    </span>
                                 </span>
                                 <span class="wrap-history__tx-date">Dec-10-2019 14:24:29</span>
                             </p>
                             <p class="wrap-history__tx-row">
                                 <span class="wrap-history__tx-to">
                                     <span class="wrap-history__tx-text">To: </span>
-                                    <span class="wrap-history__tx-addr">0x9ffd9g8545435…</span>
+                                    <span class="wrap-history__tx-addr">
+                                        <a href="#">0x9ffd9g8545435…</a>
+                                    </span>
                                 </span>
                                 <span class="wrap-history__tx-qty">
                                     <i class="tb-arrow-left"/>
@@ -208,22 +229,29 @@
                             </p>
                         </li>
                         <li class="wrap-history__txs-item">
-                            <p class="wrap-history__tx-row">TX#1:
-                                <span class="wrap-history__tx-hash">
+                            <p class="wrap-history__tx-row text-truncate">
+                                <span>TX#1:</span>
+                                <a
+                                    href="#"
+                                    class="wrap-history__tx-hash">
                                     0cf90s8f90d8f90ds8f90ds8f90sd8f98dsf908ds90f8
-                                </span>
+                                </a>
                             </p>
                             <p class="wrap-history__tx-row">
                                 <span class="wrap-history__tx-from">
                                     <span class="wrap-history__tx-text">From: </span>
-                                    <span class="wrap-history__tx-addr">0x9ffd9g8545435…</span>
+                                    <span class="wrap-history__tx-addr">
+                                        <a href="#">0x9ffd9g8545435…</a>
+                                    </span>
                                 </span>
                                 <span class="wrap-history__tx-date">Dec-10-2019 14:24:29</span>
                             </p>
                             <p class="wrap-history__tx-row">
                                 <span class="wrap-history__tx-to">
                                     <span class="wrap-history__tx-text">To: </span>
-                                    <span class="wrap-history__tx-addr">0x9ffd9g8545435…</span>
+                                    <span class="wrap-history__tx-addr">
+                                        <a href="#">0x9ffd9g8545435…</a>
+                                    </span>
                                 </span>
                                 <span class="wrap-history__tx-qty">
                                     <i class="tb-arrow-right"/>

@@ -72,6 +72,10 @@
     }
   }
 
+  + .text-error {
+    margin-top: -15px;
+  }
+
   @include media-breakpoint-up(lg) {
     img {
       display: inline-block;
