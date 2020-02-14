@@ -15,29 +15,6 @@
   }
 }
 
-.wrapbox__swap-btn {
-  background: transparent !important;
-  border: none;
-  font-size: 0;
-  padding: 0;
-  width: 100%;
-
-  .tb-swap-arrow-right,
-  .tb-swap-arrow-left {
-    font-size: 12px;
-  }
-
-  .tb-swap-arrow-right {
-    color: #288bff;
-    display: block;
-    margin-bottom: -2px;
-  }
-
-  .tb-swap-arrow-left {
-    color: #a4a5ad;
-  }
-}
-
 .wrapbox__row {
   align-items: center;
   display: flex;

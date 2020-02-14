@@ -68,7 +68,7 @@
                     <b-col
                         cols="2">
                         <b-button
-                            class="wrapbox__swap-btn"
+                            class="swap-btn"
                             @click="changeWrap">
                             Swap
                             <i class="tb-swap-arrow-right"/>

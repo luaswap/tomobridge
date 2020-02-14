@@ -1,0 +1,60 @@
+#wrap-history {
+  padding: 40px 0;
+
+  @include media-breakpoint-up(lg) {
+    padding: 70px 0;
+  }
+}
+
+.wrap-history__row {
+  margin-bottom: 30px;
+}
+
+.wrap-history__wallet {
+  background-color: #f6f7fa;
+  border-radius: 4px;
+  color: $color-primary;
+  margin-bottom: 10px;
+  padding: 20px;
+
+  @include media-breakpoint-up(lg) {
+    padding-bottom: 25px;
+    padding-top: 25px;
+  }
+}
+
+.wrap-history__title {
+  margin-bottom: 10px;
+}
+
+.wrap-history__wallet-info {
+  color: $color-text;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+
+  p {
+    font-size: 14px;
+    margin-bottom: 0;
+  }
+
+  @include media-breakpoint-up(md) {
+    p {
+      font-size: 16px;
+    }
+  }
+
+  @include media-breakpoint-only(md) {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+
+    p {
+      margin-bottom: 10px;
+      width: 100%;
+    }
+
+    p:last-child {
+      margin-bottom: 0;
+    }
+  }
+}

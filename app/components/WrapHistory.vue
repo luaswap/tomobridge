@@ -1,7 +1,9 @@
 <template>
-    <div id="wrap-history">
+    <div
+        id="wrap-history"
+        class="container">
         <h1 class="wrap-history__headline">Wrap history</h1>
-        <b-row class="wrap-history__row">
+        <b-row class="wrap-history__row align-items-center">
             <b-col cols="5">
                 <multiselect
                     v-model="fromWrapSelected"
@@ -15,8 +17,8 @@
                         <img
                             :src="props.option.img"
                             :alt="props.option.name"
-                            class="option__image">
-                        <span class="option__name">{{ props.option.name }}</span>
+                            class="multiselect__img">
+                        <span class="multiselect__name">{{ props.option.name }}</span>
                     </template>
                     <template
                         slot="option"
@@ -24,13 +26,13 @@
                         <img
                             :src="props.option.img"
                             :alt="props.option.name"
-                            class="option__image"><span class="option__name">{{ props.option.name }}</span>
+                            class="multiselect__img"><span class="multiselect__name">{{ props.option.name }}</span>
                     </template>
                 </multiselect>
             </b-col>
             <b-col cols="2">
                 <b-button
-                    class="wrap-history__button"
+                    class="swap-btn"
                     @click="changeWrap">
                     Swap
                     <i class="tb-swap-arrow-right"/>
@@ -51,8 +53,8 @@
                         <img
                             :src="props.option.img"
                             :alt="props.option.name"
-                            class="option__image">
-                        <span class="option__name">{{ props.option.name }}</span>
+                            class="multiselect__img">
+                        <span class="multiselect__name">{{ props.option.name }}</span>
                     </template>
                     <template
                         slot="option"
@@ -60,7 +62,7 @@
                         <img
                             :src="props.option.img"
                             :alt="props.option.name"
-                            class="option__image"><span class="option__name">{{ props.option.name }}</span>
+                            class="multiselect__img"><span class="multiselect__name">{{ props.option.name }}</span>
                     </template>
                 </multiselect>
             </b-col>
@@ -69,8 +71,8 @@
             <b-col
                 cols="12"
                 md="6"
-                lg="5">
-                <div class="wrap-history__wallet">
+                xl="5">
+                <div class="wrap-history__wallet text-truncate">
                     <h4 class="wrap-history__title">ETH wallet</h4>
                     <a
                         href="#"
@@ -149,12 +151,12 @@
             </b-col>
             <b-col
                 cols="2"
-                class="d-none d-lg-block" />
+                class="d-none d-xl-block" />
             <b-col
                 cols="12"
                 md="6"
-                lg="5">
-                <div class="wrap-history__wallet">
+                xl="5">
+                <div class="wrap-history__wallet text-truncate">
                     <h4 class="wrap-history__title">Wrapped ETH wallet</h4>
                     <a
                         href="#"
@@ -233,7 +235,6 @@
                 </div>
             </b-col>
         </b-row>
-        <b-row class="wrap-history__row"/>
     </div>
 </template>
 
