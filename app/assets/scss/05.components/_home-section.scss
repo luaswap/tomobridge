@@ -12,8 +12,16 @@
 }
 
 .home-section__col--right {
+  .navbar {
+    margin: 0 -15px;
+  }
+
   @include media-breakpoint-up(lg) {
     height: calc(100vh - 60px);
+
+    .navbar {
+      margin: 0;
+    }
 
     .home-section__col-inner {
       height: 100%;

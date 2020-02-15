@@ -4,7 +4,7 @@
             toggleable="md"
             variant="white"
             type="light">
-            <div class="container">
+            <b-container>
                 <b-navbar-brand to="/">
                     <img
                         src="/app/assets/images/logo.svg"
@@ -28,27 +28,25 @@
                         </b-nav-item-dropdown>
                     </b-navbar-nav>
                 </b-collapse>
-            </div>
+            </b-container>
         </b-navbar>
-        <div style="text-align:center">
-            <b-row>
-                <b-col>
-                    <p>
-                        Deposit BTC
-                    </p>
+        <b-container class="steps">
+            <b-row class="align-items-center steps__row">
+                <b-col
+                    class="steps__col">
+                    <p class="steps__name">Deposit <br>BTC</p>
+                    <p class="steps__number"><span>1</span></p>
                 </b-col>
-                <b-col>
-                    <p>
-                        VERIFY TRANSACTION
-                    </p>
+                <b-col :class="'steps__col' + ( step >= 2 ? ' steps__col--active' : '')">
+                    <p class="steps__name">Verify Transaction</p>
+                    <p class="steps__number"><span>2</span></p>
                 </b-col>
-                <b-col>
-                    <p>
-                        RECEIVE TRC21 BTC
-                    </p>
+                <b-col :class="'steps__col' + ( step >= 3 ? ' steps__col--active' : '')">
+                    <p class="steps__name">Receive <br>TRC21</p>
+                    <p class="steps__number"><span>3</span></p>
                 </b-col>
             </b-row>
-        </div>
+        </b-container>
         <div v-if="step === 1">
             <WrapStepOne :parent="this"/>
         </div>
@@ -83,6 +81,19 @@ export default {
     destroyed () { },
     created: async function () { },
     methods: {
+        getStepCSSClass (index) {
+            let cssClass = ''
+
+            if (this.step > index) {
+                cssClass += 'steps__col--active'
+            }
+
+            if (this.step === index) {
+                cssClass += 'steps__col--current'
+            }
+
+            return cssClass
+        }
     }
 }
 </script>
