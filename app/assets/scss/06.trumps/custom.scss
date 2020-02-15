@@ -12,12 +12,30 @@
   }
 }
 
-.custom-control-input:checked ~ .custom-control-label::before {
-  background-color: $color-primary;
+.custom-control-input:focus {
+  ~ .custom-control-label::before {
+    box-shadow: none;
+  }
 }
 
-.custom-control-input:focus ~ .custom-control-label::before {
-  box-shadow: none;
+.custom-control-input:checked {
+  ~ .custom-control-label {
+    &::before {
+      background-color: transparent;
+      border-color: $color-primary;
+      border-radius: 4px;
+      box-shadow: none;
+    }
+
+    &::after {
+      background-image: none;
+      color: $color-primary;
+      font-size: 12px;
+      line-height: 16px;
+
+      @include tb_icon('\e910');
+    }
+  }
 }
 
 // Custom Scrollbar
