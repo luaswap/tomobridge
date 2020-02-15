@@ -12,7 +12,8 @@
                 <b-navbar-brand to="/">
                     <img
                         class="d-lg-none"
-                        src="/app/assets/images/logo.svg" >
+                        src="/app/assets/images/logo.svg"
+                        alt="TomoBridge" >
                 </b-navbar-brand>
                 <b-navbar-toggle target="nav-collapse">
                     <span />

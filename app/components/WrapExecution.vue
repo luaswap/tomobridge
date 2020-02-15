@@ -1,28 +1,34 @@
 <template>
     <div>
         <b-navbar
-            toggleable="lg"
+            toggleable="md"
             variant="white"
             type="light">
-            <b-navbar-brand>Logo here</b-navbar-brand>
-            <b-navbar-toggle target="lang-collapse"/>
-            <b-collapse
-                id="lang-collapse"
-                is-nav>
-                <b-navbar-nav class="ml-auto navbar-buttons">
-                    <b-nav-item>
-                        Transaction History -->
-                    </b-nav-item>
-                    <b-nav-item-dropdown
-                        offset="25"
-                        right>
-                        <template
-                            slot="button-content">
-                            English
-                        </template>
-                    </b-nav-item-dropdown>
-                </b-navbar-nav>
-            </b-collapse>
+            <div class="container">
+                <b-navbar-brand to="/">
+                    <img
+                        src="/app/assets/images/logo.svg"
+                        alt="TomoBridge" >
+                </b-navbar-brand>
+                <b-navbar-toggle target="nav-collapse">
+                    <span />
+                </b-navbar-toggle>
+                <b-collapse
+                    id="nav-collapse"
+                    is-nav>
+                    <b-navbar-nav class="ml-auto navbar-buttons">
+                        <b-nav-item>
+                            Transaction History<i class="nav-item__icon tb-long-arrow-right" />
+                        </b-nav-item>
+                        <b-nav-item-dropdown
+                            class="nav-item--dark"
+                            text="English">
+                            <b-dropdown-item class="current-lang">English</b-dropdown-item>
+                            <b-dropdown-item>Tiếng Việt</b-dropdown-item>
+                        </b-nav-item-dropdown>
+                    </b-navbar-nav>
+                </b-collapse>
+            </div>
         </b-navbar>
         <div style="text-align:center">
             <b-row>

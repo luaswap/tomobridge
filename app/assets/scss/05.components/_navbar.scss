@@ -123,11 +123,15 @@
   font-size: inherit;
   margin-top: 0;
   min-width: 150px;
-  padding: 15px 30px;
+  padding: 0;
   position: absolute;
 
   .dropdown-item {
-    padding: 10px 0;
+    padding: 12px 30px;
+
+    &:hover {
+      background-color: #f6f7fa;
+    }
   }
 
   @include media-breakpoint-up(md) {
