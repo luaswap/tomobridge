@@ -1,4 +1,5 @@
 var path = require('path')
+const globImporter = require('node-sass-glob-importer')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 const webpackConfig = {
@@ -32,7 +33,22 @@ const webpackConfig = {
                 use: [
                     'vue-style-loader',
                     'css-loader',
-                    'sass-loader'
+                    {
+                        loader: 'sass-loader',
+                        options: {
+                            importer: globImporter()
+                        }
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            ident: 'postcss',
+                            plugins: [
+                                require('stylelint')(),
+                                require('autoprefixer')()
+                            ]
+                        }
+                    }
                 ]
             },
             {

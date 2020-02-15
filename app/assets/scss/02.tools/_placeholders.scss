@@ -1,0 +1,11 @@
+%transition {
+  @include transition();
+}
+
+%tb_icon {
+  display: inline-block;
+  font-family: 'tomobridge'; // stylelint-disable-line font-family-no-missing-generic-family-keyword
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+}

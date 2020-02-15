@@ -1,0 +1,47 @@
+.custom-checkbox {
+  font-size: 14px;
+  line-height: 25px;
+
+  .custom-control-label::before {
+    border-color: $color-primary;
+    border-radius: 4px;
+  }
+
+  @include media-breakpoint-up(md) {
+    font-size: 16px;
+  }
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+  background-color: $color-primary;
+}
+
+.custom-control-input:focus ~ .custom-control-label::before {
+  box-shadow: none;
+}
+
+// Custom Scrollbar
+.ps__thumb-y {
+  background-color: #dfe0e5;
+  border-radius: 4px;
+  width: 5px;
+}
+
+.ps__rail-y {
+  width: 12px;
+}
+
+.ps__rail-y:hover > .ps__thumb-y {
+  background-color: #aaa;
+  width: 8px;
+}
+
+.text-red,
+.text-error {
+  color: $color-red;
+  font-size: 14px;
+
+  @include media-breakpoint-up(lg) {
+    font-size: 16px;
+  }
+}

@@ -1,0 +1,74 @@
+/* --------------------------------------------------------------
+>>> TABLE OF CONTENTS:
+----------------------------------------------------------------
+# Settings
+# Tools
+# Generic
+# Elements
+# Objects
+# Components
+# Trumps
+-------------------------------------------------------------- */
+
+/*
+SETTINGS
+store all variables, config switches, etc.
+Split up into logical sections, the smaller and simpler the better.
+used with preprocessors and contain font, colors definitions, etc
+================================================
+*/
+@import '01.settings/*';
+
+/*
+TOOLS
+================================================
+store all programic Sass functionality.
+If your tooling is simplistic enough, you can do something like:
+  tools.mixins
+If your tooling is more complex you can split it up like:
+  tools.grid
+  tools.typography
+  etc.
+*/
+@import '02.tools/*';
+
+/*
+GENERIC
+================================================
+reset and/or normalize styles, box-sizing definition, etc.
+This is the first layer which generates actual CSS.
+*/
+
+/*
+ELEMENTS
+================================================
+styling for bare HTML elements (like H1, A, etc.).
+These come with default styling from the browser so we can redefine them here.
+*/
+@import '03.elements/*';
+
+/*
+OBJECTS
+================================================
+"formless", in other words invisible to the user, no cosmetics
+  Eg. wrappers, grid systems, etc.
+This is the first layer of classes and should be agnostically named
+  Eg. list-inline, ui-list, etc.
+*/
+
+/*
+COMPONENTS
+================================================
+Specific UI components.
+This is where majority of our work takes place
+and our UI components are often composed of Objects and Components
+*/
+@import '05.components/*';
+
+/*
+Trumps
+================================================
+utilities and helper classes with ability to override anything
+which goes before in the triangle, eg. .hide helper class
+*/
+@import '06.trumps/custom.scss'

@@ -1,0 +1,89 @@
+@font-face {
+  font-display: block;
+  font-family: 'tomobridge';
+  font-style: normal;
+  font-weight: normal;
+  src: url('../fonts/tomobridge/tomobridge.eot?v41rc0');
+  src:
+    url('../fonts/tomobridge/tomobridge.eot?v41rc0#iefix') format('embedded-opentype'),
+    url('../fonts/tomobridge/tomobridge.ttf?v41rc0') format('truetype'),
+    url('../fonts/tomobridge/tomobridge.woff?v41rc0') format('woff'),
+    url('../fonts/tomobridge/tomobridge.svg?v41rc0#tomobridge') format('svg');
+}
+
+[class^='tb-'],
+[class*=' tb-'] {
+  font-family: 'tomobridge' !important; // stylelint-disable-line font-family-no-missing-generic-family-keyword
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-style: normal;
+  font-variant: normal;
+  font-weight: normal;
+  line-height: 1;
+  speak: none;
+  text-transform: none;
+}
+
+.tb-arrow-left::before {
+  content: '\e900';
+}
+
+.tb-arrow-right::before {
+  content: '\e901';
+}
+
+.tb-check-circle-o::before {
+  content: '\e902';
+}
+
+.tb-chevron-double-left::before {
+  content: '\e903';
+}
+
+.tb-chevron-double-right::before {
+  content: '\e904';
+}
+
+.tb-chevron-down::before {
+  content: '\e905';
+}
+
+.tb-chevron-right::before {
+  content: '\e906';
+}
+
+.tb-chveron-left::before {
+  content: '\e907';
+}
+
+.tb-copy::before {
+  content: '\e908';
+}
+
+.tb-eye::before {
+  content: '\e909';
+}
+
+.tb-long-arrow-right::before {
+  content: '\e90a';
+}
+
+.tb-search::before {
+  content: '\e90b';
+}
+
+.tb-swap::before {
+  content: '\e90c';
+}
+
+.tb-wallet::before {
+  content: '\e90d';
+}
+
+.tb-swap-arrow-left::before {
+  content: '\e90e';
+}
+
+.tb-swap-arrow-right::before {
+  content: '\e90f';
+}

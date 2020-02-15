@@ -1,44 +1,41 @@
 <template>
-    <div style="text-align: center">
-        <h2>UnWrap</h2>
-        <div>
-            You are about to unwrap and then send your BTC to the address
+    <div id="unwrapbox">
+        <div class="unwrap__info text-center">
+            <p>
+                You are about to unwrap and then send your BTC to the address
+            </p>
+            <p class="text-primary">
+                0x33c2E732ae7dce8B05F37B2ba0CFe14c980c4Dbe
+            </p>
         </div>
-        <div>
-            0x33c2E732ae7dce8B05F37B2ba0CFe14c980c4Dbe
-        </div>
-        <div style="margin-top: 15px">
-            -----------------------------------------------------
-        </div>
-        <div>
-            Please confirm the following:
-        </div>
-        <div>
-            <ul>
-                <li>
+        <div class="unwrap__confirm">
+            <p class="unwrap-confirm__title">
+                Please confirm the following:
+            </p>
+            <ul class="unwrap-confirm__list">
+                <li class="unwrap-confirm__item">
                     <b-form-checkbox
                         v-model="isCheckAddress">
                         My BTC address has NOT been created on a centrailized exchange (e.g binance.com)
                     </b-form-checkbox>
                 </li>
-                <li>
+                <li class="unwrap-confirm__item">
                     <b-form-checkbox
                         v-model="isCheckPrivateKey">
                         I have a Private Key of BTC address entered above
                     </b-form-checkbox>
                 </li>
-                <li>
+                <li class="unwrap-confirm__item">
                     <b-form-checkbox
                         v-model="isDoubleCheck">
                         I have double checked that BTC address is correct
                     </b-form-checkbox>
                 </li>
             </ul>
-        </div>
-        <div>
             <b-button
                 :disabled="!allChecked"
-                @click="unWrapToken">Continue to UnWrap</b-button>
+                class="unwrap-confirm__button"
+                @click="unWrapToken">Continue to Unwrap</b-button>
         </div>
     </div>
 </template>

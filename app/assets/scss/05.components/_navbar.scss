@@ -1,0 +1,137 @@
+.navbar {
+  box-shadow: 0 0 30px 0 rgba(23, 21, 48, .1);
+  margin: 0 -15px;
+
+  @include media-breakpoint-up(lg) {
+    background-color: transparent !important;
+    margin: 0;
+  }
+}
+
+.navbar-toggler {
+  border: none;
+  height: 40px;
+  padding: 0;
+  position: relative;
+  width: 40px;
+
+  &::before,
+  &::after,
+  span {
+    background-color: #595959;
+    content: '';
+    display: block;
+    height: 2px;
+    left: 25%;
+    position: absolute;
+    transition-duration: .2s;
+    transition-timing-function: cubic-bezier(.215, .61, .355, 1);
+    width: 60%;
+
+    @extend %transition;
+  }
+
+  &::before {
+    top: 30%;
+  }
+
+  span {
+    top: 50%;
+  }
+
+  &::after {
+    top: 70%;
+  }
+
+  &[aria-expanded='true'] {
+    &::before {
+      top: 50%;
+      transform: rotate(45deg);
+    }
+
+    span {
+      opacity: 0;
+      top: 50%;
+      transform: translateX(-6px);
+    }
+
+    &::after {
+      top: 50%;
+      transform: rotate(-45deg);
+    }
+  }
+}
+
+.navbar-nav .nav-item {
+  .nav-link {
+    color: $color-primary;
+  }
+
+  .dropdown-toggle {
+    &::after {
+      border: none;
+      font-size: 10px;
+      margin-left: 10px;
+      vertical-align: middle;
+
+      @extend %transition;
+
+      @include tb_icon('\e905');
+    }
+
+    &[aria-expanded='true']::after {
+      transform: translateY(-2px) rotate(180deg);
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    &:not(.dropdown) {
+      margin-right: 100px;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    &:not(.dropdown) {
+      margin-right: 80px;
+    }
+  }
+
+  @include media-breakpoint-up(xxl) {
+    &:not(.dropdown) {
+      margin-right: 150px;
+    }
+  }
+}
+
+.navbar-nav .nav-item--dark {
+  .nav-link {
+    color: $color-text !important;
+  }
+}
+
+.nav-item__icon {
+  display: inline-block;
+  font-size: 7px;
+  margin-left: 10px;
+  vertical-align: 2px;
+}
+
+.navbar-nav .dropdown-menu {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 5px 30px 0 rgba(0, 0, 0, .1);
+  font-size: inherit;
+  margin-top: 0;
+  min-width: 150px;
+  padding: 15px 30px;
+  position: absolute;
+
+  .dropdown-item {
+    padding: 10px 0;
+  }
+
+  @include media-breakpoint-up(md) {
+    left: auto;
+    right: 0;
+  }
+}

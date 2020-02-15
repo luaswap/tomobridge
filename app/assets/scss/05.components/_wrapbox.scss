@@ -1,0 +1,124 @@
+#wrapbox {
+  background-color: #fff;
+  border-radius: 10px;
+  margin: 15px 0;
+  padding: 20px;
+
+  @include media-breakpoint-up(md) {
+    padding: 20px 50px;
+  }
+
+  @include media-breakpoint-up(lg) {
+    background-color: transparent;
+    border-radius: 0;
+    height: calc(100% - 60px);
+    margin: 0;
+  }
+
+  @include media-breakpoint-up(xxl) {
+    padding-top: 60px;
+  }
+}
+
+.wrapbox__row {
+  align-items: center;
+  display: flex;
+  margin-bottom: 30px;
+
+  @include media-breakpoint-down(sm) {
+    .col-5:last-child {
+      .multiselect__content {
+        left: auto;
+        right: 0;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    margin-bottom: 40px;
+  }
+
+  @include media-breakpoint-up(xl) {
+    margin-bottom: 60px;
+  }
+
+  @include media-breakpoint-up(xxl) {
+    margin-bottom: 80px;
+  }
+}
+
+.wrapbox__text {
+  letter-spacing: 0;
+  margin-bottom: 10px;
+  text-align: left;
+
+  @include media-breakpoint-up(md) {
+    margin-bottom: 20px;
+  }
+}
+
+.wrapbox__buttons {
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+  margin-bottom: 30px;
+
+  img {
+    display: block;
+    margin: 0 auto 5px;
+    max-width: 25px;
+  }
+
+  button {
+    font-size: 14px;
+
+    &:hover img {
+      filter: brightness(100);
+    }
+  }
+
+  + .text-error {
+    margin-top: -15px;
+  }
+
+  @include media-breakpoint-up(lg) {
+    img {
+      display: inline-block;
+      margin-bottom: 0;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+
+    span {
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+
+  @include media-breakpoint-up(xxl) {
+    button {
+      font-size: $global-font-size-xl;
+    }
+  }
+
+  @include media-breakpoint-up(xxxl) {
+    img {
+      margin-right: 25px;
+    }
+  }
+}
+
+.wrapbox__big-button {
+  display: block;
+  margin: 0 auto 20px;
+  max-width: 400px;
+  min-width: 300px;
+
+  @include media-breakpoint-up(md) {
+    font-size: $global-font-size-md;
+  }
+
+  @include media-breakpoint-up(xl) {
+    font-size: $global-font-size-xl;
+  }
+}

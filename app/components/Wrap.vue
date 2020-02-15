@@ -1,151 +1,230 @@
 <template>
-    <div>
-        <b-navbar
-            toggleable="lg"
-            variant="white"
-            type="light">
-            <b-navbar-toggle target="lang-collapse"/>
-            <b-collapse
-                id="lang-collapse"
-                is-nav>
-                <b-navbar-nav class="ml-auto navbar-buttons">
-                    <b-nav-item>
-                        Transaction History -->
-                    </b-nav-item>
-                    <b-nav-item-dropdown
-                        offset="25"
-                        right>
-                        <template
-                            slot="button-content">
-                            English
-                        </template>
-                    </b-nav-item-dropdown>
-                </b-navbar-nav>
-            </b-collapse>
-        </b-navbar>
-        <div class="">
-            <span>Wrap your token</span>
-            <b-row>
-                <b-col>
-                    <b-form-select
-                        v-model="fromWrapSelected"
-                        :options="fromData">
-                        <template v-slot:first>
-                            <option
-                                :value="null"
-                                disabled>Ê chọn 1 cái coi</option>
-                        </template>
-                    </b-form-select>
-                </b-col>
-                <b-col>
-                    <b-button @click="changeWrap">Đổi</b-button>
-                </b-col>
-                <b-col>
-                    <b-form-select
-                        v-model="toWrapSelected"
-                        :options="toData" >
-                        <template v-slot:first>
-                            <option
-                                :value="null"
-                                disabled>Ê chọn 1 cái coi</option>
-                        </template>
-                    </b-form-select>
-                </b-col>
-            </b-row>
-            <b-row>
-                <b-col>
-                    <label for="address-input">{{ toWrapSelected }} receive address</label>
-                    <b-form-input
-                        id="address-input"
-                        v-model="receiveAddress"/>
-                </b-col>
-            </b-row>
-            <b-row>
-                <b-col>
-                    <label>Connect with</label>
-                    <br>
-                    <b-button>Tomowallet</b-button>
-                    <b-button>Ledger</b-button>
-                    <b-button @click="loginPrivateKey">Private key</b-button>
-                </b-col>
-            </b-row>
-            <b-row>
-                {{ address }}
-                <div v-if="loginError">
-                    Please connect your TOMO wallet
+    <b-col
+        cols="12"
+        lg="7"
+        xl="6"
+        class="home-section__col home-section__col--right">
+        <div class="home-section__col-inner">
+            <b-navbar
+                toggleable="md"
+                variant="white"
+                type="light">
+                <b-navbar-brand to="/">
+                    <img
+                        class="d-lg-none"
+                        src="/app/assets/images/logo.svg" >
+                </b-navbar-brand>
+                <b-navbar-toggle target="nav-collapse">
+                    <span />
+                </b-navbar-toggle>
+                <b-collapse
+                    id="nav-collapse"
+                    is-nav>
+                    <b-navbar-nav class="ml-auto navbar-buttons">
+                        <b-nav-item>
+                            Transaction History<i class="nav-item__icon tb-long-arrow-right" />
+                        </b-nav-item>
+                        <b-nav-item-dropdown
+                            class="nav-item--dark"
+                            text="English">
+                            <b-dropdown-item class="current-lang">English</b-dropdown-item>
+                            <b-dropdown-item>Tiếng Việt</b-dropdown-item>
+                        </b-nav-item-dropdown>
+                    </b-navbar-nav>
+                </b-collapse>
+            </b-navbar>
+            <custom-scrollbar id="wrapbox">
+                <p class="wrapbox__text">Wrap your token</p>
+                <b-row class="wrapbox__row">
+                    <b-col
+                        cols="5">
+                        <multiselect
+                            id="fromwrap-select"
+                            v-model="fromWrapSelected"
+                            :options="fromData"
+                            :custom-label="customLabel"
+                            :show-labels="false"
+                            track-by="name">
+                            <template
+                                slot="singleLabel"
+                                slot-scope="props">
+                                <img
+                                    :src="props.option.img"
+                                    :alt="props.option.name"
+                                    class="multiselect__img">
+                                <span class="multiselect__name">{{ props.option.name }}</span>
+                            </template>
+                            <template
+                                slot="option"
+                                slot-scope="props">
+                                <img
+                                    :src="props.option.img"
+                                    :alt="props.option.name"
+                                    class="multiselect__img">
+                                <span class="multiselect__name">{{ props.option.name }}</span>
+                            </template>
+                        </multiselect>
+                    </b-col>
+                    <b-col
+                        cols="2">
+                        <b-button
+                            class="swap-btn"
+                            @click="changeWrap">
+                            Swap
+                            <i class="tb-swap-arrow-right"/>
+                            <i class="tb-swap-arrow-left"/>
+                        </b-button>
+                    </b-col>
+                    <b-col
+                        cols="5">
+                        <multiselect
+                            id="towrap-select"
+                            v-model="toWrapSelected"
+                            :options="toData"
+                            :custom-label="customLabel"
+                            :show-labels="false"
+                            track-by="name">
+                            <template
+                                slot="singleLabel"
+                                slot-scope="props">
+                                <img
+                                    :src="props.option.img"
+                                    :alt="props.option.name"
+                                    class="multiselect__img">
+                                <span class="multiselect__name">{{ props.option.name }}</span>
+                            </template>
+                            <template
+                                slot="option"
+                                slot-scope="props">
+                                <img
+                                    :src="props.option.img"
+                                    :alt="props.option.name"
+                                    class="multiselect__img">
+                                <span class="multiselect__name">{{ props.option.name }}</span>
+                            </template>
+                        </multiselect>
+                    </b-col>
+                </b-row>
+                <b-row class="wrapbox__row">
+                    <b-col>
+                        <label
+                            class="wrapbox__text"
+                            for="address-input">{{ toWrapSelected ? toWrapSelected.name : '' }} receive address
+                        </label>
+                        <b-form-input
+                            id="address-input"
+                            v-model="receiveAddress"
+                            placeholder="Please connect your TOMO wallet…"/>
+                    </b-col>
+                </b-row>
+                <b-row class="wrapbox__row">
+                    <b-col>
+                        <p class="wrapbox__text">Or Connect with</p>
+                        <div class="wrapbox__buttons">
+                            <b-button>
+                                <img
+                                    src="app/assets/images/tomowallet.svg"
+                                    alt="TomoWallet">
+                                <span>TomoWallet</span>
+                            </b-button>
+                            <b-button>
+                                <img
+                                    src="app/assets/images/ledger.svg"
+                                    alt="Ledger">
+                                <span>Ledger</span>
+                            </b-button>
+                            <b-button @click="loginPrivateKey">
+                                <img
+                                    src="app/assets/images/key.svg"
+                                    alt="Private key">
+                                <span>Private key</span>
+                            </b-button>
+                        </div>
+                        {{ address }}
+                        <p
+                            v-if="loginError"
+                            class="text-error">Please connect your TOMO wallet</p>
+                    </b-col>
+                </b-row>
+                <div class="text-sm-center">
+                    <b-button
+                        v-if="wrapType === 'wrap'"
+                        :disabled="!isAgreed"
+                        class="wrapbox__big-button"
+                        variant="primary"
+                        @click="wrapToken">Wrap Now</b-button>
+                    <b-button
+                        v-else
+                        :disabled="!isAgreed"
+                        class="wrapbox__big-button"
+                        variant="primary"
+                        @click="unWrapToken">
+                        UnWrap Now</b-button>
+                    <b-form-checkbox
+                        v-model="isAgreed">
+                        By Wrapping, you agree to the <a href="#">Terms and Conditions</a>
+                    </b-form-checkbox>
                 </div>
-            </b-row>
-            <div style="margin-top: 20px">
-                <b-button
-                    v-if="wrapType === 'wrap'"
-                    :disabled="!isAgreed"
-                    @click="wrapToken">Wrap Now</b-button>
-                <b-button
-                    v-else
-                    :disabled="!isAgreed"
-                    @click="unWrapToken">
-                    UnWrap Now</b-button>
-                <b-form-checkbox
-                    v-model="isAgreed">
-                    By Wrapping, you agree to the
-                    <a href="#">Terms and Conditions</a>
-                </b-form-checkbox>
-            </div>
+            </custom-scrollbar>
         </div>
 
         <!-- Login Modals-->
         <b-modal
             id="privateKeyModal"
             ref="privateKeyModal"
-            title="Please select the address you would like to interact with"
+            title="Connect with Private Key"
             centered
             scrollable
-            size="md"
-            hide-header
-            hide-footer>
-            <div>
-                <b-form
-                    novalidate
-                    @submit.prevent="validate()">
-                    <b-row>
-                        <h2>Connect with Pivate Key</h2>
-                    </b-row>
-                    <b-row>
-                        <label>Private Key</label>
-                        <b-form-input
-                            id="privateKeyInput"
-                            v-model="privateKey"
-                            placeholder="Enter private key"
-                            type="password"/>
-                        <div
-                            v-if="$v.privateKey.$dirty && !$v.privateKey.required"
-                            class="text-danger pt-2">Required field</div>
-                        <b-button @click="showPrivateKey">Show</b-button>
-                    </b-row>
-                    <div>
-                        <b-button @click="closePrivateKeyModal">Cancel</b-button>
-                        <b-button type="submit">Confirm</b-button>
-                    </div>
-                </b-form>
-            </div>
+            hide-footer
+            size="md">
+            <b-form
+                id="pk-form"
+                novalidate
+                @submit.prevent="validate()">
+                <b-form-group
+                    class="pk-form__group"
+                    label="Private Key"
+                    label-for="pk-input">
+                    <b-form-input
+                        id="pk-input"
+                        v-model="privateKey"
+                        placeholder="Enter private key"
+                        type="password"/>
+                    <div
+                        v-if="$v.privateKey.$dirty && !$v.privateKey.required"
+                        class="text-danger pt-2">Required field</div>
+                    <b-button
+                        id="show-pk-button"
+                        @click="showPrivateKey">
+                        Show
+                        <i class="tb-eye"/>
+                    </b-button>
+                </b-form-group>
+                <div class="pk-form__buttons">
+                    <b-button @click="closePrivateKeyModal">Cancel</b-button>
+                    <b-button type="submit">Confirm</b-button>
+                </div>
+            </b-form>
         </b-modal>
 
         <!-- UnWrap Modal-->
         <b-modal
             id="unWrapModal"
             ref="unWrapModal"
+            title="UnWrap"
             centered
             scrollable
             size="md"
-            hide-header
             hide-footer>
             <UnWrap :parent="this" />
         </b-modal>
-    </div>
+    </b-col>
 </template>
 
 <script>
 // import Web3 from 'web3'
+import Multiselect from 'vue-multiselect'
+import CustomScrollbar from 'vue-custom-scrollbar'
 import PrivateKeyProvider from 'truffle-privatekey-provider'
 import { validationMixin } from 'vuelidate'
 import {
@@ -156,13 +235,41 @@ import UnWrap from './UnWrap'
 export default {
     name: 'App',
     components: {
+        Multiselect,
+        CustomScrollbar,
         UnWrap
     },
     mixins: [validationMixin],
     data () {
         return {
-            fromData: ['BTC'],
-            toData: ['TRC21'],
+            fromData: [
+                {
+                    name: 'BTC',
+                    img: 'app/assets/images/crypto-logos/btc.png'
+                },
+                {
+                    name: 'ETH',
+                    img: 'app/assets/images/crypto-logos/eth.png'
+                },
+                {
+                    name: 'USDT',
+                    img: 'app/assets/images/crypto-logos/usdt.png'
+                },
+                {
+                    name: 'XLM',
+                    img: 'app/assets/images/crypto-logos/xlm.png'
+                }
+            ],
+            toData: [
+                {
+                    name: 'TRC21',
+                    img: 'app/assets/images/crypto-logos/tomo-green.png'
+                },
+                {
+                    name: 'TRC20',
+                    img: 'app/assets/images/crypto-logos/tomo-green.png'
+                }
+            ],
             languages: ['english', 'vietnamese'],
             selectedLanguage: 'english',
             fromWrapSelected: null,
@@ -192,6 +299,9 @@ export default {
         this.config = await this.appConfig()
     },
     methods: {
+        customLabel ({ name }) {
+            return `${name}`
+        },
         validate () {
             const self = this
             self.$v.$touch()
@@ -244,16 +354,21 @@ export default {
             this.$refs.privateKeyModal.hide()
         },
         showPrivateKey () {
-            const privateKeyField = document.querySelector('#privateKeyInput')
-            if (privateKeyField.getAttribute('type') === 'password') {
-                privateKeyField.setAttribute('type', 'text')
+            let pkInput = document.querySelector('#pk-input')
+            let showPkButton = document.querySelector('#show-pk-button')
+
+            if (pkInput.getAttribute('type') === 'password') {
+                pkInput.setAttribute('type', 'text')
+                showPkButton.classList.add('active')
             } else {
-                privateKeyField.setAttribute('type', 'password')
+                pkInput.setAttribute('type', 'password')
+                showPkButton.classList.remove('active')
             }
         },
         unWrapToken () {
             console.log(this.wrapType)
             const self = this
+            // this.$refs.unWrapModal.show()
             if (self.address) {
                 this.$refs.unWrapModal.show()
             } else {

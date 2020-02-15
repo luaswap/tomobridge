@@ -1,0 +1,139 @@
+.multiselect {
+  color: $color-text;
+  position: relative;
+}
+
+.multiselect__select {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  &::before {
+    font-size: 10px;
+
+    @include tb_icon('\e905');
+  }
+
+  @include media-breakpoint-up(sm) {
+    right: 15px;
+  }
+
+  @include media-breakpoint-up(lg) {
+    &::before {
+      font-size: 12px;
+    }
+  }
+
+  @include media-breakpoint-up(xxl) {
+    right: 20px;
+
+    &::before {
+      font-size: 14px;
+    }
+  }
+}
+
+.multiselect__tags {
+  background-color: #f6f7fa;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 5px 15px;
+
+  @extend %transition;
+
+  @include media-breakpoint-up(lg) {
+    font-size: 16px;
+    padding: 15px;
+  }
+
+  @include media-breakpoint-up(xl) {
+    font-size: $global-font-size-xl;
+    padding: 15px 20px;
+  }
+}
+
+.multiselect--active .multiselect__tags {
+  background-color: #eaeaea;
+}
+
+.multiselect__placeholder {
+  line-height: 25px;
+
+  @include media-breakpoint-up(lg) {
+    line-height: 30px;
+  }
+}
+
+.multiselect__input {
+  background-color: transparent !important;
+  border: none !important;
+  line-height: 23px;
+  padding: 0 !important;
+  transition: none !important;
+
+  @include media-breakpoint-up(lg) {
+    line-height: 28px;
+  }
+}
+
+.multiselect__content {
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 5px 30px 0 rgba(0, 0, 0, .1);
+  left: 0;
+  list-style-type: none;
+  margin: 0;
+  max-height: 240px;
+  overflow: auto;
+  padding: 0;
+  position: absolute;
+  top: 100%;
+  width: 200px;
+  z-index: 99;
+
+  @include media-breakpoint-up(xxl) {
+    width: 250px;
+  }
+
+  @include media-breakpoint-up(xxxl) {
+    width: 300px;
+  }
+}
+
+.multiselect__option {
+  cursor: pointer;
+  display: block;
+  padding: 10px 15px;
+  width: 100%;
+
+  @extend %transition;
+}
+
+.multiselect__option:hover,
+.multiselect__option--selected {
+  background-color: #f6f7fa;
+}
+
+.multiselect__img {
+  display: inline-block;
+  height: 25px;
+  margin-right: 5px;
+  vertical-align: middle;
+  width: 25px;
+}
+
+.multiselect__name {
+  display: inline-block;
+  font-size: 14px;
+  vertical-align: middle;
+
+  @include media-breakpoint-up(lg) {
+    font-size: $global-font-size-md;
+  }
+
+  @include media-breakpoint-up(xl) {
+    font-size: $global-font-size-xl;
+  }
+}

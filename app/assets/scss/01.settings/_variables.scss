@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,800&display=swap');
+
+/* Grid breakpoints
+========================================================================== */
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1440px,
+  xxxl: 1920px,
+) !default;
+
+/* Fonts
+========================================================================== */
+$global-fonts: 'Nunito Sans', 'Helvetica Neue', 'Arial', sans-serif !default;
+$global-font-size-xs: 15px;
+$global-font-size-md: 16px;
+$global-font-size-xl: 18px;
+
+/* Colors
+========================================================================== */
+$color-primary: #4b8aff;
+$color-background: #1d1e31;
+$color-text: #1d1e31;
+$color-red: #bd1212;
+$color-green: #00e8b4;
+$color-input-bg: #f6f7fa;
+$color-placeholder: rbga(29, 30, 49, .2);

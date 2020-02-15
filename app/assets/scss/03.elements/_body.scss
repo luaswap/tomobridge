@@ -1,0 +1,13 @@
+body {
+  font-family: $global-fonts;
+  font-size: $global-font-size-xs;
+  -webkit-font-smoothing: antialiased;
+
+  @include media-breakpoint-up(md) {
+    font-size: $global-font-size-md;
+  }
+
+  @include media-breakpoint-up(xl) {
+    font-size: $global-font-size-xl;
+  }
+}

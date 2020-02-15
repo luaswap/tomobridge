@@ -1,31 +1,31 @@
 <template>
     <div>
-        <b-row style="height:100vh">
-            <b-col style="background-color: #1d1e31">
+        <section
+            id="home-section"
+            class="container-fluid">
+            <b-row class="align-items-lg-center h-100">
                 <welcome />
-            </b-col>
-            <b-col>
                 <wrap />
-            </b-col>
-        </b-row>
-        <b-row>
-            <b-col>
-                <Transaction />
-            </b-col>
-        </b-row>
+            </b-row>
+        </section>
+        <section
+            id="wrap-section"
+            class="container-fluid">
+            <WrapHistory />
+        </section>
     </div>
 </template>
 
 <script>
 import Welcome from './Welcome'
 import Wrap from './Wrap'
-import Transaction from './Transaction'
+import WrapHistory from './WrapHistory'
 export default {
     name: 'App',
     components: {
         Welcome,
         Wrap,
-        Transaction
+        WrapHistory
     },
     data () {
         return { }
