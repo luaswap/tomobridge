@@ -164,6 +164,11 @@
                         v-model="isAgreed">
                         By Wrapping, you agree to the <a href="#">Terms and Conditions</a>
                     </b-form-checkbox>
+                    <p class="wrapbox__signout mt-3">
+                        <a
+                            href="#"
+                            class="text-red">Sign Out<i class="tb-long-arrow-right" /></a>
+                    </p>
                 </div>
             </custom-scrollbar>
         </div>

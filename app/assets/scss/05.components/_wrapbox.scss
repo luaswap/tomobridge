@@ -16,7 +16,7 @@
   }
 
   @include media-breakpoint-up(xxl) {
-    padding-top: 60px;
+    padding-top: 50px;
   }
 }
 
@@ -35,15 +35,11 @@
   }
 
   @include media-breakpoint-up(lg) {
-    margin-bottom: 40px;
-  }
-
-  @include media-breakpoint-up(xl) {
-    margin-bottom: 60px;
+    margin-bottom: 35px;
   }
 
   @include media-breakpoint-up(xxl) {
-    margin-bottom: 80px;
+    margin-bottom: 70px;
   }
 }
 
@@ -52,7 +48,7 @@
   margin-bottom: 10px;
   text-align: left;
 
-  @include media-breakpoint-up(md) {
+  @include media-breakpoint-up(xxl) {
     margin-bottom: 20px;
   }
 }
@@ -61,7 +57,6 @@
   display: grid;
   grid-gap: 10px;
   grid-template-columns: repeat(3, 1fr);
-  margin-bottom: 30px;
 
   img {
     display: block;
@@ -96,6 +91,8 @@
   }
 
   @include media-breakpoint-up(xxl) {
+    margin-bottom: 30px;
+
     button {
       font-size: $global-font-size-xl;
     }
@@ -120,5 +117,24 @@
 
   @include media-breakpoint-up(xl) {
     font-size: $global-font-size-xl;
+  }
+}
+
+.wrapbox__signout {
+  margin-bottom: 0;
+  text-align: center;
+
+  i {
+    font-size: 9px;
+    margin-left: 10px;
+    vertical-align: 2px;
+  }
+
+  a:hover {
+    text-decoration: none;
+  }
+
+  @include media-breakpoint-up(xxl) {
+    margin-top: 40px !important;
   }
 }
