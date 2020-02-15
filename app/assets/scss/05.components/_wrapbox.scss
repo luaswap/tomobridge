@@ -44,9 +44,7 @@
 }
 
 .wrapbox__text {
-  letter-spacing: 0;
   margin-bottom: 10px;
-  text-align: left;
 
   @include media-breakpoint-up(xxl) {
     margin-bottom: 20px;
@@ -64,11 +62,16 @@
     max-width: 25px;
   }
 
-  button {
+  .btn {
+    color: $color-text;
     font-size: 14px;
 
-    &:hover img {
-      filter: brightness(100);
+    &:hover {
+      color: #fff;
+
+      img {
+        filter: brightness(100);
+      }
     }
   }
 

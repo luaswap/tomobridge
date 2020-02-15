@@ -1,0 +1,15 @@
+.form-group {
+  margin-bottom: 30px;
+
+  @include media-breakpoint-up(xl) {
+    margin-bottom: 70px;
+  }
+}
+
+.form-group label {
+  margin-bottom: 10px;
+
+  @include media-breakpoint-up(xl) {
+    margin-bottom: 20px;
+  }
+}

@@ -193,11 +193,11 @@
                     <b-form-input
                         id="pk-input"
                         v-model="privateKey"
-                        placeholder="Enter private key"
+                        placeholder="Enter Private Key..."
                         type="password"/>
                     <div
                         v-if="$v.privateKey.$dirty && !$v.privateKey.required"
-                        class="text-danger pt-2">Required field</div>
+                        class="text-error pt-2">Required field</div>
                     <b-button
                         id="show-pk-button"
                         @click="showPrivateKey">
@@ -205,9 +205,11 @@
                         <i class="tb-eye"/>
                     </b-button>
                 </b-form-group>
-                <div class="pk-form__buttons">
+                <div class="modal-buttons">
                     <b-button @click="closePrivateKeyModal">Cancel</b-button>
-                    <b-button type="submit">Confirm</b-button>
+                    <b-button
+                        type="submit"
+                        variant="primary">Confirm</b-button>
                 </div>
             </b-form>
         </b-modal>
