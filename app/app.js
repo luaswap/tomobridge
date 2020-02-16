@@ -17,6 +17,7 @@ import Web3 from 'web3'
 // Components
 import Home from './components/Home.vue'
 import WrapExecution from './components/WrapExecution.vue'
+import Transaction from './components/Transaction.vue'
 
 Vue.use(VueClipboard)
 Vue.use(BootstrapVue)
@@ -142,7 +143,8 @@ const router = new VueRouter({
     mode: 'history',
     routes: [
         { path: '/', component: Home },
-        { path: '/wrapToken', component: WrapExecution }
+        { path: '/wrapToken', component: WrapExecution },
+        { path: '/txs', component: Transaction }
     ]
 })
 
