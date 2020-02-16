@@ -18,7 +18,7 @@
                     id="nav-collapse"
                     is-nav>
                     <b-navbar-nav class="ml-auto navbar-buttons">
-                        <b-nav-item to="/txs">
+                        <b-nav-item to="/txs/">
                             Transaction History<i class="nav-item__icon tb-long-arrow-right" />
                         </b-nav-item>
                         <b-nav-item-dropdown

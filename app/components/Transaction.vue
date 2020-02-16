@@ -18,7 +18,7 @@
                     id="nav-collapse"
                     is-nav>
                     <b-navbar-nav class="ml-auto navbar-buttons">
-                        <b-nav-item to="/txs">
+                        <b-nav-item to="/txs/">
                             Transaction History<i class="nav-item__icon tb-long-arrow-right" />
                         </b-nav-item>
                         <b-nav-item-dropdown
@@ -33,6 +33,59 @@
         </b-navbar>
         <b-container class="txs">
             <h1 class="txs__headline">Transaction history</h1>
+            <b-tabs
+                class="txs__tabs"
+                no-nav-style>
+                <b-tab
+                    title="Wrap"
+                    active>
+                    <b-table
+                        :items="txs"
+                        :fields="fields"
+                        :per-page="perPage"
+                        :class="loading ? 'txs-table--loading' : ''"
+                        :show-empty="true"
+                        class="txs-table"
+                        empty-text="There are no transactions to show"
+                        stacked="md">
+
+                        <template
+                            slot="createdAt"
+                            slot-scope="data">
+                            <span :id="`timestamp__${data.index}`">{{ data.item.createdAt }}</span>
+                            <b-tooltip :target="`timestamp__${data.index}`">
+                                {{ data.item.dateTooltip }}
+                            </b-tooltip>
+                        </template>
+
+                        <template
+                            slot="from"
+                            slot-scope="data">
+                            <p class="text-truncate">{{ data.item.from }}</p>
+                        </template>
+
+                        <template
+                            slot="to"
+                            slot-scope="data">
+                            <p class="text-truncate">{{ data.item.to }}</p>
+                        </template>
+
+                        <template
+                            slot="hash"
+                            slot-scope="data">
+                            <p class="text-truncate">{{ data.item.hash }}</p>
+                        </template>
+                    </b-table>
+
+                    <b-pagination
+                        :total-rows="totalRows"
+                        :per-page="perPage"
+                        v-model="currentPage"
+                        align="center"
+                        class="txs__pagination" />
+                </b-tab>
+                <b-tab title="Unwrap"/>
+            </b-tabs>
         </b-container>
     </div>
 </template>
@@ -42,21 +95,114 @@ export default {
     name: 'App',
     components: { },
     data () {
-        return {}
+        return {
+            fields: [
+                { key: 'createdAt', label: 'Age' },
+                { key: 'from', label: 'From' },
+                { key: 'to', label: 'To' },
+                { key: 'quantity', label: 'Quantity' },
+                { key: 'hash', label: 'Txn Hash' }
+            ],
+            txs: [
+                {
+                    createdAt: 'a few seconds ago',
+                    dateTooltip: 'Feb 16, 2020 10:10',
+                    from: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
+                    to: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
+                    quantity: '1 TOMO',
+                    hash: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7'
+                },
+                {
+                    createdAt: 'a few seconds ago',
+                    dateTooltip: 'Feb 16, 2020 10:10',
+                    from: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
+                    to: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
+                    quantity: '1 TOMO',
+                    hash: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7'
+                },
+                {
+                    createdAt: 'a few seconds ago',
+                    dateTooltip: 'Feb 16, 2020 10:10',
+                    from: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
+                    to: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
+                    quantity: '1 TOMO',
+                    hash: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7'
+                },
+                {
+                    createdAt: 'a few seconds ago',
+                    dateTooltip: 'Feb 16, 2020 10:10',
+                    from: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
+                    to: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
+                    quantity: '1 TOMO',
+                    hash: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7'
+                },
+                {
+                    dateTooltip: 'Feb 16, 2020 10:10',
+                    createdAt: 'a few seconds ago',
+                    from: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
+                    to: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
+                    quantity: '1 TOMO',
+                    hash: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7'
+                },
+                {
+                    createdAt: 'a few seconds ago',
+                    dateTooltip: 'Feb 16, 2020 10:10',
+                    from: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
+                    to: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
+                    quantity: '1 TOMO',
+                    hash: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7'
+                },
+                {
+                    createdAt: '8 mins ago',
+                    dateTooltip: 'Feb 16, 2020 10:10',
+                    from: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
+                    to: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
+                    quantity: '1 TOMO',
+                    hash: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7'
+                },
+                {
+                    createdAt: '8 mins ago',
+                    dateTooltip: 'Feb 16, 2020 10:10',
+                    from: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
+                    to: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
+                    quantity: '1 TOMO',
+                    hash: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7'
+                },
+                {
+                    createdAt: '18 mins ago',
+                    dateTooltip: 'Feb 16, 2020 10:10',
+                    from: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
+                    to: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
+                    quantity: '1 TOMO',
+                    hash: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7'
+                },
+                {
+                    createdAt: '28 mins ago',
+                    dateTooltip: 'Feb 16, 2020 10:10',
+                    from: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
+                    to: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
+                    quantity: '1 TOMO',
+                    hash: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7'
+                },
+                {
+                    createdAt: '38 mins ago',
+                    dateTooltip: 'Feb 16, 2020 10:10',
+                    from: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
+                    to: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
+                    quantity: '1 TOMO',
+                    hash: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7'
+                }
+            ],
+            loading: false,
+            totalRows: 10,
+            perPage: 10,
+            currentPage: 1,
+            tableCssClass: ''
+        }
     },
     async updated () { },
     destroyed () { },
     created: async function () { },
-    methods: {
-        changeWrap () {
-            const temp1 = this.fromData
-            const temp2 = this.fromWrapSelected
-
-            this.fromData = this.toData
-            this.toData = temp1
-            this.fromWrapSelected = this.toWrapSelected
-            this.toWrapSelected = temp2
-        }
-    }
+    methods: {}
 }
 </script>
