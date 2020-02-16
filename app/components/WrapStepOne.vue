@@ -21,8 +21,11 @@
             we can verify your transaction
         </p>
         <div class="step-one__buttons">
-            <b-button @click="back">Cancel</b-button>
             <b-button
+                class="btn--big"
+                @click="back">Cancel</b-button>
+            <b-button
+                class="btn--big"
                 variant="primary"
                 @click="nextStep">Confirm transaction</b-button>
         </div>

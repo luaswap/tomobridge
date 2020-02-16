@@ -113,14 +113,6 @@
   margin: 0 auto 20px;
   max-width: 400px;
   width: 100%;
-
-  @include media-breakpoint-up(md) {
-    font-size: $global-font-size-md;
-  }
-
-  @include media-breakpoint-up(xl) {
-    font-size: 22px;
-  }
 }
 
 .wrapbox__signout {

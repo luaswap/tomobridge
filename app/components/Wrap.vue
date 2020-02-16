@@ -151,13 +151,13 @@
                     <b-button
                         v-if="wrapType === 'wrap'"
                         :disabled="!isAgreed"
-                        class="wrapbox__big-button"
+                        class="wrapbox__big-button btn--big"
                         variant="primary"
                         @click="wrapToken">Wrap Now</b-button>
                     <b-button
                         v-else
                         :disabled="!isAgreed"
-                        class="wrapbox__big-button"
+                        class="wrapbox__big-button btn--big"
                         variant="primary"
                         @click="unWrapToken">
                         UnWrap Now</b-button>

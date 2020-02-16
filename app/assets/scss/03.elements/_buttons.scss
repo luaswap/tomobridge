@@ -15,6 +15,17 @@ button,
   }
 }
 
+button.btn--big,
+.btn.btn--big {
+  @include media-breakpoint-up(md) {
+    font-size: $global-font-size-md;
+  }
+
+  @include media-breakpoint-up(xl) {
+    font-size: 22px;
+  }
+}
+
 .btn-primary {
   background-color: $color-primary;
   color: #fff;
