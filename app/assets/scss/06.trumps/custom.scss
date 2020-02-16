@@ -54,6 +54,10 @@
   width: 8px;
 }
 
+.text-primary {
+  color: $color-primary !important;
+}
+
 .text-red,
 .text-error {
   color: $color-red;

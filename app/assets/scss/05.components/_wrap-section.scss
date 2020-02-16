@@ -13,7 +13,7 @@
 }
 
 .wrap-history__wallet {
-  background-color: #f6f7fa;
+  background-color: $color-bg;
   border-radius: 4px;
   color: $color-primary;
   margin-bottom: 10px;
@@ -66,7 +66,7 @@
 }
 
 .wrap-history__txs {
-  background-color: #f6f7fa;
+  background-color: $color-bg;
   border-radius: 4px;
   margin-bottom: 30px;
 }
