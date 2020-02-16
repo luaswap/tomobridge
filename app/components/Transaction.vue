@@ -34,7 +34,6 @@
         <b-container class="txs">
             <h1 class="txs__headline">Transaction history</h1>
             <b-tabs
-                class="txs__tabs"
                 no-nav-style>
                 <b-tab
                     title="Wrap"
@@ -43,9 +42,8 @@
                         :items="txs"
                         :fields="fields"
                         :per-page="perPage"
-                        :class="loading ? 'txs-table--loading' : ''"
+                        :class="loading ? 'table--loading' : ''"
                         :show-empty="true"
-                        class="txs__table"
                         empty-text="There are no transactions to show"
                         stacked="md">
 
@@ -81,8 +79,7 @@
                         :total-rows="totalRows"
                         :per-page="perPage"
                         v-model="currentPage"
-                        align="center"
-                        class="txs__pagination" />
+                        align="center" />
                 </b-tab>
                 <b-tab title="Unwrap"/>
             </b-tabs>
@@ -195,7 +192,7 @@ export default {
             ],
             loading: false,
             totalRows: 10,
-            perPage: 10,
+            perPage: 1,
             currentPage: 1,
             tableCssClass: ''
         }

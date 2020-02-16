@@ -1,0 +1,75 @@
+.pagination {
+  margin-top: 40px;
+
+  @include media-breakpoint-up(lg) {
+    margin-top: 50px;
+  }
+}
+
+.page-item {
+  &:first-child .page-link,
+  &:nth-child(2) .page-link,
+  &:last-child .page-link,
+  &:nth-last-child(2) .page-link {
+    font-size: 0;
+
+    &::before {
+      font-size: 8px;
+      line-height: 24px;
+
+      @include media-breakpoint-up(md) {
+        line-height: 30px;
+      }
+
+      @include media-breakpoint-up(lg) {
+        line-height: 40px;
+      }
+    }
+  }
+
+  &:first-child .page-link::before {
+    @include tb_icon('\e903');
+  }
+
+  &:nth-child(2) .page-link::before {
+    @include tb_icon('\e907');
+  }
+
+  &:last-child .page-link::before {
+    @include tb_icon('\e904');
+  }
+
+  &:nth-last-child(2) .page-link::before {
+    @include tb_icon('\e906');
+  }
+}
+
+.page-link {
+  border: none;
+  border-radius: 100%;
+  color: $color-text;
+  font-size: 14px;
+  height: 24px;
+  line-height: 24px;
+  margin: 0 7px;
+  padding: 0;
+  text-align: center;
+  width: 24px;
+
+  &:active,
+  &:focus {
+    box-shadow: none;
+  }
+
+  @include media-breakpoint-up(md) {
+    height: 30px;
+    line-height: 30px;
+    width: 30px;
+  }
+
+  @include media-breakpoint-up(lg) {
+    height: 35px;
+    line-height: 35px;
+    width: 35px;
+  }
+}
