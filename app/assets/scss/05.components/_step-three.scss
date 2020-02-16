@@ -65,3 +65,25 @@
   display: block;
   margin-top: 15px;
 }
+
+.step-three__success {
+  margin-bottom: 50px;
+
+  @include media-breakpoint-up(md) {
+    margin-bottom: 70px;
+  }
+}
+
+.step-three__icon {
+  display: block;
+  font-size: 100px;
+  margin: 80px auto 30px;
+
+  @include media-breakpoint-up(lg) {
+    margin-bottom: 50px;
+  }
+}
+
+.step-three__button {
+  @extend .step-two__button;
+}

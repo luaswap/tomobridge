@@ -69,7 +69,7 @@
             <WrapStepTwo :parent="this"/>
         </div>
         <div v-if="step === 3">
-            <WrapStepThree/>
+            <WrapStepThree :parent="this"/>
         </div>
     </div>
 </template>
