@@ -33,15 +33,29 @@
         <b-container class="steps">
             <b-row class="align-items-center steps__row">
                 <b-col
+                    :class="{
+                        'steps__col--current' : step === 1,
+                        'steps__col--active' : step >= 1,
+                    }"
                     class="steps__col">
                     <p class="steps__name">Deposit <br>BTC</p>
                     <p class="steps__number"><span>1</span></p>
                 </b-col>
-                <b-col :class="'steps__col' + ( step >= 2 ? ' steps__col--active' : '')">
+                <b-col
+                    :class="{
+                        'steps__col--current' : step === 2,
+                        'steps__col--active' : step >= 2,
+                    }"
+                    class="steps__col">
                     <p class="steps__name">Verify Transaction</p>
                     <p class="steps__number"><span>2</span></p>
                 </b-col>
-                <b-col :class="'steps__col' + ( step >= 3 ? ' steps__col--active' : '')">
+                <b-col
+                    :class="{
+                        'steps__col--current' : step === 3,
+                        'steps__col--active' : step >= 3,
+                    }"
+                    class="steps__col">
                     <p class="steps__name">Receive <br>TRC21</p>
                     <p class="steps__number"><span>3</span></p>
                 </b-col>
@@ -80,20 +94,6 @@ export default {
     },
     destroyed () { },
     created: async function () { },
-    methods: {
-        getStepCSSClass (index) {
-            let cssClass = ''
-
-            if (this.step > index) {
-                cssClass += 'steps__col--active'
-            }
-
-            if (this.step === index) {
-                cssClass += 'steps__col--current'
-            }
-
-            return cssClass
-        }
-    }
+    methods: {}
 }
 </script>
