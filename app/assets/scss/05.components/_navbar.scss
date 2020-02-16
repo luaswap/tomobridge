@@ -1,9 +1,5 @@
 .navbar {
   box-shadow: 0 0 30px 0 rgba(23, 21, 48, .1);
-
-  @include media-breakpoint-up(lg) {
-    background-color: transparent !important;
-  }
 }
 
 .navbar-toggler {

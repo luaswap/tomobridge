@@ -45,7 +45,7 @@
                         :per-page="perPage"
                         :class="loading ? 'txs-table--loading' : ''"
                         :show-empty="true"
-                        class="txs-table"
+                        class="txs__table"
                         empty-text="There are no transactions to show"
                         stacked="md">
 

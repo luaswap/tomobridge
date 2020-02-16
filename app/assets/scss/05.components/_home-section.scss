@@ -8,6 +8,10 @@
 
   @include media-breakpoint-up(lg) {
     height: 100vh;
+
+    .navbar {
+      background-color: transparent !important;
+    }
   }
 }
 
