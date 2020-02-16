@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-navbar
-            sticky="top"
+            sticky
             toggleable="md"
             variant="white"
             type="light">
@@ -66,7 +66,7 @@
             <WrapStepOne :parent="this"/>
         </div>
         <div v-if="step === 2">
-            <WrapStepTwo/>
+            <WrapStepTwo :parent="this"/>
         </div>
         <div v-if="step === 3">
             <WrapStepThree/>

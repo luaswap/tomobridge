@@ -48,10 +48,6 @@
     margin-left: auto;
     margin-right: auto;
     width: 90%;
-
-    .step-one__copy {
-      margin-left: 30px;
-    }
   }
 
   @include media-breakpoint-up(lg) {
@@ -70,6 +66,18 @@
 
   @include media-breakpoint-up(md) {
     margin-bottom: 0;
+  }
+}
+
+.step-one__copy {
+  padding: 8px 20px;
+
+  .tb-copy {
+    margin-right: 5px;
+  }
+
+  @include media-breakpoint-up(md) {
+    margin-left: 30px;
   }
 }
 
