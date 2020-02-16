@@ -1,35 +1,39 @@
 <template>
     <div>
-        <div style="text-align:center">
-            Wrap history
-        </div>
-        <b-row>
-            <b-col>
-                <b-form-select
-                    v-model="fromWrapSelected"
-                    :options="fromData">
-                    <template v-slot:first>
-                        <option
-                            :value="null"
-                            disabled>Ê chọn 1 cái coi</option>
-                    </template>
-                </b-form-select>
-            </b-col>
-            <b-col>
-                <b-button @click="changeWrap">Đổi</b-button>
-            </b-col>
-            <b-col>
-                <b-form-select
-                    v-model="toWrapSelected"
-                    :options="toData" >
-                    <template v-slot:first>
-                        <option
-                            :value="null"
-                            disabled>Ê chọn 1 cái coi</option>
-                    </template>
-                </b-form-select>
-            </b-col>
-        </b-row>
+        <b-navbar
+            sticky
+            toggleable="md"
+            variant="white"
+            type="light">
+            <b-container>
+                <b-navbar-brand to="/">
+                    <img
+                        src="/app/assets/images/logo.svg"
+                        alt="TomoBridge" >
+                </b-navbar-brand>
+                <b-navbar-toggle target="nav-collapse">
+                    <span />
+                </b-navbar-toggle>
+                <b-collapse
+                    id="nav-collapse"
+                    is-nav>
+                    <b-navbar-nav class="ml-auto navbar-buttons">
+                        <b-nav-item to="/txs">
+                            Transaction History<i class="nav-item__icon tb-long-arrow-right" />
+                        </b-nav-item>
+                        <b-nav-item-dropdown
+                            class="nav-item--dark"
+                            text="English">
+                            <b-dropdown-item class="current-lang">English</b-dropdown-item>
+                            <b-dropdown-item>Tiếng Việt</b-dropdown-item>
+                        </b-nav-item-dropdown>
+                    </b-navbar-nav>
+                </b-collapse>
+            </b-container>
+        </b-navbar>
+        <b-container class="txs">
+            <h1 class="txs__headline">Transaction history</h1>
+        </b-container>
     </div>
 </template>
 
@@ -38,12 +42,7 @@ export default {
     name: 'App',
     components: { },
     data () {
-        return {
-            fromData: ['BTC'],
-            toData: ['TRC21'],
-            fromWrapSelected: null,
-            toWrapSelected: null
-        }
+        return {}
     },
     async updated () { },
     destroyed () { },
