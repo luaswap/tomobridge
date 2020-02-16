@@ -1,6 +1,7 @@
 <template>
     <div>
         <b-navbar
+            sticky="top"
             toggleable="md"
             variant="white"
             type="light">
