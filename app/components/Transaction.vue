@@ -192,7 +192,7 @@ export default {
             ],
             loading: false,
             totalRows: 10,
-            perPage: 1,
+            perPage: 10,
             currentPage: 1,
             tableCssClass: ''
         }
