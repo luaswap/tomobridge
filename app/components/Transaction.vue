@@ -45,7 +45,8 @@
                         :class="loading ? 'table--loading' : ''"
                         :show-empty="true"
                         empty-text="There are no transactions to show"
-                        stacked="md">
+                        stacked="lg"
+                        class="txs__table">
 
                         <template
                             slot="createdAt"
@@ -60,6 +61,11 @@
                             slot="from"
                             slot-scope="data">
                             <p class="text-truncate">{{ data.item.from }}</p>
+                        </template>
+
+                        <template
+                            slot="arrow">
+                            <i class="tb-arrow-right"/>
                         </template>
 
                         <template
@@ -96,6 +102,7 @@ export default {
             fields: [
                 { key: 'createdAt', label: 'Age' },
                 { key: 'from', label: 'From' },
+                { key: 'arrow', label: '' },
                 { key: 'to', label: 'To' },
                 { key: 'quantity', label: 'Quantity' },
                 { key: 'hash', label: 'Txn Hash' }

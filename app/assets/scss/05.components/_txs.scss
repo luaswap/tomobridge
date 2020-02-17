@@ -2,3 +2,11 @@
   margin-bottom: 30px;
   margin-top: 70px;
 }
+
+.txs__table {
+  @include media-breakpoint-down(md) {
+    td[aria-colindex='3'] {
+      display: none !important;
+    }
+  }
+}

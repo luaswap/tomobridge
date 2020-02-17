@@ -5,18 +5,42 @@
     margin: 0;
   }
 
+  tbody > tr {
+    &:nth-child(2n + 1) {
+      background-color: $color-bg;
+    }
+  }
+
+  th {
+    border-bottom-width: 0 !important;
+    border-top-width: 0 !important;
+    font-weight: 600;
+  }
+
+  td {
+    border-top-width: 0 !important;
+  }
+
+  @include media-breakpoint-only(md) {
+    tbody {
+      display: grid !important;
+      grid-column-gap: 20px;
+      grid-template-columns: 50% 50%;
+    }
+
+    tr {
+      background-color: $color-bg;
+      margin-bottom: 20px;
+    }
+  }
+
   @include media-breakpoint-down(md) {
-    & > tbody > tr {
+    tbody > tr {
       border-radius: 4px;
       padding: 15px 20px;
-
-      &:nth-child(2n + 1) {
-        background-color: $color-bg;
-      }
     }
 
     td {
-      border-top-width: 0 !important;
       padding: 0 0 12px;
     }
 
