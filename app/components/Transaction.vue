@@ -93,7 +93,62 @@
                         v-model="currentPage"
                         align="center" />
                 </b-tab>
-                <b-tab title="Unwrap"/>
+                <b-tab title="Unwrap">
+                    <b-table
+                        :items="txs"
+                        :fields="fields"
+                        :per-page="perPage"
+                        :class="loading ? 'table--loading' : ''"
+                        :show-empty="true"
+                        empty-text="There are no transactions to show"
+                        stacked="lg"
+                        class="txs__table">
+
+                        <template
+                            slot="createdAt"
+                            slot-scope="data">
+                            <span :id="`timestamp__${data.index}`">{{ data.item.createdAt }}</span>
+                            <b-tooltip :target="`timestamp__${data.index}`">
+                                {{ data.item.dateTooltip }}
+                            </b-tooltip>
+                        </template>
+
+                        <template
+                            slot="from"
+                            slot-scope="data">
+                            <p class="text-truncate">
+                                <a href="#">{{ data.item.from }}</a>
+                            </p>
+                        </template>
+
+                        <template
+                            slot="arrow">
+                            <i class="tb-arrow-right"/>
+                        </template>
+
+                        <template
+                            slot="to"
+                            slot-scope="data">
+                            <p class="text-truncate">
+                                <a href="#">{{ data.item.to }}</a>
+                            </p>
+                        </template>
+
+                        <template
+                            slot="hash"
+                            slot-scope="data">
+                            <p class="text-truncate">
+                                <a href="#">{{ data.item.hash }}</a>
+                            </p>
+                        </template>
+                    </b-table>
+
+                    <b-pagination
+                        :total-rows="totalRows"
+                        :per-page="perPage"
+                        v-model="currentPage"
+                        align="center" />
+                </b-tab>
             </b-tabs>
         </b-container>
     </div>
