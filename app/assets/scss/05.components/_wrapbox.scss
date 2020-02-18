@@ -75,10 +75,6 @@
     }
   }
 
-  + .text-error {
-    margin-top: -15px;
-  }
-
   @include media-breakpoint-up(lg) {
     img {
       display: inline-block;
@@ -98,6 +94,10 @@
 
     button {
       font-size: $global-font-size-xl;
+    }
+
+    + .text-error {
+      margin-top: -15px;
     }
   }
 

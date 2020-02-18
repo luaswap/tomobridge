@@ -376,9 +376,9 @@ export default {
         unWrapToken () {
             console.log(this.wrapType)
             const self = this
-            // this.$refs.unWrapModal.show()
+            this.$refs.unWrapModal.show()
             if (self.address) {
-                this.$refs.unWrapModal.show()
+                // this.$refs.unWrapModal.show()
             } else {
                 self.loginError = true
             }

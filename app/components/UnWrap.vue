@@ -4,8 +4,8 @@
             <p>
                 You are about to unwrap and then send your BTC to the address
             </p>
-            <p class="text-primary">
-                0x33c2E732ae7dce8B05F37B2ba0CFe14c980c4Dbe
+            <p class="text-truncate">
+                <a href="#">0x33c2E732ae7dce8B05F37B2ba0CFe14c980c4Db1</a>
             </p>
         </div>
         <div class="unwrap__confirm">
@@ -34,7 +34,8 @@
             </ul>
             <b-button
                 :disabled="!allChecked"
-                class="unwrap-confirm__button"
+                class="unwrap-confirm__button btn--big"
+                variant="primary"
                 @click="unWrapToken">Continue to Unwrap</b-button>
         </div>
     </div>

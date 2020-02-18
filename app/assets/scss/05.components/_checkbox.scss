@@ -28,7 +28,7 @@
     }
 
     &::after {
-      background-image: none;
+      background-image: none !important;
       color: $color-primary;
       font-size: 12px;
       line-height: 16px;
