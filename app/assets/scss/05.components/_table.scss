@@ -1,11 +1,12 @@
 .table {
+  display: block;
   font-size: 14px;
 
   p {
     margin: 0;
   }
 
-  tbody > tr {
+  tbody tr {
     &:nth-child(2n + 1) {
       background-color: $color-bg;
     }
@@ -19,6 +20,24 @@
 
   td {
     border-top-width: 0 !important;
+
+    &[aria-colindex='1'] {
+      color: $color-gray;
+
+      &::before {
+        color: $color-text;
+      }
+    }
+
+    &[aria-colindex='3'] {
+      color: $color-primary;
+      font-size: 9px;
+
+      i {
+        display: inline-block;
+        margin-top: 6px;
+      }
+    }
   }
 
   @include media-breakpoint-only(md) {
@@ -35,7 +54,7 @@
   }
 
   @include media-breakpoint-down(md) {
-    tbody > tr {
+    tbody tr {
       border-radius: 4px;
       padding: 15px 20px;
     }
@@ -55,6 +74,36 @@
     td::before {
       font-weight: 600;
       width: 30% !important;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    thead,
+    tbody {
+      display: block;
+    }
+
+    tbody tr,
+    thead tr {
+      border-radius: 4px;
+      display: grid;
+      grid-template-columns: 20% 20% 5% 20% 15% 20%;
+    }
+
+    th,
+    td {
+      padding: 15px;
+
+      &[aria-colindex='5'] {
+        text-align: center;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    tbody tr,
+    thead tr {
+      grid-template-columns: 15% 21% 5% 21% 17% 21%;
     }
   }
 }

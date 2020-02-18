@@ -60,7 +60,9 @@
                         <template
                             slot="from"
                             slot-scope="data">
-                            <p class="text-truncate">{{ data.item.from }}</p>
+                            <p class="text-truncate">
+                                <a href="#">{{ data.item.from }}</a>
+                            </p>
                         </template>
 
                         <template
@@ -71,13 +73,17 @@
                         <template
                             slot="to"
                             slot-scope="data">
-                            <p class="text-truncate">{{ data.item.to }}</p>
+                            <p class="text-truncate">
+                                <a href="#">{{ data.item.to }}</a>
+                            </p>
                         </template>
 
                         <template
                             slot="hash"
                             slot-scope="data">
-                            <p class="text-truncate">{{ data.item.hash }}</p>
+                            <p class="text-truncate">
+                                <a href="#">{{ data.item.hash }}</a>
+                            </p>
                         </template>
                     </b-table>
 
