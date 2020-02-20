@@ -1,0 +1,39 @@
+.tabs .nav-link {
+  color: $color-text;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 20px;
+  position: relative;
+  text-align: center;
+  text-transform: uppercase;
+
+  &::after {
+    background-color: $color-primary;
+    bottom: 0;
+    content: '';
+    height: 3px;
+    left: 50%;
+    position: absolute;
+    transform: translateX(-50%);
+    width: 0;
+
+    @extend %transition;
+  }
+
+  &[aria-selected='true'] {
+    color: $color-primary;
+
+    &::after {
+      width: 100%;
+    }
+  }
+}
+
+.tab-content {
+  padding: 50px 0 60px;
+
+  @include media-breakpoint-up(lg) {
+    padding-bottom: 80px;
+    padding-top: 70px;
+  }
+}

@@ -17,6 +17,7 @@ import Web3 from 'web3'
 // Components
 import Home from './components/Home.vue'
 import WrapExecution from './components/WrapExecution.vue'
+import Transaction from './components/Transaction.vue'
 
 Vue.use(VueClipboard)
 Vue.use(BootstrapVue)
@@ -107,7 +108,7 @@ Vue.prototype.unlockLedger = async () => {
 Vue.prototype.loadMultipleLedgerWallets = async function (offset, limit) {
     let u2fSupported = await Transport.isSupported()
     if (!u2fSupported) {
-        throw new Error(`U2F not supported in this browser. 
+        throw new Error(`U2F not supported in this browser.
                 Please try using Google Chrome with a secure (SSL / HTTPS) connection!`)
     }
     await Vue.prototype.detectNetwork('ledger')
@@ -142,7 +143,8 @@ const router = new VueRouter({
     mode: 'history',
     routes: [
         { path: '/', component: Home },
-        { path: '/wrapToken', component: WrapExecution }
+        { path: '/wrapToken', component: WrapExecution },
+        { path: '/txs', component: Transaction }
     ]
 })
 

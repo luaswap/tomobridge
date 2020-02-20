@@ -1,0 +1,33 @@
+.progress-bar {
+  background-color: transparent;
+  color: $color-text;
+  display: block;
+  font-weight: 600;
+  text-align: right;
+}
+
+.progress-bar__inner {
+  background-color: #fff;
+  border-radius: 5px;
+  height: 10px;
+}
+
+.progress-bar__bar {
+  background-color: $color-primary;
+  border-radius: 5px;
+  height: 10px;
+  position: relative;
+
+  @extend %transition;
+}
+
+.progress-bar__number {
+  position: absolute;
+  right: -15px;
+  top: -25px;
+}
+
+.progress-bar__total {
+  display: inline-block;
+  margin-top: 5px;
+}

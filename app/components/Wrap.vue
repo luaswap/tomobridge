@@ -12,7 +12,8 @@
                 <b-navbar-brand to="/">
                     <img
                         class="d-lg-none"
-                        src="/app/assets/images/logo.svg" >
+                        src="/app/assets/images/logo.svg"
+                        alt="TomoBridge" >
                 </b-navbar-brand>
                 <b-navbar-toggle target="nav-collapse">
                     <span />
@@ -21,7 +22,7 @@
                     id="nav-collapse"
                     is-nav>
                     <b-navbar-nav class="ml-auto navbar-buttons">
-                        <b-nav-item>
+                        <b-nav-item to="/txs/">
                             Transaction History<i class="nav-item__icon tb-long-arrow-right" />
                         </b-nav-item>
                         <b-nav-item-dropdown
@@ -150,13 +151,13 @@
                     <b-button
                         v-if="wrapType === 'wrap'"
                         :disabled="!isAgreed"
-                        class="wrapbox__big-button"
+                        class="wrapbox__big-button btn--big"
                         variant="primary"
                         @click="wrapToken">Wrap Now</b-button>
                     <b-button
                         v-else
                         :disabled="!isAgreed"
-                        class="wrapbox__big-button"
+                        class="wrapbox__big-button btn--big"
                         variant="primary"
                         @click="unWrapToken">
                         UnWrap Now</b-button>
@@ -164,6 +165,11 @@
                         v-model="isAgreed">
                         By Wrapping, you agree to the <a href="#">Terms and Conditions</a>
                     </b-form-checkbox>
+                    <p class="wrapbox__signout mt-3">
+                        <a
+                            href="#"
+                            class="text-red">Sign Out<i class="tb-long-arrow-right" /></a>
+                    </p>
                 </div>
             </custom-scrollbar>
         </div>
@@ -188,11 +194,11 @@
                     <b-form-input
                         id="pk-input"
                         v-model="privateKey"
-                        placeholder="Enter private key"
+                        placeholder="Enter Private Key..."
                         type="password"/>
                     <div
                         v-if="$v.privateKey.$dirty && !$v.privateKey.required"
-                        class="text-danger pt-2">Required field</div>
+                        class="text-error pt-2">Required field</div>
                     <b-button
                         id="show-pk-button"
                         @click="showPrivateKey">
@@ -200,9 +206,11 @@
                         <i class="tb-eye"/>
                     </b-button>
                 </b-form-group>
-                <div class="pk-form__buttons">
+                <div class="modal-buttons">
                     <b-button @click="closePrivateKeyModal">Cancel</b-button>
-                    <b-button type="submit">Confirm</b-button>
+                    <b-button
+                        type="submit"
+                        variant="primary">Confirm</b-button>
                 </div>
             </b-form>
         </b-modal>
@@ -368,9 +376,9 @@ export default {
         unWrapToken () {
             console.log(this.wrapType)
             const self = this
-            // this.$refs.unWrapModal.show()
+            this.$refs.unWrapModal.show()
             if (self.address) {
-                this.$refs.unWrapModal.show()
+                // this.$refs.unWrapModal.show()
             } else {
                 self.loginError = true
             }

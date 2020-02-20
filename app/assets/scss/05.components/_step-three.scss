@@ -1,0 +1,89 @@
+.step-three__title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+
+  @include media-breakpoint-up(md) {
+    font-size: 20px;
+  }
+
+  @include media-breakpoint-up(lg) {
+    font-size: 24px;
+    margin-bottom: 30px;
+  }
+}
+
+.step-three__subtitle {
+  margin-bottom: 10px;
+}
+
+.step-three__address {
+  display: block;
+  margin-bottom: 40px;
+
+  @include media-breakpoint-up(lg) {
+    margin-bottom: 50px;
+  }
+}
+
+.step-three__progress {
+  background-color: $color-bg;
+  border-radius: 4px;
+  margin: 0 auto 50px;
+  max-width: 700px;
+  padding: 60px 20px 30px;
+
+  @include media-breakpoint-up(md) {
+    margin-bottom: 70px;
+    padding: 80px 30px 30px;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-left: 35px;
+    padding-right: 35px;
+  }
+}
+
+.step-three__fee {
+  font-weight: 600;
+  margin-top: 10px;
+  text-align: left;
+}
+
+.step-three__tx-hash {
+  border-top: 1px dashed $color-gray;
+  margin-bottom: 50px;
+  padding-top: 50px;
+
+  @include media-breakpoint-up(md) {
+    margin-bottom: 70px;
+    padding-top: 70px;
+  }
+}
+
+.step-three__tx-hash-link {
+  display: block;
+  margin-top: 15px;
+}
+
+.step-three__success {
+  margin-bottom: 50px;
+
+  @include media-breakpoint-up(md) {
+    margin-bottom: 70px;
+  }
+}
+
+.step-three__icon {
+  display: block;
+  font-size: 100px;
+  margin: 80px auto 30px;
+
+  @include media-breakpoint-up(lg) {
+    margin-bottom: 50px;
+  }
+}
+
+.step-three__button {
+  @extend .step-two__button;
+}

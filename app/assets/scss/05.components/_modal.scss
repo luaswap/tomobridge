@@ -1,0 +1,148 @@
+.modal-dialog {
+  @include media-breakpoint-up(xl) {
+    max-width: 760px;
+  }
+}
+
+.modal-backdrop {
+  background-color: $color-text;
+
+  &:not(.show):not(.fade) {
+    opacity: .8;
+  }
+}
+
+.modal-header {
+  border-bottom: 0;
+  display: block;
+  padding: 20px;
+  text-align: center;
+
+  .close {
+    display: none;
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding: 50px;
+  }
+}
+
+.modal-title {
+  color: $color-primary;
+  font-size: 20px;
+  font-weight: 800;
+
+  @include media-breakpoint-up(md) {
+    font-size: 25px;
+  }
+
+  @include media-breakpoint-up(lg) {
+    font-size: 30px;
+  }
+}
+
+.modal-content {
+  border: none;
+  border-radius: 10px;
+}
+
+.modal-body {
+  padding: 0 30px 40px;
+
+  @include media-breakpoint-up(xl) {
+    padding-bottom: 45px;
+  }
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+
+  .btn {
+    max-width: 330px;
+    width: calc(50% - 20px);
+  }
+
+  @include media-breakpoint-up(md) {
+    .btn {
+      font-size: $global-font-size-md;
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    .btn {
+      font-size: $global-font-size-xl;
+    }
+  }
+}
+
+#privateKeyModal {
+  .form-group > div {
+    position: relative;
+  }
+
+  #pk-input {
+    padding-right: 36px;
+  }
+
+  #show-pk-button {
+    background-color: transparent;
+    color: $color-text;
+    font-size: 0;
+    opacity: .2;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+
+    i {
+      font-size: 12px;
+
+      @extend %transition;
+    }
+
+    &:focus {
+      opacity: 1;
+
+      i {
+        color: $color-primary;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    #pk-input {
+      padding-right: 38px;
+    }
+
+    #show-pk-button {
+      i {
+        font-size: 14px;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    #pk-input {
+      padding-right: 40px;
+    }
+
+    #show-pk-button {
+      i {
+        font-size: 16px;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    #pk-input {
+      padding-right: 42px;
+    }
+
+    #show-pk-button {
+      i {
+        font-size: 18px;
+      }
+    }
+  }
+}

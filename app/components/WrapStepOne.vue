@@ -1,26 +1,35 @@
 <template>
-    <div>
-        <div style="text-align: center">
-            <vue-qrcode
-                :options="{ size: 500 }"
-                :value="addressQRCode"
-                class="img-fluid text-center text-lg-right"/>
-        </div>
-        <div style="text-align: center">
-            {{ depositAddress }}
+    <b-container class="step-one text-center">
+        <h3 class="step-one__title">Here’s what you need to do next:</h3>
+        <p class="step-one__subtitle">Send BTC to the public address below</p>
+        <vue-qrcode
+            :options="{ width: 200, color: { light: '#f6f7fa' } }"
+            :value="addressQRCode"
+            class="step-one__qr"/>
+        <div class="step-one__address-box">
+            <a
+                class="step-one__address"
+                href="#">{{ depositAddress }}</a>
             <b-button
                 v-clipboard:copy="depositAddress"
-                v-clipboard:success="onCopy">Copy</b-button>
+                v-clipboard:success="onCopy"
+                variant="primary"
+                class="step-one__copy"><i class="tb-copy"/> Copy</b-button>
         </div>
-        <div style="text-align:center">
+        <p class="step-one__subtitle">
             After you've completed the transfer, click the "NEXT" button so
             we can verify your transaction
+        </p>
+        <div class="step-one__buttons">
+            <b-button
+                class="btn--big"
+                @click="back">Cancel</b-button>
+            <b-button
+                class="btn--big"
+                variant="primary"
+                @click="nextStep">Confirm transaction</b-button>
         </div>
-        <div style="text-align:center">
-            <b-button @click="back">Cancel</b-button>
-            <b-button @click="nextStep">Confirm transaction</b-button>
-        </div>
-    </div>
+    </b-container>
 </template>
 
 <script>

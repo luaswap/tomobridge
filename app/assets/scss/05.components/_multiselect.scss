@@ -35,10 +35,10 @@
 }
 
 .multiselect__tags {
-  background-color: #f6f7fa;
+  background-color: $color-bg;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 15px;
   padding: 5px 15px;
 
   @extend %transition;
@@ -113,7 +113,7 @@
 
 .multiselect__option:hover,
 .multiselect__option--selected {
-  background-color: #f6f7fa;
+  background-color: $color-bg;
 }
 
 .multiselect__img {
