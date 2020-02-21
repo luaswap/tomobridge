@@ -128,7 +128,8 @@
                                     alt="TomoWallet">
                                 <span>TomoWallet</span>
                             </b-button>
-                            <b-button>
+                            <b-button
+                                @click="loginHDWallet">
                                 <img
                                     src="app/assets/images/ledger.svg"
                                     alt="Ledger">
@@ -183,37 +184,22 @@
             scrollable
             hide-footer
             size="md">
-            <b-form
-                id="pk-form"
-                novalidate
-                @submit.prevent="validate()">
-                <b-form-group
-                    class="pk-form__group"
-                    label="Private Key"
-                    label-for="pk-input">
-                    <b-form-input
-                        id="pk-input"
-                        v-model="privateKey"
-                        placeholder="Enter Private Key..."
-                        type="password"/>
-                    <div
-                        v-if="$v.privateKey.$dirty && !$v.privateKey.required"
-                        class="text-error pt-2">Required field</div>
-                    <b-button
-                        id="show-pk-button"
-                        @click="showPrivateKey">
-                        Show
-                        <i class="tb-eye"/>
-                    </b-button>
-                </b-form-group>
-                <div class="modal-buttons">
-                    <b-button @click="closePrivateKeyModal">Cancel</b-button>
-                    <b-button
-                        type="submit"
-                        variant="primary">Confirm</b-button>
-                </div>
-            </b-form>
+            <PrivateKeyModal :parent="this"/>
         </b-modal>
+
+        <!-- Hardware wallet modal-->
+        <b-modal
+            id="hdWalletModal"
+            ref="hdWalletModal"
+            title="Please select the address you would like to interact with"
+            centered
+            scrollable
+            size="md"
+            hide-header
+            hide-footer>
+            <HardwareWalletModal :parent="this" />
+        </b-modal>
+        <!-- Select -->
 
         <!-- UnWrap Modal-->
         <b-modal
@@ -226,6 +212,18 @@
             hide-footer>
             <UnWrap :parent="this" />
         </b-modal>
+
+        <b-modal
+            id="selectAddressModal"
+            ref="selectAddressModal"
+            title="Please select the address you would like to interact with"
+            centered
+            scrollable
+            size="md"
+            hide-header
+            hide-footer>
+            <SelectAddressModal :parent="this" />
+        </b-modal>
     </b-col>
 </template>
 
@@ -233,19 +231,24 @@
 // import Web3 from 'web3'
 import Multiselect from 'vue-multiselect'
 import CustomScrollbar from 'vue-custom-scrollbar'
-import PrivateKeyProvider from 'truffle-privatekey-provider'
 import { validationMixin } from 'vuelidate'
 import {
     required
 } from 'vuelidate/lib/validators'
 import UnWrap from './UnWrap'
+import PrivateKeyModal from './modals/PrivateKeyModal'
+import HardwareWalletModal from './modals/HarwareWalletModal'
+import SelectAddressModal from './modals/SelectAddressModal'
 
 export default {
     name: 'App',
     components: {
         Multiselect,
         CustomScrollbar,
-        UnWrap
+        UnWrap,
+        PrivateKeyModal,
+        HardwareWalletModal,
+        SelectAddressModal
     },
     mixins: [validationMixin],
     data () {
@@ -314,25 +317,6 @@ export default {
             const self = this
             self.$v.$touch()
             if (!self.$v.$invalid) {
-                self.login('privateKey')
-            }
-        },
-        async login (type) {
-            const self = this
-            const config = self.config
-            let walletProvider
-            let provider
-            switch (type) {
-            case 'privateKey':
-                provider = 'privateKey'
-                self.privateKey = self.privateKey.trim()
-                walletProvider = new PrivateKeyProvider(self.privateKey, config.blockchain.rpc)
-            }
-
-            self.setupProvider(provider, walletProvider)
-            self.address = await self.getAccount()
-            if (self.address) {
-                this.closePrivateKeyModal()
             }
         },
         wrapToken () {
@@ -357,6 +341,9 @@ export default {
         loginPrivateKey () {
             this.$refs.privateKeyModal.show()
         },
+        loginHDWallet () {
+            this.$refs.hdWalletModal.show()
+        },
         closePrivateKeyModal () {
             this.privateKey = ''
             this.$refs.privateKeyModal.hide()
@@ -374,7 +361,6 @@ export default {
             }
         },
         unWrapToken () {
-            console.log(this.wrapType)
             const self = this
             this.$refs.unWrapModal.show()
             if (self.address) {

@@ -13,6 +13,7 @@ import * as ethUtils from 'ethereumjs-util'
 import * as HDKey from 'hdkey'
 import axios from 'axios'
 import Web3 from 'web3'
+import * as localStorage from 'store'
 
 // Components
 import Home from './components/Home.vue'
@@ -36,13 +37,17 @@ Vue.use(Toasted, {
 })
 const store = new Vuex.Store({
     state: {
-        address: null
+        address: null,
+        hdPath: '',
+        wallets: {}
     }
 })
 
 Vue.prototype.setupProvider = async function (provider, walletProvider) {
     Vue.prototype.NetworkProvider = provider
-    Vue.prototype.web3 = new Web3(walletProvider)
+    if (walletProvider instanceof Web3) {
+        Vue.prototype.web3 = walletProvider
+    }
 }
 
 Vue.prototype.getAccount = async function () {
@@ -53,6 +58,19 @@ Vue.prototype.getAccount = async function () {
     case 'privateKey':
         account = (await web3.eth.getAccounts())[0]
         break
+    case 'ledger':
+        if (!Vue.prototype.appEth) {
+            let transport = await new Transport()
+            Vue.prototype.appEth = await new Eth(transport)
+        }
+        let ethAppConfig = await Vue.prototype.appEth.getAppConfiguration()
+        if (!ethAppConfig.arbitraryDataEnabled) {
+            return reject(new Error(`Please go to App Setting
+                to enable contract data and display data on your device!`))
+        }
+        account = await Vue.prototype.appEth.getAddress(
+            localStorage.get('hdDerivationPath')
+        )
     default:
         break
     }
@@ -87,7 +105,13 @@ Vue.prototype.HDWalletCreate = (payload, index) => {
 Vue.prototype.unlockLedger = async () => {
     try {
         if (!Vue.prototype.appEth) {
+            let u2fSupported = await Transport.isSupported()
+            if (!u2fSupported) {
+                throw new Error(`U2F not supported in this browser.
+                        Please try using Google Chrome with a secure (SSL / HTTPS) connection!`)
+            }
             let transport = await Transport.create()
+
             Vue.prototype.appEth = await new Eth(transport)
         }
         const path = localStorage.get('hdDerivationPath')
@@ -97,7 +121,6 @@ Vue.prototype.unlockLedger = async () => {
             false,
             true
         )
-
         Vue.prototype.ledgerPayload = result
     } catch (error) {
         console.log(error)
@@ -134,9 +157,47 @@ Vue.prototype.loadMultipleLedgerWallets = async function (offset, limit) {
     return wallets
 }
 
-Vue.prototype.appConfig = async function () {
+const getConfig = Vue.prototype.appConfig = async function () {
     let config = await axios.get('/api/config')
     return config.data
+}
+
+Vue.prototype.detectNetwork = async function (provider) {
+    try {
+        let wjs = this.web3
+        if (!wjs) {
+            switch (provider) {
+            case 'tomowallet':
+            case 'metamask':
+                if (window.web3) {
+                    var p = window.web3.currentProvider
+                    wjs = new Web3(p)
+                }
+                break
+            case 'trezor':
+            case 'ledger':
+                if (provider === 'ledger') {
+                    if (!Vue.prototype.appEth) {
+                        let transport = await Transport.create()
+                        Vue.prototype.appEth = await new Eth(transport)
+                    }
+                }
+                const config = localStorage.get('config') || await getConfig()
+                const chainConfig = config.blockchain
+                wjs = new Web3(new Web3.providers.HttpProvider(chainConfig.rpc))
+                break
+            default:
+                break
+            }
+            await this.setupProvider(provider, wjs)
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+Vue.prototype.getCurrencySymbol = function () {
+    return 'TOMO'
 }
 
 const router = new VueRouter({
@@ -157,5 +218,8 @@ new Vue({ // eslint-disable-line no-new
     store,
     router: router,
     components: { App },
+    data: {
+        language: 'en'
+    },
     template: '<App/>'
 })

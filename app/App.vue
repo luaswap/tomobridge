@@ -16,7 +16,8 @@ export default {
     },
     async updated () { },
     destroyed () { },
-    created: async function () { },
+    created: async function () {
+    },
     methods: { }
 }
 </script>
