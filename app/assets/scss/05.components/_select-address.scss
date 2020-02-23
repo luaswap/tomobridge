@@ -1,0 +1,68 @@
+#selectAddressModal {
+  .modal-buttons {
+    margin-top: 30px;
+  }
+
+  @include media-breakpoint-up(xl) {
+    .modal-body {
+      padding: 0 50px 50px;
+    }
+
+    .modal-buttons {
+      margin-top: 50px;
+    }
+  }
+}
+
+.address_list {
+  font-size: 14px;
+  list-style-type: none;
+  margin: 40px 0 0;
+  max-height: 300px;
+  padding-left: 0;
+  padding-right: 20px;
+
+  @include media-breakpoint-up(lg) {
+    // padding: 40px 70px;
+  }
+}
+
+.address_list__item {
+  margin-bottom: 30px;
+
+  @include media-breakpoint-up(md) {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .custom-control {
+      width: 70%;
+    }
+  }
+}
+
+.address_list__item label {
+  cursor: pointer;
+  display: block;
+}
+
+.address_list__address {
+  display: block;
+}
+
+.address_list__balance {
+  display: block;
+  margin-left: 24px;
+
+  @include media-breakpoint-up(md) {
+    margin-left: 0;
+    text-align: right;
+    width: 30%;
+  }
+}
+
+#moreHdAddresses {
+  cursor: pointer;
+  font-size: 14px;
+  text-decoration: underline;
+}

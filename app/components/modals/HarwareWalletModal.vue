@@ -2,8 +2,7 @@
     <div>
         <!-- Select hd path -->
         <div
-            v-if="step === 1"
-            class="tomo-modal-default text-left">
+            v-if="step === 1">
             <b-form-group
                 class="mb-4"
                 label="Select HD derivation path"

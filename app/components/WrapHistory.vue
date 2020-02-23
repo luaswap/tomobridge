@@ -41,7 +41,6 @@
             </b-col>
             <b-col cols="5">
                 <multiselect
-                    id="towrap-select"
                     v-model="toWrapSelected"
                     :options="toData"
                     :custom-label="customLabel"

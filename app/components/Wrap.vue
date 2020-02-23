@@ -191,11 +191,10 @@
         <b-modal
             id="hdWalletModal"
             ref="hdWalletModal"
-            title="Please select the address you would like to interact with"
+            title="Ledger"
             centered
             scrollable
             size="md"
-            hide-header
             hide-footer>
             <HardwareWalletModal :parent="this" />
         </b-modal>
@@ -216,11 +215,10 @@
         <b-modal
             id="selectAddressModal"
             ref="selectAddressModal"
-            title="Please select the address you would like to interact with"
+            title="Ledger"
             centered
             scrollable
             size="md"
-            hide-header
             hide-footer>
             <SelectAddressModal :parent="this" />
         </b-modal>
@@ -342,11 +340,8 @@ export default {
             this.$refs.privateKeyModal.show()
         },
         loginHDWallet () {
-            this.$refs.hdWalletModal.show()
-        },
-        closePrivateKeyModal () {
-            this.privateKey = ''
-            this.$refs.privateKeyModal.hide()
+            // this.$refs.hdWalletModal.show()
+            this.$refs.selectAddressModal.show()
         },
         showPrivateKey () {
             let pkInput = document.querySelector('#pk-input')
@@ -362,9 +357,8 @@ export default {
         },
         unWrapToken () {
             const self = this
-            this.$refs.unWrapModal.show()
             if (self.address) {
-                // this.$refs.unWrapModal.show()
+                this.$refs.unWrapModal.show()
             } else {
                 self.loginError = true
             }
