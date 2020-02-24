@@ -50,7 +50,7 @@ Vue.prototype.setupProvider = async function (provider, walletProvider) {
     }
 }
 
-Vue.prototype.getAccount = async function () {
+Vue.prototype.getAccount = async function (resolve, reject) {
     const provider = Vue.prototype.NetworkProvider || ''
     const web3 = Vue.prototype.web3
     let account
@@ -71,6 +71,7 @@ Vue.prototype.getAccount = async function () {
         account = await Vue.prototype.appEth.getAddress(
             localStorage.get('hdDerivationPath')
         )
+        break
     default:
         break
     }
