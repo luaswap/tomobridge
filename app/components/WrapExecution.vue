@@ -39,7 +39,7 @@
                         'steps__col--active' : step >= 1,
                     }"
                     class="steps__col">
-                    <p class="steps__name">Deposit <br>BTC</p>
+                    <p class="steps__name">Deposit <br>{{ fromWrapToken.name || '' }}</p>
                     <p class="steps__number"><span>1</span></p>
                 </b-col>
                 <b-col
@@ -57,7 +57,7 @@
                         'steps__col--active' : step >= 3,
                     }"
                     class="steps__col">
-                    <p class="steps__name">Receive <br>TRC21</p>
+                    <p class="steps__name">Receive <br>{{ toWrapToken.name || '' }}</p>
                     <p class="steps__number"><span>3</span></p>
                 </b-col>
             </b-row>
@@ -88,13 +88,21 @@ export default {
     },
     data () {
         return {
-            step: 3
+            step: 3,
+            fromWrapToken: {},
+            toWrapToken: {},
+            receiveAddress: ''
         }
     },
     async updated () {
     },
-    destroyed () { },
-    created: async function () { },
+    destroyed () {
+    },
+    created: async function () {
+        this.fromWrapToken = this.$route.params.fromWrapToken
+        this.toWrapToken = this.$route.params.toWrapToken
+        this.receiveAddress = this.$route.params.receiveAddress
+    },
     methods: {}
 }
 </script>

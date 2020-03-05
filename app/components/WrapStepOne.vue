@@ -47,13 +47,17 @@ export default {
     },
     data () {
         return {
-            addressQRCode: '0x33c2E732ae7dce8B05F37B2ba0CFe14c980c4Dbe',
-            depositAddress: '0x33c2E732ae7dce8B05F37B2ba0CFe14c980c4Dbe'
+            addressQRCode: '',
+            depositAddress: ''
         }
     },
     async updated () { },
     destroyed () { },
-    created: async function () { },
+    created: async function () {
+        const swapCoin = this.parent.fromWrapToken
+        this.depositAddress = swapCoin.address
+        this.addressQRCode = swapCoin.address
+    },
     methods: {
         onCopy () {
             this.$toasted.show('Copied!')

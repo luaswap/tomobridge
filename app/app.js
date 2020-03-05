@@ -39,7 +39,8 @@ const store = new Vuex.Store({
     state: {
         address: null,
         hdPath: '',
-        wallets: {}
+        fromWrapToken: {},
+        toWrapToken: {}
     }
 })
 
@@ -65,12 +66,13 @@ Vue.prototype.getAccount = async function (resolve, reject) {
         }
         let ethAppConfig = await Vue.prototype.appEth.getAppConfiguration()
         if (!ethAppConfig.arbitraryDataEnabled) {
-            return reject(new Error(`Please go to App Setting
-                to enable contract data and display data on your device!`))
+            throw new Error(`Please go to App Setting
+                to enable contract data and display data on your device!`)
         }
-        account = await Vue.prototype.appEth.getAddress(
+        const result = await Vue.prototype.appEth.getAddress(
             localStorage.get('hdDerivationPath')
         )
+        account = result.address
         break
     default:
         break
@@ -144,7 +146,7 @@ Vue.prototype.loadMultipleLedgerWallets = async function (offset, limit) {
     let web3 = Vue.prototype.web3
     let balance = 0
     let convertedAddress
-    let wallets = {}
+    let wallets = []
 
     for (let i = offset; i < (offset + limit); i++) {
         convertedAddress = Vue.prototype.HDWalletCreate(payload, i)
@@ -205,7 +207,7 @@ const router = new VueRouter({
     mode: 'history',
     routes: [
         { path: '/', component: Home },
-        { path: '/wrapToken', component: WrapExecution },
+        { path: '/wrapToken', component: WrapExecution, name: 'WrapExecution' },
         { path: '/txs', component: Transaction }
     ]
 })

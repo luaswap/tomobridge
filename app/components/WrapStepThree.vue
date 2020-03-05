@@ -6,7 +6,7 @@
             <a
                 href="#"
                 class="step-three__address">
-                0x33c2E732ae7dce8B05F37B2ba0CFe14c980c4Dbe
+                {{ address }}
             </a>
             <div class="step-three__progress">
                 <div class="progress-bar">
@@ -52,18 +52,23 @@ export default {
     name: 'App',
     components: {
     },
+    props: {
+        parent: {
+            type: Object,
+            default: () => {}
+        }
+    },
     data () {
         return {
             success: false,
-            parent: {
-                type: Object,
-                default: () => {}
-            }
+            address: ''
         }
     },
     async updated () { },
     destroyed () { },
-    created: async function () { },
+    created: async function () {
+        this.address = this.$store.state.address || ''
+    },
     methods: {
         /**
          * Note: Add function to update "parent.step" to 4 after wrapping successfully
