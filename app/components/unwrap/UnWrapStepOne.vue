@@ -1,7 +1,7 @@
 <template>
     <b-container class="step-one text-center">
         <h3 class="step-one__title">Here’s what you need to do next:</h3>
-        <p class="step-one__subtitle">Send BTC to the public address below</p>
+        <p class="step-one__subtitle">Send {{ tokenName }} to the public address below</p>
         <vue-qrcode
             :options="{ width: 200, color: { light: '#f6f7fa' } }"
             :value="addressQRCode"
@@ -48,15 +48,17 @@ export default {
     data () {
         return {
             addressQRCode: '',
-            depositAddress: ''
+            depositAddress: '',
+            tokenName: ''
         }
     },
     async updated () { },
     destroyed () { },
     created: async function () {
-        const swapCoin = this.parent.fromWrapToken
-        this.depositAddress = swapCoin.address
-        this.addressQRCode = swapCoin.address
+        const swapData = this.parent.fromWrapToken
+        this.depositAddress = swapData.address
+        this.addressQRCode = swapData.address
+        this.tokenName = swapData.name
     },
     methods: {
         onCopy () {

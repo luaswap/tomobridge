@@ -17,7 +17,8 @@ import * as localStorage from 'store'
 
 // Components
 import Home from './components/Home.vue'
-import WrapExecution from './components/WrapExecution.vue'
+import WrapExecution from './components/wrap/WrapExecution.vue'
+import UnWrapExecution from './components/unwrap/UnWrapExecution.vue'
 import Transaction from './components/Transaction.vue'
 
 Vue.use(VueClipboard)
@@ -208,6 +209,7 @@ const router = new VueRouter({
     routes: [
         { path: '/', component: Home },
         { path: '/wrapToken', component: WrapExecution, name: 'WrapExecution' },
+        { path: '/unwrapToken', component: UnWrapExecution, name: 'UnWrapExecution' },
         { path: '/txs', component: Transaction }
     ]
 })

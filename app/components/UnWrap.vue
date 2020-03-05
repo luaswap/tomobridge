@@ -77,15 +77,19 @@ export default {
     },
     destroyed () { },
     created: async function () {
-        this.fromWrapToken = this.$store.state.fromWrapToken
-        this.toWrapToken = this.$store.state.toWrapToken
-        this.receiveAddress = this.parent.receiveAddress
     },
     methods: {
         unWrapToken () {
             const parent = this.parent
             if (parent.address) {
-                console.log('unwrap')
+                this.$router.push({
+                    name: 'UnWrapExecution',
+                    params: {
+                        receiveAddress: parent.receiveAddress,
+                        fromWrapToken: this.$store.state.fromWrapToken,
+                        toWrapToken: this.$store.state.toWrapToken
+                    }
+                })
             } else {
                 parent.loginError = true
             }
