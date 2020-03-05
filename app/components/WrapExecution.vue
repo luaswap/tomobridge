@@ -99,6 +99,11 @@ export default {
     destroyed () {
     },
     created: async function () {
+        if (!this.$store.state.address) {
+            this.$router.push({
+                path: '/'
+            })
+        }
         this.fromWrapToken = this.$route.params.fromWrapToken
         this.toWrapToken = this.$route.params.toWrapToken
         this.receiveAddress = this.$route.params.receiveAddress

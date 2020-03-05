@@ -146,7 +146,7 @@ Vue.prototype.loadMultipleLedgerWallets = async function (offset, limit) {
     let web3 = Vue.prototype.web3
     let balance = 0
     let convertedAddress
-    let wallets = []
+    let wallets = {}
 
     for (let i = offset; i < (offset + limit); i++) {
         convertedAddress = Vue.prototype.HDWalletCreate(payload, i)

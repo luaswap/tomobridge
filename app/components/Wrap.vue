@@ -133,7 +133,8 @@
                     <b-col>
                         <p class="wrapbox__text">Or Connect with</p>
                         <div class="wrapbox__buttons">
-                            <b-button>
+                            <b-button
+                                @click="loginWallet">
                                 <img
                                     src="app/assets/images/tomowallet.svg"
                                     alt="TomoWallet">
@@ -240,7 +241,7 @@
 </template>
 
 <script>
-// import Web3 from 'web3'
+import Web3 from 'web3'
 import Multiselect from 'vue-multiselect'
 import CustomScrollbar from 'vue-custom-scrollbar'
 import UnWrap from './UnWrap'
@@ -280,6 +281,13 @@ export default {
             toTokens: ['TRC20', 'TRC21']
         }
     },
+    computed : {
+        mobileCheck: () => {
+            const isAndroid = navigator.userAgent.match(/Android/i)
+            const isIOS = navigator.userAgent.match(/iPhone|iPad|iPod/i)
+            return (isAndroid || isIOS)
+        }
+    },
     async updated () {
         const self = this
         if (self.address) {
@@ -298,6 +306,18 @@ export default {
         this.address = await this.getAccount() || ''
         this.fromData = this.config.swapCoin || []
         this.toData = this.config.swapToken || []
+
+        if (window.web3 && window.web3.currentProvider &&
+            window.web3.currentProvider.isTomoWallet) {
+            const wjs = new Web3(window.web3.currentProvider)
+            this.setupProvider('tomowallet', wjs)
+            this.account = await this.getAccount()
+            if (this.account) {
+                this.$store.state.address = this.account.toLowerCase()
+            }
+        } else {
+            this.account = this.$store.state.address || await this.getAccount()
+        }
     },
     methods: {
         customLabel ({ name }) {
@@ -366,6 +386,15 @@ export default {
                 hdPath: '',
                 fromWrapToken: {},
                 toWrapToken: {}
+            }
+        },
+        loginWallet () {
+            if (this.mobileCheck) {
+                window.open(`tomochain://dapp?url=${window.origin}`)
+            } else {
+                if (confirm('Download TomoWallet to open in app')) {
+                    window.open('https://play.google.com/store/apps/details?id=com.tomochain.wallet&hl=en')
+                }
             }
         }
     }
