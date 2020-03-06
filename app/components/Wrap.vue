@@ -140,7 +140,7 @@
                             <b-button
                                 @click="loginWallet">
                                 <img
-                                    src="app/assets/images/logo-tomowallet.png"
+                                    src="app/assets/images/tomowallet.svg"
                                     alt="TomoWallet"
                                     style="width: 15px; height: 25px">
                                 <span>TomoWallet</span>

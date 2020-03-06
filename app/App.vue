@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <b-navbar
-            v-if="$route.name === 'WrapExecution' || $route.name === 'UnWrapExecution' || $route.name === 'Transaction'"
+            v-if="$route.path !== '/'"
             sticky
             toggleable="md"
             variant="white"
