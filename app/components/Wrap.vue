@@ -45,6 +45,7 @@
                             :options="fromData"
                             :custom-label="customLabel"
                             :show-labels="false"
+                            :allow-empty="false"
                             track-by="name">
                             <template
                                 slot="singleLabel"
@@ -65,6 +66,10 @@
                                 <span class="multiselect__name">{{ props.option.name }}</span>
                             </template>
                         </multiselect>
+                        <p
+                            v-if="fromWrapError"
+                            style="white-space: nowrap"
+                            class="text-error">Please select</p>
                     </b-col>
                     <b-col
                         cols="2">
@@ -104,6 +109,10 @@
                                 <span class="multiselect__name">{{ props.option.name }}</span>
                             </template>
                         </multiselect>
+                        <p
+                            v-if="toWrapError"
+                            style="white-space: nowrap"
+                            class="text-error">Please select</p>
                     </b-col>
                 </b-row>
                 <b-row class="wrapbox__row">
@@ -118,11 +127,14 @@
                             placeholder="Please connect your TOMO wallet…"/>
                     </b-col>
                 </b-row>
-                <b-row class="wrapbox__row">
+                <b-row
+                    id="login"
+                    class="wrapbox__row">
                     <b-col>
                         <p class="wrapbox__text">Or Connect with</p>
                         <div class="wrapbox__buttons">
-                            <b-button>
+                            <b-button
+                                @click="loginWallet">
                                 <img
                                     src="app/assets/images/tomowallet.svg"
                                     alt="TomoWallet">
@@ -142,12 +154,12 @@
                                 <span>Private key</span>
                             </b-button>
                         </div>
-                        {{ address }}
                         <p
                             v-if="loginError"
                             class="text-error">Please connect your TOMO wallet</p>
                     </b-col>
                 </b-row>
+                <p>{{ address }}</p>
                 <div class="text-sm-center">
                     <b-button
                         v-if="wrapType === 'wrap'"
@@ -166,10 +178,13 @@
                         v-model="isAgreed">
                         By Wrapping, you agree to the <a href="#">Terms and Conditions</a>
                     </b-form-checkbox>
-                    <p class="wrapbox__signout mt-3">
-                        <a
-                            href="#"
-                            class="text-red">Sign Out<i class="tb-long-arrow-right" /></a>
+                    <p
+                        v-if="address"
+                        class="wrapbox__signout mt-3">
+                        <b-button
+                            variant="link"
+                            class="text-red"
+                            @click="signOut">Sign Out<i class="tb-long-arrow-right" /></b-button>
                     </p>
                 </div>
             </custom-scrollbar>
@@ -226,13 +241,9 @@
 </template>
 
 <script>
-// import Web3 from 'web3'
+import Web3 from 'web3'
 import Multiselect from 'vue-multiselect'
 import CustomScrollbar from 'vue-custom-scrollbar'
-import { validationMixin } from 'vuelidate'
-import {
-    required
-} from 'vuelidate/lib/validators'
 import UnWrap from './UnWrap'
 import PrivateKeyModal from './modals/PrivateKeyModal'
 import HardwareWalletModal from './modals/HarwareWalletModal'
@@ -248,37 +259,11 @@ export default {
         HardwareWalletModal,
         SelectAddressModal
     },
-    mixins: [validationMixin],
+    mixins: [],
     data () {
         return {
-            fromData: [
-                {
-                    name: 'BTC',
-                    img: 'app/assets/images/crypto-logos/btc.png'
-                },
-                {
-                    name: 'ETH',
-                    img: 'app/assets/images/crypto-logos/eth.png'
-                },
-                {
-                    name: 'USDT',
-                    img: 'app/assets/images/crypto-logos/usdt.png'
-                },
-                {
-                    name: 'XLM',
-                    img: 'app/assets/images/crypto-logos/xlm.png'
-                }
-            ],
-            toData: [
-                {
-                    name: 'TRC21',
-                    img: 'app/assets/images/crypto-logos/tomo-green.png'
-                },
-                {
-                    name: 'TRC20',
-                    img: 'app/assets/images/crypto-logos/tomo-green.png'
-                }
-            ],
+            fromData: [],
+            toData: [],
             languages: ['english', 'vietnamese'],
             selectedLanguage: 'english',
             fromWrapSelected: null,
@@ -289,12 +274,18 @@ export default {
             config: {},
             address: '',
             loginError: false,
-            wrapType: 'wrap'
+            wrapType: 'wrap',
+            fromWrapError: false,
+            toWrapError: false,
+            fromTokens: ['BTC', 'ETH', 'USDT', 'XLM'],
+            toTokens: ['TRC20', 'TRC21']
         }
     },
-    validations: {
-        privateKey: {
-            required
+    computed : {
+        mobileCheck: () => {
+            const isAndroid = navigator.userAgent.match(/Android/i)
+            const isIOS = navigator.userAgent.match(/iPhone|iPad|iPod/i)
+            return (isAndroid || isIOS)
         }
     },
     async updated () {
@@ -302,25 +293,61 @@ export default {
         if (self.address) {
             self.loginError = false
         }
+        if (self.fromWrapSelected !== null) {
+            self.fromWrapError = false
+        }
+        if (self.toWrapSelected !== null) {
+            self.toWrapError = false
+        }
     },
     destroyed () { },
     created: async function () {
-        this.config = await this.appConfig()
+        this.config = await this.appConfig() || {}
+        this.address = await this.getAccount() || ''
+        this.fromData = this.config.swapCoin || []
+        this.toData = this.config.swapToken || []
+
+        if (window.web3 && window.web3.currentProvider &&
+            window.web3.currentProvider.isTomoWallet) {
+            const wjs = new Web3(window.web3.currentProvider)
+            this.setupProvider('tomowallet', wjs)
+            this.account = await this.getAccount()
+            if (this.account) {
+                this.$store.state.address = this.account.toLowerCase()
+            }
+        } else {
+            this.account = this.$store.state.address || await this.getAccount()
+        }
     },
     methods: {
         customLabel ({ name }) {
             return `${name}`
         },
-        validate () {
-            const self = this
-            self.$v.$touch()
-            if (!self.$v.$invalid) {
-            }
-        },
         wrapToken () {
             const self = this
-            if (self.address) {
-                self.$router.push({ path: '/wrapToken' })
+            self.checkselectedWrapToken()
+            if (self.address && !self.fromWrapError && !self.toWrapError) {
+                self.$store.state.fromWrapToken = self.fromWrapSelected
+                self.$store.state.toWrapToken = self.toWrapSelected
+                self.$router.push({
+                    name: 'WrapExecution',
+                    params: {
+                        receiveAddress: self.receiveAddress,
+                        fromWrapToken: self.fromWrapSelected,
+                        toWrapToken: self.toWrapSelected
+                    }
+                })
+            } else {
+                self.loginError = true
+            }
+        },
+        unWrapToken () {
+            const self = this
+            self.checkselectedWrapToken()
+            if (self.address && !self.fromWrapError && !self.toWrapError) {
+                self.$store.state.fromWrapToken = self.fromWrapSelected
+                self.$store.state.toWrapToken = self.toWrapSelected
+                this.$refs.unWrapModal.show()
             } else {
                 self.loginError = true
             }
@@ -333,34 +360,41 @@ export default {
             this.toData = temp1
             this.fromWrapSelected = this.toWrapSelected
             this.toWrapSelected = temp2
-            console.log(this.wrapType)
             this.wrapType = this.wrapType === 'wrap' ? 'unwrap' : 'wrap'
         },
         loginPrivateKey () {
             this.$refs.privateKeyModal.show()
         },
         loginHDWallet () {
-            // this.$refs.hdWalletModal.show()
-            this.$refs.selectAddressModal.show()
+            this.$refs.hdWalletModal.show()
+            // this.$refs.selectAddressModal.show()
         },
-        showPrivateKey () {
-            let pkInput = document.querySelector('#pk-input')
-            let showPkButton = document.querySelector('#show-pk-button')
-
-            if (pkInput.getAttribute('type') === 'password') {
-                pkInput.setAttribute('type', 'text')
-                showPkButton.classList.add('active')
-            } else {
-                pkInput.setAttribute('type', 'password')
-                showPkButton.classList.remove('active')
+        checkselectedWrapToken () {
+            if (this.fromWrapSelected === null) {
+                this.fromWrapError = true
+            } else { this.fromWrapError = false }
+            if (this.toWrapSelected === null) {
+                this.toWrapError = true
+            } else { this.toWrapError = false }
+        },
+        signOut () {
+            this.address = ''
+            this.fromWrapSelected = null
+            this.toWrapSelected = null
+            this.$store.state = {
+                address: null,
+                hdPath: '',
+                fromWrapToken: {},
+                toWrapToken: {}
             }
         },
-        unWrapToken () {
-            const self = this
-            if (self.address) {
-                this.$refs.unWrapModal.show()
+        loginWallet () {
+            if (this.mobileCheck) {
+                window.open(`tomochain://dapp?url=${window.origin}`)
             } else {
-                self.loginError = true
+                if (confirm('Download TomoWallet to open in app')) {
+                    window.open('https://play.google.com/store/apps/details?id=com.tomochain.wallet&hl=en')
+                }
             }
         }
     }

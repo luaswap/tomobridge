@@ -39,38 +39,38 @@
         <!-- Unlock wallet -->
         <div
             v-if="step === 2"
-            class="tomo-modal-default text-left">
-            <h3 class="tmp-title-medium">Wallet Address</h3>
-            <div class="tmp-table-two colum-2">
-                <table style="display: block">
-                    <tr
+            id="selectAddressModal">
+            <p>Please select the address you would like to interact with</p>
+            <custom-scrollbar>
+                <ul class="address_list">
+                    <li
                         v-for="(wallet, index) in wallets"
-                        :key="index">
-                        <td>
-                            <b-form-radio
-                                :value="index"
-                                name="hdWallet">
-                                <span
-                                    :title="wallet.address">
-                                    {{ wallet.address }}
-                                </span>
-                            </b-form-radio>
-                        </td>
-                        <td><b>{{ wallet.balance }}</b> {{ getCurrencySymbol() }}</td>
-                    </tr>
-                </table>
-            </div>
-            <div
+                        :key="index"
+                        class="address_list__item">
+                        <b-form-radio
+                            v-model="hdWallet"
+                            :value="wallet.address"
+                            name="hdWallet">
+                            <span class="address_list__address text-truncate text-primary">
+                                {{ wallet.address }}
+                            </span>
+                        </b-form-radio>
+                        <span class="address_list__balance">{{ wallet.balance }}</span>
+                    </li>
+                </ul>
+            </custom-scrollbar>
+            <p
                 id="moreHdAddresses"
-                style="margin-top: 10px; cursor: pointer"
+                class="text-primary d-inline-block"
                 @click="moreHdAddresses">
                 More Addresses
-            </div>
+            </p>
+
             <div class="modal-buttons">
-                <b-button @click="back">Back</b-button>
+                <b-button @click="back">Cancel</b-button>
                 <b-button
                     variant="primary"
-                    @click="setHdPath">Unlock</b-button>
+                    @click="setHdPath">Confirm</b-button>
             </div>
         </div>
     </div>
@@ -79,12 +79,16 @@
 <script>
 import store from 'store'
 import Web3 from 'web3'
+import SelectAddressModal from './SelectAddressModal'
+import CustomScrollbar from 'vue-custom-scrollbar'
 
-const defaultWalletNumber = 10
+const defaultWalletNumber = 5
 
 export default {
     name: 'App',
     components: {
+        SelectAddressModal,
+        CustomScrollbar
     },
     props: {
         parent: {
@@ -97,11 +101,18 @@ export default {
             wallets: {},
             hdPath: 'm/44’/889’/0’/0',
             step: 1,
-            config: {}
+            config: {},
+            hdWallet: '',
+            loading: false,
+            hdWallets: [
+            ]
         }
     },
-    async updated () { },
-    destroyed () { },
+    watch: {},
+    async updated () {},
+    destroyed () {
+        this.wallets = {}
+    },
     created: async function () {
         this.config = store.get('config') || await this.appConfig()
     },
@@ -121,37 +132,52 @@ export default {
             if (isNaN(from)) {
                 from = 0
             }
+
             const self = this
-            let wallets
+            let walletList
+            self.loading = true
             try {
                 store.set('hdDerivationPath', self.hdPath)
                 document.body.style.cursor = 'wait'
                 await self.unlockLedger(self.hdPath)
-                wallets = await self.loadMultipleLedgerWallets(from, limit)
-                if (Object.keys(wallets).length > 0) {
-                    Object.assign(self.wallets, self.wallets, wallets)
-                    // document.getElementById('hdwalletModal').style.display = 'block'
-                    // this.$refs.hdwalletModal.show()
-                    // self.loading = false
+                walletList = await self.loadMultipleLedgerWallets(from, limit)
+                if (Object.keys(walletList).length > 0) {
+                    Object.assign(self.wallets, self.wallets, walletList)
+                    document.body.style.cursor = 'default'
+                    if (self.step !== 2) {
+                        self.step = 2
+                    }
+                    self.loading = false
                 }
-                document.body.style.cursor = 'default'
-                self.wallets = wallets
-                self.step = 2
             } catch (error) {
                 self.$toasted.show(error.message || error, {
                     type : 'error'
                 })
+                document.body.style.cursor = 'default'
+                if (self.step !== 2) {
+                    self.step = 2
+                }
             }
         },
         async setHdPath () {
             const parent = this.parent
             const offset = document.querySelector('input[name="hdWallet"]:checked').value.toString()
-            store.set('hdDerivationPath', self.hdPath + '/' + offset)
+            store.set('hdDerivationPath', this.hdPath + '/' + offset)
             store.set('offset', offset)
-            const blockchain = self.config
+            const blockchain = this.config
             const walletProvider = new Web3(new Web3.providers.HttpProvider(blockchain.rpc))
             await this.setupProvider('ledger', walletProvider)
+            const address = await this.getAccount()
+            parent.address = address
             parent.$refs.hdWalletModal.hide()
+        },
+        async moreHdAddresses () {
+            document.getElementById('moreHdAddresses').style.cursor = 'wait'
+            document.body.style.cursor = 'wait'
+            await this.unlock(Object.keys(this.wallets).length, this.defaultWalletNumber)
+            document.body.style.cursor = 'default'
+            document.getElementById('moreHdAddresses').style.cursor = 'pointer'
+            this.$forceUpdate()
         }
     }
 }

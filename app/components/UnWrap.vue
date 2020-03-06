@@ -2,10 +2,10 @@
     <div id="unwrapbox">
         <div class="unwrap__info text-center">
             <p>
-                You are about to unwrap and then send your BTC to the address
+                You are about to unwrap and then send your {{ toWrapToken.name }} to the address
             </p>
             <p class="text-truncate">
-                <a href="#">0x33c2E732ae7dce8B05F37B2ba0CFe14c980c4Db1</a>
+                <a href="#">{{ receiveAddress }}</a>
             </p>
         </div>
         <div class="unwrap__confirm">
@@ -16,19 +16,20 @@
                 <li class="unwrap-confirm__item">
                     <b-form-checkbox
                         v-model="isCheckAddress">
-                        My BTC address has NOT been created on a centrailized exchange (e.g binance.com)
+                        My {{ toWrapToken.name }}
+                        address has NOT been created on a centrailized exchange (e.g binance.com)
                     </b-form-checkbox>
                 </li>
                 <li class="unwrap-confirm__item">
                     <b-form-checkbox
                         v-model="isCheckPrivateKey">
-                        I have a Private Key of BTC address entered above
+                        I have a Private Key of {{ toWrapToken.name }} address entered above
                     </b-form-checkbox>
                 </li>
                 <li class="unwrap-confirm__item">
                     <b-form-checkbox
                         v-model="isDoubleCheck">
-                        I have double checked that BTC address is correct
+                        I have double checked that {{ toWrapToken.name }} address is correct
                     </b-form-checkbox>
                 </li>
             </ul>
@@ -57,7 +58,10 @@ export default {
             isCheckAddress: false,
             isCheckPrivateKey: false,
             isDoubleCheck: false,
-            allChecked: false
+            allChecked: false,
+            fromWrapToken: {},
+            toWrapToken: {},
+            receiveAddress: ''
         }
     },
     async updated () {
@@ -72,12 +76,20 @@ export default {
         this.allChecked = false
     },
     destroyed () { },
-    created: async function () { },
+    created: async function () {
+    },
     methods: {
         unWrapToken () {
             const parent = this.parent
             if (parent.address) {
-                console.log('unwrap')
+                this.$router.push({
+                    name: 'UnWrapExecution',
+                    params: {
+                        receiveAddress: parent.receiveAddress,
+                        fromWrapToken: this.$store.state.fromWrapToken,
+                        toWrapToken: this.$store.state.toWrapToken
+                    }
+                })
             } else {
                 parent.loginError = true
             }

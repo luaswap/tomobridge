@@ -79,17 +79,25 @@ export default {
             const config = self.config
             let walletProvider
             let provider
-            provider = 'privateKey'
-            self.privateKey = self.privateKey.trim()
-            walletProvider = new PrivateKeyProvider(self.privateKey, config.blockchain.rpc)
+            try {
+                provider = 'privateKey'
+                self.privateKey = self.privateKey.trim()
+                walletProvider = new PrivateKeyProvider(self.privateKey, config.blockchain.rpc)
 
-            self.setupProvider(provider, new Web3(walletProvider))
-            const address = await self.getAccount()
+                self.setupProvider(provider, new Web3(walletProvider))
+                const address = await self.getAccount()
 
-            if (address) {
-                self.$store.state.address = address.toLowerCase()
-                parent.address = address
-                self.closePrivateKeyModal()
+                if (address) {
+                    self.$store.state.address = address.toLowerCase()
+                    parent.address = address
+                    self.closePrivateKeyModal()
+                }
+            } catch (error) {
+                self.$toasted.show(
+                    error.message || error, {
+                        type : 'error'
+                    }
+                )
             }
         },
         closePrivateKeyModal () {

@@ -17,7 +17,8 @@ import * as localStorage from 'store'
 
 // Components
 import Home from './components/Home.vue'
-import WrapExecution from './components/WrapExecution.vue'
+import WrapExecution from './components/wrap/WrapExecution.vue'
+import UnWrapExecution from './components/unwrap/UnWrapExecution.vue'
 import Transaction from './components/Transaction.vue'
 
 Vue.use(VueClipboard)
@@ -39,7 +40,8 @@ const store = new Vuex.Store({
     state: {
         address: null,
         hdPath: '',
-        wallets: {}
+        fromWrapToken: {},
+        toWrapToken: {}
     }
 })
 
@@ -65,12 +67,13 @@ Vue.prototype.getAccount = async function (resolve, reject) {
         }
         let ethAppConfig = await Vue.prototype.appEth.getAppConfiguration()
         if (!ethAppConfig.arbitraryDataEnabled) {
-            return reject(new Error(`Please go to App Setting
-                to enable contract data and display data on your device!`))
+            throw new Error(`Please go to App Setting
+                to enable contract data and display data on your device!`)
         }
-        account = await Vue.prototype.appEth.getAddress(
+        const result = await Vue.prototype.appEth.getAddress(
             localStorage.get('hdDerivationPath')
         )
+        account = result.address
         break
     default:
         break
@@ -205,7 +208,8 @@ const router = new VueRouter({
     mode: 'history',
     routes: [
         { path: '/', component: Home },
-        { path: '/wrapToken', component: WrapExecution },
+        { path: '/wrapToken', component: WrapExecution, name: 'WrapExecution' },
+        { path: '/unwrapToken', component: UnWrapExecution, name: 'UnWrapExecution' },
         { path: '/txs', component: Transaction }
     ]
 })
