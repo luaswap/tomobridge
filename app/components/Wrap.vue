@@ -51,6 +51,7 @@
                                 slot="singleLabel"
                                 slot-scope="props">
                                 <img
+                                    v-if="props.option.img"
                                     :src="props.option.img"
                                     :alt="props.option.name"
                                     class="multiselect__img">
@@ -60,6 +61,7 @@
                                 slot="option"
                                 slot-scope="props">
                                 <img
+                                    v-if="props.option.img"
                                     :src="props.option.img"
                                     :alt="props.option.name"
                                     class="multiselect__img">
@@ -94,6 +96,7 @@
                                 slot="singleLabel"
                                 slot-scope="props">
                                 <img
+                                    v-if="props.option.img"
                                     :src="props.option.img"
                                     :alt="props.option.name"
                                     class="multiselect__img">
@@ -103,6 +106,7 @@
                                 slot="option"
                                 slot-scope="props">
                                 <img
+                                    v-if="props.option.img"
                                     :src="props.option.img"
                                     :alt="props.option.name"
                                     class="multiselect__img">
@@ -136,8 +140,9 @@
                             <b-button
                                 @click="loginWallet">
                                 <img
-                                    src="app/assets/images/tomowallet.svg"
-                                    alt="TomoWallet">
+                                    src="app/assets/images/logo-tomowallet.png"
+                                    alt="TomoWallet"
+                                    style="width: 15px; height: 25px">
                                 <span>TomoWallet</span>
                             </b-button>
                             <b-button
@@ -159,7 +164,6 @@
                             class="text-error">Please connect your TOMO wallet</p>
                     </b-col>
                 </b-row>
-                <p>{{ address }}</p>
                 <div class="text-sm-center">
                     <b-button
                         v-if="wrapType === 'wrap'"
@@ -179,7 +183,7 @@
                         By Wrapping, you agree to the <a href="#">Terms and Conditions</a>
                     </b-form-checkbox>
                     <p
-                        v-if="address"
+                        v-if="receiveAddress"
                         class="wrapbox__signout mt-3">
                         <b-button
                             variant="link"
@@ -379,6 +383,7 @@ export default {
         },
         signOut () {
             this.address = ''
+            this.receiveAddress = ''
             this.fromWrapSelected = null
             this.toWrapSelected = null
             this.$store.state = {

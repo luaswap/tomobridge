@@ -20,5 +20,35 @@
     "truffle": {
         "privateKey": "",
         "minCapacity": "10"
-    }
+    },
+    "swapCoin": [
+        {
+            "name": "BTC",
+            "img": "app/assets/images/crypto-logos/btc.png",
+            "address": "0x0000000000000000000000000000000000000001"
+        },
+        {
+            "name": "ETH",
+            "img": "app/assets/images/crypto-logos/eth.png",
+            "address": "0x0000000000000000000000000000000000000002"
+        },
+        {
+            "name": "USDT",
+            "img": "app/assets/images/crypto-logos/usdt.png",
+            "address": "0x0000000000000000000000000000000000000003"
+        },
+        {
+            "name": "XLM",
+            "img": "app/assets/images/crypto-logos/xlm.png",
+            "address": "0x0000000000000000000000000000000000000004"
+        }
+    ],
+    "swapToken": [
+        {
+            "name": "TRC21"
+        },
+        {
+            "name": "TRC20"
+        }
+    ]
 }

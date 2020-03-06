@@ -210,7 +210,7 @@ const router = new VueRouter({
         { path: '/', component: Home },
         { path: '/wrapToken', component: WrapExecution, name: 'WrapExecution' },
         { path: '/unwrapToken', component: UnWrapExecution, name: 'UnWrapExecution' },
-        { path: '/txs', component: Transaction }
+        { path: '/txs', component: Transaction, name: 'Transaction' }
     ]
 })
 

@@ -15,6 +15,7 @@
                         slot="singleLabel"
                         slot-scope="props">
                         <img
+                            v-if="props.option.img"
                             :src="props.option.img"
                             :alt="props.option.name"
                             class="multiselect__img">
@@ -24,6 +25,7 @@
                         slot="option"
                         slot-scope="props">
                         <img
+                            v-if="props.option.img"
                             :src="props.option.img"
                             :alt="props.option.name"
                             class="multiselect__img"><span class="multiselect__name">{{ props.option.name }}</span>
@@ -50,6 +52,7 @@
                         slot="singleLabel"
                         slot-scope="props">
                         <img
+                            v-if="props.option.img"
                             :src="props.option.img"
                             :alt="props.option.name"
                             class="multiselect__img">
@@ -59,6 +62,7 @@
                         slot="option"
                         slot-scope="props">
                         <img
+                            v-if="props.option.img"
                             :src="props.option.img"
                             :alt="props.option.name"
                             class="multiselect__img"><span class="multiselect__name">{{ props.option.name }}</span>
@@ -243,34 +247,8 @@ export default {
     },
     data () {
         return {
-            fromData: [
-                {
-                    name: 'BTC',
-                    img: 'app/assets/images/crypto-logos/btc.png'
-                },
-                {
-                    name: 'ETH',
-                    img: 'app/assets/images/crypto-logos/eth.png'
-                },
-                {
-                    name: 'USDT',
-                    img: 'app/assets/images/crypto-logos/usdt.png'
-                },
-                {
-                    name: 'XLM',
-                    img: 'app/assets/images/crypto-logos/xlm.png'
-                }
-            ],
-            toData: [
-                {
-                    name: 'TRC21',
-                    img: 'app/assets/images/crypto-logos/tomo-green.png'
-                },
-                {
-                    name: 'TRC20',
-                    img: 'app/assets/images/crypto-logos/tomo-green.png'
-                }
-            ],
+            fromData: [],
+            toData: [],
             fromWrapSelected: null,
             toWrapSelected: null,
             wrapTxs: [
@@ -330,12 +308,18 @@ export default {
                     dateTooltip: 'Feb 16, 2020 10:10',
                     type: 'send'
                 }
-            ]
+            ],
+            fromTokens: ['BTC', 'ETH', 'USDT', 'XLM'],
+            toTokens: ['TRC20', 'TRC21']
         }
     },
     async updated () { },
     destroyed () { },
-    created: async function () { },
+    created: async function () {
+        this.config = await this.appConfig() || {}
+        this.fromData = this.config.swapCoin || []
+        this.toData = this.config.swapToken || []
+    },
     methods: {
         customLabel ({ name }) {
             return `${name}`
