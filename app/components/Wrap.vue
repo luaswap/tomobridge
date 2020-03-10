@@ -23,19 +23,22 @@
                     is-nav>
                     <b-navbar-nav class="ml-auto navbar-buttons">
                         <b-nav-item to="/txs/">
-                            Transaction History<i class="nav-item__icon tb-long-arrow-right" />
+                            {{ $t('txHistory') }}<i class="nav-item__icon tb-long-arrow-right" />
                         </b-nav-item>
                         <b-nav-item-dropdown
-                            class="nav-item--dark"
-                            text="English">
-                            <b-dropdown-item class="current-lang">English</b-dropdown-item>
-                            <b-dropdown-item>Tiếng Việt</b-dropdown-item>
+                            :text="selectedLanguage"
+                            class="nav-item--dark">
+                            <b-dropdown-item
+                                class="current-lang"
+                                @click="changeLang('english')">English</b-dropdown-item>
+                            <b-dropdown-item
+                                @click="changeLang('vietnamese')">Tiếng Việt</b-dropdown-item>
                         </b-nav-item-dropdown>
                     </b-navbar-nav>
                 </b-collapse>
             </b-navbar>
             <custom-scrollbar id="wrapbox">
-                <p class="wrapbox__text">Wrap your token</p>
+                <p class="wrapbox__text">{{ $t('chooseTokens') }}</p>
                 <b-row class="wrapbox__row">
                     <b-col
                         cols="5">
@@ -46,6 +49,7 @@
                             :custom-label="customLabel"
                             :show-labels="false"
                             :allow-empty="false"
+                            :placeholder="$t('selectOption')"
                             track-by="name">
                             <template
                                 slot="singleLabel"
@@ -91,6 +95,7 @@
                             :options="toData"
                             :custom-label="customLabel"
                             :show-labels="false"
+                            :placeholder="$t('selectOption')"
                             track-by="name">
                             <template
                                 slot="singleLabel"
@@ -123,19 +128,25 @@
                     <b-col>
                         <label
                             class="wrapbox__text"
-                            for="address-input">{{ toWrapSelected ? toWrapSelected.name : '' }} receive address
+                            for="address-input">
+                            {{
+                                $i18n.locale === 'vi' ?
+                                    `${$t('receiveAddress')} ${toWrapSelected ? toWrapSelected.name : ''}`
+                                    :
+                                    `${toWrapSelected ? toWrapSelected.name : ''} ${$t('receiveAddress')}`
+                            }}
                         </label>
                         <b-form-input
                             id="address-input"
                             v-model="receiveAddress"
-                            placeholder="Please connect your TOMO wallet…"/>
+                            :placeholder="$t('addressPlaceHolder')"/>
                     </b-col>
                 </b-row>
                 <b-row
                     id="login"
                     class="wrapbox__row">
                     <b-col>
-                        <p class="wrapbox__text">Or Connect with</p>
+                        <p class="wrapbox__text">{{ $t('connectOptions') }}</p>
                         <div class="wrapbox__buttons">
                             <b-button
                                 @click="loginWallet">
@@ -161,7 +172,7 @@
                         </div>
                         <p
                             v-if="loginError"
-                            class="text-error">Please connect your TOMO wallet</p>
+                            class="text-error">{{ $t('loginRequired') }}</p>
                     </b-col>
                 </b-row>
                 <div class="text-sm-center">
@@ -180,7 +191,7 @@
                         UnWrap Now</b-button>
                     <b-form-checkbox
                         v-model="isAgreed">
-                        By Wrapping, you agree to the <a href="#">Terms and Conditions</a>
+                        {{ $t('agreement') }} <a href="#">Terms and Conditions</a>
                     </b-form-checkbox>
                     <p
                         v-if="receiveAddress"
@@ -268,8 +279,7 @@ export default {
         return {
             fromData: [],
             toData: [],
-            languages: ['english', 'vietnamese'],
-            selectedLanguage: 'english',
+            selectedLanguage: this.$i18n.locale === 'en' ? 'English' : 'Tiếng Việt',
             fromWrapSelected: null,
             toWrapSelected: null,
             receiveAddress: '',
@@ -400,6 +410,20 @@ export default {
                 if (confirm('Download TomoWallet to open in app')) {
                     window.open('https://play.google.com/store/apps/details?id=com.tomochain.wallet&hl=en')
                 }
+            }
+        },
+        changeLang (lang) {
+            switch (lang) {
+            case 'english':
+                this.$i18n.locale = 'en'
+                this.selectedLanguage = 'English'
+                break
+            case 'vietnamese':
+                this.$i18n.locale = 'vi'
+                this.selectedLanguage = 'Tiếng Việt'
+                break
+            default:
+                break
             }
         }
     }

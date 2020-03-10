@@ -1,0 +1,19 @@
+{
+    "chooseTokens": "Chon token coi",
+    "receiveAddress": "Địa chỉ nhận",
+    "selectOption": "Lựa chọn",
+    "addressPlaceHolder": "Please connect your TOMO wallet...",
+    "connectOptions": "Or Connect with",
+    "agreement": "Đồng ý với các điều khoản trong",
+    "termAndConditions": "Term and Conditions",
+    "wrapHistory": "Wrap history",
+    "txHistory": "Lịch sử giao dịch",
+    "age": "Age",
+    "from": "From",
+    "to": "To",
+    "quantity": "Số lượng",
+    "txHash": "Tx Hash",
+    "transaction": "Transactions",
+    "emptyText": "Không có giao dịch nào để hiển thị",
+    "loginRequired": "Mời đăng nhập trước khi thực hiện thao tác"
+}

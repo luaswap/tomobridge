@@ -1,0 +1,19 @@
+{
+    "chooseTokens": "Wrap your token",
+    "receiveAddress": "receive address",
+    "selectOption": "Select option",
+    "addressPlaceHolder": "Please connect your TOMO wallet...",
+    "connectOptions": "Or Connect with",
+    "agreement": "By Wrapping, you agree to the",
+    "termAndConditions": "Term and Conditions",
+    "wrapHistory": "Wrap history",
+    "txHistory": "Transaction History",
+    "age": "Age",
+    "from": "From",
+    "to": "To",
+    "quantity": "Quantity",
+    "txHash": "Tx Hash",
+    "transaction": "Transactions",
+    "emptyText": "There are no transactions to show",
+    "loginRequired": "Please connect your TOMO wallet"
+}

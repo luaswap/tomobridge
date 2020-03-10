@@ -20,13 +20,16 @@
                     is-nav>
                     <b-navbar-nav class="ml-auto navbar-buttons">
                         <b-nav-item to="/txs/">
-                            Transaction History<i class="nav-item__icon tb-long-arrow-right" />
+                            {{ $t('txHistory') }}<i class="nav-item__icon tb-long-arrow-right" />
                         </b-nav-item>
                         <b-nav-item-dropdown
-                            class="nav-item--dark"
-                            text="English">
-                            <b-dropdown-item class="current-lang">English</b-dropdown-item>
-                            <b-dropdown-item>Tiếng Việt</b-dropdown-item>
+                            :text="selectedLanguage"
+                            class="nav-item--dark">
+                            <b-dropdown-item
+                                class="current-lang"
+                                @click="changeLang('english')">English</b-dropdown-item>
+                            <b-dropdown-item
+                                @click="changeLang('vietnamese')">Tiếng Việt</b-dropdown-item>
                         </b-nav-item-dropdown>
                     </b-navbar-nav>
                 </b-collapse>
@@ -42,12 +45,29 @@ export default {
     components: {
     },
     data () {
-        return { }
+        return {
+            selectedLanguage: this.$i18n.locale === 'en' ? 'English' : 'Tiếng Việt'
+        }
     },
     async updated () { },
     destroyed () { },
     created: async function () {
     },
-    methods: { }
+    methods: {
+        changeLang (lang) {
+            switch (lang) {
+            case 'english':
+                this.$i18n.locale = 'en'
+                this.selectedLanguage = 'English'
+                break
+            case 'vietnamese':
+                this.$i18n.locale = 'vi'
+                this.selectedLanguage = 'Tiếng Việt'
+                break
+            default:
+                break
+            }
+        }
+    }
 }
 </script>

@@ -2,7 +2,7 @@
     <div
         id="wrap-history"
         class="container">
-        <h1 class="wrap-history__headline text-center">Wrap history</h1>
+        <h1 class="wrap-history__headline text-center">{{ $t('wrapHistory') }}</h1>
         <b-row class="wrap-history__row align-items-center">
             <b-col cols="5">
                 <multiselect
@@ -10,6 +10,7 @@
                     :options="fromData"
                     :custom-label="customLabel"
                     :show-labels="false"
+                    :placeholder="$t('selectOption')"
                     track-by="name">
                     <template
                         slot="singleLabel"
@@ -47,6 +48,7 @@
                     :options="toData"
                     :custom-label="customLabel"
                     :show-labels="false"
+                    :placeholder="$t('selectOption')"
                     track-by="name">
                     <template
                         slot="singleLabel"
