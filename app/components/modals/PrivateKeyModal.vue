@@ -90,6 +90,7 @@ export default {
                 if (address) {
                     self.$store.state.address = address.toLowerCase()
                     parent.address = address
+                    parent.receiveAddress = address
                     self.closePrivateKeyModal()
                 }
             } catch (error) {
