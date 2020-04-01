@@ -61,7 +61,7 @@ export default {
             step: 0,
             fromWrapToken: {},
             toWrapToken: {},
-            receiveAddress: ''
+            receiveAddress: this.$route.params.receiveAddress || ''
         }
     },
     async updated () {
@@ -79,7 +79,6 @@ export default {
             })
         }
 
-        this.receiveAddress = this.$route.params.receiveAddress
         const wrapData = await axios.post(
             '/api/wrap/getAddress',
             {

@@ -14,6 +14,9 @@ import * as HDKey from 'hdkey'
 import axios from 'axios'
 import Web3 from 'web3'
 import * as localStorage from 'store'
+// abis
+import EthWrapperAbi from '../abis/EthWrapperAbi.json'
+// import BtcWrapperAbi from '../abis/BtcWrapperAbi.json'
 
 // Components
 import Home from './components/Home.vue'
@@ -45,10 +48,21 @@ const store = new Vuex.Store({
     }
 })
 
-Vue.prototype.setupProvider = async function (provider, walletProvider) {
+Vue.prototype.setupProvider = async function (provider, web3) {
     Vue.prototype.NetworkProvider = provider
-    if (walletProvider instanceof Web3) {
-        Vue.prototype.web3 = walletProvider
+    if (web3 instanceof Web3) {
+        Vue.prototype.web3 = web3
+        const config = await getConfig()
+        localStorage.set('configBridge', config)
+        const chainConfig = config.blockchain
+        Vue.prototype.ethContract = new Vue.prototype.web3.eth.Contract(
+            EthWrapperAbi.abi,
+            chainConfig.ethWrappAddress
+        )
+        // Vue.prototype.btcContract = new Vue.prototype.web3.eth.Contract(
+        //     BtcWrapperAbi.abi,
+        //     chainConfig.btcWrappAddress
+        // )
     }
 }
 
@@ -202,6 +216,15 @@ Vue.prototype.detectNetwork = async function (provider) {
 
 Vue.prototype.getCurrencySymbol = function () {
     return 'TOMO'
+}
+
+Vue.prototype.string2byte = function (str) {
+    let byteArray = []
+    for (let j = 0; j < str.length; j++) {
+        byteArray.push(str.charCodeAt(j))
+    }
+
+    return byteArray
 }
 
 const router = new VueRouter({
