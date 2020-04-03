@@ -16,7 +16,7 @@ import Web3 from 'web3'
 import * as localStorage from 'store'
 // abis
 import EthWrapperAbi from '../abis/EthWrapperAbi.json'
-// import BtcWrapperAbi from '../abis/BtcWrapperAbi.json'
+import BtcWrapperAbi from '../abis/BtcWrapperAbi.json'
 
 // Components
 import Home from './components/Home.vue'
@@ -57,12 +57,12 @@ Vue.prototype.setupProvider = async function (provider, web3) {
         const chainConfig = config.blockchain
         Vue.prototype.ethContract = new Vue.prototype.web3.eth.Contract(
             EthWrapperAbi.abi,
-            chainConfig.ethWrappAddress
+            chainConfig.ethWrapperAddress
         )
-        // Vue.prototype.btcContract = new Vue.prototype.web3.eth.Contract(
-        //     BtcWrapperAbi.abi,
-        //     chainConfig.btcWrappAddress
-        // )
+        Vue.prototype.btcContract = new Vue.prototype.web3.eth.Contract(
+            BtcWrapperAbi.abi,
+            chainConfig.btcWrapperAddress
+        )
     }
 }
 

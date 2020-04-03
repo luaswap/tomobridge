@@ -14,9 +14,6 @@
         "ws": "wss://testnet.tomochain.com/ws",
         "networkId": 89,
         "gas": 2000000,
-        "btcConfirmations": 6,
-        "ethConfirmations": 12,
-        "usdtConfirmations": 12,
         "ethWrappAddress": "",
         "btcWrapperAddress": ""
     },

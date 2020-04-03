@@ -58,7 +58,7 @@ export default {
             const address = this.$store.state.address || ''
             const wrapToken = parent.fromWrapToken
             const txData = await axios.get(
-                `/api/wrap/getTransaction/${wrapToken.name}/${address}`
+                `/api/wrap/getTransaction/deposit/${wrapToken.name}/${address}`
             )
             if (txData && txData.data) {
                 return txData.data

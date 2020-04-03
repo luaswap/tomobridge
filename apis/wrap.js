@@ -20,23 +20,26 @@ router.post('/getAddress', async function (req, res, next) {
     }
 })
 
-router.get('/getTransaction/:wrapCoin/:receiveAddress',
+router.get('/getTransaction/:txType/:wrapCoin/:receiveAddress',
     async function (req, res, next) {
         try {
             const wrapCoin = req.params.wrapCoin
             const receiveAddress = req.params.receiveAddress
+            const txType = req.params.txType
 
             const url = urljoin(
                 config.get('serverAPI'),
                 '/transactions/',
                 wrapCoin.toLowerCase(),
-                receiveAddress
+                receiveAddress,
+                `/${txType}/latest`
             )
+            console.log(url)
             const result = await axios.get(url)
             return res.send(result.data)
         } catch (error) {
             return next(error)
         }
-})
+    })
 
 module.exports = router

@@ -3,11 +3,11 @@
         <div v-if="!success">
             <h3 class="step-three__title">We are sending you...</h3>
             <p class="step-three__subtitle">
-                {{ convertAmount(wrapAmount) }} {{ fromToken.name || '' }} to address</p>
+                {{ convertAmount(inAmount) }} {{ fromToken.name || '' }} to address</p>
             <a
                 href="#"
                 class="step-three__address">
-                {{ address }}
+                {{ receiveAddress }}
             </a>
             <div class="step-three__progress">
                 <div class="progress-bar">
@@ -31,7 +31,7 @@
             class="step-three__success">
             <i class="tb-check-circle-o step-three__icon text-primary"/>
             <h3 class="step-three__title">
-                You’ve received {{ convertAmount(wrapAmount) }}
+                You’ve received {{ convertAmount(outAmount) }}
                 {{ toToken.name }}-{{ fromToken.name || '' }}</h3>
         </div>
         <div class="step-three__tx-hash">
@@ -69,36 +69,42 @@ export default {
         return {
             success: false,
             address: this.$store.state.address || '',
-            tokenName: '',
-            wrapAmount: 0,
+            inAmount: 0,
+            outAmount: 0,
             confirmation: 0,
             requiredConfirm: 0,
             interval: '',
-            fromToken: {},
-            toToken: {},
-            txHash: ''
+            fromToken: this.parent.fromWrapToken || {},
+            toToken: this.parent.toWrapToken || {},
+            txHash: '',
+            receiveAddress: ''
         }
     },
     async updated () { },
-    destroyed () { },
+    destroyed () {
+        if (this.interval) {
+            clearInterval(this.interval)
+        }
+    },
     created: async function () {
         const parent = this.parent
+        this.receiveAddress = parent.receiveAddress
         this.fromToken = parent.fromWrapToken
         this.toToken = parent.toWrapToken
         this.requiredConfirm = this.fromToken.confirmations
-        this.wrapAmount = this.fromToken.amount
-        this.tokenName = this.fromToken.name
+        this.inAmount = this.fromToken.amount
 
         this.interval = setInterval(async () => {
             const data = await this.scanTX()
             if (data && data.transaction) {
                 const inTx = data.transaction.InTx
                 const outTx = data.transaction.OutTx
-                this.confirmations = inTx.Confirmations
-                this.wrapAmount = inTx.Amount
+                this.confirmation = inTx.Confirmations
+                this.inAmount = inTx.Amount
 
-                if (this.confirmations >= this.requiredConfirm && outTx.Hash) {
+                if (this.confirmation >= this.requiredConfirm && outTx.Hash) {
                     this.txHash = outTx.Hash
+                    this.outAmount = outTx.Amount
                     clearInterval(this.interval)
                     this.success = true
                 }
@@ -111,9 +117,14 @@ export default {
          * if (success) { parent.step++ }
          */
         convertAmount (amount) {
+            let num = 0
             switch (this.fromToken.name.toLowerCase()) {
             case 'eth':
-                const num = new BigNumber(amount).div(10 ** 18).toString(10)
+                num = new BigNumber(amount).div(10 ** 18).toString(10)
+                return num
+            case 'btc':
+                num = amount
+                // num = new BigNumber(amount).div(10 ** 8).toString(10)
                 return num
             default:
                 break
@@ -122,14 +133,14 @@ export default {
         async scanTX () {
             const address = this.$store.state.address || ''
             const txData = await axios.get(
-                `/api/wrap/getTransaction/${this.fromToken.name}/${address}`
+                `/api/wrap/getTransaction/deposit/${this.fromToken.name}/${address}`
             )
             if (txData && txData.data) {
                 return txData.data
             }
         },
 
-        calculatePercentage (total, current) {
+        calculatePercentage (current, total) {
             if (current >= total) {
                 return 100
             } else {

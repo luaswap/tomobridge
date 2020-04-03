@@ -85,6 +85,7 @@ export default {
                 this.$router.push({
                     name: 'UnWrapExecution',
                     params: {
+                        parent,
                         receiveAddress: parent.receiveAddress,
                         fromWrapToken: this.$store.state.fromWrapToken,
                         toWrapToken: this.$store.state.toWrapToken

@@ -1,25 +1,13 @@
 <template>
     <b-container class="step-one text-center">
-        <h3 class="step-one__title">Here’s what you need to do next:</h3>
-        <p class="step-one__subtitle">Send {{ tokenName }} to the public address below</p>
-        <vue-qrcode
-            :options="{ width: 200, color: { light: '#f6f7fa' } }"
-            :value="addressQRCode"
-            class="step-one__qr"/>
+        <h3 class="step-one__title">{{ coinName }} receive address</h3>
+        <p class="step-one__subtitle">{{ receiveAddress }}</p>
         <div class="step-one__address-box">
-            <a
-                class="step-one__address"
-                href="#">{{ depositAddress }}</a>
-            <b-button
-                v-clipboard:copy="depositAddress"
-                v-clipboard:success="onCopy"
-                variant="primary"
-                class="step-one__copy"><i class="tb-copy"/> Copy</b-button>
+            <b-form-input
+                v-model="amount"
+                placeholder="Enter unwrap amount"
+                type="text"/>
         </div>
-        <p class="step-one__subtitle">
-            After you've completed the transfer, click the "NEXT" button so
-            we can verify your transaction
-        </p>
         <div class="step-one__buttons">
             <b-button
                 class="btn--big"
@@ -34,6 +22,8 @@
 
 <script>
 import VueQrcode from '@chenfengyuan/vue-qrcode'
+import BigNumber from 'bignumber.js'
+import store from 'store'
 export default {
     name: 'App',
     components: {
@@ -47,29 +37,98 @@ export default {
     },
     data () {
         return {
-            addressQRCode: '',
-            depositAddress: '',
-            tokenName: ''
+            coinName: '',
+            amount: '',
+            gasPrice: 0,
+            address: this.$store.state.address || '',
+            receiveAddress: this.$route.params.receiveAddress || '',
+            fromWrapToken: this.parent.fromWrapToken || {},
+            toWrapToken: this.parent.toWrapToken || {},
+            config: {}
         }
     },
     async updated () { },
     destroyed () { },
     created: async function () {
-        const swapData = this.parent.fromWrapToken
-        this.depositAddress = swapData.address
-        this.addressQRCode = swapData.address
-        this.tokenName = swapData.name
+        this.coinName = this.toWrapToken.name
+        this.config = store.get('configBridge') || await this.appConfig() || {}
+
+        this.web3.eth.getGasPrice().then(result => {
+            this.gasPrice = result
+        }).catch(error => {
+            console.log(error)
+            this.$toasted.show(error, { type: 'error' })
+        })
     },
     methods: {
         onCopy () {
             this.$toasted.show('Copied!')
         },
         nextStep () {
-            const par = this.parent
-            par.step++
+            try {
+                if (this.amount === '') {
+                    this.$toasted.show('Enter unwrap amount')
+                } else {
+                    const par = this.parent
+                    const provider = this.NetworkProvider
+                    const chainConfig = this.config.blockchain
+                    let txParams = {
+                        from: this.address,
+                        gasPrice: this.web3.utils.toHex(this.gasPrice),
+                        gas: this.web3.utils.toHex(chainConfig.gas),
+                        gasLimit: this.web3.utils.toHex(chainConfig.gas)
+                    }
+                    const contract = this.getContract()
+                    if (provider === 'privateKey') {
+                        par.step++
+                        contract.methods.burn(
+                            this.convertWithdrawAmount(this.amount),
+                            this.string2byte(this.receiveAddress)
+                        ).send(txParams)
+                            .on('transactionHash', async (txHash) => {
+                                let check = true
+                                while (check) {
+                                    const receipt = await this.web3.eth.getTransactionReceipt(txHash)
+                                    if (receipt) {
+                                        check = false
+                                        par.step++
+                                    }
+                                }
+                            })
+                    }
+                }
+            } catch (error) {
+                this.$toasted.show(error, { type: 'error' })
+            }
         },
         back () {
             this.$router.push({ path: '/' })
+        },
+        getContract () {
+            let contract
+            switch (this.toWrapToken.name.toLowerCase()) {
+            case 'eth':
+                contract = this.ethContract
+                return contract
+            case 'btc':
+                contract = this.btcContract
+                return contract
+            default:
+                return contract
+            }
+        },
+        convertWithdrawAmount (amount) {
+            let result
+            switch (this.toWrapToken.name.toLowerCase()) {
+            case 'eth':
+                result = new BigNumber(this.amount).multipliedBy(10 ** 18).toString(10)
+                return result
+            case 'btc':
+                result = new BigNumber(this.amount).multipliedBy(10 ** 8).toString(10)
+                return result
+            default:
+                return result
+            }
         }
     }
 }

@@ -160,6 +160,8 @@
                             </b-button>
                         </div>
                         <p
+                            v-if="address">Account: {{ address }}</p>
+                        <p
                             v-if="loginError"
                             class="text-error">Please connect your TOMO wallet</p>
                     </b-col>
@@ -365,6 +367,9 @@ export default {
             this.fromWrapSelected = this.toWrapSelected
             this.toWrapSelected = temp2
             this.wrapType = this.wrapType === 'wrap' ? 'unwrap' : 'wrap'
+            if (this.wrapType === 'wrap') {
+                this.receiveAddress = this.address
+            } else { this.receiveAddress = '' }
         },
         loginPrivateKey () {
             this.$refs.privateKeyModal.show()
