@@ -124,7 +124,7 @@ export default {
                 return num
             case 'btc':
                 num = amount
-                // num = new BigNumber(amount).div(10 ** 8).toString(10)
+                num = new BigNumber(amount).div(10 ** 8).toString(10)
                 return num
             default:
                 break

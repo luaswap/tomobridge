@@ -45,6 +45,7 @@
         </div>
         <b-button
             v-if="success"
+            :to="'/'"
             variant="primary"
             class="step-three__button btn--big">Make another wrap</b-button>
     </b-container>
@@ -111,7 +112,6 @@ export default {
          * if (success) { parent.step++ }
          */
         convertAmount (amount) {
-            console.log(amount)
             let num = 0
             switch (this.toToken.name.toLowerCase()) {
             case 'eth':

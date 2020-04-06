@@ -169,7 +169,6 @@ export default {
             await this.setupProvider('ledger', walletProvider)
             const address = await this.getAccount()
             parent.address = address
-            parent.receiveAddress = address
             parent.$refs.hdWalletModal.hide()
         },
         async moreHdAddresses () {

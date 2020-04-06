@@ -185,7 +185,7 @@
                         By Wrapping, you agree to the <a href="#">Terms and Conditions</a>
                     </b-form-checkbox>
                     <p
-                        v-if="receiveAddress"
+                        v-if="address"
                         class="wrapbox__signout mt-3">
                         <b-button
                             variant="link"
@@ -367,9 +367,6 @@ export default {
             this.fromWrapSelected = this.toWrapSelected
             this.toWrapSelected = temp2
             this.wrapType = this.wrapType === 'wrap' ? 'unwrap' : 'wrap'
-            if (this.wrapType === 'wrap') {
-                this.receiveAddress = this.address
-            } else { this.receiveAddress = '' }
         },
         loginPrivateKey () {
             this.$refs.privateKeyModal.show()

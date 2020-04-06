@@ -34,7 +34,6 @@ router.get('/getTransaction/:txType/:wrapCoin/:receiveAddress',
                 receiveAddress,
                 `/${txType}/latest`
             )
-            console.log(url)
             const result = await axios.get(url)
             return res.send(result.data)
         } catch (error) {

@@ -15,8 +15,10 @@
         "networkId": 89,
         "gas": 2000000,
         "ethWrappAddress": "",
-        "btcWrapperAddress": ""
+        "btcWrapperAddress": "",
+        "usdtWrapperAddress": ""
     },
+    "serverAPI": "",
     "db": {
         "uri": "mongodb://mongodb:27017/tomobridge"
     },
