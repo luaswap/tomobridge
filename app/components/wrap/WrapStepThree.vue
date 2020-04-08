@@ -39,7 +39,8 @@
                 Transaction hash:
                 <a
                     :href="config.tomoscanUrl + '/txs/' + txHash"
-                    class="step-three__tx-hash-link text-truncate">
+                    class="step-three__tx-hash-link text-truncate"
+                    target="_blank">
                     {{ txHash }}
                 </a>
             </p>
@@ -127,6 +128,9 @@ export default {
             case 'btc':
                 num = amount
                 num = new BigNumber(amount).div(10 ** 8).toString(10)
+                return num
+            case 'usdt':
+                num = new BigNumber(amount).div(10 ** 6).toString(10)
                 return num
             default:
                 break

@@ -63,6 +63,10 @@ Vue.prototype.setupProvider = async function (provider, web3) {
             BtcWrapperAbi.abi,
             chainConfig.btcWrapperAddress
         )
+        Vue.prototype.usdtContract = new Vue.prototype.web3.eth.Contract(
+            EthWrapperAbi.abi,
+            chainConfig.usdtWrapperAddress
+        )
     }
 }
 

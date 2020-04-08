@@ -113,6 +113,9 @@ export default {
             case 'btc':
                 contract = this.btcContract
                 return contract
+            case 'usdt':
+                contract = this.usdtContract
+                return contract
             default:
                 return contract
             }
@@ -125,6 +128,9 @@ export default {
                 return result
             case 'btc':
                 result = new BigNumber(this.amount).multipliedBy(10 ** 8).toString(10)
+                return result
+            case 'usdt':
+                result = new BigNumber(this.amount).multipliedBy(10 ** 6).toString(10)
                 return result
             default:
                 return result

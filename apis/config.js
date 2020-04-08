@@ -12,6 +12,7 @@ router.get('/', function (req, res, next) {
     if (tomoscanUrl[tomoscanUrl.length - 1] === '/') {
         tomoscanUrl = tomoscanUrl.substr(0, tomoscanUrl.length - 1)
     }
+    appConfig.tomoscanUrl = tomoscanUrl
     return res.json(appConfig)
 })
 
