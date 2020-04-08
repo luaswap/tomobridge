@@ -18,6 +18,8 @@
         "btcWrapperAddress": "",
         "usdtWrapperAddress": ""
     },
+    "tomoscanUrl": "http://localhost:3003",
+    "tomoscanAPI": "https://scan.tomochain.com",
     "serverAPI": "",
     "db": {
         "uri": "mongodb://mongodb:27017/tomobridge"

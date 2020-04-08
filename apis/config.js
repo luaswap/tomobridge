@@ -8,6 +8,10 @@ router.get('/', function (req, res, next) {
     appConfig.blockchain = config.get('blockchain')
     appConfig.swapCoin = config.get('swapCoin')
     appConfig.swapToken = config.get('swapToken')
+    let tomoscanUrl = config.get('tomoscanUrl')
+    if (tomoscanUrl[tomoscanUrl.length - 1] === '/') {
+        tomoscanUrl = tomoscanUrl.substr(0, tomoscanUrl.length - 1)
+    }
     return res.json(appConfig)
 })
 

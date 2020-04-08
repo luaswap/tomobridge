@@ -114,7 +114,7 @@ export default {
         this.wallets = {}
     },
     created: async function () {
-        this.config = store.get('config') || await this.appConfig()
+        this.config = store.get('configBridge') || await this.appConfig()
     },
     methods: {
         back () {

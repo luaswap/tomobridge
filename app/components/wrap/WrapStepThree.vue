@@ -38,7 +38,7 @@
             <p>
                 Transaction hash:
                 <a
-                    href="#"
+                    :href="config.tomoscanUrl + '/txs/' + txHash"
                     class="step-three__tx-hash-link text-truncate">
                     {{ txHash }}
                 </a>
@@ -77,7 +77,8 @@ export default {
             fromToken: this.parent.fromWrapToken || {},
             toToken: this.parent.toWrapToken || {},
             txHash: '',
-            receiveAddress: ''
+            receiveAddress: '',
+            config: {}
         }
     },
     async updated () { },
@@ -88,6 +89,7 @@ export default {
     },
     created: async function () {
         const parent = this.parent
+        this.config = parent.config
         this.receiveAddress = parent.receiveAddress
         this.fromToken = parent.fromWrapToken
         this.toToken = parent.toWrapToken

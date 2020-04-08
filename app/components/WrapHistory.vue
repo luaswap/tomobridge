@@ -239,6 +239,7 @@
 <script>
 import Multiselect from 'vue-multiselect'
 import CustomScrollbar from 'vue-custom-scrollbar'
+import store from 'store'
 export default {
     name: 'App',
     components: {
@@ -316,7 +317,7 @@ export default {
     async updated () { },
     destroyed () { },
     created: async function () {
-        this.config = await this.appConfig() || {}
+        this.config = store.get('configBridge') || await this.appConfig()
         this.fromData = this.config.swapCoin || []
         this.toData = this.config.swapToken || []
     },

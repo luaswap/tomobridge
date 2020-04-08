@@ -40,6 +40,7 @@ import { validationMixin } from 'vuelidate'
 import {
     required
 } from 'vuelidate/lib/validators'
+import store from 'store'
 export default {
     name: 'App',
     components: { },
@@ -63,7 +64,7 @@ export default {
     async updated () { },
     destroyed () { },
     created: async function () {
-        this.config = await this.appConfig()
+        this.config = store.get('configBridge') || await this.appConfig()
     },
     methods: {
         validate () {
@@ -90,7 +91,6 @@ export default {
                 if (address) {
                     self.$store.state.address = address.toLowerCase()
                     parent.address = address
-                    parent.receiveAddress = address
                     self.closePrivateKeyModal()
                 }
             } catch (error) {

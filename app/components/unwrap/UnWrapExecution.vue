@@ -47,6 +47,7 @@
 import UnWrapStepOne from './UnWrapStepOne'
 import UnWrapStepTwo from './UnWrapStepTwo'
 import UnWrapStepThree from './UnWrapStepThree'
+import store from 'store'
 
 export default {
     name: 'App',
@@ -60,7 +61,8 @@ export default {
             step: 1,
             fromWrapToken: {},
             toWrapToken: {},
-            receiveAddress: ''
+            receiveAddress: '',
+            config: {}
         }
     },
     async updated () {
@@ -73,6 +75,7 @@ export default {
                 path: '/'
             })
         }
+        this.config = store.get('configBridge') || await this.appConfig()
         this.fromWrapToken = this.$route.params.fromWrapToken
         this.toWrapToken = this.$route.params.toWrapToken
         this.receiveAddress = this.$route.params.receiveAddress

@@ -48,6 +48,7 @@ import WrapStepOne from './WrapStepOne'
 import WrapStepTwo from './WrapStepTwo'
 import WrapStepThree from './WrapStepThree'
 import axios from 'axios'
+import store from 'store'
 
 export default {
     name: 'App',
@@ -61,7 +62,8 @@ export default {
             step: 0,
             fromWrapToken: {},
             toWrapToken: {},
-            receiveAddress: this.$route.params.receiveAddress || ''
+            receiveAddress: this.$route.params.receiveAddress || '',
+            config: {}
         }
     },
     async updated () {
@@ -69,6 +71,7 @@ export default {
     destroyed () {
     },
     created: async function () {
+        this.config = store.get('configBridge') || await this.appConfig()
         this.fromWrapToken = this.$route.params.fromWrapToken
         this.toWrapToken = this.$route.params.toWrapToken
         if (!this.$store.state.address &&

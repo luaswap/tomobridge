@@ -254,6 +254,7 @@ import UnWrap from './UnWrap'
 import PrivateKeyModal from './modals/PrivateKeyModal'
 import HardwareWalletModal from './modals/HarwareWalletModal'
 import SelectAddressModal from './modals/SelectAddressModal'
+import store from 'store'
 
 export default {
     name: 'App',
@@ -308,7 +309,7 @@ export default {
     },
     destroyed () { },
     created: async function () {
-        this.config = await this.appConfig() || {}
+        this.config = store.get('configBridge') || await this.appConfig()
         this.address = await this.getAccount() || ''
         this.fromData = this.config.swapCoin || []
         this.toData = this.config.swapToken || []

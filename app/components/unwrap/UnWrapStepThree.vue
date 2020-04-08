@@ -37,7 +37,7 @@
             <p>
                 Transaction hash:
                 <a
-                    href="#"
+                    :href="config.tomoscanUrl + '/txs/' + txHash"
                     class="step-three__tx-hash-link text-truncate">
                     {{ txHash }}
                 </a>
@@ -76,7 +76,8 @@ export default {
             toToken: this.parent.toWrapToken || {},
             requiredConfirm: 0,
             confirmation: 0,
-            interval: ''
+            interval: '',
+            config: {}
         }
     },
     async updated () { },
@@ -86,6 +87,8 @@ export default {
         }
     },
     created: async function () {
+        const parent = this.parent
+        this.config = parent.config
         this.requiredConfirm = this.toToken.confirmations
         this.inAmount = this.toToken.amount
 
