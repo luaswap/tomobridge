@@ -64,7 +64,7 @@ export default {
         onCopy () {
             this.$toasted.show('Copied!')
         },
-        nextStep () {
+        async nextStep () {
             try {
                 if (this.amount === '') {
                     this.$toasted.show('Enter unwrap amount')
@@ -72,11 +72,13 @@ export default {
                     const par = this.parent
                     const provider = this.NetworkProvider
                     const chainConfig = this.config.blockchain
+                    const nonce = await this.web3.eth.getTransactionCount(this.address)
                     let txParams = {
                         from: this.address,
                         gasPrice: this.web3.utils.toHex(this.gasPrice),
                         gas: this.web3.utils.toHex(chainConfig.gas),
-                        gasLimit: this.web3.utils.toHex(chainConfig.gas)
+                        gasLimit: this.web3.utils.toHex(chainConfig.gas),
+                        nonce
                     }
                     const contract = this.getContract()
                     if (provider === 'privateKey') {
