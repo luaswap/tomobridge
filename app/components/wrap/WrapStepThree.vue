@@ -126,7 +126,6 @@ export default {
                 num = new BigNumber(amount).div(10 ** 18).toString(10)
                 return num
             case 'btc':
-                num = amount
                 num = new BigNumber(amount).div(10 ** 8).toString(10)
                 return num
             case 'usdt':

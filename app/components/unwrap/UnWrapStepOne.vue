@@ -80,9 +80,40 @@ export default {
                         gasLimit: this.web3.utils.toHex(chainConfig.gas),
                         nonce
                     }
-                    const contract = this.getContract()
-                    if (provider === 'privateKey') {
-                        par.step++
+                    const { contract, contractAddress } = this.getContract()
+                    if (provider === 'ledger') {
+                        let data = await contract.methods.burn(
+                            this.convertWithdrawAmount(this.amount),
+                            this.string2byte(this.receiveAddress)
+                        ).encodeABI()
+
+                        const dataTx = {
+                            data,
+                            to: contractAddress
+                        }
+                        // bypass hardware wallet to sign tx
+                        txParams.value = this.web3.utils.toHex(0)
+
+                        Object.assign(
+                            dataTx,
+                            dataTx,
+                            txParams
+                        )
+                        let signature = await this.signTransaction(dataTx)
+                        delete dataTx.value
+                        const txHash = await this.sendSignedTransaction(dataTx, signature)
+                        if (txHash) {
+                            this.transactionHash = txHash
+                            let check = true
+                            while (check) {
+                                const receipt = await this.web3.eth.getTransactionReceipt(txHash)
+                                if (receipt) {
+                                    check = false
+                                    par.step++
+                                }
+                            }
+                        }
+                    } else {
                         contract.methods.burn(
                             this.convertWithdrawAmount(this.amount),
                             this.string2byte(this.receiveAddress)
@@ -108,16 +139,17 @@ export default {
         },
         getContract () {
             let contract
+            const blockchain = this.config.blockchain
             switch (this.toWrapToken.name.toLowerCase()) {
             case 'eth':
                 contract = this.ethContract
-                return contract
+                return { contract, contractAddress: blockchain.ethWrapperAddress }
             case 'btc':
                 contract = this.btcContract
-                return contract
+                return { contract, contractAddress: blockchain.btcWrapperAdddress }
             case 'usdt':
                 contract = this.usdtContract
-                return contract
+                return { contract, contractAddress: blockchain.usdtWrapperAddress }
             default:
                 return contract
             }

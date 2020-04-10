@@ -1,5 +1,5 @@
 {
-    "contractName": "BTCWrapper",
+    "comments": "WETH, WBTC, WUSDT",
     "abi": [
         {
             "constant": true,

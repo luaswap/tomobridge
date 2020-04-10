@@ -13,7 +13,6 @@
 
 <script>
 import axios from 'axios'
-import BigNumber from 'bignumber.js'
 export default {
     name: 'App',
     components: {
@@ -39,14 +38,9 @@ export default {
         const parent = this.parent
         this.interval = setInterval(async () => {
             const data = await this.scanTX()
-            if (data && data.transaction && data.transaction.InTx && data.transaction.OutTx.Hash === '') {
+            if (data && data.transaction && data.transaction.InTx) {
                 if (data.transaction.InTx.Confirmations > 0) {
-                    if (parent.fromWrapToken.name.toLowerCase() === 'btc') {
-                        parent.fromWrapToken.amount =
-                            new BigNumber(data.transaction.InTx.Amount).multipliedBy(10 ** 8).toString(10)
-                    } else {
-                        parent.fromWrapToken.amount = data.transaction.InTx.Amount
-                    }
+                    parent.fromWrapToken.amount = data.transaction.InTx.Amount
                     clearInterval(this.interval)
                     parent.step++
                 }
