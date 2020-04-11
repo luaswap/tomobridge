@@ -2,11 +2,19 @@
     <div id="unwrapbox">
         <div class="unwrap__info text-center">
             <p>
-                You are about to unwrap and then send your {{ toWrapToken.name }} to the address
+                You are about to unwrap and then send your {{ toWrapToken.name }} to the address:
             </p>
-            <p class="text-truncate">
+            <b-row class="wrapbox__row">
+                <b-col>
+                    <b-form-input
+                        id="address-input"
+                        v-model="recAddress"
+                        placeholder="Please your receive address"/>
+                </b-col>
+            </b-row>
+            <!-- <p class="text-truncate">
                 <a href="#">{{ receiveAddress }}</a>
-            </p>
+            </p> -->
         </div>
         <div class="unwrap__confirm">
             <p class="unwrap-confirm__title">
@@ -61,7 +69,7 @@ export default {
             allChecked: false,
             fromWrapToken: {},
             toWrapToken: {},
-            receiveAddress: ''
+            recAddress: ''
         }
     },
     async updated () {
@@ -82,11 +90,12 @@ export default {
         unWrapToken () {
             const parent = this.parent
             if (parent.address) {
+                parent.receiveAddress = this.recAddress
                 this.$router.push({
                     name: 'UnWrapExecution',
                     params: {
                         parent,
-                        receiveAddress: parent.receiveAddress,
+                        receiveAddress: this.recAddress,
                         fromWrapToken: this.$store.state.fromWrapToken,
                         toWrapToken: this.$store.state.toWrapToken
                     }

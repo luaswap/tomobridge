@@ -4,11 +4,10 @@
             <h3 class="step-three__title">We are sending you...</h3>
             <p class="step-three__subtitle">
                 {{ convertAmount(inAmount) }} {{ toToken.name || '' }} to address</p>
-            <a
-                href="#"
+            <p
                 class="step-three__address">
                 {{ receiveAddress }}
-            </a>
+            </p>
             <div class="step-three__progress">
                 <div class="progress-bar">
                     <div class="progress-bar__inner">
@@ -21,9 +20,9 @@
                     </div>
                     <span class="progress-bar__total">{{ requiredConfirm }} Blocks</span>
                 </div>
-                <div class="step-three__fee text-primary">
+                <!-- <div class="step-three__fee text-primary">
                     Fee: 1 TOMO
-                </div>
+                </div> -->
             </div>
         </div>
         <div

@@ -119,7 +119,7 @@
                             class="text-error">Please select</p>
                     </b-col>
                 </b-row>
-                <b-row class="wrapbox__row">
+                <!-- <b-row class="wrapbox__row">
                     <b-col>
                         <label
                             class="wrapbox__text"
@@ -130,7 +130,7 @@
                             v-model="receiveAddress"
                             placeholder="Please connect your TOMO wallet…"/>
                     </b-col>
-                </b-row>
+                </b-row> -->
                 <b-row
                     id="login"
                     class="wrapbox__row">
@@ -336,6 +336,7 @@ export default {
             if (self.address && !self.fromWrapError && !self.toWrapError) {
                 self.$store.state.fromWrapToken = self.fromWrapSelected
                 self.$store.state.toWrapToken = self.toWrapSelected
+                self.receiveAddress = self.address
                 self.$router.push({
                     name: 'WrapExecution',
                     params: {
@@ -354,6 +355,7 @@ export default {
             if (self.address && !self.fromWrapError && !self.toWrapError) {
                 self.$store.state.fromWrapToken = self.fromWrapSelected
                 self.$store.state.toWrapToken = self.toWrapSelected
+                self.receiveAddress = ''
                 this.$refs.unWrapModal.show()
             } else {
                 self.loginError = true
