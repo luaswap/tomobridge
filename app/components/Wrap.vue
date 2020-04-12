@@ -178,6 +178,9 @@
                         <p
                             v-if="address">Account: {{ address }}</p>
                         <p
+                            v-if="address && wrapType === 'unwrap' && toWrapSelected">
+                            Balance: {{ balance }} {{ fromWrapSelected.name || '' }} {{ toWrapSelected.name }}</p>
+                        <p
                             v-if="loginError"
                             class="text-error">Please connect your TOMO wallet</p>
                     </b-col>
@@ -287,6 +290,7 @@ import HardwareWalletModal from './modals/HarwareWalletModal'
 import SelectAddressModal from './modals/SelectAddressModal'
 import MnemonicModal from './modals/MnemonicModal'
 import store from 'store'
+import BigNumber from 'bignumber.js'
 
 export default {
     name: 'App',
@@ -316,7 +320,8 @@ export default {
             loginError: false,
             wrapType: 'wrap',
             fromWrapError: false,
-            toWrapError: false
+            toWrapError: false,
+            balance: 0
         }
     },
     computed : {
@@ -324,6 +329,16 @@ export default {
             const isAndroid = navigator.userAgent.match(/Android/i)
             const isIOS = navigator.userAgent.match(/iPhone|iPad|iPod/i)
             return (isAndroid || isIOS)
+        }
+    },
+    watch: {
+        toWrapSelected: async function (newValue) {
+            if (this.address &&
+                this.wrapType === 'unwrap' &&
+                newValue
+            ) {
+                await this.getBalance(newValue)
+            }
         }
     },
     async updated () {
@@ -392,7 +407,7 @@ export default {
                 self.loginError = true
             }
         },
-        changeWrap () {
+        async changeWrap () {
             const temp1 = this.fromData
             const temp2 = this.fromWrapSelected
 
@@ -452,7 +467,55 @@ export default {
                     this.$store.state.address = this.address.toLowerCase()
                 }
             } catch (error) {
+                console.log(error)
                 this.$toasted.show(error, { type: 'erroor' })
+            }
+        },
+        convertAmount (id, amount) {
+            let result
+            switch (id.name.toLowerCase()) {
+            case 'eth':
+                result = new BigNumber(amount).div(10 ** 18).toString(10)
+                return result
+            case 'btc':
+                result = new BigNumber(amount).div(10 ** 8).toString(10)
+                return result
+            case 'usdt':
+                result = new BigNumber(amount).div(10 ** 6).toString(10)
+                return result
+            default:
+                return result
+            }
+        },
+        getContract (id) {
+            let contract
+            const blockchain = this.config.blockchain
+            switch (id.name.toLowerCase()) {
+            case 'eth':
+                contract = this.ethContract
+                return { contract, contractAddress: blockchain.ethWrapperAddress }
+            case 'btc':
+                contract = this.btcContract
+                return { contract, contractAddress: blockchain.btcWrapperAddress }
+            case 'usdt':
+                contract = this.usdtContract
+                return { contract, contractAddress: blockchain.usdtWrapperAddress }
+            default:
+                return contract
+            }
+        },
+        async getBalance (id) {
+            try {
+                if (this.wrapType === 'unwrap') {
+                    const { contract } = this.getContract(id)
+                    if (contract) {
+                        const balance = await contract.methods.balanceOf(this.address).call()
+                        this.balance = this.convertAmount(id, balance)
+                    }
+                }
+            } catch (error) {
+                console.log(error)
+                this.$toasted.show(error, { type: 'error' })
             }
         }
     }

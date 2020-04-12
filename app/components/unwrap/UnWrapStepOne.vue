@@ -146,7 +146,7 @@ export default {
                 return { contract, contractAddress: blockchain.ethWrapperAddress }
             case 'btc':
                 contract = this.btcContract
-                return { contract, contractAddress: blockchain.btcWrapperAdddress }
+                return { contract, contractAddress: blockchain.btcWrapperAddress }
             case 'usdt':
                 contract = this.usdtContract
                 return { contract, contractAddress: blockchain.usdtWrapperAddress }
