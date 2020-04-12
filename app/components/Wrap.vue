@@ -22,7 +22,9 @@
                     id="nav-collapse"
                     is-nav>
                     <b-navbar-nav class="ml-auto navbar-buttons">
-                        <b-nav-item to="/txs/">
+                        <b-nav-item
+                            v-if="address"
+                            to="/txs/">
                             Transaction History<i class="nav-item__icon tb-long-arrow-right" />
                         </b-nav-item>
                         <b-nav-item-dropdown
@@ -35,7 +37,9 @@
                 </b-collapse>
             </b-navbar>
             <custom-scrollbar id="wrapbox">
-                <p class="wrapbox__text">Wrap your token</p>
+                <p class="wrapbox__text">
+                    {{ wrapType === 'wrap' ? 'Wrap' : 'UnWrap' }}
+                    your token</p>
                 <b-row class="wrapbox__row">
                     <b-col
                         cols="5">
@@ -119,7 +123,7 @@
                             class="text-error">Please select</p>
                     </b-col>
                 </b-row>
-                <b-row class="wrapbox__row">
+                <!-- <b-row class="wrapbox__row">
                     <b-col>
                         <label
                             class="wrapbox__text"
@@ -130,7 +134,7 @@
                             v-model="receiveAddress"
                             placeholder="Please connect your TOMO wallet…"/>
                     </b-col>
-                </b-row>
+                </b-row> -->
                 <b-row
                     id="login"
                     class="wrapbox__row">
@@ -145,6 +149,12 @@
                                     style="width: 15px; height: 25px">
                                 <span>TomoWallet</span>
                             </b-button>
+                            <b-button @click="loginMetamask">
+                                <img
+                                    src="app/assets/images/metamask.png"
+                                    alt="Private key">
+                                <span>Metamask</span>
+                            </b-button>
                             <b-button
                                 @click="loginHDWallet">
                                 <img
@@ -158,13 +168,32 @@
                                     alt="Private key">
                                 <span>Private key</span>
                             </b-button>
+                            <b-button @click="loginMnemonic">
+                                <img
+                                    src="app/assets/images/key.svg"
+                                    alt="Private key">
+                                <span>Mnemonic</span>
+                            </b-button>
                         </div>
+                        <p
+                            v-if="address">Account: {{ address }}</p>
+                        <p
+                            v-if="address && wrapType === 'unwrap' && toWrapSelected">
+                            Balance: {{ balance }} {{ fromWrapSelected.name || '' }} {{ toWrapSelected.name }}</p>
                         <p
                             v-if="loginError"
                             class="text-error">Please connect your TOMO wallet</p>
                     </b-col>
                 </b-row>
                 <div class="text-sm-center">
+                    <b-form-checkbox
+                        v-model="isAgreed">
+                        By Wrapping, you agree to the
+                        <a
+                            href="https://docs.tomochain.com/legal/terms-of-use"
+                            target="_blank">
+                            Terms and Conditions</a>
+                    </b-form-checkbox>
                     <b-button
                         v-if="wrapType === 'wrap'"
                         :disabled="!isAgreed"
@@ -178,12 +207,8 @@
                         variant="primary"
                         @click="unWrapToken">
                         UnWrap Now</b-button>
-                    <b-form-checkbox
-                        v-model="isAgreed">
-                        By Wrapping, you agree to the <a href="#">Terms and Conditions</a>
-                    </b-form-checkbox>
                     <p
-                        v-if="receiveAddress"
+                        v-if="address"
                         class="wrapbox__signout mt-3">
                         <b-button
                             variant="link"
@@ -204,6 +229,17 @@
             hide-footer
             size="md">
             <PrivateKeyModal :parent="this"/>
+        </b-modal>
+
+        <b-modal
+            id="mnemonicModal"
+            ref="mnemonicModal"
+            title="Connect with Mnemonic"
+            centered
+            scrollable
+            hide-footer
+            size="md">
+            <MnemonicModal :parent="this"/>
         </b-modal>
 
         <!-- Hardware wallet modal-->
@@ -252,6 +288,9 @@ import UnWrap from './UnWrap'
 import PrivateKeyModal from './modals/PrivateKeyModal'
 import HardwareWalletModal from './modals/HarwareWalletModal'
 import SelectAddressModal from './modals/SelectAddressModal'
+import MnemonicModal from './modals/MnemonicModal'
+import store from 'store'
+import BigNumber from 'bignumber.js'
 
 export default {
     name: 'App',
@@ -261,7 +300,8 @@ export default {
         UnWrap,
         PrivateKeyModal,
         HardwareWalletModal,
-        SelectAddressModal
+        SelectAddressModal,
+        MnemonicModal
     },
     mixins: [],
     data () {
@@ -281,8 +321,7 @@ export default {
             wrapType: 'wrap',
             fromWrapError: false,
             toWrapError: false,
-            fromTokens: ['BTC', 'ETH', 'USDT', 'XLM'],
-            toTokens: ['TRC20', 'TRC21']
+            balance: 0
         }
     },
     computed : {
@@ -290,6 +329,16 @@ export default {
             const isAndroid = navigator.userAgent.match(/Android/i)
             const isIOS = navigator.userAgent.match(/iPhone|iPad|iPod/i)
             return (isAndroid || isIOS)
+        }
+    },
+    watch: {
+        toWrapSelected: async function (newValue) {
+            if (this.address &&
+                this.wrapType === 'unwrap' &&
+                newValue
+            ) {
+                await this.getBalance(newValue)
+            }
         }
     },
     async updated () {
@@ -306,21 +355,21 @@ export default {
     },
     destroyed () { },
     created: async function () {
-        this.config = await this.appConfig() || {}
-        this.address = await this.getAccount() || ''
+        this.config = store.get('configBridge') || await this.appConfig()
         this.fromData = this.config.swapCoin || []
         this.toData = this.config.swapToken || []
+        this.toWrapSelected = this.toData[0]
 
         if (window.web3 && window.web3.currentProvider &&
             window.web3.currentProvider.isTomoWallet) {
             const wjs = new Web3(window.web3.currentProvider)
             this.setupProvider('tomowallet', wjs)
-            this.account = await this.getAccount()
-            if (this.account) {
+            this.address = await this.getAccount()
+            if (this.address) {
                 this.$store.state.address = this.account.toLowerCase()
             }
         } else {
-            this.account = this.$store.state.address || await this.getAccount()
+            this.address = this.$store.state.address || await this.getAccount()
         }
     },
     methods: {
@@ -333,6 +382,7 @@ export default {
             if (self.address && !self.fromWrapError && !self.toWrapError) {
                 self.$store.state.fromWrapToken = self.fromWrapSelected
                 self.$store.state.toWrapToken = self.toWrapSelected
+                self.receiveAddress = self.address
                 self.$router.push({
                     name: 'WrapExecution',
                     params: {
@@ -351,12 +401,13 @@ export default {
             if (self.address && !self.fromWrapError && !self.toWrapError) {
                 self.$store.state.fromWrapToken = self.fromWrapSelected
                 self.$store.state.toWrapToken = self.toWrapSelected
+                self.receiveAddress = ''
                 this.$refs.unWrapModal.show()
             } else {
                 self.loginError = true
             }
         },
-        changeWrap () {
+        async changeWrap () {
             const temp1 = this.fromData
             const temp2 = this.fromWrapSelected
 
@@ -371,7 +422,9 @@ export default {
         },
         loginHDWallet () {
             this.$refs.hdWalletModal.show()
-            // this.$refs.selectAddressModal.show()
+        },
+        loginMnemonic () {
+            this.$refs.mnemonicModal.show()
         },
         checkselectedWrapToken () {
             if (this.fromWrapSelected === null) {
@@ -400,6 +453,69 @@ export default {
                 if (confirm('Download TomoWallet to open in app')) {
                     window.open('https://play.google.com/store/apps/details?id=com.tomochain.wallet&hl=en')
                 }
+            }
+        },
+
+        async loginMetamask () {
+            try {
+                if (window.web3) {
+                    const walletProvider = window.web3.currentProvider
+                    const wjs = new Web3(walletProvider)
+
+                    this.setupProvider('metamask', wjs)
+                    this.address = await this.getAccount()
+                    this.$store.state.address = this.address.toLowerCase()
+                }
+            } catch (error) {
+                console.log(error)
+                this.$toasted.show(error, { type: 'erroor' })
+            }
+        },
+        convertAmount (id, amount) {
+            let result
+            switch (id.name.toLowerCase()) {
+            case 'eth':
+                result = new BigNumber(amount).div(10 ** 18).toString(10)
+                return result
+            case 'btc':
+                result = new BigNumber(amount).div(10 ** 8).toString(10)
+                return result
+            case 'usdt':
+                result = new BigNumber(amount).div(10 ** 6).toString(10)
+                return result
+            default:
+                return result
+            }
+        },
+        getContract (id) {
+            let contract
+            const blockchain = this.config.blockchain
+            switch (id.name.toLowerCase()) {
+            case 'eth':
+                contract = this.ethContract
+                return { contract, contractAddress: blockchain.ethWrapperAddress }
+            case 'btc':
+                contract = this.btcContract
+                return { contract, contractAddress: blockchain.btcWrapperAddress }
+            case 'usdt':
+                contract = this.usdtContract
+                return { contract, contractAddress: blockchain.usdtWrapperAddress }
+            default:
+                return contract
+            }
+        },
+        async getBalance (id) {
+            try {
+                if (this.wrapType === 'unwrap') {
+                    const { contract } = this.getContract(id)
+                    if (contract) {
+                        const balance = await contract.methods.balanceOf(this.address).call()
+                        this.balance = this.convertAmount(id, balance)
+                    }
+                }
+            } catch (error) {
+                console.log(error)
+                this.$toasted.show(error, { type: 'error' })
             }
         }
     }

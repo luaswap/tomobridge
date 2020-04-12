@@ -8,7 +8,8 @@
                         'steps__col--active' : step >= 1,
                     }"
                     class="steps__col">
-                    <p class="steps__name">Deposit <br>{{ fromWrapToken.name || '' }}</p>
+                    <p class="steps__name">
+                        Unwrap <br>{{ fromWrapToken.name || '' }} {{ toWrapToken.name || '' }}</p>
                     <p class="steps__number"><span>1</span></p>
                 </b-col>
                 <b-col
@@ -47,6 +48,7 @@
 import UnWrapStepOne from './UnWrapStepOne'
 import UnWrapStepTwo from './UnWrapStepTwo'
 import UnWrapStepThree from './UnWrapStepThree'
+import store from 'store'
 
 export default {
     name: 'App',
@@ -60,7 +62,8 @@ export default {
             step: 1,
             fromWrapToken: {},
             toWrapToken: {},
-            receiveAddress: ''
+            receiveAddress: '',
+            config: {}
         }
     },
     async updated () {
@@ -73,6 +76,7 @@ export default {
                 path: '/'
             })
         }
+        this.config = store.get('configBridge') || await this.appConfig()
         this.fromWrapToken = this.$route.params.fromWrapToken
         this.toWrapToken = this.$route.params.toWrapToken
         this.receiveAddress = this.$route.params.receiveAddress

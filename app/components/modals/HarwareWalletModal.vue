@@ -114,7 +114,7 @@ export default {
         this.wallets = {}
     },
     created: async function () {
-        this.config = store.get('config') || await this.appConfig()
+        this.config = store.get('configBridge') || await this.appConfig()
     },
     methods: {
         back () {
@@ -141,6 +141,7 @@ export default {
                 document.body.style.cursor = 'wait'
                 await self.unlockLedger(self.hdPath)
                 walletList = await self.loadMultipleLedgerWallets(from, limit)
+
                 if (Object.keys(walletList).length > 0) {
                     Object.assign(self.wallets, self.wallets, walletList)
                     document.body.style.cursor = 'default'
@@ -154,9 +155,6 @@ export default {
                     type : 'error'
                 })
                 document.body.style.cursor = 'default'
-                if (self.step !== 2) {
-                    self.step = 2
-                }
             }
         },
         async setHdPath () {
@@ -164,12 +162,12 @@ export default {
             const offset = document.querySelector('input[name="hdWallet"]:checked').value.toString()
             store.set('hdDerivationPath', this.hdPath + '/' + offset)
             store.set('offset', offset)
-            const blockchain = this.config
+            const blockchain = this.config.blockchain
             const walletProvider = new Web3(new Web3.providers.HttpProvider(blockchain.rpc))
             await this.setupProvider('ledger', walletProvider)
             const address = await this.getAccount()
             parent.address = address
-            parent.receiveAddress = address
+            this.$store.state.address = address.toLowerCase()
             parent.$refs.hdWalletModal.hide()
         },
         async moreHdAddresses () {

@@ -6,25 +6,42 @@
             @submit.prevent="validate()">
             <b-form-group
                 class="pk-form__group"
-                label="Private Key"
+                label="Mnemonic"
                 label-for="pk-input">
                 <b-form-input
                     id="pk-input"
-                    v-model="privateKey"
-                    placeholder="Enter Private Key..."
-                    type="password"/>
+                    v-model="mnemonic"
+                    placeholder="Enter Mnemonic..."
+                    type="text"/>
                 <div
-                    v-if="$v.privateKey.$dirty && !$v.privateKey.required"
+                    v-if="$v.mnemonic.$dirty && !$v.mnemonic.required"
                     class="text-error pt-2">Required field</div>
-                <b-button
-                    id="show-pk-button"
-                    @click="showPrivateKey">
-                    Show
-                    <i class="tb-eye"/>
-                </b-button>
+            </b-form-group>
+            <b-form-group
+                class="mb-4"
+                label="Select HD derivation path"
+                label-for="hdPath">
+                <b-form-input
+                    v-model="hdPath"
+                    type="text"
+                    placeholder="m/44’/889’/0’/0"/>
+                <b-form-text>
+                    To unlock the wallet,
+                    try paths <span
+                        class="hd-path"
+                        @click="changePath(`m/44'/60'/0'`)">m/44'/60'/0'</span> or
+                    <span
+                        class="hd-path"
+                        @click="changePath(`m/44'/60'/0'/0`)">m/44'/60'/0'/0</span>
+                    for Etherium path or
+                    <span
+                        class="hd-path"
+                        @click="changePath(`m/44'/889'/0'/0`)">m/44'/889'/0'/0</span>
+                    for TomoChain path.
+                </b-form-text>
             </b-form-group>
             <div class="modal-buttons">
-                <b-button @click="closePrivateKeyModal">Cancel</b-button>
+                <b-button @click="closeMnemonicModal">Cancel</b-button>
                 <b-button
                     type="submit"
                     variant="primary">Confirm</b-button>
@@ -41,6 +58,7 @@ import {
     required
 } from 'vuelidate/lib/validators'
 import store from 'store'
+import { HDWalletProvider } from '../../../helpers/mnenonic'
 export default {
     name: 'App',
     components: { },
@@ -53,11 +71,12 @@ export default {
     },
     data () {
         return {
-            privateKey: ''
+            hdPath: "m/44'/889'/0'/0", // HD DerivationPath of hardware wallet
+            mnemonic: 'such over nurse squirrel interest permit obscure eyebrow erupt long clown trash'
         }
     },
     validations: {
-        privateKey: {
+        mnemonic: {
             required
         }
     },
@@ -81,9 +100,14 @@ export default {
             let walletProvider
             let provider
             try {
-                provider = 'privateKey'
-                self.privateKey = self.privateKey.trim()
-                walletProvider = new PrivateKeyProvider(self.privateKey, config.blockchain.rpc)
+                provider = 'custom'
+                self.mnemonic = self.mnemonic.trim()
+                self.mnemonic = self.mnemonic.trim()
+                walletProvider = (self.mnemonic.indexOf(' ') >= 0)
+                    ? new HDWalletProvider(
+                        self.mnemonic,
+                        config.blockchain.rpc, 0, 1, self.hdPath)
+                    : new PrivateKeyProvider(self.mnemonic, config.blockchain.rpc)
 
                 self.setupProvider(provider, new Web3(walletProvider))
                 const address = await self.getAccount()
@@ -91,7 +115,7 @@ export default {
                 if (address) {
                     self.$store.state.address = address.toLowerCase()
                     parent.address = address
-                    self.closePrivateKeyModal()
+                    self.closeMnemonicModal()
                 }
             } catch (error) {
                 self.$toasted.show(
@@ -101,22 +125,13 @@ export default {
                 )
             }
         },
-        closePrivateKeyModal () {
+        closeMnemonicModal () {
             const parent = this.parent
-            this.privateKey = ''
-            parent.$refs.privateKeyModal.hide()
+            this.mnemonic = ''
+            parent.$refs.mnemonicModal.hide()
         },
-        showPrivateKey () {
-            let pkInput = document.querySelector('#pk-input')
-            let showPkButton = document.querySelector('#show-pk-button')
-
-            if (pkInput.getAttribute('type') === 'password') {
-                pkInput.setAttribute('type', 'text')
-                showPkButton.classList.add('active')
-            } else {
-                pkInput.setAttribute('type', 'password')
-                showPkButton.classList.remove('active')
-            }
+        changePath (path) {
+            this.hdPath = path
         }
     }
 }

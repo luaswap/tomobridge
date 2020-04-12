@@ -13,7 +13,10 @@ import * as ethUtils from 'ethereumjs-util'
 import * as HDKey from 'hdkey'
 import axios from 'axios'
 import Web3 from 'web3'
+import TransactionTx from 'ethereumjs-tx'
 import * as localStorage from 'store'
+// abis
+import WrapperAbi from '../abis/WrapperAbi.json'
 
 // Components
 import Home from './components/Home.vue'
@@ -45,10 +48,25 @@ const store = new Vuex.Store({
     }
 })
 
-Vue.prototype.setupProvider = async function (provider, walletProvider) {
+Vue.prototype.setupProvider = async function (provider, web3) {
     Vue.prototype.NetworkProvider = provider
-    if (walletProvider instanceof Web3) {
-        Vue.prototype.web3 = walletProvider
+    if (web3 instanceof Web3) {
+        Vue.prototype.web3 = web3
+        const config = await getConfig()
+        localStorage.set('configBridge', config)
+        const chainConfig = config.blockchain
+        Vue.prototype.ethContract = new Vue.prototype.web3.eth.Contract(
+            WrapperAbi.abi,
+            chainConfig.ethWrapperAddress
+        )
+        Vue.prototype.btcContract = new Vue.prototype.web3.eth.Contract(
+            WrapperAbi.abi,
+            chainConfig.btcWrapperAddress
+        )
+        Vue.prototype.usdtContract = new Vue.prototype.web3.eth.Contract(
+            WrapperAbi.abi,
+            chainConfig.usdtWrapperAddress
+        )
     }
 }
 
@@ -57,7 +75,15 @@ Vue.prototype.getAccount = async function (resolve, reject) {
     const web3 = Vue.prototype.web3
     let account
     switch (provider) {
+    case 'metamask':
+        // Request account access if needed - for metamask
+        await window.ethereum.enable()
+        account = (await web3.eth.getAccounts())[0]
+        break
     case 'privateKey':
+        account = (await web3.eth.getAccounts())[0]
+        break
+    case 'custom':
         account = (await web3.eth.getAccounts())[0]
         break
     case 'ledger':
@@ -161,6 +187,66 @@ Vue.prototype.loadMultipleLedgerWallets = async function (offset, limit) {
     return wallets
 }
 
+/**
+ * @param object txParams
+ * @return object signature {r, s, v}
+ */
+Vue.prototype.signTransaction = async function (txParams) {
+    try {
+        const path = localStorage.get('hdDerivationPath')
+        const provider = Vue.prototype.NetworkProvider
+        let signature
+        if (provider === 'ledger') {
+            const config = localStorage.get('configBridge') || await getConfig()
+            const chainConfig = config.blockchain
+            const rawTx = new TransactionTx(txParams)
+            rawTx.v = Buffer.from([chainConfig.networkId])
+            const serializedRawTx = rawTx.serialize().toString('hex')
+            signature = await Vue.prototype.appEth.signTransaction(
+                path,
+                serializedRawTx
+            )
+        }
+        return signature
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}
+
+/**
+ * @param object txParams
+ * @param object signature {r,s,v}
+ * @return transactionReceipt
+ */
+Vue.prototype.sendSignedTransaction = function (txParams, signature) {
+    return new Promise((resolve, reject) => {
+        try {
+            // "hexify" the keys
+            Object.keys(signature).map((key, _) => {
+                if (signature[key].startsWith('0x')) {
+                    return signature[key]
+                } else signature[key] = '0x' + signature[key]
+            })
+            let txObj = Object.assign({}, txParams, signature)
+            let tx = new TransactionTx(txObj)
+            let serializedTx = '0x' + tx.serialize().toString('hex')
+            // web3 v0.2, method name is sendRawTransaction
+            // You are using web3 v1.0. The method was renamed to sendSignedTransaction.
+            Vue.prototype.web3.eth.sendSignedTransaction(
+                serializedTx
+            ).on('transactionHash', (txHash) => {
+                resolve(txHash)
+            }).catch(error => reject(error))
+            // if (!rs.tx && rs.transactionHash) {
+            //     rs.tx = rs.transactionHash
+            // }
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
 const getConfig = Vue.prototype.appConfig = async function () {
     let config = await axios.get('/api/config')
     return config.data
@@ -186,7 +272,8 @@ Vue.prototype.detectNetwork = async function (provider) {
                         Vue.prototype.appEth = await new Eth(transport)
                     }
                 }
-                const config = localStorage.get('config') || await getConfig()
+                const config = localStorage.get('configBridge') || await getConfig()
+                console.log('configconfig', config)
                 const chainConfig = config.blockchain
                 wjs = new Web3(new Web3.providers.HttpProvider(chainConfig.rpc))
                 break
@@ -202,6 +289,15 @@ Vue.prototype.detectNetwork = async function (provider) {
 
 Vue.prototype.getCurrencySymbol = function () {
     return 'TOMO'
+}
+
+Vue.prototype.string2byte = function (str) {
+    let byteArray = []
+    for (let j = 0; j < str.length; j++) {
+        byteArray.push(str.charCodeAt(j))
+    }
+
+    return byteArray
 }
 
 const router = new VueRouter({

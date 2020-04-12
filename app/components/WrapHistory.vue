@@ -34,8 +34,7 @@
             </b-col>
             <b-col cols="2">
                 <b-button
-                    class="swap-btn"
-                    @click="changeWrap">
+                    class="swap-btn">
                     Swap
                     <i class="tb-swap-arrow-right"/>
                     <i class="tb-swap-arrow-left"/>
@@ -94,16 +93,16 @@
                 <div class="wrap-history__txs">
                     <div class="wrap-history__txs-header">
                         <h4 class="wrap-history__title">Transactions</h4>
-                        <a
+                        <!-- <a
                             href="#"
                             class="wrap-history__txs-link">View all
                             <i class="tb-long-arrow-right"/>
-                        </a>
+                        </a> -->
                     </div>
                     <custom-scrollbar>
                         <ul class="wrap-history__txs-list">
                             <li
-                                v-for="(item, index) in wrapTxs"
+                                v-for="(item, index) in mainTxs"
                                 :key="index"
                                 class="wrap-history__txs-item">
                                 <p class="wrap-history__tx-row text-truncate">
@@ -176,11 +175,11 @@
                 <div class="wrap-history__txs">
                     <div class="wrap-history__txs-header">
                         <h4 class="wrap-history__title">Transactions</h4>
-                        <a
+                        <!-- <a
                             href="#"
                             class="wrap-history__txs-link">View all
                             <i class="tb-long-arrow-right"/>
-                        </a>
+                        </a> -->
                     </div>
                     <custom-scrollbar>
                         <ul
@@ -239,6 +238,10 @@
 <script>
 import Multiselect from 'vue-multiselect'
 import CustomScrollbar from 'vue-custom-scrollbar'
+import store from 'store'
+import axios from 'axios'
+import BigNumber from 'bignumber.js'
+import moment from 'moment'
 export default {
     name: 'App',
     components: {
@@ -310,15 +313,47 @@ export default {
                 }
             ],
             fromTokens: ['BTC', 'ETH', 'USDT', 'XLM'],
-            toTokens: ['TRC20', 'TRC21']
+            toTokens: ['TRC20', 'TRC21'],
+            mainTxs: []
         }
     },
     async updated () { },
     destroyed () { },
     created: async function () {
-        this.config = await this.appConfig() || {}
+        this.config = store.get('configBridge') || await this.appConfig()
         this.fromData = this.config.swapCoin || []
         this.toData = this.config.swapToken || []
+        this.fromWrapSelected = this.fromData[0]
+        this.toWrapSelected = this.toData[0]
+        const b = new BigNumber(1)
+        console.log(b)
+        const response = await this.getTxs()
+        const result1 = []
+        const result2 = []
+        if (response && response.data) {
+            response.data.mainTxs.map(tx => {
+                result1.push({
+                    hash: tx.Hash,
+                    from: tx.From,
+                    to: tx.To,
+                    createdAt: moment(tx.createdAt).fromNow(),
+                    dateTooltip: moment(tx.createdAt).format('lll'),
+                    type: tx.Status
+                })
+            })
+            response.data.wrapTxs.map(tx => {
+                result2.push({
+                    hash: tx.Hash,
+                    from: tx.From,
+                    to: tx.To,
+                    createdAt: moment(tx.createdAt).fromNow(),
+                    dateTooltip: moment(tx.createdAt).format('lll'),
+                    type: tx.Status
+                })
+            })
+        }
+        this.mainTxs = result1
+        this.wrapTxs = result2
     },
     methods: {
         customLabel ({ name }) {
@@ -346,6 +381,16 @@ export default {
             return fullStr.substr(0, frontChars) +
                separator +
                fullStr.substr(fullStr.length - backChars)
+        },
+        async getTxs () {
+            try {
+                console.log(this.fromWrapSelected)
+                const result = await axios.get('/api/transactions?coin=' +
+                    this.fromWrapSelected.name.toLowerCase())
+                return result
+            } catch (error) {
+                this.$toasted.show(error, { type: 'error' })
+            }
         }
     }
 }

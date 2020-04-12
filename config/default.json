@@ -12,8 +12,15 @@
     "blockchain": {
         "rpc": "https://testnet.tomochain.com",
         "ws": "wss://testnet.tomochain.com/ws",
-        "networkId": 89
+        "networkId": 89,
+        "gas": 2000000,
+        "ethWrappAddress": "",
+        "btcWrapperAddress": "",
+        "usdtWrapperAddress": ""
     },
+    "tomoscanUrl": "http://localhost:3003",
+    "tomoscanAPI": "https://scan.tomochain.com",
+    "serverAPI": "",
     "db": {
         "uri": "mongodb://mongodb:27017/tomobridge"
     },
@@ -25,30 +32,26 @@
         {
             "name": "BTC",
             "img": "app/assets/images/crypto-logos/btc.png",
-            "address": "0x0000000000000000000000000000000000000001"
+            "confirmations": 6
         },
         {
             "name": "ETH",
             "img": "app/assets/images/crypto-logos/eth.png",
-            "address": "0x0000000000000000000000000000000000000002"
+            "confirmations": 12
         },
         {
             "name": "USDT",
             "img": "app/assets/images/crypto-logos/usdt.png",
-            "address": "0x0000000000000000000000000000000000000003"
+            "confirmations": 12
         },
         {
             "name": "XLM",
-            "img": "app/assets/images/crypto-logos/xlm.png",
-            "address": "0x0000000000000000000000000000000000000004"
+            "img": "app/assets/images/crypto-logos/xlm.png"
         }
     ],
     "swapToken": [
         {
             "name": "TRC21"
-        },
-        {
-            "name": "TRC20"
         }
     ]
 }

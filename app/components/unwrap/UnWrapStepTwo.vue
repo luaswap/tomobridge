@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
     name: 'App',
     components: {
@@ -24,15 +25,43 @@ export default {
     },
     data () {
         return {
+            interval: ''
         }
     },
     async updated () { },
-    destroyed () { },
-    created: async function () { },
+    destroyed () {
+        if (this.interval) {
+            clearInterval(this.interval)
+        }
+    },
+    created: async function () {
+        const parent = this.parent
+        this.interval = setInterval(async () => {
+            const data = await this.scanTX()
+            if (data && data.transaction && data.transaction.InTx) {
+                if (data.transaction.InTx.Status === 'BURNED') {
+                    parent.toWrapToken.amount = data.transaction.InTx.Amount
+                    clearInterval(this.interval)
+                    parent.step++
+                }
+            }
+        }, 5000)
+    },
     methods: {
         back () {
             const par = this.parent
             par.step--
+        },
+        async scanTX () {
+            const parent = this.parent
+            const address = this.$store.state.address || ''
+            const wrapToken = parent.toWrapToken
+            const txData = await axios.get(
+                `/api/wrap/getTransaction/withdraw/${wrapToken.name}/${address}`
+            )
+            if (txData && txData.data) {
+                return txData.data
+            }
         }
     }
 }
