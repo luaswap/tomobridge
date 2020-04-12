@@ -144,39 +144,40 @@
                             <b-button
                                 @click="loginWallet">
                                 <img
-                                    src="app/assets/images/tomowallet.svg"
+                                    src="/app/assets/images/tomowallet.svg"
                                     alt="TomoWallet"
                                     style="width: 15px; height: 25px">
                                 <span>TomoWallet</span>
                             </b-button>
                             <b-button @click="loginMetamask">
                                 <img
-                                    src="app/assets/images/metamask.png"
+                                    src="/app/assets/images/metamask.png"
                                     alt="Private key">
                                 <span>Metamask</span>
                             </b-button>
                             <b-button
                                 @click="loginHDWallet">
                                 <img
-                                    src="app/assets/images/ledger.svg"
+                                    src="/app/assets/images/ledger.svg"
                                     alt="Ledger">
                                 <span>Ledger</span>
                             </b-button>
                             <b-button @click="loginPrivateKey">
                                 <img
-                                    src="app/assets/images/key.svg"
+                                    src="/app/assets/images/key.svg"
                                     alt="Private key">
                                 <span>Private key</span>
                             </b-button>
                             <b-button @click="loginMnemonic">
                                 <img
-                                    src="app/assets/images/key.svg"
+                                    src="/app/assets/images/key.svg"
                                     alt="Private key">
                                 <span>Mnemonic</span>
                             </b-button>
                         </div>
                         <p
-                            v-if="address">Account: {{ address }}</p>
+                            v-if="address"
+                            style="margin-top: 1rem">Account: {{ address }}</p>
                         <p
                             v-if="address && wrapType === 'unwrap' && toWrapSelected">
                             Balance: {{ balance }} {{ fromWrapSelected.name || '' }} {{ toWrapSelected.name }}</p>
@@ -356,11 +357,31 @@ export default {
         }
     },
     destroyed () { },
+    mounted () {},
     created: async function () {
         this.config = store.get('configBridge') || await this.appConfig()
         this.fromData = this.config.swapCoin || []
         this.toData = this.config.swapToken || []
-        this.toWrapSelected = this.toData[0]
+
+        if (this.$route.matched[0].path === '/unwrap/:tokenSymbol') {
+            this.wrapType = 'unwrap'
+            this.toData = this.config.swapCoin || []
+            this.fromData = this.config.swapToken || []
+            this.toData.forEach(t => {
+                if (t.name.toLowerCase() === this.$route.params.tokenSymbol.toLowerCase()) {
+                    this.toWrapSelected = t
+                }
+            })
+            this.fromWrapSelected = this.fromData[0]
+        } else {
+            this.toWrapSelected = this.toData[0]
+            this.wrapType = 'wrap'
+            this.fromData.forEach(t => {
+                if (t.name.toLowerCase() === (this.$route.params.tokenSymbol || '').toLowerCase()) {
+                    this.fromWrapSelected = t
+                }
+            })
+        }
 
         if (window.web3 && window.web3.currentProvider &&
             window.web3.currentProvider.isTomoWallet) {
@@ -409,7 +430,7 @@ export default {
                 self.loginError = true
             }
         },
-        async changeWrap () {
+        changeWrap () {
             const temp1 = this.fromData
             const temp2 = this.fromWrapSelected
 
