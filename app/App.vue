@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <b-navbar
-            v-if="$route.path !== '/'"
+            v-if="$route.path !== '/' && !$route.params.tokenSymbol"
             sticky
             toggleable="md"
             variant="white"
