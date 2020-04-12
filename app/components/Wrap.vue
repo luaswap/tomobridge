@@ -139,7 +139,7 @@
                     id="login"
                     class="wrapbox__row">
                     <b-col>
-                        <p class="wrapbox__text">Or Connect with</p>
+                        <p class="wrapbox__text">Connect with</p>
                         <div class="wrapbox__buttons">
                             <b-button
                                 @click="loginWallet">
@@ -188,11 +188,13 @@
                 <div class="text-sm-center">
                     <b-form-checkbox
                         v-model="isAgreed">
-                        By Wrapping, you agree to the
-                        <a
-                            href="https://docs.tomochain.com/legal/terms-of-use"
-                            target="_blank">
-                            Terms and Conditions</a>
+                        <p>
+                            By {{ (wrapType === 'wrap') ? 'wrapping' : 'unwrapping' }}, you agree to the
+                            <a
+                                href="https://docs.tomochain.com/legal/terms-of-use"
+                                target="_blank">
+                                Terms and Conditions</a>
+                        </p>
                     </b-form-checkbox>
                     <b-button
                         v-if="wrapType === 'wrap'"
