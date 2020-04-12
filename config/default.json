@@ -52,9 +52,6 @@
     "swapToken": [
         {
             "name": "TRC21"
-        },
-        {
-            "name": "TRC20"
         }
     ]
 }

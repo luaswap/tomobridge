@@ -38,7 +38,7 @@ export default {
         const parent = this.parent
         this.interval = setInterval(async () => {
             const data = await this.scanTX()
-            if (data && data.transaction && data.transaction.InTx) {
+            if (data && data.transaction && data.transaction.InTx && data.transaction.OutTx.Hash === '') {
                 if (data.transaction.InTx.Confirmations > 0) {
                     parent.fromWrapToken.amount = data.transaction.InTx.Amount
                     clearInterval(this.interval)
