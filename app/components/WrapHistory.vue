@@ -10,7 +10,8 @@
                     :options="fromData"
                     :custom-label="customLabel"
                     :show-labels="false"
-                    track-by="name">
+                    track-by="name"
+                    @select="selectCoin">
                     <template
                         slot="singleLabel"
                         slot-scope="props">
@@ -75,19 +76,19 @@
                 md="6"
                 xl="5">
                 <div class="wrap-history__wallet text-truncate">
-                    <h4 class="wrap-history__title">ETH wallet</h4>
+                    <h4 class="wrap-history__title">{{ fromWrapSelected.name }} wallet</h4>
                     <a
                         href="#"
                         class="wrap-history__address">bnb1s3f8vxaqum3pft6cefyn99px8wq6uk3jdtyarn</a>
                     <div class="wrap-history__wallet-info">
-                        <p>
+                        <!-- <p>
                             <i class="tb-wallet"/>
                             <span>Total balance: 234 BTC</span>
                         </p>
                         <p>
                             <i class="tb-swap"/>
                             <span>Transactions: 10,290 txs</span>
-                        </p>
+                        </p> -->
                     </div>
                 </div>
                 <div class="wrap-history__txs">
@@ -140,7 +141,7 @@
                                     </span>
                                     <span class="wrap-history__tx-qty">
                                         <i class="tb-arrow-right"/>
-                                        5ETH
+                                        {{ item.value }} {{ fromWrapSelected.name }}
                                     </span>
                                 </p>
                             </li>
@@ -156,19 +157,20 @@
                 md="6"
                 xl="5">
                 <div class="wrap-history__wallet text-truncate">
-                    <h4 class="wrap-history__title">Wrapped ETH wallet</h4>
+                    <h4 class="wrap-history__title">
+                        Wrapped {{ toWrapSelected.name }} {{ fromWrapSelected.name }} wallet</h4>
                     <a
                         href="#"
-                        class="wrap-history__address">bnb1s3f8vxaqum3pft6cefyn99px8wq6uk3jdtyarn</a>
+                        class="wrap-history__address">{{ tokenAddress }}</a>
                     <div class="wrap-history__wallet-info">
-                        <p>
+                        <!-- <p>
                             <i class="tb-wallet"/>
                             <span>Total balance: 234 BTC</span>
                         </p>
                         <p>
                             <i class="tb-swap"/>
                             <span>Transactions: 10,290 txs</span>
-                        </p>
+                        </p> -->
                     </div>
                 </div>
 
@@ -223,7 +225,7 @@
                                     </span>
                                     <span class="wrap-history__tx-qty">
                                         <i class="tb-arrow-right"/>
-                                        5ETH
+                                        {{ item.value }} {{ toWrapSelected.name }} {{ fromWrapSelected.name }}
                                     </span>
                                 </p>
                             </li>
@@ -314,8 +316,28 @@ export default {
             ],
             fromTokens: ['BTC', 'ETH', 'USDT', 'XLM'],
             toTokens: ['TRC20', 'TRC21'],
-            mainTxs: []
+            mainTxs: [],
+            config: {}
         }
+    },
+    computed: {
+        tokenAddress: function () {
+            if (this.fromWrapSelected) {
+                const blockchain = this.config.blockchain
+                switch (this.fromWrapSelected.name.toLowerCase()) {
+                case 'btc':
+                    return blockchain.btcWrapperAddress
+                case 'eth':
+                    return blockchain.ethWrapperAddress
+                case 'usdt':
+                    return blockchain.usdtWrapperAddress
+                default:
+                    return ''
+                }
+            }
+        }
+    },
+    watch: {
     },
     async updated () { },
     destroyed () { },
@@ -325,9 +347,8 @@ export default {
         this.toData = this.config.swapToken || []
         this.fromWrapSelected = this.fromData[0]
         this.toWrapSelected = this.toData[0]
-        const b = new BigNumber(1)
-        console.log(b)
-        const response = await this.getTxs()
+
+        const response = await this.getTxs(this.fromWrapSelected)
         const result1 = []
         const result2 = []
         if (response && response.data) {
@@ -338,7 +359,8 @@ export default {
                     to: tx.To,
                     createdAt: moment(tx.createdAt).fromNow(),
                     dateTooltip: moment(tx.createdAt).format('lll'),
-                    type: tx.Status
+                    type: tx.Status,
+                    value: this.convertAmount(tx.CoinType, tx.Amount)
                 })
             })
             response.data.wrapTxs.map(tx => {
@@ -348,7 +370,8 @@ export default {
                     to: tx.To,
                     createdAt: moment(tx.createdAt).fromNow(),
                     dateTooltip: moment(tx.createdAt).format('lll'),
-                    type: tx.Status
+                    type: tx.Status,
+                    value: this.convertAmount(tx.CoinType, tx.Amount)
                 })
             })
         }
@@ -382,14 +405,74 @@ export default {
                separator +
                fullStr.substr(fullStr.length - backChars)
         },
-        async getTxs () {
+        async getTxs (coin) {
             try {
-                console.log(this.fromWrapSelected)
+                if (!coin) {
+                    coin = {
+                        name: 'BTC'
+                    }
+                }
                 const result = await axios.get('/api/transactions?coin=' +
                     this.fromWrapSelected.name.toLowerCase())
                 return result
             } catch (error) {
+                console.log(error)
                 this.$toasted.show(error, { type: 'error' })
+            }
+        },
+        async selectCoin (id) {
+            try {
+                const response = await this.getTxs(id)
+                const result1 = []
+                const result2 = []
+                if (response && response.data) {
+                    response.data.mainTxs.map(tx => {
+                        result1.push({
+                            hash: tx.Hash,
+                            from: tx.From,
+                            to: tx.To,
+                            createdAt: moment(tx.createdAt).fromNow(),
+                            dateTooltip: moment(tx.createdAt).format('lll'),
+                            type: tx.Status,
+                            value: this.convertAmount(tx.CoinType, tx.Amount)
+                        })
+                    })
+                    response.data.wrapTxs.map(tx => {
+                        result2.push({
+                            hash: tx.Hash,
+                            from: tx.From,
+                            to: tx.To,
+                            createdAt: moment(tx.createdAt).fromNow(),
+                            dateTooltip: moment(tx.createdAt).format('lll'),
+                            type: tx.Status,
+                            value: this.convertAmount(tx.CoinType, tx.Amount)
+                        })
+                    })
+                }
+                this.mainTxs = result1
+                this.wrapTxs = result2
+            } catch (error) {
+                console.log(error)
+                this.$toasted.show(error, { type: 'error' })
+            }
+        },
+        convertAmount (coin, amount) {
+            let result
+            switch (coin.toLowerCase()) {
+            case 'eth':
+            case 'tomoeth':
+                result = new BigNumber(amount).div(10 ** 18).toString(10)
+                return result
+            case 'btc':
+            case 'tomobtc':
+                result = new BigNumber(amount).div(10 ** 8).toString(10)
+                return result
+            case 'usdt':
+            case 'tomousdt':
+                result = new BigNumber(amount).div(10 ** 6).toString(10)
+                return result
+            default:
+                return result
             }
         }
     }

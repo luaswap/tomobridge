@@ -9,7 +9,7 @@
                 class="step-three__address">
                 {{ receiveAddress }}
             </a>
-            <div class="step-three__progress">
+            <!-- <div class="step-three__progress">
                 <div class="progress-bar">
                     <div class="progress-bar__inner">
                         <div
@@ -21,20 +21,22 @@
                     </div>
                     <span class="progress-bar__total">{{ requiredConfirm }} Blocks</span>
                 </div>
-                <!-- <div class="step-three__fee text-primary">
+                <div class="step-three__fee text-primary">
                     Fee: 1 TOMO
-                </div> -->
-            </div>
+                </div>
+            </div> -->
         </div>
         <div
-            v-else
+            v-if="success"
             class="step-three__success">
             <i class="tb-check-circle-o step-three__icon text-primary"/>
             <h3 class="step-three__title">
                 You’ve received {{ convertAmount(outAmount) }}
                 {{ toToken.name }}-{{ fromToken.name || '' }}</h3>
         </div>
-        <div class="step-three__tx-hash">
+        <div
+            v-if="success"
+            class="step-three__tx-hash">
             <p>
                 Transaction hash:
                 <a

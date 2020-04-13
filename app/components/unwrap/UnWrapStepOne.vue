@@ -8,6 +8,11 @@
                 placeholder="Enter unwrap amount"
                 type="text"/>
         </div>
+        <div>
+            <p
+                v-if="address">
+                Balance: {{ balance }} {{ fromWrapToken.name || '' }} {{ toWrapToken.name }}</p>
+        </div>
         <div class="step-one__buttons">
             <b-button
                 class="btn--big"
@@ -44,7 +49,8 @@ export default {
             receiveAddress: this.$route.params.receiveAddress || '',
             fromWrapToken: this.parent.fromWrapToken || {},
             toWrapToken: this.parent.toWrapToken || {},
-            config: {}
+            config: {},
+            balance: 0
         }
     },
     async updated () { },
@@ -59,6 +65,7 @@ export default {
             console.log(error)
             this.$toasted.show(error, { type: 'error' })
         })
+        await this.getBalance()
     },
     methods: {
         onCopy () {
@@ -165,6 +172,36 @@ export default {
                 return result
             case 'usdt':
                 result = new BigNumber(this.amount).multipliedBy(10 ** 6).toString(10)
+                return result
+            default:
+                return result
+            }
+        },
+        async getBalance () {
+            try {
+                if (this.address) {
+                    const { contract } = this.getContract()
+                    if (contract) {
+                        const balance = await contract.methods.balanceOf(this.address).call()
+                        this.balance = this.convertAmount(balance)
+                    }
+                }
+            } catch (error) {
+                console.log(error)
+                this.$toasted.show(error, { type: 'error' })
+            }
+        },
+        convertAmount (amount) {
+            let result
+            switch (this.toWrapToken.name.toLowerCase()) {
+            case 'eth':
+                result = new BigNumber(amount).div(10 ** 18).toString(10)
+                return result
+            case 'btc':
+                result = new BigNumber(amount).div(10 ** 8).toString(10)
+                return result
+            case 'usdt':
+                result = new BigNumber(amount).div(10 ** 6).toString(10)
                 return result
             default:
                 return result
