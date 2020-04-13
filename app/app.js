@@ -300,6 +300,24 @@ Vue.prototype.string2byte = function (str) {
     return byteArray
 }
 
+Vue.prototype.serializeQuery = function (params, prefix) {
+    const query = Object.keys(params).map((key) => {
+        const value = params[key]
+
+        if (params.constructor === Array) {
+            key = `${prefix}[]`
+        } else {
+            if (params.constructor === Object) {
+                key = (prefix ? `${prefix}[${key}]` : key)
+            }
+        }
+
+        return value === 'object' ? this.serializeQuery(value, key) : `${key}=${encodeURIComponent(value)}`
+    })
+
+    return [].concat.apply([], query).join('&')
+}
+
 const router = new VueRouter({
     mode: 'history',
     routes: [

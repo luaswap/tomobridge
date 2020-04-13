@@ -357,8 +357,8 @@ export default {
                     hash: tx.Hash,
                     from: tx.From,
                     to: tx.To,
-                    createdAt: moment(tx.createdAt).fromNow(),
-                    dateTooltip: moment(tx.createdAt).format('lll'),
+                    createdAt: moment(tx.CreatedAt * 1000).fromNow(),
+                    dateTooltip: moment(tx.CreatedAt).format('lll'),
                     type: tx.Status,
                     value: this.convertAmount(tx.CoinType, tx.Amount)
                 })
@@ -368,8 +368,8 @@ export default {
                     hash: tx.Hash,
                     from: tx.From,
                     to: tx.To,
-                    createdAt: moment(tx.createdAt).fromNow(),
-                    dateTooltip: moment(tx.createdAt).format('lll'),
+                    createdAt: moment(tx.CreatedAt * 1000).fromNow(),
+                    dateTooltip: moment(tx.CreatedAt).format('lll'),
                     type: tx.Status,
                     value: this.convertAmount(tx.CoinType, tx.Amount)
                 })
@@ -413,10 +413,9 @@ export default {
                     }
                 }
                 const result = await axios.get('/api/transactions?coin=' +
-                    this.fromWrapSelected.name.toLowerCase())
+                    coin.name.toLowerCase())
                 return result
             } catch (error) {
-                console.log(error)
                 this.$toasted.show(error, { type: 'error' })
             }
         },
@@ -431,8 +430,8 @@ export default {
                             hash: tx.Hash,
                             from: tx.From,
                             to: tx.To,
-                            createdAt: moment(tx.createdAt).fromNow(),
-                            dateTooltip: moment(tx.createdAt).format('lll'),
+                            createdAt: moment(tx.CreatedAt * 1000).fromNow(),
+                            dateTooltip: moment(tx.CreatedAt).format('lll'),
                             type: tx.Status,
                             value: this.convertAmount(tx.CoinType, tx.Amount)
                         })
@@ -442,8 +441,8 @@ export default {
                             hash: tx.Hash,
                             from: tx.From,
                             to: tx.To,
-                            createdAt: moment(tx.createdAt).fromNow(),
-                            dateTooltip: moment(tx.createdAt).format('lll'),
+                            createdAt: moment(tx.CreatedAt * 1000).fromNow(),
+                            dateTooltip: moment(tx.CreatedAt).format('lll'),
                             type: tx.Status,
                             value: this.convertAmount(tx.CoinType, tx.Amount)
                         })

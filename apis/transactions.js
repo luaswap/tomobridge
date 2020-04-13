@@ -4,6 +4,7 @@ const config = require('config')
 const urljoin = require('url-join')
 const router = express.Router()
 const axios = require('axios')
+const { query, validationResult } = require('express-validator/check')
 
 router.get('/',
     async function (req, res, next) {
@@ -21,7 +22,6 @@ router.get('/',
                 '/transactions',
                 `?coin=${coin}&page=${page}&limit=${limit}`
             )
-            console.log(url)
             const result = await axios.get(url)
             if (result && result.data) {
                 await Promise.all(result.data.Data.map(item => {
@@ -60,5 +60,64 @@ router.get('/',
             return next(error)
         }
     })
+
+router.get('/getWrapTxs', [
+    query('limit')
+        .isInt({ min: 0, max: 200 }).optional().withMessage('limit should greater than 0 and less than 200'),
+    query('page').isNumeric({ no_symbols: true }).optional().withMessage('page must be number'),
+    query('address').exists().withMessage('Account address is required.')
+], async function (req, res, next) {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        return next(errors.array())
+    }
+    try {
+        const page = req.query.page >= 1 ? req.query.page - 1 : 0 || 0
+        const limit = parseInt(req.query.limit / 2) || 10
+        const address = req.query.address || ''
+
+        const url = urljoin(
+            config.get('serverAPI'),
+            '/transactions',
+            `?type=deposit&address=${address}&page=${page}&limit=${limit}`
+        )
+        console.log(url)
+        const result = await axios.get(url)
+        if (result && result.data) {
+            return res.send(result.data)
+        }
+    } catch (error) {
+        return next(error)
+    }
+})
+
+router.get('/getUnwrapTxs', [
+    query('limit')
+        .isInt({ min: 0, max: 200 }).optional().withMessage('limit should greater than 0 and less than 200'),
+    query('page').isNumeric({ no_symbols: true }).optional().withMessage('page must be number'),
+    query('address').exists().withMessage('Account address is required.')
+], async function (req, res, next) {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        return next(errors.array())
+    }
+    try {
+        const page = req.query.page >= 1 ? req.query.page - 1 : 0 || 0
+        const limit = parseInt(req.query.limit / 2) || 10
+        const address = req.query.address || ''
+
+        const url = urljoin(
+            config.get('serverAPI'),
+            '/transactions',
+            `?type=withdraw&address=${address}&page=${page}&limit=${limit}`
+        )
+        const result = await axios.get(url)
+        if (result && result.data) {
+            return res.send(result.data)
+        }
+    } catch (error) {
+        return next(error)
+    }
+})
 
 module.exports = router

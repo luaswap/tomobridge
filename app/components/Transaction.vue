@@ -8,9 +8,9 @@
                     title="Wrap"
                     active>
                     <b-table
-                        :items="txs"
+                        :items="wrapItems"
                         :fields="fields"
-                        :per-page="perPage"
+                        :per-page="wrapPerPage"
                         :class="loading ? 'table--loading' : ''"
                         :show-empty="true"
                         empty-text="There are no transactions to show"
@@ -57,16 +57,17 @@
                     </b-table>
 
                     <b-pagination
-                        :total-rows="totalRows"
-                        :per-page="perPage"
-                        v-model="currentPage"
-                        align="center" />
+                        :total-rows="totalWrapRows"
+                        :per-page="wrapPerPage"
+                        v-model="currentWrapPage"
+                        align="center"
+                        @change="wrapPageChange" />
                 </b-tab>
                 <b-tab title="Unwrap">
                     <b-table
-                        :items="txs"
+                        :items="unwrapItems"
                         :fields="fields"
-                        :per-page="perPage"
+                        :per-page="UnwrapPerPage"
                         :class="loading ? 'table--loading' : ''"
                         :show-empty="true"
                         empty-text="There are no transactions to show"
@@ -91,11 +92,6 @@
                         </template>
 
                         <template
-                            slot="arrow">
-                            <i class="tb-arrow-right"/>
-                        </template>
-
-                        <template
                             slot="to"
                             slot-scope="data">
                             <p class="text-truncate">
@@ -113,10 +109,11 @@
                     </b-table>
 
                     <b-pagination
-                        :total-rows="totalRows"
-                        :per-page="perPage"
-                        v-model="currentPage"
-                        align="center" />
+                        :total-rows="totalUnwrapRows"
+                        :per-page="UnwrapPerPage"
+                        v-model="currentUnwrapPage"
+                        align="center"
+                        @change="unwrapPageChange" />
                 </b-tab>
             </b-tabs>
         </b-container>
@@ -124,18 +121,21 @@
 </template>
 
 <script>
+import axios from 'axios'
+import BigNumber from 'bignumber.js'
+import store from 'store'
+import moment from 'moment'
 export default {
     name: 'App',
     components: { },
     data () {
         return {
             fields: [
-                { key: 'createdAt', label: 'Age' },
-                { key: 'from', label: 'From' },
-                { key: 'arrow', label: '' },
-                { key: 'to', label: 'To' },
+                { key: 'hash', label: 'Tx Hash' },
+                { key: 'status', label: 'Status' },
+                { key: 'token', label: 'Token' },
                 { key: 'quantity', label: 'Quantity' },
-                { key: 'hash', label: 'Txn Hash' }
+                { key: 'createdAt', label: 'Age' }
             ],
             txs: [
                 {
@@ -227,16 +227,139 @@ export default {
                     hash: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7'
                 }
             ],
+            wrapItems: [],
+            unwrapItems: [],
             loading: false,
-            totalRows: 10,
-            perPage: 10,
-            currentPage: 1,
-            tableCssClass: ''
+            totalWrapRows: 10,
+            wrapPerPage: 10,
+            currentWrapPage: 1,
+            totalUnwrapRows: 10,
+            UnwrapPerPage: 10,
+            currentUnwrapPage: 1,
+            tableCssClass: '',
+            address: '',
+            config: {}
         }
     },
     async updated () { },
     destroyed () { },
-    created: async function () { },
-    methods: {}
+    created: async function () {
+        this.config = store.get('configBridge') || await this.appConfig()
+        this.address = this.$store.state.address
+        if (!this.address) {
+            this.$router.push({
+                path: '/'
+            })
+        }
+        this.getWrapTxs()
+        this.getUnwrapTxs()
+    },
+    methods: {
+        async getWrapTxs () {
+            try {
+                const query = {
+                    address: this.address,
+                    page: this.currentWrapPage,
+                    limit: this.wrapPerPage
+                }
+                const items = []
+                const result = await axios.get('/api/transactions/getWrapTxs?' +
+                    this.serializeQuery(query))
+                if (result && result.data) {
+                    this.totalWrapRows = result.data.Total
+                    result.data.Data.map(tx => {
+                        items.push({
+                            hash: tx.InTx.Hash,
+                            createdAt: moment(tx.CreatedAt * 1000).fromNow(),
+                            dateTooltip: moment(tx.CreatedAt * 1000).format('lll'),
+                            status: tx.InTx.Status,
+                            token: tx.InTx.CoinType,
+                            quantity: this.convertAmount(tx.InTx.CoinType, tx.InTx.Amount)
+                        })
+                        if (tx.OutTx.Hash !== '') {
+                            items.push({
+                                hash: tx.OutTx.Hash,
+                                createdAt: moment(tx.CreatedAt * 1000).fromNow(),
+                                dateTooltip: moment(tx.CreatedAt * 1000).format('lll'),
+                                status: tx.OutTx.Status,
+                                token: tx.OutTx.CoinType,
+                                quantity: this.convertAmount(tx.OutTx.CoinType, tx.OutTx.Amount)
+                            })
+                        }
+                    })
+                    this.wrapItems = items
+                }
+            } catch (error) {
+                console.log(error)
+                this.$toasted.show(error, { type: 'error' })
+            }
+        },
+        async getUnwrapTxs () {
+            try {
+                const query = {
+                    address: this.address,
+                    page: this.currentUnwrapPage,
+                    limit: this.UnwrapPerPage
+                }
+                const items = []
+                const result = await axios.get('/api/transactions/getUnwrapTxs?' +
+                    this.serializeQuery(query))
+                if (result && result.data) {
+                    this.totalUnwrapRows = result.data.Total
+                    result.data.Data.map(tx => {
+                        items.push({
+                            hash: tx.InTx.Hash,
+                            createdAt: moment(tx.CreatedAt * 1000).fromNow(),
+                            dateTooltip: moment(tx.CreatedAt * 1000).format('lll'),
+                            status: tx.InTx.Status,
+                            token: tx.InTx.CoinType,
+                            quantity: this.convertAmount(tx.InTx.CoinType, tx.InTx.Amount)
+                        })
+                        if (tx.OutTx.Hash !== '') {
+                            items.push({
+                                hash: tx.OutTx.Hash,
+                                createdAt: moment(tx.CreatedAt * 1000).fromNow(),
+                                dateTooltip: moment(tx.CreatedAt * 1000).format('lll'),
+                                status: tx.OutTx.Status,
+                                token: tx.OutTx.CoinType,
+                                quantity: this.convertAmount(tx.OutTx.CoinType, tx.OutTx.Amount)
+                            })
+                        }
+                    })
+                    this.unwrapItems = items
+                }
+            } catch (error) {
+                console.log(error)
+                this.$toasted.show(error, { type: 'error' })
+            }
+        },
+        convertAmount (coin, amount) {
+            let result
+            switch (coin.toLowerCase()) {
+            case 'eth':
+            case 'tomoeth':
+                result = new BigNumber(amount).div(10 ** 18).toString(10)
+                return result
+            case 'btc':
+            case 'tomobtc':
+                result = new BigNumber(amount).div(10 ** 8).toString(10)
+                return result
+            case 'usdt':
+            case 'tomousdt':
+                result = new BigNumber(amount).div(10 ** 6).toString(10)
+                return result
+            default:
+                return result
+            }
+        },
+        wrapPageChange (page) {
+            this.currentWrapPage = page
+            this.getWrapTxs()
+        },
+        unwrapPageChange (page) {
+            this.currentUnwrapPage = page
+            this.getUnwrapTxs()
+        }
+    }
 }
 </script>
