@@ -63,7 +63,8 @@ export default {
             fromWrapToken: {},
             toWrapToken: {},
             receiveAddress: '',
-            config: {}
+            config: {},
+            transactionHash: ''
         }
     },
     async updated () {

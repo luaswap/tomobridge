@@ -45,13 +45,16 @@ export default {
     },
     data () {
         return {
-            address: ''
+        }
+    },
+    computed: {
+        address: function () {
+            return this.$store.state.address
         }
     },
     async updated () { },
     destroyed () { },
     created: async function () {
-        this.address = this.$store.state.address || ''
     },
     methods: { }
 }
