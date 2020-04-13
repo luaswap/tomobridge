@@ -81,7 +81,6 @@ router.get('/getWrapTxs', [
             '/transactions',
             `?type=deposit&address=${address}&page=${page}&limit=${limit}`
         )
-        console.log(url)
         const result = await axios.get(url)
         if (result && result.data) {
             return res.send(result.data)

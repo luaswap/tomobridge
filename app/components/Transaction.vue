@@ -20,8 +20,8 @@
                         <template
                             slot="createdAt"
                             slot-scope="data">
-                            <span :id="`timestamp__${data.index}`">{{ data.item.createdAt }}</span>
-                            <b-tooltip :target="`timestamp__${data.index}`">
+                            <span :id="`timestamp__wrap_${data.index}`">{{ data.item.createdAt }}</span>
+                            <b-tooltip :target="`timestamp__wrap_${data.index}`">
                                 {{ data.item.dateTooltip }}
                             </b-tooltip>
                         </template>
@@ -77,8 +77,8 @@
                         <template
                             slot="createdAt"
                             slot-scope="data">
-                            <span :id="`timestamp__${data.index}`">{{ data.item.createdAt }}</span>
-                            <b-tooltip :target="`timestamp__${data.index}`">
+                            <span :id="`timestamp__unwrap_${data.index}`">{{ data.item.createdAt }}</span>
+                            <b-tooltip :target="`timestamp__unwrap_${data.index}`">
                                 {{ data.item.dateTooltip }}
                             </b-tooltip>
                         </template>
@@ -272,7 +272,7 @@ export default {
                             hash: tx.InTx.Hash,
                             createdAt: moment(tx.CreatedAt * 1000).fromNow(),
                             dateTooltip: moment(tx.CreatedAt * 1000).format('lll'),
-                            status: tx.InTx.Status,
+                            status: this.checkStatus(tx.InTx),
                             token: tx.InTx.CoinType,
                             quantity: this.convertAmount(tx.InTx.CoinType, tx.InTx.Amount)
                         })
@@ -282,7 +282,7 @@ export default {
                                 createdAt: moment(tx.CreatedAt * 1000).fromNow(),
                                 dateTooltip: moment(tx.CreatedAt * 1000).format('lll'),
                                 status: tx.OutTx.Status,
-                                token: tx.OutTx.CoinType,
+                                token: this.changeTokenName(tx.OutTx.CoinType),
                                 quantity: this.convertAmount(tx.OutTx.CoinType, tx.OutTx.Amount)
                             })
                         }
@@ -311,8 +311,8 @@ export default {
                             hash: tx.InTx.Hash,
                             createdAt: moment(tx.CreatedAt * 1000).fromNow(),
                             dateTooltip: moment(tx.CreatedAt * 1000).format('lll'),
-                            status: tx.InTx.Status,
-                            token: tx.InTx.CoinType,
+                            status: this.checkStatus(tx.InTx),
+                            token: this.changeTokenName(tx.InTx.CoinType),
                             quantity: this.convertAmount(tx.InTx.CoinType, tx.InTx.Amount)
                         })
                         if (tx.OutTx.Hash !== '') {
@@ -351,6 +351,16 @@ export default {
             default:
                 return result
             }
+        },
+        checkStatus (tx) {
+            const wrapTokens = this.config.swapCoin
+            if (tx.Status === 'DEPOSITING' || tx.Status === 'WITHDRAWING') {
+                for (let i = 0; i < wrapTokens.length; i++) {
+                    if (wrapTokens[i].name.toLowerCase() === tx.CoinType.toLowerCase()) {
+                        return `${tx.Status}(${tx.Confirmations}/${wrapTokens[i].confirmations})`
+                    }
+                }
+            } else { return tx.Status }
         },
         wrapPageChange (page) {
             this.currentWrapPage = page

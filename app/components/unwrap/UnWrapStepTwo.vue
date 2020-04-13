@@ -2,9 +2,31 @@
     <b-container class="step-two text-center">
         <i class="tb-search step-two__icon"/>
         <p>
-            We are looking for you transaction<br>
+            We are verifying your transaction<br>
             Please stay tuned
         </p>
+        <a
+            :href="config.tomoscanUrl + '/txs/' + txHash"
+            class="step-three__tx-hash-link text-truncate"
+            target="_blank">
+            {{ txHash }}
+        </a>
+        <div class="step-three__progress">
+            <div class="progress-bar">
+                <div class="progress-bar__inner">
+                    <div
+                        :style="`width: ${calculatePercentage(confirmation, requiredConfirm)}%;`"
+                        class="progress-bar__bar">
+                        <span class="progress-bar__number text-primary">
+                            {{ calculatePercentage(confirmation, requiredConfirm) }}%</span>
+                    </div>
+                </div>
+                <span class="progress-bar__total">{{ requiredConfirm }} Blocks</span>
+            </div>
+            <!-- <div class="step-three__fee text-primary">
+                Fee: 1 TOMO
+            </div> -->
+        </div>
         <b-button
             class="step-two__button btn--big"
             @click="back">Back</b-button>
@@ -25,7 +47,11 @@ export default {
     },
     data () {
         return {
-            interval: ''
+            interval: '',
+            requiredConfirm: 30,
+            confirmation: 0,
+            config: {},
+            txHash: ''
         }
     },
     async updated () { },
@@ -36,15 +62,34 @@ export default {
     },
     created: async function () {
         const parent = this.parent
+        this.config = parent.config
+        this.txHash = parent.transactionHash
+        const receipt = await this.web3.eth.getTransactionReceipt(this.txHash)
+        const signedBlock = receipt.blockNumber
+
+        const data = await this.scanTX()
+        if (data && data.transaction && data.transaction.InTx) {
+            if (data.transaction.InTx.Status === 'BURNED') {
+                parent.toWrapToken.amount = data.transaction.InTx.Amount
+            }
+        }
         this.interval = setInterval(async () => {
-            const data = await this.scanTX()
-            if (data && data.transaction && data.transaction.InTx) {
-                if (data.transaction.InTx.Status === 'BURNED') {
-                    parent.toWrapToken.amount = data.transaction.InTx.Amount
+            const currentBlock = await this.web3.eth.getBlockNumber()
+            this.confirmation = currentBlock - signedBlock
+            if (this.confirmation >= this.requiredConfirm) {
+                setTimeout(() => {
                     clearInterval(this.interval)
                     parent.step++
-                }
+                }, 2000)
             }
+            // const data = await this.scanTX()
+            // if (data && data.transaction && data.transaction.InTx) {
+            //     if (data.transaction.InTx.Status === 'BURNED') {
+            //         parent.toWrapToken.amount = data.transaction.InTx.Amount
+            //         clearInterval(this.interval)
+            //         parent.step++
+            //     }
+            // }
         }, 5000)
     },
     methods: {
@@ -61,6 +106,13 @@ export default {
             )
             if (txData && txData.data) {
                 return txData.data
+            }
+        },
+        calculatePercentage (current, total) {
+            if (current >= total) {
+                return 100
+            } else {
+                return Math.floor((current * 100) / total)
             }
         }
     }

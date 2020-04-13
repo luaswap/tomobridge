@@ -273,7 +273,6 @@ Vue.prototype.detectNetwork = async function (provider) {
                     }
                 }
                 const config = localStorage.get('configBridge') || await getConfig()
-                console.log('configconfig', config)
                 const chainConfig = config.blockchain
                 wjs = new Web3(new Web3.providers.HttpProvider(chainConfig.rpc))
                 break
@@ -287,8 +286,8 @@ Vue.prototype.detectNetwork = async function (provider) {
     }
 }
 
-Vue.prototype.getCurrencySymbol = function () {
-    return 'TOMO'
+Vue.prototype.changeTokenName = function (token) {
+    return token.replace('TOMO', 'TRC21 ')
 }
 
 Vue.prototype.string2byte = function (str) {

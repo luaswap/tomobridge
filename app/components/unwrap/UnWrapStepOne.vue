@@ -110,7 +110,7 @@ export default {
                         delete dataTx.value
                         const txHash = await this.sendSignedTransaction(dataTx, signature)
                         if (txHash) {
-                            this.transactionHash = txHash
+                            par.transactionHash = txHash
                             let check = true
                             while (check) {
                                 const receipt = await this.web3.eth.getTransactionReceipt(txHash)
@@ -126,6 +126,7 @@ export default {
                             this.string2byte(this.receiveAddress)
                         ).send(txParams)
                             .on('transactionHash', async (txHash) => {
+                                par.transactionHash = txHash
                                 let check = true
                                 while (check) {
                                     const receipt = await this.web3.eth.getTransactionReceipt(txHash)
@@ -138,6 +139,7 @@ export default {
                     }
                 }
             } catch (error) {
+                console.log(error)
                 this.$toasted.show(error, { type: 'error' })
             }
         },
