@@ -238,11 +238,16 @@ export default {
             currentUnwrapPage: 1,
             tableCssClass: '',
             address: '',
-            config: {}
+            config: {},
+            interval: ''
         }
     },
     async updated () { },
-    destroyed () { },
+    destroyed () {
+        if (this.interval) {
+            clearInterval(this.interval)
+        }
+    },
     created: async function () {
         this.config = store.get('configBridge') || await this.appConfig()
         this.address = this.$store.state.address
@@ -251,8 +256,10 @@ export default {
                 path: '/'
             })
         }
-        this.getWrapTxs()
-        this.getUnwrapTxs()
+        this.interval = setInterval(() => {
+            this.getWrapTxs()
+            this.getUnwrapTxs()
+        }, 5000)
     },
     methods: {
         async getWrapTxs () {
