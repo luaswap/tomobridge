@@ -30,6 +30,7 @@
             "name": "BTC",
             "img": "/app/assets/images/crypto-logos/btc.png",
             "confirmations": 6,
+			"decimals": 18,
             "wrapperAddress": "",
             "mainAddress": ""
         },
@@ -37,6 +38,7 @@
             "name": "ETH",
             "img": "/app/assets/images/crypto-logos/eth.png",
             "confirmations": 12,
+			"decimals": 18,
             "wrapperAddress": "",
             "mainAddress": ""
         },
@@ -44,6 +46,7 @@
             "name": "USDT",
             "img": "/app/assets/images/crypto-logos/usdt.png",
             "confirmations": 12,
+			"decimals": 8,
             "wrapperAddress": "",
             "mainAddress": ""
         },
