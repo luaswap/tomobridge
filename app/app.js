@@ -83,6 +83,9 @@ Vue.prototype.getAccount = async function (resolve, reject) {
     case 'privateKey':
         account = (await web3.eth.getAccounts())[0]
         break
+    case 'tomowallet':
+        account = (await web3.eth.getAccounts())[0]
+        break
     case 'custom':
         account = (await web3.eth.getAccounts())[0]
         break
@@ -315,6 +318,21 @@ Vue.prototype.serializeQuery = function (params, prefix) {
     })
 
     return [].concat.apply([], query).join('&')
+}
+
+Vue.prototype.truncate = function (fullStr, strLen) {
+    if (fullStr.length <= strLen) return fullStr
+
+    const separator = '...'
+
+    let sepLen = separator.length
+    let charsToShow = strLen - sepLen
+    let frontChars = Math.ceil(charsToShow / 2)
+    let backChars = Math.floor(charsToShow / 2)
+
+    return fullStr.substr(0, frontChars) +
+       separator +
+       fullStr.substr(fullStr.length - backChars)
 }
 
 const router = new VueRouter({

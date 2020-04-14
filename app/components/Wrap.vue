@@ -139,8 +139,12 @@
                     id="login"
                     class="wrapbox__row">
                     <b-col>
-                        <p class="wrapbox__text">Or Connect with</p>
-                        <div class="wrapbox__buttons">
+                        <p
+                            v-if="mobileCheck"
+                            class="wrapbox__text">Or Connect with</p>
+                        <div
+                            v-if="mobileCheck"
+                            class="wrapbox__buttons">
                             <b-button
                                 @click="loginWallet">
                                 <img
@@ -176,7 +180,7 @@
                             </b-button>
                         </div>
                         <p
-                            v-if="address">Account: {{ address }}</p>
+                            v-if="address">Account: {{ mobileCheck ? truncate(address, 20) : address }}</p>
                         <p
                             v-if="address && wrapType === 'unwrap' && toWrapSelected">
                             Balance: {{ balance }} {{ fromWrapSelected.name || '' }} {{ toWrapSelected.name }}</p>
@@ -355,22 +359,11 @@ export default {
     },
     destroyed () { },
     created: async function () {
+        this.address = this.$store.state.address || await this.getAccount()
         this.config = store.get('configBridge') || await this.appConfig()
         this.fromData = this.config.swapCoin || []
         this.toData = this.config.swapToken || []
         this.toWrapSelected = this.toData[0]
-
-        if (window.web3 && window.web3.currentProvider &&
-            window.web3.currentProvider.isTomoWallet) {
-            const wjs = new Web3(window.web3.currentProvider)
-            this.setupProvider('tomowallet', wjs)
-            this.address = await this.getAccount()
-            if (this.address) {
-                this.$store.state.address = this.account.toLowerCase()
-            }
-        } else {
-            this.address = this.$store.state.address || await this.getAccount()
-        }
     },
     methods: {
         customLabel ({ name }) {
