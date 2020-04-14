@@ -391,6 +391,10 @@ export default {
                 this.fromWrapSelected = this.fromWrapSelected || this.fromData[0]
             })
         }
+
+        if (this.address) {
+            await this.updateBalance()
+        }
     },
     methods: {
         async updateBalance (newValue) {
