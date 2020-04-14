@@ -345,15 +345,14 @@ export default {
                 this.wrapType === 'unwrap' &&
                 newValue
             ) {
+                await this.getBalance(newValue)
                 if (this.interval) {
                     clearInterval(this.interval)
                     this.interval = setInterval(async () => {
-                        console.log(11)
                         await this.getBalance(newValue)
                     }, 5000)
                 } else {
                     this.interval = setInterval(async () => {
-                        console.log(11)
                         await this.getBalance(newValue)
                     }, 5000)
                 }
@@ -390,7 +389,6 @@ export default {
             this.fromData = this.config.swapToken || []
             this.toData.forEach(t => {
                 if (t.name.toLowerCase() === this.$route.params.tokenSymbol.toLowerCase()) {
-                    console.log(t)
                     this.toWrapSelected = t
                 }
             })

@@ -256,6 +256,8 @@ export default {
                 path: '/'
             })
         }
+        this.getWrapTxs()
+        this.getUnwrapTxs()
         this.interval = setInterval(() => {
             this.getWrapTxs()
             this.getUnwrapTxs()
