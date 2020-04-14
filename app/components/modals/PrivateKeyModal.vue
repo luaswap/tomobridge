@@ -91,6 +91,7 @@ export default {
                 if (address) {
                     self.$store.state.address = address.toLowerCase()
                     parent.address = address
+                    await parent.updateBalance()
                     self.closePrivateKeyModal()
                 }
             } catch (error) {

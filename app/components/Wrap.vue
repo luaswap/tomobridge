@@ -395,6 +395,10 @@ export default {
     methods: {
         async updateBalance (newValue) {
             let swapCoin = this.config.objSwapCoin
+            newValue = this.toWrapSelected
+            if (this.toWrapSelected.name === this.config.swapToken[0].name) {
+                newValue = this.fromWrapSelected
+            }
             let tokenSymbol = ((newValue || {}).name || '').toLowerCase()
             if (this.address &&
                 newValue && swapCoin[tokenSymbol]
@@ -456,7 +460,7 @@ export default {
             this.toWrapSelected = temp2
             this.wrapType = this.wrapType === 'wrap' ? 'unwrap' : 'wrap'
         },
-        loginPrivateKey () {
+        async loginPrivateKey () {
             this.$refs.privateKeyModal.show()
         },
         loginHDWallet () {
@@ -476,13 +480,9 @@ export default {
         signOut () {
             this.address = ''
             this.receiveAddress = ''
-            this.fromWrapSelected = null
-            this.toWrapSelected = null
             this.$store.replaceState({
                 address: null,
-                hdPath: '',
-                fromWrapToken: {},
-                toWrapToken: {}
+                hdPath: ''
             })
         },
         loginWallet () {
