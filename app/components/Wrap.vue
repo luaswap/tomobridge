@@ -139,8 +139,12 @@
                     id="login"
                     class="wrapbox__row">
                     <b-col>
-                        <p class="wrapbox__text">Connect with</p>
-                        <div class="wrapbox__buttons">
+                        <p
+                            v-if="!mobileCheck"
+                            class="wrapbox__text">Connect with</p>
+                        <div
+                            v-if="!mobileCheck"
+                            class="wrapbox__buttons">
                             <b-button
                                 @click="loginWallet">
                                 <img
@@ -177,7 +181,7 @@
                         </div>
                         <p
                             v-if="address"
-                            style="margin-top: 1rem">Account: {{ address }}</p>
+                            style="margin-top: 1rem">Account: {{ !mobileCheck ? address : truncate(address, 20) }}</p>
                         <p
                             v-if="address && wrapType === 'unwrap' && toWrapSelected">
                             Balance: {{ balance }} {{ fromWrapSelected.name || '' }} {{ toWrapSelected.name }}</p>
@@ -359,6 +363,7 @@ export default {
     destroyed () { },
     mounted () {},
     created: async function () {
+        this.address = this.$store.state.address || await this.getAccount()
         this.config = store.get('configBridge') || await this.appConfig()
         this.fromData = this.config.swapCoin || []
         this.toData = this.config.swapToken || []
@@ -381,18 +386,6 @@ export default {
                     this.fromWrapSelected = t
                 }
             })
-        }
-
-        if (window.web3 && window.web3.currentProvider &&
-            window.web3.currentProvider.isTomoWallet) {
-            const wjs = new Web3(window.web3.currentProvider)
-            this.setupProvider('tomowallet', wjs)
-            this.address = await this.getAccount()
-            if (this.address) {
-                this.$store.state.address = this.account.toLowerCase()
-            }
-        } else {
-            this.address = this.$store.state.address || await this.getAccount()
         }
     },
     methods: {
