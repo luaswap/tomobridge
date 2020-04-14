@@ -50,7 +50,8 @@
                             :custom-label="customLabel"
                             :show-labels="false"
                             :allow-empty="false"
-                            track-by="name">
+                            track-by="name"
+                            @input="updateBalance">
                             <template
                                 slot="singleLabel"
                                 slot-scope="props">
@@ -95,7 +96,8 @@
                             :options="toData"
                             :custom-label="customLabel"
                             :show-labels="false"
-                            track-by="name">
+                            track-by="name"
+                            @input="updateBalance">
                             <template
                                 slot="singleLabel"
                                 slot-scope="props">
@@ -140,10 +142,10 @@
                     class="wrapbox__row">
                     <b-col>
                         <p
-                            v-if="!mobileCheck"
+                            v-if="!mobileCheck && !address"
                             class="wrapbox__text">Connect with</p>
                         <div
-                            v-if="!mobileCheck"
+                            v-if="!mobileCheck && !address"
                             class="wrapbox__buttons">
                             <b-button
                                 @click="loginWallet">
@@ -183,8 +185,9 @@
                             v-if="address"
                             style="margin-top: 1rem">Account: {{ !mobileCheck ? address : truncate(address, 20) }}</p>
                         <p
-                            v-if="address && wrapType === 'unwrap' && toWrapSelected">
-                            Balance: {{ balance }} {{ fromWrapSelected.name || '' }} {{ toWrapSelected.name }}</p>
+                            v-if="address && (toWrapSelected || fromWrapSelected)">
+                            Balance: {{ balance }} TRC21
+                            {{ ((fromWrapSelected || {}).name === 'TRC21') ? (toWrapSelected || {}).name : (fromWrapSelected || {}).name }}</p>
                         <p
                             v-if="loginError"
                             class="text-error">Please connect your TOMO wallet</p>
@@ -203,13 +206,13 @@
                     </b-form-checkbox>
                     <b-button
                         v-if="wrapType === 'wrap'"
-                        :disabled="!isAgreed"
+                        :disabled="!isAgreed || !fromWrapSelected || !toWrapSelected || !address"
                         class="wrapbox__big-button btn--big"
                         variant="primary"
                         @click="wrapToken">Wrap Now</b-button>
                     <b-button
                         v-else
-                        :disabled="!isAgreed"
+                        :disabled="!isAgreed || !fromWrapSelected || !toWrapSelected || !address"
                         class="wrapbox__big-button btn--big"
                         variant="primary"
                         @click="unWrapToken">
@@ -298,6 +301,7 @@ import SelectAddressModal from './modals/SelectAddressModal'
 import MnemonicModal from './modals/MnemonicModal'
 import store from 'store'
 import BigNumber from 'bignumber.js'
+import WrapperAbi from '../../abis/WrapperAbi.json'
 
 export default {
     name: 'App',
@@ -339,27 +343,6 @@ export default {
             return (isAndroid || isIOS)
         }
     },
-    watch: {
-        toWrapSelected: async function (newValue) {
-            if (this.address &&
-                this.wrapType === 'unwrap' &&
-                newValue
-            ) {
-                if (this.interval) {
-                    clearInterval(this.interval)
-                    this.interval = setInterval(async () => {
-                        console.log(11)
-                        await this.getBalance(newValue)
-                    }, 5000)
-                } else {
-                    this.interval = setInterval(async () => {
-                        console.log(11)
-                        await this.getBalance(newValue)
-                    }, 5000)
-                }
-            }
-        }
-    },
     async updated () {
         const self = this
         if (self.address) {
@@ -381,6 +364,8 @@ export default {
     created: async function () {
         this.address = this.$store.state.address || await this.getAccount()
         this.config = store.get('configBridge') || await this.appConfig()
+        this.config = store.get('configBridge') || await this.appConfig()
+
         this.fromData = this.config.swapCoin || []
         this.toData = this.config.swapToken || []
 
@@ -406,6 +391,25 @@ export default {
         }
     },
     methods: {
+        async updateBalance (newValue) {
+            let swapCoin = this.config.objSwapCoin
+            let tokenSymbol = ((newValue || {}).name || '').toLowerCase()
+            if (this.address &&
+                newValue && swapCoin[tokenSymbol]
+            ) {
+                await this.getBalance(newValue)
+                if (this.interval) {
+                    clearInterval(this.interval)
+                    this.interval = setInterval(async () => {
+                        await this.getBalance(newValue)
+                    }, 10000)
+                } else {
+                    this.interval = setInterval(async () => {
+                        await this.getBalance(newValue)
+                    }, 10000)
+                }
+            }
+        },
         customLabel ({ name }) {
             return `${name}`
         },
@@ -472,12 +476,12 @@ export default {
             this.receiveAddress = ''
             this.fromWrapSelected = null
             this.toWrapSelected = null
-            this.$store.state = {
+            this.$store.replaceState({
                 address: null,
                 hdPath: '',
                 fromWrapToken: {},
                 toWrapToken: {}
-            }
+            })
         },
         loginWallet () {
             if (this.mobileCheck) {
@@ -505,46 +509,24 @@ export default {
             }
         },
         convertAmount (id, amount) {
-            let result
-            switch (id.name.toLowerCase()) {
-            case 'eth':
-                result = new BigNumber(amount).div(10 ** 18).toString(10)
-                return result
-            case 'btc':
-                result = new BigNumber(amount).div(10 ** 8).toString(10)
-                return result
-            case 'usdt':
-                result = new BigNumber(amount).div(10 ** 6).toString(10)
-                return result
-            default:
-                return result
-            }
+            let decimals = parseInt(this.config.objSwapCoin[id.name.toLowerCase()].decimals)
+            return (new BigNumber(amount).div(10 ** decimals)).toString(10)
         },
         getContract (id) {
-            let contract
-            const swapCoin = this.config.swapCoin
-            switch (id.name.toLowerCase()) {
-            case 'eth':
-                contract = this.ethContract
-                return { contract, contractAddress: swapCoin[1].wrapperAddress }
-            case 'btc':
-                contract = this.btcContract
-                return { contract, contractAddress: swapCoin[0].wrapperAddress }
-            case 'usdt':
-                contract = this.usdtContract
-                return { contract, contractAddress: swapCoin[2].wrapperAddress }
-            default:
-                return contract
-            }
+            let swapCoin = this.config.objSwapCoin
+            let tokenSymbol = id.name.toLowerCase()
+            let contract = this.web3.eth.Contract(
+                WrapperAbi.abi,
+                swapCoin[tokenSymbol].wrapperAddress
+            )
+            return { contract, contractAddress: swapCoin[tokenSymbol].wrapperAddress }
         },
         async getBalance (id) {
             try {
-                if (this.wrapType === 'unwrap') {
-                    const { contract } = this.getContract(id)
-                    if (contract) {
-                        const balance = await contract.methods.balanceOf(this.address).call()
-                        this.balance = this.convertAmount(id, balance)
-                    }
+                const { contract } = this.getContract(id)
+                if (contract) {
+                    const balance = await contract.methods.balanceOf(this.address).call()
+                    this.balance = this.convertAmount(id, balance)
                 }
             } catch (error) {
                 console.log(error)

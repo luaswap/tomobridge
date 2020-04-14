@@ -20,15 +20,17 @@
             <b-button
                 class="btn--big"
                 variant="primary"
-                @click="nextStep">Confirm transaction</b-button>
+                @click="nextStep">Unwrap</b-button>
         </div>
     </b-container>
 </template>
 
 <script>
+
 import VueQrcode from '@chenfengyuan/vue-qrcode'
 import BigNumber from 'bignumber.js'
 import store from 'store'
+import WrapperAbi from '../../../abis/WrapperAbi.json'
 export default {
     name: 'App',
     components: {
@@ -147,37 +149,14 @@ export default {
             this.$router.push({ path: '/' })
         },
         getContract () {
-            let contract
-            const swapCoin = this.config.swapCoin
-            switch (this.toWrapToken.name.toLowerCase()) {
-            case 'eth':
-                contract = this.ethContract
-                return { contract, contractAddress: swapCoin[1].wrapperAddress }
-            case 'btc':
-                contract = this.btcContract
-                return { contract, contractAddress: swapCoin[0].wrapperAddress }
-            case 'usdt':
-                contract = this.usdtContract
-                return { contract, contractAddress: swapCoin[2].wrapperAddress }
-            default:
-                return contract
-            }
-        },
-        convertWithdrawAmount (amount) {
-            let result
-            switch (this.toWrapToken.name.toLowerCase()) {
-            case 'eth':
-                result = new BigNumber(this.amount).multipliedBy(10 ** 18).toString(10)
-                return result
-            case 'btc':
-                result = new BigNumber(this.amount).multipliedBy(10 ** 8).toString(10)
-                return result
-            case 'usdt':
-                result = new BigNumber(this.amount).multipliedBy(10 ** 6).toString(10)
-                return result
-            default:
-                return result
-            }
+            let id = this.toWrapToken
+            let swapCoin = this.config.objSwapCoin
+            let tokenSymbol = id.name.toLowerCase()
+            let contract = this.web3.eth.Contract(
+                WrapperAbi.abi,
+                swapCoin[tokenSymbol].wrapperAddress
+            )
+            return { contract, contractAddress: swapCoin[tokenSymbol].wrapperAddress }
         },
         async getBalance () {
             try {
@@ -193,21 +172,17 @@ export default {
                 this.$toasted.show(error, { type: 'error' })
             }
         },
+        convertWithdrawAmount (amount) {
+            let tokenSymbol = this.toWrapToken.name.toLowerCase()
+
+            let decimals = parseInt(this.config.objSwapCoin[tokenSymbol].decimals)
+            return (new BigNumber(amount).multipliedBy(10 ** decimals)).toString(10)
+        },
         convertAmount (amount) {
-            let result
-            switch (this.toWrapToken.name.toLowerCase()) {
-            case 'eth':
-                result = new BigNumber(amount).div(10 ** 18).toString(10)
-                return result
-            case 'btc':
-                result = new BigNumber(amount).div(10 ** 8).toString(10)
-                return result
-            case 'usdt':
-                result = new BigNumber(amount).div(10 ** 6).toString(10)
-                return result
-            default:
-                return result
-            }
+            let tokenSymbol = this.toWrapToken.name.toLowerCase()
+
+            let decimals = parseInt(this.config.objSwapCoin[tokenSymbol].decimals)
+            return (new BigNumber(amount).div(10 ** decimals)).toString(10)
         }
     }
 }
