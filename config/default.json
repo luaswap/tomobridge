@@ -13,10 +13,7 @@
         "rpc": "https://testnet.tomochain.com",
         "ws": "wss://testnet.tomochain.com/ws",
         "networkId": 89,
-        "gas": 2000000,
-        "ethWrappAddress": "",
-        "btcWrapperAddress": "",
-        "usdtWrapperAddress": ""
+        "gas": 2000000
     },
     "tomoscanUrl": "http://localhost:3003",
     "tomoscanAPI": "https://scan.tomochain.com",
@@ -32,17 +29,23 @@
         {
             "name": "BTC",
             "img": "/app/assets/images/crypto-logos/btc.png",
-            "confirmations": 6
+            "confirmations": 6,
+            "wrapperAddress": "",
+            "mainAddress": ""
         },
         {
             "name": "ETH",
             "img": "/app/assets/images/crypto-logos/eth.png",
-            "confirmations": 12
+            "confirmations": 12,
+            "wrapperAddress": "",
+            "mainAddress": ""
         },
         {
             "name": "USDT",
             "img": "/app/assets/images/crypto-logos/usdt.png",
-            "confirmations": 12
+            "confirmations": 12,
+            "wrapperAddress": "",
+            "mainAddress": ""
         },
         {
             "name": "XLM",

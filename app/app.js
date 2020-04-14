@@ -54,18 +54,18 @@ Vue.prototype.setupProvider = async function (provider, web3) {
         Vue.prototype.web3 = web3
         const config = await getConfig()
         localStorage.set('configBridge', config)
-        const chainConfig = config.blockchain
+        const swapCoin = config.swapCoin
         Vue.prototype.ethContract = new Vue.prototype.web3.eth.Contract(
             WrapperAbi.abi,
-            chainConfig.ethWrapperAddress
+            swapCoin[1].wrapperAddress
         )
         Vue.prototype.btcContract = new Vue.prototype.web3.eth.Contract(
             WrapperAbi.abi,
-            chainConfig.btcWrapperAddress
+            swapCoin[0].wrapperAddress
         )
         Vue.prototype.usdtContract = new Vue.prototype.web3.eth.Contract(
             WrapperAbi.abi,
-            chainConfig.usdtWrapperAddress
+            swapCoin[2].wrapperAddress
         )
     }
 }
