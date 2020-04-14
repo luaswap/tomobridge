@@ -328,7 +328,8 @@ export default {
             wrapType: 'wrap',
             fromWrapError: false,
             toWrapError: false,
-            balance: 0
+            balance: 0,
+            interval: ''
         }
     },
     computed : {
@@ -344,7 +345,18 @@ export default {
                 this.wrapType === 'unwrap' &&
                 newValue
             ) {
-                await this.getBalance(newValue)
+                if (this.interval) {
+                    clearInterval(this.interval)
+                    this.interval = setInterval(async () => {
+                        console.log(11)
+                        await this.getBalance(newValue)
+                    }, 5000)
+                } else {
+                    this.interval = setInterval(async () => {
+                        console.log(11)
+                        await this.getBalance(newValue)
+                    }, 5000)
+                }
             }
         }
     },
@@ -360,7 +372,11 @@ export default {
             self.toWrapError = false
         }
     },
-    destroyed () { },
+    destroyed () {
+        if (this.interval) {
+            clearInterval(this.interval)
+        }
+    },
     mounted () {},
     created: async function () {
         this.address = this.$store.state.address || await this.getAccount()
@@ -374,6 +390,7 @@ export default {
             this.fromData = this.config.swapToken || []
             this.toData.forEach(t => {
                 if (t.name.toLowerCase() === this.$route.params.tokenSymbol.toLowerCase()) {
+                    console.log(t)
                     this.toWrapSelected = t
                 }
             })
@@ -505,17 +522,17 @@ export default {
         },
         getContract (id) {
             let contract
-            const blockchain = this.config.blockchain
+            const swapCoin = this.config.swapCoin
             switch (id.name.toLowerCase()) {
             case 'eth':
                 contract = this.ethContract
-                return { contract, contractAddress: blockchain.ethWrapperAddress }
+                return { contract, contractAddress: swapCoin[1].wrapperAddress }
             case 'btc':
                 contract = this.btcContract
-                return { contract, contractAddress: blockchain.btcWrapperAddress }
+                return { contract, contractAddress: swapCoin[0].wrapperAddress }
             case 'usdt':
                 contract = this.usdtContract
-                return { contract, contractAddress: blockchain.usdtWrapperAddress }
+                return { contract, contractAddress: swapCoin[2].wrapperAddress }
             default:
                 return contract
             }

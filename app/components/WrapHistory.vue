@@ -79,7 +79,7 @@
                     <h4 class="wrap-history__title">{{ fromWrapSelected.name }} wallet</h4>
                     <a
                         href="#"
-                        class="wrap-history__address">bnb1s3f8vxaqum3pft6cefyn99px8wq6uk3jdtyarn</a>
+                        class="wrap-history__address">{{ fromWrapSelected.mainAddress }}</a>
                     <div class="wrap-history__wallet-info">
                         <!-- <p>
                             <i class="tb-wallet"/>
@@ -323,14 +323,14 @@ export default {
     computed: {
         tokenAddress: function () {
             if (this.fromWrapSelected) {
-                const blockchain = this.config.blockchain
+                const swapCoin = this.config.swapCoin
                 switch (this.fromWrapSelected.name.toLowerCase()) {
                 case 'btc':
-                    return blockchain.btcWrapperAddress
+                    return swapCoin[0].wrapperAddress
                 case 'eth':
-                    return blockchain.ethWrapperAddress
+                    return swapCoin[1].wrapperAddress
                 case 'usdt':
-                    return blockchain.usdtWrapperAddress
+                    return swapCoin[2].wrapperAddress
                 default:
                     return ''
                 }
