@@ -501,6 +501,11 @@ export default {
 
                     this.setupProvider('metamask', wjs)
                     this.address = await this.getAccount()
+                    await this.getBalance(this.config.swapCoin[0])
+                    if (this.balance === 'NaN') {
+                        this.address = ''
+                        throw Error('Metamask has to connect to TomoChain network')
+                    }
                     this.$store.state.address = this.address.toLowerCase()
                 }
             } catch (error) {
