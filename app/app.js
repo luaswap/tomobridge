@@ -339,6 +339,9 @@ const router = new VueRouter({
     mode: 'history',
     routes: [
         { path: '/', component: Home },
+        { path: '/wrap', component: Home },
+        { path: '/wrap/:tokenSymbol', component: Home },
+        { path: '/unwrap/:tokenSymbol', component: Home },
         { path: '/wrapToken', component: WrapExecution, name: 'WrapExecution' },
         { path: '/unwrapToken', component: UnWrapExecution, name: 'UnWrapExecution' },
         { path: '/txs', component: Transaction, name: 'Transaction' }

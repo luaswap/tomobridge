@@ -140,47 +140,48 @@
                     class="wrapbox__row">
                     <b-col>
                         <p
-                            v-if="mobileCheck"
-                            class="wrapbox__text">Or Connect with</p>
+                            v-if="!mobileCheck"
+                            class="wrapbox__text">Connect with</p>
                         <div
-                            v-if="mobileCheck"
+                            v-if="!mobileCheck"
                             class="wrapbox__buttons">
                             <b-button
                                 @click="loginWallet">
                                 <img
-                                    src="app/assets/images/tomowallet.svg"
+                                    src="/app/assets/images/tomowallet.svg"
                                     alt="TomoWallet"
                                     style="width: 15px; height: 25px">
                                 <span>TomoWallet</span>
                             </b-button>
                             <b-button @click="loginMetamask">
                                 <img
-                                    src="app/assets/images/metamask.png"
+                                    src="/app/assets/images/metamask.png"
                                     alt="Private key">
                                 <span>Metamask</span>
                             </b-button>
                             <b-button
                                 @click="loginHDWallet">
                                 <img
-                                    src="app/assets/images/ledger.svg"
+                                    src="/app/assets/images/ledger.svg"
                                     alt="Ledger">
                                 <span>Ledger</span>
                             </b-button>
                             <b-button @click="loginPrivateKey">
                                 <img
-                                    src="app/assets/images/key.svg"
+                                    src="/app/assets/images/key.svg"
                                     alt="Private key">
                                 <span>Private key</span>
                             </b-button>
                             <b-button @click="loginMnemonic">
                                 <img
-                                    src="app/assets/images/key.svg"
+                                    src="/app/assets/images/key.svg"
                                     alt="Private key">
                                 <span>Mnemonic</span>
                             </b-button>
                         </div>
                         <p
-                            v-if="address">Account: {{ mobileCheck ? truncate(address, 20) : address }}</p>
+                            v-if="address"
+                            style="margin-top: 1rem">Account: {{ !mobileCheck ? address : truncate(address, 20) }}</p>
                         <p
                             v-if="address && wrapType === 'unwrap' && toWrapSelected">
                             Balance: {{ balance }} {{ fromWrapSelected.name || '' }} {{ toWrapSelected.name }}</p>
@@ -192,11 +193,13 @@
                 <div class="text-sm-center">
                     <b-form-checkbox
                         v-model="isAgreed">
-                        By Wrapping, you agree to the
-                        <a
-                            href="https://docs.tomochain.com/legal/terms-of-use"
-                            target="_blank">
-                            Terms and Conditions</a>
+                        <p>
+                            By {{ (wrapType === 'wrap') ? 'wrapping' : 'unwrapping' }}, you agree to the
+                            <a
+                                href="https://docs.tomochain.com/legal/terms-of-use"
+                                target="_blank">
+                                Terms and Conditions</a>
+                        </p>
                     </b-form-checkbox>
                     <b-button
                         v-if="wrapType === 'wrap'"
@@ -358,12 +361,32 @@ export default {
         }
     },
     destroyed () { },
+    mounted () {},
     created: async function () {
         this.address = this.$store.state.address || await this.getAccount()
         this.config = store.get('configBridge') || await this.appConfig()
         this.fromData = this.config.swapCoin || []
         this.toData = this.config.swapToken || []
-        this.toWrapSelected = this.toData[0]
+
+        if (this.$route.matched[0].path === '/unwrap/:tokenSymbol') {
+            this.wrapType = 'unwrap'
+            this.toData = this.config.swapCoin || []
+            this.fromData = this.config.swapToken || []
+            this.toData.forEach(t => {
+                if (t.name.toLowerCase() === this.$route.params.tokenSymbol.toLowerCase()) {
+                    this.toWrapSelected = t
+                }
+            })
+            this.fromWrapSelected = this.fromData[0]
+        } else {
+            this.toWrapSelected = this.toData[0]
+            this.wrapType = 'wrap'
+            this.fromData.forEach(t => {
+                if (t.name.toLowerCase() === (this.$route.params.tokenSymbol || '').toLowerCase()) {
+                    this.fromWrapSelected = t
+                }
+            })
+        }
     },
     methods: {
         customLabel ({ name }) {
@@ -400,7 +423,7 @@ export default {
                 self.loginError = true
             }
         },
-        async changeWrap () {
+        changeWrap () {
             const temp1 = this.fromData
             const temp2 = this.fromWrapSelected
 

@@ -31,22 +31,22 @@
     "swapCoin": [
         {
             "name": "BTC",
-            "img": "app/assets/images/crypto-logos/btc.png",
+            "img": "/app/assets/images/crypto-logos/btc.png",
             "confirmations": 6
         },
         {
             "name": "ETH",
-            "img": "app/assets/images/crypto-logos/eth.png",
+            "img": "/app/assets/images/crypto-logos/eth.png",
             "confirmations": 12
         },
         {
             "name": "USDT",
-            "img": "app/assets/images/crypto-logos/usdt.png",
+            "img": "/app/assets/images/crypto-logos/usdt.png",
             "confirmations": 12
         },
         {
             "name": "XLM",
-            "img": "app/assets/images/crypto-logos/xlm.png"
+            "img": "/app/assets/images/crypto-logos/xlm.png"
         }
     ],
     "swapToken": [

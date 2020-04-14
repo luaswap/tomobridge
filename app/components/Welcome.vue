@@ -8,8 +8,8 @@
             class="home-section__logo"
             src="/app/assets/images/logo-pc.svg" >
         <h1 class="home-section__headline">TomoBridge</h1>
-        <div class="home-section__title">THE FIRST DECENTRALIZED EXCHANGE PLATFORM</div>
-        <div class="home-section__subtitle">The fastest, simplest and most secure way to exchange tokens</div>
+        <div class="home-section__title">Bring digital assets to TRC21 Tokens on TomoChain</div>
+        <div class="home-section__subtitle">The fastest, simplest and most secure way to wrap/unwrap tokens</div>
     </b-col>
 </template>
 
