@@ -96,6 +96,7 @@
                             :options="toData"
                             :custom-label="customLabel"
                             :show-labels="false"
+                            :allow-empty="false"
                             track-by="name"
                             @input="updateBalance">
                             <template
@@ -375,9 +376,9 @@ export default {
             this.fromData = this.config.swapToken || []
             this.toData.forEach(t => {
                 if (t.name.toLowerCase() === this.$route.params.tokenSymbol.toLowerCase()) {
-                    console.log(t)
                     this.toWrapSelected = t
                 }
+                this.toWrapSelected = this.toWrapSelected || this.toData[0]
             })
             this.fromWrapSelected = this.fromData[0]
         } else {
@@ -387,6 +388,7 @@ export default {
                 if (t.name.toLowerCase() === (this.$route.params.tokenSymbol || '').toLowerCase()) {
                     this.fromWrapSelected = t
                 }
+                this.fromWrapSelected = this.fromWrapSelected || this.fromData[0]
             })
         }
     },
