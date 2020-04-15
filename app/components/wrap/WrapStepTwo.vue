@@ -7,7 +7,9 @@
                 Please stay tuned
             </p>
         </div>
-        <div v-if="success">
+        <div
+            v-if="success"
+            style="margin-bottom: 30px">
             <h3 class="step-three__title">We are verifying your transaction...</h3>
             <p>
                 Transaction hash:

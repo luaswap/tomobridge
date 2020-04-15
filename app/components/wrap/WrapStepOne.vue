@@ -62,7 +62,7 @@ export default {
     },
     methods: {
         onCopy () {
-            this.$toasted.show('Copied!')
+            this.$toasted.show('Copied!', { type: 'success' })
         },
         nextStep () {
             const par = this.parent
