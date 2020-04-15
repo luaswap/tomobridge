@@ -81,7 +81,7 @@ export default {
             if (data && data.transaction && data.transaction.InTx &&
                 data.transaction.OutTx.Hash === '') {
                 const inTx = data.transaction.InTx
-                this.confirmation = inTx.Confirmations
+                this.confirmation = (inTx.Confirmations > 0) ? inTx.Confirmations : 0
                 this.txHash = inTx.Hash
                 this.success = true
                 if (this.confirmation >= this.requiredConfirm) {

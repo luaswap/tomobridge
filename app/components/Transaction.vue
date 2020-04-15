@@ -256,6 +256,10 @@ export default {
                 path: '/'
             })
         }
+
+        this.getWrapTxs()
+        this.getUnwrapTxs()
+
         this.interval = setInterval(() => {
             this.getWrapTxs()
             this.getUnwrapTxs()
@@ -327,7 +331,7 @@ export default {
                                 hash: tx.OutTx.Hash,
                                 createdAt: moment(tx.CreatedAt * 1000).fromNow(),
                                 dateTooltip: moment(tx.CreatedAt * 1000).format('lll'),
-                                status: tx.OutTx.Status,
+                                status: (tx.OutTx.Status || '').toUpperCase(),
                                 token: tx.OutTx.CoinType,
                                 quantity: this.convertAmount(tx.OutTx.CoinType, tx.OutTx.Amount)
                             })
