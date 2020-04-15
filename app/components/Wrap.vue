@@ -38,7 +38,7 @@
             </b-navbar>
             <custom-scrollbar id="wrapbox">
                 <p class="wrapbox__text">
-                    {{ wrapType === 'wrap' ? 'Wrap' : 'UnWrap' }}
+                    {{ wrapType === 'wrap' ? 'Wrap' : 'Unwrap' }}
                     your token</p>
                 <b-row class="wrapbox__row">
                     <b-col

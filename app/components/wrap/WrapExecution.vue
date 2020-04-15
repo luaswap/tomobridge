@@ -8,7 +8,7 @@
                         'steps__col--active' : step >= 1,
                     }"
                     class="steps__col">
-                    <p class="steps__name">Wrap <br>{{ fromWrapToken.name || '' }}</p>
+                    <p class="steps__name">Wrap {{ fromWrapToken.name || '' }}</p>
                     <p class="steps__number"><span>1</span></p>
                 </b-col>
                 <b-col
@@ -26,7 +26,7 @@
                         'steps__col--active' : step >= 3,
                     }"
                     class="steps__col">
-                    <p class="steps__name">Receive <br>{{ toWrapToken.name || '' }}</p>
+                    <p class="steps__name">Receive {{ toWrapToken.name || '' }} {{ fromWrapToken.name || '' }}</p>
                     <p class="steps__number"><span>3</span></p>
                 </b-col>
             </b-row>
