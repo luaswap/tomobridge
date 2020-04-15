@@ -16,7 +16,9 @@
             <h3 class="step-three__title">You’ve withdrawn {{ convertAmount(outAmount) }}
                 {{ toToken.name || '' }}</h3>
         </div>
-        <div class="step-three__tx-hash">
+        <div
+            v-if="success"
+            class="step-three__tx-hash">
             <p>
                 Transaction hash:
                 <a

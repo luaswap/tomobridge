@@ -1,16 +1,17 @@
 <template>
     <b-container class="step-two text-center">
-        <i class="tb-search step-two__icon"/>
-        <p>
-            We are verifying your transaction<br>
-            Please stay tuned
-        </p>
-        <a
-            :href="config.tomoscanUrl + '/txs/' + txHash"
-            class="step-three__tx-hash-link text-truncate"
-            target="_blank">
-            {{ txHash }}
-        </a>
+        <div style="margin-bottom: 30px">
+            <h3 class="step-three__title">We are verifying your transaction...</h3>
+            <p>
+                Transaction hash:<br>
+                <a
+                    :href="config.tomoscanUrl + '/txs/' + txHash"
+                    class="step-three__tx-hash-link text-truncate"
+                    target="_blank">
+                    {{ txHash }}
+                </a>
+            </p>
+        </div>
         <div class="step-three__progress">
             <div class="progress-bar">
                 <div class="progress-bar__inner">
