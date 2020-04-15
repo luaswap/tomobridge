@@ -58,8 +58,7 @@ export default {
 
         this.interval = setInterval(async () => {
             const data = await this.scanTX()
-            if (data && data.transaction && data.transaction.InTx &&
-                data.transaction.OutTx.Hash === '') {
+            if (data && data.transaction && data.transaction.InTx) {
                 const inTx = data.transaction.InTx
                 this.confirmation = inTx.Confirmations
                 if (this.confirmation >= this.requiredConfirm) {

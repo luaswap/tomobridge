@@ -450,11 +450,11 @@ export default {
                 return result
             case 'btc':
             case 'tomobtc':
-                result = new BigNumber(amount).div(10 ** 8).toString(10)
+                result = new BigNumber(amount).div(10 ** 18).toString(10)
                 return result
             case 'usdt':
             case 'tomousdt':
-                result = new BigNumber(amount).div(10 ** 6).toString(10)
+                result = new BigNumber(amount).div(10 ** 8).toString(10)
                 return result
             default:
                 return result
