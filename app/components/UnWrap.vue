@@ -85,6 +85,7 @@ export default {
     },
     destroyed () { },
     created: async function () {
+        this.toWrapToken = this.parent.toWrapSelected
     },
     methods: {
         unWrapToken () {
