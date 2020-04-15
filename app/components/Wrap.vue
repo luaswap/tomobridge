@@ -535,7 +535,7 @@ export default {
         async getBalance (id) {
             try {
                 const { contract } = this.getContract(id)
-                if (contract) {
+                if (contract && this.address) {
                     const balance = await contract.methods.balanceOf(this.address).call()
                     this.balance = this.convertAmount(id, balance)
                 }
