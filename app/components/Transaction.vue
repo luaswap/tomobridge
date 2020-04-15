@@ -320,7 +320,7 @@ export default {
                             hash: tx.InTx.Hash,
                             createdAt: moment(tx.CreatedAt * 1000).fromNow(),
                             dateTooltip: moment(tx.CreatedAt * 1000).format('lll'),
-                            status: this.checkStatus(tx.InTx),
+                            status: tx.InTx.Status,
                             token: this.changeTokenName(tx.InTx.CoinType),
                             quantity: this.convertAmount(tx.InTx.CoinType, tx.InTx.Amount)
                         })
@@ -329,7 +329,7 @@ export default {
                                 hash: tx.OutTx.Hash,
                                 createdAt: moment(tx.CreatedAt * 1000).fromNow(),
                                 dateTooltip: moment(tx.CreatedAt * 1000).format('lll'),
-                                status: tx.OutTx.Status,
+                                status: this.checkStatus(tx.OutTx),
                                 token: tx.OutTx.CoinType,
                                 quantity: this.convertAmount(tx.OutTx.CoinType, tx.OutTx.Amount)
                             })
