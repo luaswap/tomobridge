@@ -1,11 +1,27 @@
 <template>
     <b-container class="step-two text-center">
-        <i class="tb-search step-two__icon"/>
-        <p>
-            We are looking for your transaction<br>
-            Please stay tuned
-        </p>
-        <div class="step-three__progress">
+        <div v-if="!success">
+            <i class="tb-search step-two__icon"/>
+            <p>
+                We are looking for your transaction<br>
+                Please stay tuned
+            </p>
+        </div>
+        <div v-if="success">
+            <h3 class="step-three__title">We are verifying your transaction...</h3>
+            <p>
+                Transaction hash:
+                <a
+                    href="#"
+                    class="step-three__tx-hash-link text-truncate"
+                    target="_blank">
+                    {{ txHash }}
+                </a>
+            </p>
+        </div>
+        <div
+            v-if="success"
+            class="step-three__progress">
             <div class="progress-bar">
                 <div class="progress-bar__inner">
                     <div
@@ -19,7 +35,7 @@
             </div>
             <!-- <div class="step-three__fee text-primary">
                 Fee: 1 TOMO
-            </div> -->
+                </div> -->
         </div>
         <b-button
             class="step-two__button btn--big"
@@ -43,7 +59,9 @@ export default {
         return {
             interval: '',
             confirmation: 0,
-            requiredConfirm: 0
+            requiredConfirm: 0,
+            success: false,
+            txHash: ''
         }
     },
     destroyed () {
@@ -62,6 +80,8 @@ export default {
                 data.transaction.OutTx.Hash === '') {
                 const inTx = data.transaction.InTx
                 this.confirmation = inTx.Confirmations
+                this.txHash = inTx.Hash
+                this.success = true
                 if (this.confirmation >= this.requiredConfirm) {
                     parent.fromWrapToken.amount = data.transaction.InTx.Amount
                     setTimeout(() => {
@@ -69,6 +89,8 @@ export default {
                         parent.step++
                     }, 2000)
                 }
+            } else {
+                this.success = false
             }
         }, 5000)
     },
