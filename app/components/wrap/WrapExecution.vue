@@ -8,7 +8,7 @@
                         'steps__col--active' : step >= 1,
                     }"
                     class="steps__col">
-                    <p class="steps__name">Deposit <br>{{ fromWrapToken.name || '' }}</p>
+                    <p class="steps__name">Wrap <br>{{ fromWrapToken.name || '' }}</p>
                     <p class="steps__number"><span>1</span></p>
                 </b-col>
                 <b-col

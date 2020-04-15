@@ -16,8 +16,6 @@ import Web3 from 'web3'
 import TransactionTx from 'ethereumjs-tx'
 import * as localStorage from 'store'
 // abis
-import WrapperAbi from '../abis/WrapperAbi.json'
-
 // Components
 import Home from './components/Home.vue'
 import WrapExecution from './components/wrap/WrapExecution.vue'
@@ -54,19 +52,6 @@ Vue.prototype.setupProvider = async function (provider, web3) {
         Vue.prototype.web3 = web3
         const config = await getConfig()
         localStorage.set('configBridge', config)
-        const swapCoin = config.swapCoin
-        Vue.prototype.ethContract = new Vue.prototype.web3.eth.Contract(
-            WrapperAbi.abi,
-            swapCoin[1].wrapperAddress
-        )
-        Vue.prototype.btcContract = new Vue.prototype.web3.eth.Contract(
-            WrapperAbi.abi,
-            swapCoin[0].wrapperAddress
-        )
-        Vue.prototype.usdtContract = new Vue.prototype.web3.eth.Contract(
-            WrapperAbi.abi,
-            swapCoin[2].wrapperAddress
-        )
     }
 }
 
@@ -252,6 +237,11 @@ Vue.prototype.sendSignedTransaction = function (txParams, signature) {
 
 const getConfig = Vue.prototype.appConfig = async function () {
     let config = await axios.get('/api/config')
+    config.data.objSwapCoin = {}
+    config.data.swapCoin.forEach(c => {
+        config.data.objSwapCoin[c.name.toLowerCase()] = c
+    })
+
     return config.data
 }
 
