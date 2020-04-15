@@ -508,7 +508,6 @@ export default {
 
                     this.setupProvider('metamask', wjs)
                     this.address = await this.getAccount()
-                    console.log(this.config.swapCoin[0])
                     await this.getBalance(this.config.swapCoin[0])
                     if (this.balance === 'NaN') {
                         this.address = ''

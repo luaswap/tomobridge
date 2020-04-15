@@ -442,23 +442,26 @@ export default {
             }
         },
         convertAmount (coin, amount) {
-            let result
+            let tokenSymbol
+
             switch (coin.toLowerCase()) {
             case 'eth':
             case 'tomoeth':
-                result = new BigNumber(amount).div(10 ** 18).toString(10)
-                return result
+                tokenSymbol = 'eth'
+                break
             case 'btc':
             case 'tomobtc':
-                result = new BigNumber(amount).div(10 ** 18).toString(10)
-                return result
+                tokenSymbol = 'btc'
+                break
             case 'usdt':
             case 'tomousdt':
-                result = new BigNumber(amount).div(10 ** 8).toString(10)
-                return result
-            default:
-                return result
+                tokenSymbol = 'usdt'
+                break
             }
+            if (tokenSymbol) {
+                let decimals = parseInt(this.config.objSwapCoin[tokenSymbol].decimals)
+                return (new BigNumber(amount).div(10 ** decimals)).toString(10)
+            } else { return '' }
         }
     }
 }
