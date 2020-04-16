@@ -322,7 +322,7 @@ export default {
                             hash: tx.InTx.Hash,
                             createdAt: moment(tx.CreatedAt * 1000).fromNow(),
                             dateTooltip: moment(tx.CreatedAt * 1000).format('lll'),
-                            status: this.checkStatus(tx.InTx),
+                            status: tx.InTx.Status,
                             token: this.changeTokenName(tx.InTx.CoinType),
                             quantity: this.convertAmount(tx.InTx.CoinType, tx.InTx.Amount)
                         })
@@ -331,7 +331,7 @@ export default {
                                 hash: tx.OutTx.Hash,
                                 createdAt: moment(tx.CreatedAt * 1000).fromNow(),
                                 dateTooltip: moment(tx.CreatedAt * 1000).format('lll'),
-                                status: (tx.OutTx.Status || '').toUpperCase(),
+                                status: this.checkStatus(tx.OutTx),
                                 token: tx.OutTx.CoinType,
                                 quantity: this.convertAmount(tx.OutTx.CoinType, tx.OutTx.Amount)
                             })
@@ -345,23 +345,26 @@ export default {
             }
         },
         convertAmount (coin, amount) {
-            let result
+            let tokenSymbol
+
             switch (coin.toLowerCase()) {
             case 'eth':
             case 'tomoeth':
-                result = new BigNumber(amount).div(10 ** 18).toString(10)
-                return result
+                tokenSymbol = 'eth'
+                break
             case 'btc':
             case 'tomobtc':
-                result = new BigNumber(amount).div(10 ** 8).toString(10)
-                return result
+                tokenSymbol = 'btc'
+                break
             case 'usdt':
             case 'tomousdt':
-                result = new BigNumber(amount).div(10 ** 6).toString(10)
-                return result
-            default:
-                return result
+                tokenSymbol = 'usdt'
+                break
             }
+            if (tokenSymbol) {
+                let decimals = parseInt(this.config.objSwapCoin[tokenSymbol].decimals)
+                return (new BigNumber(amount).div(10 ** decimals)).toString(10)
+            } else { return '' }
         },
         checkStatus (tx) {
             const wrapTokens = this.config.swapCoin
@@ -371,7 +374,7 @@ export default {
                         return `${tx.Status}(${tx.Confirmations}/${wrapTokens[i].confirmations})`
                     }
                 }
-            } else { return tx.Status }
+            } else { return tx.Status.toUpperCase() }
         },
         wrapPageChange (page) {
             this.currentWrapPage = page

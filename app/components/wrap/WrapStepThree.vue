@@ -122,20 +122,10 @@ export default {
          * if (success) { parent.step++ }
          */
         convertAmount (amount) {
-            let num = 0
-            switch (this.fromToken.name.toLowerCase()) {
-            case 'eth':
-                num = new BigNumber(amount).div(10 ** 18).toString(10)
-                return num
-            case 'btc':
-                num = new BigNumber(amount).div(10 ** 8).toString(10)
-                return num
-            case 'usdt':
-                num = new BigNumber(amount).div(10 ** 6).toString(10)
-                return num
-            default:
-                break
-            }
+            let tokenSymbol = this.fromToken.name.toLowerCase()
+
+            let decimals = parseInt(this.config.objSwapCoin[tokenSymbol].decimals)
+            return (new BigNumber(amount).div(10 ** decimals)).toString(10)
         },
         async scanTX () {
             const address = this.$store.state.address || ''
