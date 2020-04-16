@@ -148,13 +148,19 @@
                         <div
                             v-if="!mobileCheck && !address"
                             class="wrapbox__buttons">
-                            <b-button
+                            <!-- <b-button
                                 @click="loginWallet">
                                 <img
                                     src="/app/assets/images/tomowallet.svg"
                                     alt="TomoWallet"
                                     style="width: 15px; height: 25px">
                                 <span>TomoWallet</span>
+                            </b-button> -->
+                            <b-button @click="loginPantograph">
+                                <img
+                                    src="/app/assets/images/pantograph.png"
+                                    alt="Private key">
+                                <span>Pantograph</span>
                             </b-button>
                             <b-button @click="loginMetamask">
                                 <img
@@ -543,6 +549,26 @@ export default {
             } catch (error) {
                 console.log(error)
                 this.$toasted.show(error, { type: 'error' })
+            }
+        },
+        async loginPantograph () {
+            try {
+                if (window.tomoWeb3) {
+                    const walletProvider = window.tomoWeb3.currentProvider
+                    const wjs = new Web3(walletProvider)
+
+                    this.setupProvider('pantograph', wjs)
+                    this.address = await this.getAccount()
+                    await this.getBalance(this.config.swapCoin[0])
+                    if (this.balance === 'NaN') {
+                        this.address = ''
+                        throw Error('Pantograph has to connect to TomoChain network')
+                    }
+                    this.$store.state.address = this.address.toLowerCase()
+                }
+            } catch (error) {
+                console.log(error)
+                this.$toasted.show(error, { type: 'erroor' })
             }
         }
     }
