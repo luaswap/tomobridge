@@ -256,8 +256,10 @@ export default {
                 path: '/'
             })
         }
+
         this.getWrapTxs()
         this.getUnwrapTxs()
+
         this.interval = setInterval(() => {
             this.getWrapTxs()
             this.getUnwrapTxs()
@@ -372,7 +374,7 @@ export default {
                         return `${tx.Status}(${tx.Confirmations}/${wrapTokens[i].confirmations})`
                     }
                 }
-            } else { return tx.Status }
+            } else { return tx.Status.toUpperCase() }
         },
         wrapPageChange (page) {
             this.currentWrapPage = page

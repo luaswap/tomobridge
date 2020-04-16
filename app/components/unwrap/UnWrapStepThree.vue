@@ -33,7 +33,7 @@
             v-if="success"
             :to="'/'"
             variant="primary"
-            class="step-three__button btn--big">Make another wrap</b-button>
+            class="step-three__button btn--big">Make another Unwrap</b-button>
     </b-container>
 </template>
 

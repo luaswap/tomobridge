@@ -9,7 +9,7 @@
                     }"
                     class="steps__col">
                     <p class="steps__name">
-                        Unwrap <br>{{ fromWrapToken.name || '' }} {{ toWrapToken.name || '' }}</p>
+                        Unwrap {{ fromWrapToken.name || '' }} {{ toWrapToken.name || '' }}</p>
                     <p class="steps__number"><span>1</span></p>
                 </b-col>
                 <b-col
@@ -27,7 +27,7 @@
                         'steps__col--active' : step >= 3,
                     }"
                     class="steps__col">
-                    <p class="steps__name">Receive <br>{{ toWrapToken.name || '' }}</p>
+                    <p class="steps__name">Receive {{ toWrapToken.name || '' }}</p>
                     <p class="steps__number"><span>3</span></p>
                 </b-col>
             </b-row>
