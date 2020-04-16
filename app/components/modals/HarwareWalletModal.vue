@@ -9,9 +9,11 @@
                 label-for="hdPath">
                 <b-form-input
                     v-model="hdPath"
+                    :disabled="type === 'trezor' ? true : false"
                     type="text"
                     placeholder="m/44’/889’/0’/0"/>
-                <b-form-text>
+                <b-form-text
+                    v-if="type === 'ledger'">
                     To unlock the wallet, try paths
                     <span
                         class="hd-path"
@@ -104,8 +106,8 @@ export default {
             config: {},
             hdWallet: '',
             loading: false,
-            hdWallets: [
-            ]
+            hdWallets: [],
+            type: ''
         }
     },
     watch: {},
@@ -115,6 +117,10 @@ export default {
     },
     created: async function () {
         this.config = store.get('configBridge') || await this.appConfig()
+        this.type = this.parent.hardwareWallet
+        if (this.type === 'trezor') {
+            this.hdPath = "m/44'/60'/0'/0"
+        } else { this.hdPath = "'m/44’/889’/0’/0'" }
     },
     methods: {
         back () {
@@ -129,9 +135,7 @@ export default {
             this.hdPath = path
         },
         unlock: async function (from, limit = defaultWalletNumber) {
-            if (isNaN(from)) {
-                from = 0
-            }
+            if (isNaN(from)) { from = 0 }
 
             const self = this
             let walletList
@@ -139,8 +143,13 @@ export default {
             try {
                 store.set('hdDerivationPath', self.hdPath)
                 document.body.style.cursor = 'wait'
-                await self.unlockLedger(self.hdPath)
-                walletList = await self.loadMultipleLedgerWallets(from, limit)
+                if (this.type === 'trezor') {
+                    await self.unlockTrezor()
+                    walletList = await self.loadTrezorWallets(from, limit)
+                } else {
+                    await self.unlockLedger()
+                    walletList = await self.loadMultipleLedgerWallets(from, limit)
+                }
 
                 if (Object.keys(walletList).length > 0) {
                     Object.assign(self.wallets, self.wallets, walletList)
@@ -164,10 +173,16 @@ export default {
             store.set('offset', offset)
             const blockchain = this.config.blockchain
             const walletProvider = new Web3(new Web3.providers.HttpProvider(blockchain.rpc))
-            await this.setupProvider('ledger', walletProvider)
+
+            if (this.type === 'trezor') {
+                await this.setupProvider('trezor', walletProvider)
+            } else {
+                await this.setupProvider('ledger', walletProvider)
+            }
             const address = await this.getAccount()
             parent.address = address
             this.$store.state.address = address.toLowerCase()
+            await parent.updateBalance()
             parent.$refs.hdWalletModal.hide()
         },
         async moreHdAddresses () {

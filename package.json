@@ -53,6 +53,7 @@
     "solc": "^0.4.25",
     "store": "^2.0.12",
     "swagger-ui-express": "^4.0.2",
+    "trezor-connect": "^8.1.1",
     "url-join": "^4.0.1",
     "url-loader": "^2.0.0",
     "vue-clipboard2": "^0.3.1",

@@ -169,7 +169,7 @@
                                 <span>Metamask</span>
                             </b-button>
                             <b-button
-                                @click="loginHDWallet">
+                                @click="loginHDWallet('ledger')">
                                 <img
                                     src="/app/assets/images/ledger.svg"
                                     alt="Ledger">
@@ -186,6 +186,12 @@
                                     src="/app/assets/images/key.svg"
                                     alt="Private key">
                                 <span>Mnemonic</span>
+                            </b-button>
+                            <b-button @click="loginHDWallet('trezor')">
+                                <img
+                                    src="/app/assets/images/trezorwallet.png"
+                                    alt="Trezor">
+                                <span>Trezor</span>
                             </b-button>
                         </div>
                         <p
@@ -264,7 +270,7 @@
         <b-modal
             id="hdWalletModal"
             ref="hdWalletModal"
-            title="Ledger"
+            title="Hareware wallet"
             centered
             scrollable
             size="md"
@@ -341,7 +347,8 @@ export default {
             fromWrapError: false,
             toWrapError: false,
             balance: 0,
-            interval: ''
+            interval: '',
+            hardwareWallet: ''
         }
     },
     computed : {
@@ -474,7 +481,12 @@ export default {
         async loginPrivateKey () {
             this.$refs.privateKeyModal.show()
         },
-        loginHDWallet () {
+        loginHDWallet (wallet) {
+            if (wallet === 'trezor') {
+                this.hardwareWallet = wallet
+            } else {
+                this.hardwareWallet = wallet
+            }
             this.$refs.hdWalletModal.show()
         },
         loginMnemonic () {

@@ -87,10 +87,10 @@ export default {
                         gasPrice: this.web3.utils.toHex(this.gasPrice),
                         gas: this.web3.utils.toHex(chainConfig.gas),
                         gasLimit: this.web3.utils.toHex(chainConfig.gas),
-                        nonce
+                        nonce: this.web3.utils.toHex(nonce)
                     }
                     const { contract, contractAddress } = this.getContract()
-                    if (provider === 'ledger') {
+                    if (provider === 'ledger' || provider === 'trezor') {
                         let data = await contract.methods.burn(
                             this.convertWithdrawAmount(this.amount),
                             this.string2byte(this.receiveAddress)
