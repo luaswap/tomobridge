@@ -60,8 +60,6 @@ export default {
             outAmount: 0,
             fromToken: this.parent.fromWrapToken || {},
             toToken: this.parent.toWrapToken || {},
-            requiredConfirm: 0,
-            confirmation: 0,
             interval: '',
             config: {}
         }
@@ -75,7 +73,6 @@ export default {
     created: async function () {
         const parent = this.parent
         this.config = parent.config
-        this.requiredConfirm = this.toToken.confirmations
         this.inAmount = this.toToken.amount
 
         this.interval = setInterval(async () => {
@@ -83,10 +80,9 @@ export default {
             if (data && data.transaction) {
                 const inTx = data.transaction.InTx
                 const outTx = data.transaction.OutTx
-                this.confirmation = outTx.Confirmations
                 this.inAmount = inTx.Amount
 
-                if (this.confirmation >= this.requiredConfirm && outTx.Hash) {
+                if (outTx.Hash) {
                     this.txHash = inTx.Hash
                     this.outAmount = outTx.Amount
                     clearInterval(this.interval)
