@@ -12,6 +12,9 @@
             <p
                 v-if="address">
                 Balance: {{ balance }} {{ fromWrapToken.name || '' }} {{ toWrapToken.name }}</p>
+            <p
+                v-if="address">
+                Fee: {{ fee }} {{ fromWrapToken.name || '' }} {{ toWrapToken.name }}</p>
         </div>
         <div class="step-one__buttons">
             <b-button
@@ -52,13 +55,15 @@ export default {
             fromWrapToken: this.parent.fromWrapToken || {},
             toWrapToken: this.parent.toWrapToken || {},
             config: {},
-            balance: 0
+            balance: 0,
+            fee: 0
         }
     },
     async updated () { },
     destroyed () { },
     created: async function () {
         this.coinName = this.toWrapToken.name
+        this.fee = this.toWrapToken.withdrawFee
         this.config = store.get('configBridge') || await this.appConfig() || {}
 
         this.web3.eth.getGasPrice().then(result => {

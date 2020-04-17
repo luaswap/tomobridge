@@ -17,7 +17,6 @@ import TransactionTx from 'ethereumjs-tx'
 import * as localStorage from 'store'
 import TrezorConnect from 'trezor-connect'
 
-// abis
 // Components
 import Home from './components/Home.vue'
 import WrapExecution from './components/wrap/WrapExecution.vue'
@@ -313,7 +312,7 @@ Vue.prototype.sendSignedTransaction = function (txParams, signature) {
 const getConfig = Vue.prototype.appConfig = async function () {
     let config = await axios.get('/api/config')
     config.data.objSwapCoin = {}
-    config.data.swapCoin.forEach(c => {
+    config.data.swapCoin.forEach(async c => {
         config.data.objSwapCoin[c.name.toLowerCase()] = c
     })
 
