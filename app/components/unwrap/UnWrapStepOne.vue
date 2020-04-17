@@ -121,9 +121,11 @@ export default {
                             let check = true
                             while (check) {
                                 const receipt = await this.web3.eth.getTransactionReceipt(txHash)
-                                if (receipt) {
+                                if (receipt.status) {
                                     check = false
                                     par.step++
+                                } else {
+                                    throw new Error('Something went wrong. Please try again')
                                 }
                             }
                         }
@@ -137,9 +139,11 @@ export default {
                                 let check = true
                                 while (check) {
                                     const receipt = await this.web3.eth.getTransactionReceipt(txHash)
-                                    if (receipt) {
+                                    if (receipt.status) {
                                         check = false
                                         par.step++
+                                    } else {
+                                        throw new Error('Something went wrong. Please try again')
                                     }
                                 }
                             })
