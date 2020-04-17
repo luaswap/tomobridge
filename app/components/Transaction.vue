@@ -367,13 +367,9 @@ export default {
             } else { return '' }
         },
         checkStatus (tx) {
-            const wrapTokens = this.config.swapCoin
             if (tx.Status === 'DEPOSITING' || tx.Status === 'WITHDRAWING') {
-                for (let i = 0; i < wrapTokens.length; i++) {
-                    if (wrapTokens[i].name.toLowerCase() === tx.CoinType.toLowerCase()) {
-                        return `${tx.Status}(${tx.Confirmations}/${wrapTokens[i].confirmations})`
-                    }
-                }
+                const coin = this.config.objSwapCoin[tx.CoinType.toLowerCase()]
+                return `${tx.Status}(${tx.Confirmations}/${coin.confirmations})`
             } else { return tx.Status.toUpperCase() }
         },
         wrapPageChange (page) {

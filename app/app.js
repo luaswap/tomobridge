@@ -15,6 +15,8 @@ import axios from 'axios'
 import Web3 from 'web3'
 import TransactionTx from 'ethereumjs-tx'
 import * as localStorage from 'store'
+import TrezorConnect from 'trezor-connect'
+
 // abis
 // Components
 import Home from './components/Home.vue'
@@ -44,6 +46,12 @@ const store = new Vuex.Store({
         fromWrapToken: {},
         toWrapToken: {}
     }
+})
+
+// set up trezor's manifest
+TrezorConnect.manifest({
+    email: 'admin@tomochain.com',
+    appUrl: 'https://bridge.tomochain.com'
 })
 
 Vue.prototype.setupProvider = async function (provider, web3) {
@@ -97,6 +105,15 @@ Vue.prototype.getAccount = async function (resolve, reject) {
             localStorage.get('hdDerivationPath')
         )
         account = result.address
+        break
+    case 'trezor':
+        const payload = Vue.prototype.trezorPayload || localStorage.get('trezorPayload')
+        const offset = localStorage.get('offset')
+        account = Vue.prototype.HDWalletCreate(
+            payload,
+            offset
+        )
+        localStorage.set('trezorPayload', { xpub: payload.xpub })
         break
     default:
         break
@@ -155,6 +172,48 @@ Vue.prototype.unlockLedger = async () => {
     }
 }
 
+Vue.prototype.unlockTrezor = async () => {
+    try {
+        const result = await TrezorConnect.getPublicKey({
+            path: localStorage.get('hdDerivationPath')
+        })
+        Vue.prototype.trezorPayload = result.payload
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}
+
+Vue.prototype.loadTrezorWallets = async (offset, limit) => {
+    try {
+        const wallets = {}
+        const payload = Vue.prototype.trezorPayload
+        if (payload && !payload.error) {
+            let convertedAddress
+            let balance
+            let web3
+            if (!Vue.prototype.web3) {
+                await Vue.prototype.detectNetwork('trezor')
+            }
+            web3 = Vue.prototype.web3
+            for (let i = offset; i < (offset + limit); i++) {
+                convertedAddress = Vue.prototype.HDWalletCreate(payload, i)
+                balance = await web3.eth.getBalance(convertedAddress)
+                wallets[i] = {
+                    address: convertedAddress,
+                    balance: parseFloat(web3.utils.fromWei(balance, 'ether')).toFixed(2)
+                }
+            }
+            return wallets
+        } else {
+            throw payload.error || 'Something went wrong'
+        }
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}
+
 Vue.prototype.loadMultipleLedgerWallets = async function (offset, limit) {
     let u2fSupported = await Transport.isSupported()
     if (!u2fSupported) {
@@ -203,6 +262,13 @@ Vue.prototype.signTransaction = async function (txParams) {
                 path,
                 serializedRawTx
             )
+        }
+        if (provider === 'trezor') {
+            const result = await TrezorConnect.ethereumSignTransaction({
+                path,
+                transaction: txParams
+            })
+            signature = result.payload
         }
         return signature
     } catch (error) {

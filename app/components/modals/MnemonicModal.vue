@@ -72,7 +72,7 @@ export default {
     data () {
         return {
             hdPath: "m/44'/889'/0'/0", // HD DerivationPath of hardware wallet
-            mnemonic: 'such over nurse squirrel interest permit obscure eyebrow erupt long clown trash'
+            mnemonic: ''
         }
     },
     validations: {
@@ -115,6 +115,7 @@ export default {
                 if (address) {
                     self.$store.state.address = address.toLowerCase()
                     parent.address = address
+                    await parent.updateBalance()
                     self.closeMnemonicModal()
                 }
             } catch (error) {
