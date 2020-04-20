@@ -54,6 +54,7 @@
 </template>
 
 <script>
+import WAValidator from 'wallet-address-validator'
 export default {
     name: 'App',
     components: {
@@ -112,10 +113,12 @@ export default {
         },
         isValidAddresss () {
             const address = this.recAddress
-            console.log(this.toWrapToken.name.toLowerCase())
+            const config = this.parent.config
+            // Check network
+            const network = config.blockchain.networkId === 89 ? 'prod' : 'testnet'
             switch (this.toWrapToken.name.toLowerCase()) {
             case 'btc':
-                return true
+                return WAValidator.validate(address, 'BTC', network)
             case 'eth':
             case 'usdt':
                 return this.web3.utils.isAddress(address)
