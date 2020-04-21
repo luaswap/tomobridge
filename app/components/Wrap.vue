@@ -379,7 +379,6 @@ export default {
     created: async function () {
         this.address = this.$store.state.address || await this.getAccount()
         this.config = store.get('configBridge') || await this.appConfig()
-        this.config = store.get('configBridge') || await this.appConfig()
 
         this.fromData = this.config.swapCoin || []
         this.toData = this.config.swapToken || []
@@ -501,6 +500,7 @@ export default {
             } else { this.toWrapError = false }
         },
         signOut () {
+            store.clearAll()
             this.address = ''
             this.receiveAddress = ''
             this.$store.replaceState({

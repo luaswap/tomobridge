@@ -78,8 +78,9 @@
                 <div class="wrap-history__wallet text-truncate">
                     <h4 class="wrap-history__title">{{ fromWrapSelected.name }} wallet</h4>
                     <a
-                        href="#"
-                        class="wrap-history__address">{{ fromWrapSelected.mainAddress }}</a>
+                        :href="getAddressUrl(fromWrapSelected.name, fromWrapSelected.mainAddress)"
+                        class="wrap-history__address"
+                        target="_blank">{{ fromWrapSelected.mainAddress }}</a>
                     <div class="wrap-history__wallet-info">
                         <!-- <p>
                             <i class="tb-wallet"/>
@@ -109,8 +110,9 @@
                                 <p class="wrap-history__tx-row text-truncate">
                                     <span>TX#{{ index }}:</span>
                                     <a
-                                        href="#"
-                                        class="wrap-history__tx-hash">
+                                        :href="item.explorerUrl"
+                                        class="wrap-history__tx-hash"
+                                        target="_blank">
                                         {{ item.hash }}
                                     </a>
                                 </p>
@@ -118,7 +120,7 @@
                                     <span class="wrap-history__tx-from">
                                         <span class="wrap-history__tx-text">From: </span>
                                         <span class="wrap-history__tx-addr">
-                                            <a href="#">{{ truncate(item.from, 20) }}</a>
+                                            <p>{{ truncate(item.from, 20) }}</p>
                                         </span>
                                     </span>
                                     <span
@@ -136,7 +138,7 @@
                                     <span class="wrap-history__tx-to">
                                         <span class="wrap-history__tx-text">To: </span>
                                         <span class="wrap-history__tx-addr">
-                                            <a href="#">{{ truncate(item.to, 20) }}</a>
+                                            <p>{{ truncate(item.to, 20) }}</p>
                                         </span>
                                     </span>
                                     <span class="wrap-history__tx-qty">
@@ -160,8 +162,9 @@
                     <h4 class="wrap-history__title">
                         Wrapped {{ toWrapSelected.name }} {{ fromWrapSelected.name }} wallet</h4>
                     <a
-                        href="#"
-                        class="wrap-history__address">{{ tokenAddress }}</a>
+                        :href="getAddressUrl('TOMO', tokenAddress)"
+                        class="wrap-history__address"
+                        target="_blank">{{ tokenAddress }}</a>
                     <div class="wrap-history__wallet-info">
                         <!-- <p>
                             <i class="tb-wallet"/>
@@ -193,8 +196,9 @@
                                 <p class="wrap-history__tx-row text-truncate">
                                     <span>TX#{{ index }}:</span>
                                     <a
-                                        href="#"
-                                        class="wrap-history__tx-hash">
+                                        :href="item.explorerUrl"
+                                        class="wrap-history__tx-hash"
+                                        target="_blank">
                                         {{ item.hash }}
                                     </a>
                                 </p>
@@ -202,7 +206,7 @@
                                     <span class="wrap-history__tx-from">
                                         <span class="wrap-history__tx-text">From: </span>
                                         <span class="wrap-history__tx-addr">
-                                            <a href="#">{{ truncate(item.from, 20) }}</a>
+                                            <p>{{ truncate(item.from, 20) }}</p>
                                         </span>
                                     </span>
                                     <span
@@ -220,7 +224,7 @@
                                     <span class="wrap-history__tx-to">
                                         <span class="wrap-history__tx-text">To: </span>
                                         <span class="wrap-history__tx-addr">
-                                            <a href="#">{{ truncate(item.to, 20) }}</a>
+                                            <p>{{ truncate(item.to, 20) }}</p>
                                         </span>
                                     </span>
                                     <span class="wrap-history__tx-qty">
@@ -240,10 +244,10 @@
 <script>
 import Multiselect from 'vue-multiselect'
 import CustomScrollbar from 'vue-custom-scrollbar'
-import store from 'store'
 import axios from 'axios'
 import BigNumber from 'bignumber.js'
 import moment from 'moment'
+import urljoin from 'url-join'
 export default {
     name: 'App',
     components: {
@@ -254,69 +258,17 @@ export default {
         return {
             fromData: [],
             toData: [],
-            fromWrapSelected: null,
-            toWrapSelected: null,
-            wrapTxs: [
-                {
-                    hash: '0cf90s8f90d8f90ds8f90ds8f90sd8f98dsf908ds90f8',
-                    from: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
-                    to: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
-                    createdAt: 'a few seconds ago',
-                    dateTooltip: 'Feb 16, 2020 10:10',
-                    type: 'send'
-                },
-                {
-                    hash: '0cf90s8f90d8f90ds8f90ds8f90sd8f98dsf908ds90f8',
-                    from: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
-                    to: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
-                    createdAt: 'a few seconds ago',
-                    dateTooltip: 'Feb 16, 2020 10:10',
-                    type: 'receive'
-                },
-                {
-                    hash: '0cf90s8f90d8f90ds8f90ds8f90sd8f98dsf908ds90f8',
-                    from: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
-                    to: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
-                    createdAt: 'a few seconds ago',
-                    dateTooltip: 'Feb 16, 2020 10:10',
-                    type: 'send'
-                },
-                {
-                    hash: '0cf90s8f90d8f90ds8f90ds8f90sd8f98dsf908ds90f8',
-                    from: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
-                    to: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
-                    createdAt: 'a few seconds ago',
-                    dateTooltip: 'Feb 16, 2020 10:10',
-                    type: 'receive'
-                },
-                {
-                    hash: '0cf90s8f90d8f90ds8f90ds8f90sd8f98dsf908ds90f8',
-                    from: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
-                    to: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
-                    createdAt: 'a few seconds ago',
-                    dateTooltip: 'Feb 16, 2020 10:10',
-                    type: 'send'
-                },
-                {
-                    hash: '0cf90s8f90d8f90ds8f90ds8f90sd8f98dsf908ds90f8',
-                    from: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
-                    to: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
-                    createdAt: 'a few seconds ago',
-                    dateTooltip: 'Feb 16, 2020 10:10',
-                    type: 'send'
-                },
-                {
-                    hash: '0cf90s8f90d8f90ds8f90ds8f90sd8f98dsf908ds90f8',
-                    from: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
-                    to: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
-                    createdAt: 'a few seconds ago',
-                    dateTooltip: 'Feb 16, 2020 10:10',
-                    type: 'send'
-                }
-            ],
+            fromWrapSelected: {
+                name: '',
+                mainAddress: ''
+            },
+            toWrapSelected: {
+                name: ''
+            },
             fromTokens: ['BTC', 'ETH', 'USDT', 'XLM'],
             toTokens: ['TRC20', 'TRC21'],
             mainTxs: [],
+            wrapTxs: [],
             config: {}
         }
     },
@@ -342,7 +294,7 @@ export default {
     async updated () { },
     destroyed () { },
     created: async function () {
-        this.config = store.get('configBridge') || await this.appConfig()
+        this.config = await this.appConfig()
         this.fromData = this.config.swapCoin || []
         this.toData = this.config.swapToken || []
         this.fromWrapSelected = this.fromData[0]
@@ -360,7 +312,8 @@ export default {
                     createdAt: moment(tx.CreatedAt * 1000).fromNow(),
                     dateTooltip: moment(tx.CreatedAt).format('lll'),
                     type: tx.Status,
-                    value: this.convertAmount(tx.CoinType, tx.Amount)
+                    value: this.convertAmount(tx.CoinType, tx.Amount),
+                    explorerUrl: this.getTxExplorerUrl(tx)
                 })
             })
             response.data.wrapTxs.map(tx => {
@@ -371,7 +324,8 @@ export default {
                     createdAt: moment(tx.CreatedAt * 1000).fromNow(),
                     dateTooltip: moment(tx.CreatedAt).format('lll'),
                     type: tx.Status,
-                    value: this.convertAmount(tx.CoinType, tx.Amount)
+                    value: this.convertAmount(tx.CoinType, tx.Amount),
+                    explorerUrl: this.getTxExplorerUrl(tx)
                 })
             })
         }
@@ -419,7 +373,8 @@ export default {
                             createdAt: moment(tx.CreatedAt * 1000).fromNow(),
                             dateTooltip: moment(tx.CreatedAt).format('lll'),
                             type: tx.Status,
-                            value: this.convertAmount(tx.CoinType, tx.Amount)
+                            value: this.convertAmount(tx.CoinType, tx.Amount),
+                            explorerUrl: this.getTxExplorerUrl(tx)
                         })
                     })
                     response.data.wrapTxs.map(tx => {
@@ -430,7 +385,8 @@ export default {
                             createdAt: moment(tx.CreatedAt * 1000).fromNow(),
                             dateTooltip: moment(tx.CreatedAt).format('lll'),
                             type: tx.Status,
-                            value: this.convertAmount(tx.CoinType, tx.Amount)
+                            value: this.convertAmount(tx.CoinType, tx.Amount),
+                            explorerUrl: this.getTxExplorerUrl(tx)
                         })
                     })
                 }
@@ -462,6 +418,30 @@ export default {
                 let decimals = parseInt(this.config.objSwapCoin[tokenSymbol].decimals)
                 return (new BigNumber(amount).div(10 ** decimals)).toString(10)
             } else { return '' }
+        },
+        getTxExplorerUrl (tx) {
+            if (tx.CoinType) {
+                const coin = this.config.objSwapCoin[tx.CoinType.toLowerCase()]
+                if (coin) {
+                    return urljoin(coin.explorerUrl, 'tx', tx.Hash)
+                }
+                return urljoin(this.config.tomoscanUrl, 'txs', tx.Hash)
+            }
+            return '#'
+        },
+        getAddressUrl (selectedCoin, address) {
+            try {
+                if (!selectedCoin) {
+                    return '#'
+                } else if (selectedCoin.toLowerCase().includes('tomo')) {
+                    return urljoin(this.config.tomoscanUrl || '', 'address', address)
+                } else {
+                    const coin = this.config.objSwapCoin[selectedCoin.toLowerCase()]
+                    return urljoin(coin.explorerUrl, 'address', address)
+                }
+            } catch (error) {
+                console.log(error)
+            }
         }
     }
 }
