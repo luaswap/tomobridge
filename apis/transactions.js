@@ -79,7 +79,7 @@ router.get('/getWrapTxs', [
         const url = urljoin(
             config.get('serverAPI'),
             '/transactions',
-            `?type=deposit&address=${address}&page=${page}&limit=${limit}`
+            `?type=deposit&tomo=${address}&page=${page}&limit=${limit}`
         )
         const result = await axios.get(url)
         if (result && result.data) {
@@ -108,7 +108,7 @@ router.get('/getUnwrapTxs', [
         const url = urljoin(
             config.get('serverAPI'),
             '/transactions',
-            `?type=withdraw&address=${address}&page=${page}&limit=${limit}`
+            `?type=withdraw&tomo=${address}&page=${page}&limit=${limit}`
         )
         const result = await axios.get(url)
         if (result && result.data) {
