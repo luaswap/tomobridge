@@ -82,10 +82,10 @@ export default {
             let provider
             try {
                 provider = 'privateKey'
-                self.privateKey = self.privateKey.trim()
+                self.privateKey = self.privateKey.trim().replace(/^0x/, '')
                 walletProvider = new PrivateKeyProvider(self.privateKey, config.blockchain.rpc)
 
-                self.setupProvider(provider, new Web3(walletProvider))
+                await self.setupProvider(provider, new Web3(walletProvider))
                 const address = await self.getAccount()
 
                 if (address) {

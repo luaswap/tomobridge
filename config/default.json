@@ -30,7 +30,7 @@
             "name": "BTC",
             "img": "/app/assets/images/crypto-logos/btc.png",
             "confirmations": 6,
-            "decimals": 18,
+            "decimals": 8,
             "explorerUrl": "https://www.blockchain.com/btc/",
             "wrapperAddress": "",
             "mainAddress": ""
@@ -48,7 +48,7 @@
             "name": "USDT",
             "img": "/app/assets/images/crypto-logos/usdt.png",
             "confirmations": 12,
-            "decimals": 8,
+            "decimals": 6,
             "explorerUrl": "https://etherscan.io/",
             "wrapperAddress": "",
             "mainAddress": ""

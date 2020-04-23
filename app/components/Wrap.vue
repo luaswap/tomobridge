@@ -524,7 +524,7 @@ export default {
                     const walletProvider = window.web3.currentProvider
                     const wjs = new Web3(walletProvider)
 
-                    this.setupProvider('metamask', wjs)
+                    await this.setupProvider('metamask', wjs)
                     this.address = await this.getAccount()
                     await this.getBalance(this.config.swapCoin[0])
                     if (this.balance === 'NaN') {
@@ -569,7 +569,7 @@ export default {
                     const walletProvider = window.tomoWeb3.currentProvider
                     const wjs = new Web3(walletProvider)
 
-                    this.setupProvider('pantograph', wjs)
+                    await this.setupProvider('pantograph', wjs)
                     this.address = await this.getAccount()
                     await this.getBalance(this.config.swapCoin[0])
                     if (this.balance === 'NaN') {

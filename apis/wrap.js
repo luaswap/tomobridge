@@ -37,7 +37,7 @@ router.get('/getTransaction/:txType/:wrapCoin/:receiveAddress',
             const result = await axios.get(url)
             return res.send(result.data)
         } catch (error) {
-            return next(error)
+            return res.send('Cannot find tx')
         }
     })
 

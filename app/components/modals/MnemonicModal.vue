@@ -109,7 +109,7 @@ export default {
                         config.blockchain.rpc, 0, 1, self.hdPath)
                     : new PrivateKeyProvider(self.mnemonic, config.blockchain.rpc)
 
-                self.setupProvider(provider, new Web3(walletProvider))
+                await self.setupProvider(provider, new Web3(walletProvider))
                 const address = await self.getAccount()
 
                 if (address) {

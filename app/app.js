@@ -312,7 +312,7 @@ Vue.prototype.sendSignedTransaction = function (txParams, signature) {
 const getConfig = Vue.prototype.appConfig = async function () {
     let config = await axios.get('/api/config')
     config.data.objSwapCoin = {}
-    config.data.swapCoin.forEach(async c => {
+    config.data.swapCoin.forEach(c => {
         config.data.objSwapCoin[c.name.toLowerCase()] = c
     })
 

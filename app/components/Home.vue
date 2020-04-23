@@ -38,7 +38,7 @@ export default {
         if (window.web3 && window.web3.currentProvider &&
             window.web3.currentProvider.isTomoWallet) {
             const wjs = new Web3(window.web3.currentProvider)
-            this.setupProvider('tomowallet', wjs)
+            await this.setupProvider('tomowallet', wjs)
             this.address = await this.getAccount()
             if (this.address) {
                 this.$store.state.address = this.address.toLowerCase()
