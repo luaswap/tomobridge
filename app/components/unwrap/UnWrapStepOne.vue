@@ -6,7 +6,7 @@
             <b-form-input
                 v-model="amount"
                 placeholder="Enter unwrap amount"
-                type="text"/>
+                type="number"/>
         </div>
         <div>
             <p
@@ -86,19 +86,18 @@ export default {
             try {
                 if (this.amount === '') {
                     this.$toasted.show('Enter unwrap amount')
-                } else if (this.amount > this.balance) {
+                } else if (new BigNumber(this.amount).isGreaterThan(this.balance)) {
                     this.$toasted.show('Not enough TRC21 balance')
                 } else {
                     const par = this.parent
                     const provider = this.NetworkProvider
                     const chainConfig = this.config.blockchain
-                    const nonce = await this.web3.eth.getTransactionCount(this.address)
+
                     let txParams = {
                         from: this.address,
                         gasPrice: this.web3.utils.toHex(this.gasPrice),
                         gas: this.web3.utils.toHex(chainConfig.gas),
-                        gasLimit: this.web3.utils.toHex(chainConfig.gas),
-                        nonce: this.web3.utils.toHex(nonce)
+                        gasLimit: this.web3.utils.toHex(chainConfig.gas)
                     }
                     const { contract, contractAddress } = this.getContract()
                     if (provider === 'ledger' || provider === 'trezor') {
@@ -113,11 +112,15 @@ export default {
                         }
                         // bypass hardware wallet to sign tx
                         txParams.value = this.web3.utils.toHex(0)
+                        const nonce = await this.web3.eth.getTransactionCount(this.address)
 
                         Object.assign(
                             dataTx,
                             dataTx,
-                            txParams
+                            txParams,
+                            {
+                                nonce: this.web3.utils.toHex(nonce)
+                            }
                         )
                         let signature = await this.signTransaction(dataTx)
                         delete dataTx.value
@@ -127,11 +130,9 @@ export default {
                             let check = true
                             while (check) {
                                 const receipt = await this.web3.eth.getTransactionReceipt(txHash)
-                                if (receipt.status) {
+                                if (receipt && receipt.status) {
                                     check = false
                                     par.step++
-                                } else {
-                                    throw new Error('Something went wrong. Please try again')
                                 }
                             }
                         }
@@ -145,13 +146,14 @@ export default {
                                 let check = true
                                 while (check) {
                                     const receipt = await this.web3.eth.getTransactionReceipt(txHash)
-                                    if (receipt.status) {
+                                    if (receipt && receipt.status) {
                                         check = false
                                         par.step++
-                                    } else {
-                                        throw new Error('Something went wrong. Please try again')
                                     }
                                 }
+                            }).catch(error => {
+                                console.log(error)
+                                this.$toasted.show(error, { type: 'error' })
                             })
                     }
                 }
