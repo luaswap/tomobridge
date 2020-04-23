@@ -11,7 +11,11 @@
         <div>
             <p
                 v-if="address">
-                Balance: {{ balance }} {{ fromWrapToken.name || '' }} {{ toWrapToken.name }}</p>
+                Balance:
+                <a
+                    class="balance-btn"
+                    @click="unwrapAll">{{ balance }}</a>
+                {{ fromWrapToken.name || '' }} {{ toWrapToken.name }}</p>
             <p
                 v-if="address">
                 Fee: {{ fee }} {{ fromWrapToken.name || '' }} {{ toWrapToken.name }}</p>
@@ -82,6 +86,8 @@ export default {
             try {
                 if (this.amount === '') {
                     this.$toasted.show('Enter unwrap amount')
+                } else if (this.amount > this.balance) {
+                    this.$toasted.show('Not enough TRC21 balance')
                 } else {
                     const par = this.parent
                     const provider = this.NetworkProvider
@@ -121,9 +127,11 @@ export default {
                             let check = true
                             while (check) {
                                 const receipt = await this.web3.eth.getTransactionReceipt(txHash)
-                                if (receipt) {
+                                if (receipt.status) {
                                     check = false
                                     par.step++
+                                } else {
+                                    throw new Error('Something went wrong. Please try again')
                                 }
                             }
                         }
@@ -137,9 +145,11 @@ export default {
                                 let check = true
                                 while (check) {
                                     const receipt = await this.web3.eth.getTransactionReceipt(txHash)
-                                    if (receipt) {
+                                    if (receipt.status) {
                                         check = false
                                         par.step++
+                                    } else {
+                                        throw new Error('Something went wrong. Please try again')
                                     }
                                 }
                             })
@@ -188,6 +198,9 @@ export default {
 
             let decimals = parseInt(this.config.objSwapCoin[tokenSymbol].decimals)
             return (new BigNumber(amount).div(10 ** decimals)).toString(10)
+        },
+        unwrapAll () {
+            this.amount = this.balance
         }
     }
 }

@@ -379,7 +379,6 @@ export default {
     created: async function () {
         this.address = this.$store.state.address || await this.getAccount()
         this.config = store.get('configBridge') || await this.appConfig()
-        this.config = store.get('configBridge') || await this.appConfig()
 
         this.fromData = this.config.swapCoin || []
         this.toData = this.config.swapToken || []
@@ -459,7 +458,7 @@ export default {
         unWrapToken () {
             const self = this
             self.checkselectedWrapToken()
-            if (self.address && !self.fromWrapError && !self.toWrapError) {
+            if (self.address && !self.fromWrapError && !self.toWrapError && self.checkWithdrawFee()) {
                 self.$store.state.fromWrapToken = self.fromWrapSelected
                 self.$store.state.toWrapToken = self.toWrapSelected
                 self.receiveAddress = ''
@@ -501,6 +500,7 @@ export default {
             } else { this.toWrapError = false }
         },
         signOut () {
+            store.clearAll()
             this.address = ''
             this.receiveAddress = ''
             this.$store.replaceState({
@@ -581,6 +581,22 @@ export default {
             } catch (error) {
                 console.log(error)
                 this.$toasted.show(error, { type: 'erroor' })
+            }
+        },
+        checkWithdrawFee () {
+            try {
+                if (this.wrapType === 'unwrap') {
+                    const fee = this.config.objSwapCoin[this.toWrapSelected.name.toLowerCase()].withdrawFee
+                    if (this.balance < fee) {
+                        this.$toasted.show(`Not enough TRC21 ${this.toWrapSelected.name} for withdraw fee(${fee})`)
+                        return false
+                    } else {
+                        return true
+                    }
+                }
+            } catch (error) {
+                this.$toasted.show(error, { type: 'error' })
+                return false
             }
         }
     }

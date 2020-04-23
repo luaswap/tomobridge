@@ -51,7 +51,9 @@
                             slot="hash"
                             slot-scope="data">
                             <p class="text-truncate">
-                                <a href="#">{{ data.item.hash }}</a>
+                                <a
+                                    :href="data.item.txExplorerUrl"
+                                    target="_blank">{{ data.item.hash }}</a>
                             </p>
                         </template>
                     </b-table>
@@ -103,7 +105,9 @@
                             slot="hash"
                             slot-scope="data">
                             <p class="text-truncate">
-                                <a href="#">{{ data.item.hash }}</a>
+                                <a
+                                    :href="data.item.txExplorerUrl"
+                                    target="_blank">{{ data.item.hash }}</a>
                             </p>
                         </template>
                     </b-table>
@@ -125,6 +129,7 @@ import axios from 'axios'
 import BigNumber from 'bignumber.js'
 import store from 'store'
 import moment from 'moment'
+import urljoin from 'url-join'
 export default {
     name: 'App',
     components: { },
@@ -136,96 +141,6 @@ export default {
                 { key: 'token', label: 'Token' },
                 { key: 'quantity', label: 'Quantity' },
                 { key: 'createdAt', label: 'Age' }
-            ],
-            txs: [
-                {
-                    createdAt: 'a few seconds ago',
-                    dateTooltip: 'Feb 16, 2020 10:10',
-                    from: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
-                    to: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
-                    quantity: '1 TOMO',
-                    hash: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7'
-                },
-                {
-                    createdAt: 'a few seconds ago',
-                    dateTooltip: 'Feb 16, 2020 10:10',
-                    from: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
-                    to: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
-                    quantity: '1 TOMO',
-                    hash: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7'
-                },
-                {
-                    createdAt: 'a few seconds ago',
-                    dateTooltip: 'Feb 16, 2020 10:10',
-                    from: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
-                    to: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
-                    quantity: '1 TOMO',
-                    hash: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7'
-                },
-                {
-                    createdAt: 'a few seconds ago',
-                    dateTooltip: 'Feb 16, 2020 10:10',
-                    from: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
-                    to: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
-                    quantity: '1 TOMO',
-                    hash: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7'
-                },
-                {
-                    dateTooltip: 'Feb 16, 2020 10:10',
-                    createdAt: 'a few seconds ago',
-                    from: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
-                    to: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
-                    quantity: '1 TOMO',
-                    hash: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7'
-                },
-                {
-                    createdAt: 'a few seconds ago',
-                    dateTooltip: 'Feb 16, 2020 10:10',
-                    from: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
-                    to: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
-                    quantity: '1 TOMO',
-                    hash: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7'
-                },
-                {
-                    createdAt: '8 mins ago',
-                    dateTooltip: 'Feb 16, 2020 10:10',
-                    from: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
-                    to: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
-                    quantity: '1 TOMO',
-                    hash: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7'
-                },
-                {
-                    createdAt: '8 mins ago',
-                    dateTooltip: 'Feb 16, 2020 10:10',
-                    from: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
-                    to: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
-                    quantity: '1 TOMO',
-                    hash: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7'
-                },
-                {
-                    createdAt: '18 mins ago',
-                    dateTooltip: 'Feb 16, 2020 10:10',
-                    from: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
-                    to: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
-                    quantity: '1 TOMO',
-                    hash: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7'
-                },
-                {
-                    createdAt: '28 mins ago',
-                    dateTooltip: 'Feb 16, 2020 10:10',
-                    from: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
-                    to: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
-                    quantity: '1 TOMO',
-                    hash: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7'
-                },
-                {
-                    createdAt: '38 mins ago',
-                    dateTooltip: 'Feb 16, 2020 10:10',
-                    from: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
-                    to: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7',
-                    quantity: '1 TOMO',
-                    hash: '0x5d41ad59abafbd056e38d9c8aca9426b5aca0d1c2cc612f980ebffb9e0523ff7'
-                }
             ],
             wrapItems: [],
             unwrapItems: [],
@@ -285,7 +200,8 @@ export default {
                             dateTooltip: moment(tx.CreatedAt * 1000).format('lll'),
                             status: this.checkStatus(tx.InTx),
                             token: tx.InTx.CoinType,
-                            quantity: this.convertAmount(tx.InTx.CoinType, tx.InTx.Amount)
+                            quantity: this.convertAmount(tx.InTx.CoinType, tx.InTx.Amount),
+                            txExplorerUrl: this.getTxExplorerUrl(tx.InTx)
                         })
                         if (tx.OutTx.Hash !== '') {
                             items.push({
@@ -294,7 +210,8 @@ export default {
                                 dateTooltip: moment(tx.CreatedAt * 1000).format('lll'),
                                 status: tx.OutTx.Status,
                                 token: this.changeTokenName(tx.OutTx.CoinType),
-                                quantity: this.convertAmount(tx.OutTx.CoinType, tx.OutTx.Amount)
+                                quantity: this.convertAmount(tx.OutTx.CoinType, tx.OutTx.Amount),
+                                txExplorerUrl: this.getTxExplorerUrl(tx.OutTx)
                             })
                         }
                     })
@@ -324,7 +241,8 @@ export default {
                             dateTooltip: moment(tx.CreatedAt * 1000).format('lll'),
                             status: tx.InTx.Status,
                             token: this.changeTokenName(tx.InTx.CoinType),
-                            quantity: this.convertAmount(tx.InTx.CoinType, tx.InTx.Amount)
+                            quantity: this.convertAmount(tx.InTx.CoinType, tx.InTx.Amount),
+                            txExplorerUrl: this.getTxExplorerUrl(tx.InTx)
                         })
                         if (tx.OutTx.Hash !== '') {
                             items.push({
@@ -333,7 +251,8 @@ export default {
                                 dateTooltip: moment(tx.CreatedAt * 1000).format('lll'),
                                 status: this.checkStatus(tx.OutTx),
                                 token: tx.OutTx.CoinType,
-                                quantity: this.convertAmount(tx.OutTx.CoinType, tx.OutTx.Amount)
+                                quantity: this.convertAmount(tx.OutTx.CoinType, tx.OutTx.Amount),
+                                txExplorerUrl: this.getTxExplorerUrl(tx.OutTx)
                             })
                         }
                     })
@@ -379,6 +298,16 @@ export default {
         unwrapPageChange (page) {
             this.currentUnwrapPage = page
             this.getUnwrapTxs()
+        },
+        getTxExplorerUrl (tx) {
+            if (tx.CoinType) {
+                const coin = this.config.objSwapCoin[tx.CoinType.toLowerCase()]
+                if (coin) {
+                    return urljoin(coin.explorerUrl, 'tx', tx.Hash)
+                }
+                return urljoin(this.config.tomoscanUrl, 'txs', tx.Hash)
+            }
+            return '#'
         }
     }
 }

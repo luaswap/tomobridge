@@ -10,6 +10,9 @@
                         id="address-input"
                         v-model="recAddress"
                         placeholder="Please your receive address"/>
+                    <p
+                        v-if="!isAddress"
+                        class="text-error">Invalid {{ toWrapToken.name }} address</p>
                 </b-col>
             </b-row>
             <!-- <p class="text-truncate">
@@ -51,6 +54,7 @@
 </template>
 
 <script>
+import WAValidator from 'wallet-address-validator'
 export default {
     name: 'App',
     components: {
@@ -69,7 +73,8 @@ export default {
             allChecked: false,
             fromWrapToken: {},
             toWrapToken: {},
-            recAddress: ''
+            recAddress: '',
+            isAddress: true
         }
     },
     async updated () {
@@ -90,7 +95,8 @@ export default {
     methods: {
         unWrapToken () {
             const parent = this.parent
-            if (parent.address) {
+            this.isAddress = this.isValidAddresss()
+            if (parent.address && this.isAddress) {
                 parent.receiveAddress = this.recAddress
                 this.$router.push({
                     name: 'UnWrapExecution',
@@ -103,6 +109,21 @@ export default {
                 })
             } else {
                 parent.loginError = true
+            }
+        },
+        isValidAddresss () {
+            const address = this.recAddress
+            const config = this.parent.config
+            // Check network
+            const network = config.blockchain.networkId === 89 ? 'prod' : 'testnet'
+            switch (this.toWrapToken.name.toLowerCase()) {
+            case 'btc':
+                return WAValidator.validate(address, 'BTC', network)
+            case 'eth':
+            case 'usdt':
+                return this.web3.utils.isAddress(address)
+            default:
+                return false
             }
         }
     }
