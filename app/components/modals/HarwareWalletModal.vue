@@ -17,16 +17,13 @@
                     To unlock the wallet, try paths
                     <span
                         class="hd-path"
-                        style="cursor: pointer"
                         @click="changePath(`m/44'/60'/0'`)">m/44'/60'/0'</span>
                     or <span
                         class="hd-path"
-                        style="cursor: pointer"
                         @click="changePath(`m/44'/60'/0'/0`)">m/44'/60'/0'/0</span>
                     with Ethereum App, or try path
                     <span
                         class="hd-path"
-                        style="cursor: pointer"
                         @click="changePath(`m/44'/889'/0'/0`)">m/44'/889'/0'/0</span>
                     with TomoChain App (on Ledger).
                 </b-form-text>
@@ -101,7 +98,7 @@ export default {
     data () {
         return {
             wallets: {},
-            hdPath: 'm/44’/889’/0’/0',
+            hdPath: "m/44'/889'/0'/0",
             step: 1,
             config: {},
             hdWallet: '',
@@ -120,7 +117,7 @@ export default {
         this.type = this.parent.hardwareWallet
         if (this.type === 'trezor') {
             this.hdPath = "m/44'/60'/0'/0"
-        } else { this.hdPath = "'m/44’/889’/0’/0'" }
+        } else { this.hdPath = 'm/44’/889’/0’/0' }
     },
     methods: {
         back () {
