@@ -1,0 +1,66 @@
+{
+    "server": {
+        "host": "0.0.0.0",
+        "port": 3001
+    },
+    "logs": {
+        "level": "debug"
+    },
+    "cors": [
+        "https://swagger.tomochain.com"
+    ],
+    "blockchain": {
+        "rpc": "https://rpc.devnet.tomochain.com",
+        "ws": "wss://rpc.devnet.tomochain.com/ws",
+        "networkId": 99,
+        "gas": 2000000
+    },
+    "tomoscanUrl": "http://localhost:3003",
+    "tomoscanAPI": "https://scan.tomochain.com",
+    "serverAPI": "",
+    "db": {
+        "uri": "mongodb://mongodb:27017/tomobridge"
+    },
+    "truffle": {
+        "privateKey": "",
+        "minCapacity": "10"
+    },
+    "swapCoin": [
+        {
+            "name": "BTC",
+            "img": "/app/assets/images/crypto-logos/btc.png",
+            "confirmations": 6,
+            "decimals": 8,
+            "explorerUrl": "https://www.blockchain.com/btc/",
+            "wrapperAddress": "",
+            "mainAddress": ""
+        },
+        {
+            "name": "ETH",
+            "img": "/app/assets/images/crypto-logos/eth.png",
+            "confirmations": 12,
+            "decimals": 18,
+            "explorerUrl": "https://etherscan.io/",
+            "wrapperAddress": "",
+            "mainAddress": ""
+        },
+        {
+            "name": "USDT",
+            "img": "/app/assets/images/crypto-logos/usdt.png",
+            "confirmations": 12,
+            "decimals": 6,
+            "explorerUrl": "https://etherscan.io/",
+            "wrapperAddress": "",
+            "mainAddress": ""
+        },
+        {
+            "name": "XLM",
+            "img": "/app/assets/images/crypto-logos/xlm.png"
+        }
+    ],
+    "swapToken": [
+        {
+            "name": "TRC21"
+        }
+    ]
+}
