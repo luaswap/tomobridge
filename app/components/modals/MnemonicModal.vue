@@ -94,12 +94,13 @@ export default {
             }
         },
         async login () {
-            const self = this
-            const parent = self.parent
-            const config = self.config
-            let walletProvider
-            let provider
             try {
+                const self = this
+                const parent = self.parent
+                const config = self.config
+                let walletProvider
+                let provider
+                parent.loading = true
                 provider = 'custom'
                 self.mnemonic = self.mnemonic.trim()
                 self.mnemonic = self.mnemonic.trim()
@@ -116,9 +117,11 @@ export default {
                     self.$store.state.address = address.toLowerCase()
                     parent.address = address
                     await parent.updateBalance()
+                    parent.loading = false
                     self.closeMnemonicModal()
                 }
             } catch (error) {
+                parent.loading = false
                 self.$toasted.show(
                     error.message || error, {
                         type : 'error'

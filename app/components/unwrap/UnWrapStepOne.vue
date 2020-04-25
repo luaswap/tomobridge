@@ -82,15 +82,16 @@ export default {
             this.$toasted.show('Copied!')
         },
         async nextStep () {
+            const par = this.parent
             try {
                 if (this.amount === '') {
                     this.$toasted.show('Enter unwrap amount')
                 } else if (new BigNumber(this.amount).isLessThan(this.fee)) {
                     this.$toasted.show('Withdraw amount must be greater than withdraw fee')
                 } else {
-                    const par = this.parent
                     const provider = this.NetworkProvider
                     const chainConfig = this.config.blockchain
+                    par.loading = true
 
                     let txParams = {
                         from: this.address,
@@ -131,6 +132,7 @@ export default {
                                 const receipt = await this.web3.eth.getTransactionReceipt(txHash)
                                 if (receipt && receipt.status) {
                                     check = false
+                                    par.loading = false
                                     par.step++
                                 }
                             }
@@ -147,17 +149,20 @@ export default {
                                     const receipt = await this.web3.eth.getTransactionReceipt(txHash)
                                     if (receipt && receipt.status) {
                                         check = false
+                                        par.loading = false
                                         par.step++
                                     }
                                 }
                             }).catch(error => {
                                 console.log(error)
+                                par.loading = false
                                 this.$toasted.show(error, { type: 'error' })
                             })
                     }
                 }
             } catch (error) {
                 console.log(error)
+                par.loading = false
                 this.$toasted.show(error, { type: 'error' })
             }
         },

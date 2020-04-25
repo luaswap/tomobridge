@@ -72,6 +72,8 @@
                     @click="setHdPath">Confirm</b-button>
             </div>
         </div>
+        <div
+            :class="(loading ? 'tomo-loading' : '')"/>
     </div>
 </template>
 
@@ -157,6 +159,7 @@ export default {
                     self.loading = false
                 }
             } catch (error) {
+                self.loading = false
                 self.$toasted.show(error.message || error, {
                     type : 'error'
                 })
@@ -164,23 +167,35 @@ export default {
             }
         },
         async setHdPath () {
-            const parent = this.parent
-            const offset = document.querySelector('input[name="hdWallet"]:checked').value.toString()
-            store.set('hdDerivationPath', this.hdPath + '/' + offset)
-            store.set('offset', offset)
-            const blockchain = this.config.blockchain
-            const walletProvider = new Web3(new Web3.providers.HttpProvider(blockchain.rpc))
+            try {
+                this.loading = true
+                const parent = this.parent
+                document.body.style.cursor = 'wait'
+                const offset = document.querySelector('input[name="hdWallet"]:checked').value.toString()
+                store.set('hdDerivationPath', this.hdPath + '/' + offset)
+                store.set('offset', offset)
+                const blockchain = this.config.blockchain
+                const walletProvider = new Web3(new Web3.providers.HttpProvider(blockchain.rpc))
 
-            if (this.type === 'trezor') {
-                await this.setupProvider('trezor', walletProvider)
-            } else {
-                await this.setupProvider('ledger', walletProvider)
+                if (this.type === 'trezor') {
+                    await this.setupProvider('trezor', walletProvider)
+                } else {
+                    await this.setupProvider('ledger', walletProvider)
+                }
+                const address = await this.getAccount()
+                parent.address = address
+                this.$store.state.address = address.toLowerCase()
+                await parent.updateBalance()
+                parent.$refs.hdWalletModal.hide()
+                this.loading = false
+                document.body.style.cursor = 'default'
+            } catch (error) {
+                this.loading = false
+                document.body.style.cursor = 'default'
+                self.$toasted.show(error.message || error, {
+                    type : 'error'
+                })
             }
-            const address = await this.getAccount()
-            parent.address = address
-            this.$store.state.address = address.toLowerCase()
-            await parent.updateBalance()
-            parent.$refs.hdWalletModal.hide()
         },
         async moreHdAddresses () {
             document.getElementById('moreHdAddresses').style.cursor = 'wait'
