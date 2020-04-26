@@ -119,7 +119,7 @@ export default {
         this.type = this.parent.hardwareWallet
         if (this.type === 'trezor') {
             this.hdPath = "m/44'/60'/0'/0"
-        } else { this.hdPath = 'm/44’/889’/0’/0' }
+        } else { this.hdPath = 'm/44'/889'/0'/0' }
     },
     methods: {
         back () {
