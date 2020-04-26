@@ -17,6 +17,8 @@ import TransactionTx from 'ethereumjs-tx'
 import * as localStorage from 'store'
 import TrezorConnect from 'trezor-connect'
 
+import WrapperAbi from '../abis/WrapperAbi.json'
+
 // Components
 import Home from './components/Home.vue'
 import WrapExecution from './components/wrap/WrapExecution.vue'
@@ -53,10 +55,11 @@ TrezorConnect.manifest({
     appUrl: 'https://bridge.tomochain.com'
 })
 
-Vue.prototype.setupProvider = async function (provider, web3) {
+Vue.prototype.setupProvider = async function (provider, wjs) {
     Vue.prototype.NetworkProvider = provider
-    if (web3 instanceof Web3) {
-        Vue.prototype.web3 = web3
+    if (wjs instanceof Web3) {
+        Vue.prototype.web3 = wjs
+        Vue.prototype.WrapperAbi = WrapperAbi
         const config = await getConfig()
         localStorage.set('configBridge', config)
     }
@@ -312,7 +315,7 @@ Vue.prototype.sendSignedTransaction = function (txParams, signature) {
 const getConfig = Vue.prototype.appConfig = async function () {
     let config = await axios.get('/api/config')
     config.data.objSwapCoin = {}
-    config.data.swapCoin.forEach(async c => {
+    config.data.swapCoin.forEach(c => {
         config.data.objSwapCoin[c.name.toLowerCase()] = c
     })
 

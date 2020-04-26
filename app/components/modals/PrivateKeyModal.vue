@@ -75,26 +75,29 @@ export default {
             }
         },
         async login () {
-            const self = this
-            const parent = self.parent
-            const config = self.config
-            let walletProvider
-            let provider
             try {
+                const self = this
+                const parent = self.parent
+                const config = self.config
+                let walletProvider
+                let provider
+                parent.loading = true
                 provider = 'privateKey'
-                self.privateKey = self.privateKey.trim()
+                self.privateKey = self.privateKey.trim().replace(/^0x/, '')
                 walletProvider = new PrivateKeyProvider(self.privateKey, config.blockchain.rpc)
 
-                self.setupProvider(provider, new Web3(walletProvider))
+                await self.setupProvider(provider, new Web3(walletProvider))
                 const address = await self.getAccount()
 
                 if (address) {
                     self.$store.state.address = address.toLowerCase()
                     parent.address = address
                     await parent.updateBalance()
+                    parent.loading = false
                     self.closePrivateKeyModal()
                 }
             } catch (error) {
+                parent.loading = false
                 self.$toasted.show(
                     error.message || error, {
                         type : 'error'

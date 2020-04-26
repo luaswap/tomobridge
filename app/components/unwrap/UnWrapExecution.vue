@@ -41,6 +41,8 @@
         <div v-if="step === 3">
             <UnWrapStepThree :parent="this"/>
         </div>
+        <div
+            :class="(loading ? 'tomo-loading' : '')"/>
     </div>
 </template>
 
@@ -64,7 +66,8 @@ export default {
             toWrapToken: {},
             receiveAddress: '',
             config: {},
-            transactionHash: ''
+            transactionHash: '',
+            loading: false
         }
     },
     async updated () {

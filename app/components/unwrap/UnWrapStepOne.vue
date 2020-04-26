@@ -37,7 +37,6 @@
 import VueQrcode from '@chenfengyuan/vue-qrcode'
 import BigNumber from 'bignumber.js'
 import store from 'store'
-import WrapperAbi from '../../../abis/WrapperAbi.json'
 export default {
     name: 'App',
     components: {
@@ -83,15 +82,16 @@ export default {
             this.$toasted.show('Copied!')
         },
         async nextStep () {
+            const par = this.parent
             try {
                 if (this.amount === '') {
                     this.$toasted.show('Enter unwrap amount')
-                } else if (new BigNumber(this.amount).isGreaterThan(this.balance)) {
-                    this.$toasted.show('Not enough TRC21 balance')
+                } else if (new BigNumber(this.amount).isLessThan(this.fee)) {
+                    this.$toasted.show('Withdraw amount must be greater than withdraw fee')
                 } else {
-                    const par = this.parent
                     const provider = this.NetworkProvider
                     const chainConfig = this.config.blockchain
+                    par.loading = true
 
                     let txParams = {
                         from: this.address,
@@ -102,7 +102,7 @@ export default {
                     const { contract, contractAddress } = this.getContract()
                     if (provider === 'ledger' || provider === 'trezor') {
                         let data = await contract.methods.burn(
-                            this.convertWithdrawAmount(this.amount),
+                            this.web3.utils.toHex(this.convertWithdrawAmount(this.amount)),
                             this.string2byte(this.receiveAddress)
                         ).encodeABI()
 
@@ -132,6 +132,7 @@ export default {
                                 const receipt = await this.web3.eth.getTransactionReceipt(txHash)
                                 if (receipt && receipt.status) {
                                     check = false
+                                    par.loading = false
                                     par.step++
                                 }
                             }
@@ -148,17 +149,20 @@ export default {
                                     const receipt = await this.web3.eth.getTransactionReceipt(txHash)
                                     if (receipt && receipt.status) {
                                         check = false
+                                        par.loading = false
                                         par.step++
                                     }
                                 }
                             }).catch(error => {
                                 console.log(error)
+                                par.loading = false
                                 this.$toasted.show(error, { type: 'error' })
                             })
                     }
                 }
             } catch (error) {
                 console.log(error)
+                par.loading = false
                 this.$toasted.show(error, { type: 'error' })
             }
         },
@@ -169,9 +173,9 @@ export default {
             let id = this.toWrapToken
             let swapCoin = this.config.objSwapCoin
             let tokenSymbol = id.name.toLowerCase()
-            let contract = this.web3.eth.Contract(
-                WrapperAbi.abi,
-                swapCoin[tokenSymbol].wrapperAddress
+            let contract = new this.web3.eth.Contract(
+                this.WrapperAbi.abi,
+                swapCoin[tokenSymbol].wrapperAddress.toLowerCase()
             )
             return { contract, contractAddress: swapCoin[tokenSymbol].wrapperAddress }
         },

@@ -94,12 +94,13 @@ export default {
             }
         },
         async login () {
-            const self = this
-            const parent = self.parent
-            const config = self.config
-            let walletProvider
-            let provider
             try {
+                const self = this
+                const parent = self.parent
+                const config = self.config
+                let walletProvider
+                let provider
+                parent.loading = true
                 provider = 'custom'
                 self.mnemonic = self.mnemonic.trim()
                 self.mnemonic = self.mnemonic.trim()
@@ -109,16 +110,18 @@ export default {
                         config.blockchain.rpc, 0, 1, self.hdPath)
                     : new PrivateKeyProvider(self.mnemonic, config.blockchain.rpc)
 
-                self.setupProvider(provider, new Web3(walletProvider))
+                await self.setupProvider(provider, new Web3(walletProvider))
                 const address = await self.getAccount()
 
                 if (address) {
                     self.$store.state.address = address.toLowerCase()
                     parent.address = address
                     await parent.updateBalance()
+                    parent.loading = false
                     self.closeMnemonicModal()
                 }
             } catch (error) {
+                parent.loading = false
                 self.$toasted.show(
                     error.message || error, {
                         type : 'error'

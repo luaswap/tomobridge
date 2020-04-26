@@ -301,6 +301,8 @@
             hide-footer>
             <SelectAddressModal :parent="this" />
         </b-modal>
+        <div
+            :class="(loading ? 'tomo-loading' : '')"/>
     </b-col>
 </template>
 
@@ -348,7 +350,8 @@ export default {
             toWrapError: false,
             balance: 0,
             interval: '',
-            hardwareWallet: ''
+            hardwareWallet: '',
+            loading: false
         }
     },
     computed : {
@@ -521,10 +524,11 @@ export default {
         async loginMetamask () {
             try {
                 if (window.web3) {
+                    this.loading = true
                     const walletProvider = window.web3.currentProvider
                     const wjs = new Web3(walletProvider)
 
-                    this.setupProvider('metamask', wjs)
+                    await this.setupProvider('metamask', wjs)
                     this.address = await this.getAccount()
                     await this.getBalance(this.config.swapCoin[0])
                     if (this.balance === 'NaN') {
@@ -532,8 +536,10 @@ export default {
                         throw Error('Metamask has to connect to TomoChain network')
                     }
                     this.$store.state.address = this.address.toLowerCase()
+                    this.loading = false
                 }
             } catch (error) {
+                this.loading = false
                 console.log(error)
                 this.$toasted.show(error, { type: 'erroor' })
             }
@@ -566,10 +572,11 @@ export default {
         async loginPantograph () {
             try {
                 if (window.tomoWeb3) {
+                    this.loading = true
                     const walletProvider = window.tomoWeb3.currentProvider
                     const wjs = new Web3(walletProvider)
 
-                    this.setupProvider('pantograph', wjs)
+                    await this.setupProvider('pantograph', wjs)
                     this.address = await this.getAccount()
                     await this.getBalance(this.config.swapCoin[0])
                     if (this.balance === 'NaN') {
@@ -577,8 +584,10 @@ export default {
                         throw Error('Pantograph has to connect to TomoChain network')
                     }
                     this.$store.state.address = this.address.toLowerCase()
+                    this.loading = false
                 }
             } catch (error) {
+                this.loading = false
                 console.log(error)
                 this.$toasted.show(error, { type: 'erroor' })
             }

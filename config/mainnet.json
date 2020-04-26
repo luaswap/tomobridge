@@ -10,9 +10,9 @@
         "https://swagger.tomochain.com"
     ],
     "blockchain": {
-        "rpc": "https://testnet.tomochain.com",
-        "ws": "wss://testnet.tomochain.com/ws",
-        "networkId": 89,
+        "rpc": "https://rpc.tomochain.com",
+        "ws": "wss://rpc.tomochain.com/ws",
+        "networkId": 88,
         "gas": 2000000
     },
     "tomoscanUrl": "http://localhost:3003",
