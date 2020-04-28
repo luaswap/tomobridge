@@ -118,8 +118,8 @@ export default {
         this.config = store.get('configBridge') || await this.appConfig()
         this.type = this.parent.hardwareWallet
         if (this.type === 'trezor') {
-            this.hdPath = "m/44'/60'/0'/0"
-        } else { this.hdPath = 'm/44’/889’/0’/0' }
+            this.hdPath = `m/44'/60'/0'/0`
+        } else { this.hdPath = `m/44'/889'/0'/0` }
     },
     methods: {
         back () {
