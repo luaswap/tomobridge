@@ -17,9 +17,11 @@
 </template>
 
 <script>
+import Web3 from 'web3'
 import Welcome from './Welcome'
 import Wrap from './Wrap'
 import WrapHistory from './WrapHistory'
+
 export default {
     name: 'App',
     components: {
@@ -32,7 +34,19 @@ export default {
     },
     async updated () { },
     destroyed () { },
-    created: async function () { },
+    created: async function () {
+        if (window.web3 && window.web3.currentProvider &&
+            window.web3.currentProvider.isTomoWallet) {
+            const wjs = new Web3(window.web3.currentProvider)
+            await this.setupProvider('tomowallet', wjs)
+            this.address = await this.getAccount()
+            if (this.address) {
+                this.$store.state.address = this.address.toLowerCase()
+            }
+        } else {
+            this.address = this.$store.state.address || await this.getAccount()
+        }
+    },
     methods: { }
 }
 </script>

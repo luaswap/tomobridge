@@ -1,7 +1,7 @@
 <template>
     <div id="app">
         <b-navbar
-            v-if="$route.path !== '/'"
+            v-if="$route.path !== '/' && !$route.params.tokenSymbol"
             sticky
             toggleable="md"
             variant="white"
@@ -19,7 +19,9 @@
                     id="nav-collapse"
                     is-nav>
                     <b-navbar-nav class="ml-auto navbar-buttons">
-                        <b-nav-item to="/txs/">
+                        <b-nav-item
+                            v-if="address"
+                            to="/txs/">
                             {{ $t('txHistory') }}<i class="nav-item__icon tb-long-arrow-right" />
                         </b-nav-item>
                         <b-nav-item-dropdown
@@ -47,6 +49,11 @@ export default {
     data () {
         return {
             selectedLanguage: this.$i18n.locale === 'en' ? 'English' : 'Tiếng Việt'
+        }
+    },
+    computed: {
+        address: function () {
+            return this.$store.state.address
         }
     },
     async updated () { },

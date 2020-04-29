@@ -2,11 +2,22 @@
     <div id="unwrapbox">
         <div class="unwrap__info text-center">
             <p>
-                You are about to unwrap and then send your {{ toWrapToken.name }} to the address
+                You are about to unwrap and then send your {{ toWrapToken.name }} to the address:
             </p>
-            <p class="text-truncate">
+            <b-row class="wrapbox__row">
+                <b-col>
+                    <b-form-input
+                        id="address-input"
+                        v-model="recAddress"
+                        placeholder="Please your receive address"/>
+                    <p
+                        v-if="!isAddress"
+                        class="text-error">Invalid {{ toWrapToken.name }} address</p>
+                </b-col>
+            </b-row>
+            <!-- <p class="text-truncate">
                 <a href="#">{{ receiveAddress }}</a>
-            </p>
+            </p> -->
         </div>
         <div class="unwrap__confirm">
             <p class="unwrap-confirm__title">
@@ -43,6 +54,7 @@
 </template>
 
 <script>
+import WAValidator from 'wallet-address-validator'
 export default {
     name: 'App',
     components: {
@@ -61,7 +73,8 @@ export default {
             allChecked: false,
             fromWrapToken: {},
             toWrapToken: {},
-            receiveAddress: ''
+            recAddress: '',
+            isAddress: true
         }
     },
     async updated () {
@@ -77,21 +90,40 @@ export default {
     },
     destroyed () { },
     created: async function () {
+        this.toWrapToken = this.parent.toWrapSelected
     },
     methods: {
         unWrapToken () {
             const parent = this.parent
-            if (parent.address) {
+            this.isAddress = this.isValidAddresss()
+            if (parent.address && this.isAddress) {
+                parent.receiveAddress = this.recAddress
                 this.$router.push({
                     name: 'UnWrapExecution',
                     params: {
-                        receiveAddress: parent.receiveAddress,
+                        parent,
+                        receiveAddress: this.recAddress,
                         fromWrapToken: this.$store.state.fromWrapToken,
                         toWrapToken: this.$store.state.toWrapToken
                     }
                 })
             } else {
                 parent.loginError = true
+            }
+        },
+        isValidAddresss () {
+            const address = this.recAddress
+            const config = this.parent.config
+            // Check network
+            const network = config.blockchain.networkId === 89 ? 'prod' : 'testnet'
+            switch (this.toWrapToken.name.toLowerCase()) {
+            case 'btc':
+                return WAValidator.validate(address, 'BTC', network)
+            case 'eth':
+            case 'usdt':
+                return this.web3.utils.isAddress(address)
+            default:
+                return false
             }
         }
     }

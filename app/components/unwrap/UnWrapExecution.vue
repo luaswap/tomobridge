@@ -8,7 +8,8 @@
                         'steps__col--active' : step >= 1,
                     }"
                     class="steps__col">
-                    <p class="steps__name">Deposit <br>{{ fromWrapToken.name || '' }}</p>
+                    <p class="steps__name">
+                        Unwrap {{ fromWrapToken.name || '' }} {{ toWrapToken.name || '' }}</p>
                     <p class="steps__number"><span>1</span></p>
                 </b-col>
                 <b-col
@@ -26,7 +27,7 @@
                         'steps__col--active' : step >= 3,
                     }"
                     class="steps__col">
-                    <p class="steps__name">Receive <br>{{ toWrapToken.name || '' }}</p>
+                    <p class="steps__name">Receive {{ toWrapToken.name || '' }}</p>
                     <p class="steps__number"><span>3</span></p>
                 </b-col>
             </b-row>
@@ -40,6 +41,8 @@
         <div v-if="step === 3">
             <UnWrapStepThree :parent="this"/>
         </div>
+        <div
+            :class="(loading ? 'tomo-loading' : '')"/>
     </div>
 </template>
 
@@ -47,6 +50,7 @@
 import UnWrapStepOne from './UnWrapStepOne'
 import UnWrapStepTwo from './UnWrapStepTwo'
 import UnWrapStepThree from './UnWrapStepThree'
+import store from 'store'
 
 export default {
     name: 'App',
@@ -60,7 +64,10 @@ export default {
             step: 1,
             fromWrapToken: {},
             toWrapToken: {},
-            receiveAddress: ''
+            receiveAddress: '',
+            config: {},
+            transactionHash: '',
+            loading: false
         }
     },
     async updated () {
@@ -73,6 +80,7 @@ export default {
                 path: '/'
             })
         }
+        this.config = store.get('configBridge') || await this.appConfig()
         this.fromWrapToken = this.$route.params.fromWrapToken
         this.toWrapToken = this.$route.params.toWrapToken
         this.receiveAddress = this.$route.params.receiveAddress

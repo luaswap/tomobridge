@@ -10,8 +10,8 @@
         "https://swagger.tomochain.com"
     ],
     "blockchain": {
-        "rpc": "https://testnet.tomochain.com",
-        "ws": "wss://testnet.tomochain.com/ws",
+        "rpc": "https://rpc.testnet.tomochain.com",
+        "ws": "wss://rpc.testnet.tomochain.com/ws",
         "networkId": 89,
         "gas": 2000000
     },

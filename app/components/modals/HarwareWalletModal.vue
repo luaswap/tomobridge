@@ -9,22 +9,21 @@
                 label-for="hdPath">
                 <b-form-input
                     v-model="hdPath"
+                    :disabled="type === 'trezor' ? true : false"
                     type="text"
                     placeholder="m/44’/889’/0’/0"/>
-                <b-form-text>
+                <b-form-text
+                    v-if="type === 'ledger'">
                     To unlock the wallet, try paths
                     <span
                         class="hd-path"
-                        style="cursor: pointer"
                         @click="changePath(`m/44'/60'/0'`)">m/44'/60'/0'</span>
                     or <span
                         class="hd-path"
-                        style="cursor: pointer"
                         @click="changePath(`m/44'/60'/0'/0`)">m/44'/60'/0'/0</span>
                     with Ethereum App, or try path
                     <span
                         class="hd-path"
-                        style="cursor: pointer"
                         @click="changePath(`m/44'/889'/0'/0`)">m/44'/889'/0'/0</span>
                     with TomoChain App (on Ledger).
                 </b-form-text>
@@ -73,6 +72,8 @@
                     @click="setHdPath">Confirm</b-button>
             </div>
         </div>
+        <div
+            :class="(loading ? 'tomo-loading' : '')"/>
     </div>
 </template>
 
@@ -99,13 +100,13 @@ export default {
     data () {
         return {
             wallets: {},
-            hdPath: 'm/44’/889’/0’/0',
+            hdPath: "m/44'/889'/0'/0",
             step: 1,
             config: {},
             hdWallet: '',
             loading: false,
-            hdWallets: [
-            ]
+            hdWallets: [],
+            type: ''
         }
     },
     watch: {},
@@ -114,7 +115,11 @@ export default {
         this.wallets = {}
     },
     created: async function () {
-        this.config = store.get('config') || await this.appConfig()
+        this.config = store.get('configBridge') || await this.appConfig()
+        this.type = this.parent.hardwareWallet
+        if (this.type === 'trezor') {
+            this.hdPath = `m/44'/60'/0'/0`
+        } else { this.hdPath = `m/44'/889'/0'/0` }
     },
     methods: {
         back () {
@@ -129,9 +134,7 @@ export default {
             this.hdPath = path
         },
         unlock: async function (from, limit = defaultWalletNumber) {
-            if (isNaN(from)) {
-                from = 0
-            }
+            if (isNaN(from)) { from = 0 }
 
             const self = this
             let walletList
@@ -139,8 +142,14 @@ export default {
             try {
                 store.set('hdDerivationPath', self.hdPath)
                 document.body.style.cursor = 'wait'
-                await self.unlockLedger(self.hdPath)
-                walletList = await self.loadMultipleLedgerWallets(from, limit)
+                if (this.type === 'trezor') {
+                    await self.unlockTrezor()
+                    walletList = await self.loadTrezorWallets(from, limit)
+                } else {
+                    await self.unlockLedger()
+                    walletList = await self.loadMultipleLedgerWallets(from, limit)
+                }
+
                 if (Object.keys(walletList).length > 0) {
                     Object.assign(self.wallets, self.wallets, walletList)
                     document.body.style.cursor = 'default'
@@ -150,27 +159,43 @@ export default {
                     self.loading = false
                 }
             } catch (error) {
+                self.loading = false
                 self.$toasted.show(error.message || error, {
                     type : 'error'
                 })
                 document.body.style.cursor = 'default'
-                if (self.step !== 2) {
-                    self.step = 2
-                }
             }
         },
         async setHdPath () {
-            const parent = this.parent
-            const offset = document.querySelector('input[name="hdWallet"]:checked').value.toString()
-            store.set('hdDerivationPath', this.hdPath + '/' + offset)
-            store.set('offset', offset)
-            const blockchain = this.config
-            const walletProvider = new Web3(new Web3.providers.HttpProvider(blockchain.rpc))
-            await this.setupProvider('ledger', walletProvider)
-            const address = await this.getAccount()
-            parent.address = address
-            parent.receiveAddress = address
-            parent.$refs.hdWalletModal.hide()
+            try {
+                this.loading = true
+                const parent = this.parent
+                document.body.style.cursor = 'wait'
+                const offset = document.querySelector('input[name="hdWallet"]:checked').value.toString()
+                store.set('hdDerivationPath', this.hdPath + '/' + offset)
+                store.set('offset', offset)
+                const blockchain = this.config.blockchain
+                const walletProvider = new Web3(new Web3.providers.HttpProvider(blockchain.rpc))
+
+                if (this.type === 'trezor') {
+                    await this.setupProvider('trezor', walletProvider)
+                } else {
+                    await this.setupProvider('ledger', walletProvider)
+                }
+                const address = await this.getAccount()
+                parent.address = address
+                this.$store.state.address = address.toLowerCase()
+                await parent.updateBalance()
+                parent.$refs.hdWalletModal.hide()
+                this.loading = false
+                document.body.style.cursor = 'default'
+            } catch (error) {
+                this.loading = false
+                document.body.style.cursor = 'default'
+                self.$toasted.show(error.message || error, {
+                    type : 'error'
+                })
+            }
         },
         async moreHdAddresses () {
             document.getElementById('moreHdAddresses').style.cursor = 'wait'

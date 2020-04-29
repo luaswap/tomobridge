@@ -15,15 +15,15 @@
       }
     }
 
-    &[aria-colindex='3'] {
-      color: $color-primary;
-      font-size: 9px;
+    // &[aria-colindex='3'] {
+    //   color: $color-primary;
+    //   font-size: 9px;
 
-      i {
-        display: inline-block;
-        margin-top: 6px;
-      }
-    }
+    //   i {
+    //     display: inline-block;
+    //     margin-top: 6px;
+    //   }
+    // }
   }
 
   @include media-breakpoint-only(md) {
@@ -48,9 +48,9 @@
       padding-bottom: 6px;
     }
 
-    td[aria-colindex='3'] {
-      display: none !important;
-    }
+    // td[aria-colindex='3'] {
+    //   display: none !important;
+    // }
   }
 
   @include media-breakpoint-up(lg) {
@@ -72,14 +72,14 @@
     thead tr {
       border-radius: 4px;
       display: grid;
-      grid-template-columns: 20% 20% 5% 20% 15% 20%;
+      grid-template-columns: 25% 20% 20% 15% 20%;
     }
   }
 
   @include media-breakpoint-up(xl) {
     tbody tr,
     thead tr {
-      grid-template-columns: 15% 21% 5% 21% 17% 21%;
+      grid-template-columns: 20% 21% 21% 17% 21%;
     }
   }
 }

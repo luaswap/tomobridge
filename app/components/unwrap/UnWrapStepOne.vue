@@ -1,25 +1,25 @@
 <template>
     <b-container class="step-one text-center">
-        <h3 class="step-one__title">Here’s what you need to do next:</h3>
-        <p class="step-one__subtitle">Send {{ tokenName }} to the public address below</p>
-        <vue-qrcode
-            :options="{ width: 200, color: { light: '#f6f7fa' } }"
-            :value="addressQRCode"
-            class="step-one__qr"/>
+        <h3 class="step-one__title">{{ coinName }} receive address</h3>
+        <p class="step-one__subtitle">{{ receiveAddress }}</p>
         <div class="step-one__address-box">
-            <a
-                class="step-one__address"
-                href="#">{{ depositAddress }}</a>
-            <b-button
-                v-clipboard:copy="depositAddress"
-                v-clipboard:success="onCopy"
-                variant="primary"
-                class="step-one__copy"><i class="tb-copy"/> Copy</b-button>
+            <b-form-input
+                v-model="amount"
+                placeholder="Enter unwrap amount"
+                type="number"/>
         </div>
-        <p class="step-one__subtitle">
-            After you've completed the transfer, click the "NEXT" button so
-            we can verify your transaction
-        </p>
+        <div>
+            <p
+                v-if="address">
+                Balance:
+                <a
+                    class="balance-btn"
+                    @click="unwrapAll">{{ balance }}</a>
+                {{ fromWrapToken.name || '' }} {{ toWrapToken.name }}</p>
+            <p
+                v-if="address">
+                Fee: {{ fee }} {{ fromWrapToken.name || '' }} {{ toWrapToken.name }}</p>
+        </div>
         <div class="step-one__buttons">
             <b-button
                 class="btn--big"
@@ -27,13 +27,16 @@
             <b-button
                 class="btn--big"
                 variant="primary"
-                @click="nextStep">Confirm transaction</b-button>
+                @click="nextStep">Unwrap</b-button>
         </div>
     </b-container>
 </template>
 
 <script>
+
 import VueQrcode from '@chenfengyuan/vue-qrcode'
+import BigNumber from 'bignumber.js'
+import store from 'store'
 export default {
     name: 'App',
     components: {
@@ -47,29 +50,163 @@ export default {
     },
     data () {
         return {
-            addressQRCode: '',
-            depositAddress: '',
-            tokenName: ''
+            coinName: '',
+            amount: '',
+            gasPrice: 0,
+            address: this.$store.state.address || '',
+            receiveAddress: this.$route.params.receiveAddress || '',
+            fromWrapToken: this.parent.fromWrapToken || {},
+            toWrapToken: this.parent.toWrapToken || {},
+            config: {},
+            balance: 0,
+            fee: 0
         }
     },
     async updated () { },
     destroyed () { },
     created: async function () {
-        const swapData = this.parent.fromWrapToken
-        this.depositAddress = swapData.address
-        this.addressQRCode = swapData.address
-        this.tokenName = swapData.name
+        this.coinName = this.toWrapToken.name
+        this.fee = this.toWrapToken.withdrawFee
+        this.config = store.get('configBridge') || await this.appConfig() || {}
+
+        this.web3.eth.getGasPrice().then(result => {
+            this.gasPrice = result
+        }).catch(error => {
+            console.log(error)
+            this.$toasted.show(error, { type: 'error' })
+        })
+        await this.getBalance()
     },
     methods: {
         onCopy () {
             this.$toasted.show('Copied!')
         },
-        nextStep () {
+        async nextStep () {
             const par = this.parent
-            par.step++
+            try {
+                if (this.amount === '') {
+                    this.$toasted.show('Enter unwrap amount')
+                } else if (new BigNumber(this.amount).isLessThan(this.fee)) {
+                    this.$toasted.show('Withdraw amount must be greater than withdraw fee')
+                } else {
+                    const provider = this.NetworkProvider
+                    const chainConfig = this.config.blockchain
+                    par.loading = true
+
+                    let txParams = {
+                        from: this.address,
+                        gasPrice: this.web3.utils.toHex(this.gasPrice),
+                        gas: this.web3.utils.toHex(chainConfig.gas),
+                        gasLimit: this.web3.utils.toHex(chainConfig.gas)
+                    }
+                    const { contract, contractAddress } = this.getContract()
+                    if (provider === 'ledger' || provider === 'trezor') {
+                        let data = await contract.methods.burn(
+                            this.web3.utils.toHex(this.convertWithdrawAmount(this.amount)),
+                            this.string2byte(this.receiveAddress)
+                        ).encodeABI()
+
+                        const dataTx = {
+                            data,
+                            to: contractAddress
+                        }
+                        // bypass hardware wallet to sign tx
+                        txParams.value = this.web3.utils.toHex(0)
+                        const nonce = await this.web3.eth.getTransactionCount(this.address)
+
+                        Object.assign(
+                            dataTx,
+                            dataTx,
+                            txParams,
+                            {
+                                nonce: this.web3.utils.toHex(nonce)
+                            }
+                        )
+                        let signature = await this.signTransaction(dataTx)
+                        delete dataTx.value
+                        const txHash = await this.sendSignedTransaction(dataTx, signature)
+                        if (txHash) {
+                            par.transactionHash = txHash
+                            let check = true
+                            while (check) {
+                                const receipt = await this.web3.eth.getTransactionReceipt(txHash)
+                                if (receipt && receipt.status) {
+                                    check = false
+                                    par.loading = false
+                                    par.step++
+                                }
+                            }
+                        }
+                    } else {
+                        contract.methods.burn(
+                            this.convertWithdrawAmount(this.amount),
+                            this.string2byte(this.receiveAddress)
+                        ).send(txParams)
+                            .on('transactionHash', async (txHash) => {
+                                par.transactionHash = txHash
+                                let check = true
+                                while (check) {
+                                    const receipt = await this.web3.eth.getTransactionReceipt(txHash)
+                                    if (receipt && receipt.status) {
+                                        check = false
+                                        par.loading = false
+                                        par.step++
+                                    }
+                                }
+                            }).catch(error => {
+                                console.log(error)
+                                par.loading = false
+                                this.$toasted.show(error, { type: 'error' })
+                            })
+                    }
+                }
+            } catch (error) {
+                console.log(error)
+                par.loading = false
+                this.$toasted.show(error, { type: 'error' })
+            }
         },
         back () {
             this.$router.push({ path: '/' })
+        },
+        getContract () {
+            let id = this.toWrapToken
+            let swapCoin = this.config.objSwapCoin
+            let tokenSymbol = id.name.toLowerCase()
+            let contract = new this.web3.eth.Contract(
+                this.WrapperAbi.abi,
+                swapCoin[tokenSymbol].wrapperAddress.toLowerCase()
+            )
+            return { contract, contractAddress: swapCoin[tokenSymbol].wrapperAddress }
+        },
+        async getBalance () {
+            try {
+                if (this.address) {
+                    const { contract } = this.getContract()
+                    if (contract) {
+                        const balance = await contract.methods.balanceOf(this.address).call()
+                        this.balance = this.convertAmount(balance)
+                    }
+                }
+            } catch (error) {
+                console.log(error)
+                this.$toasted.show(error, { type: 'error' })
+            }
+        },
+        convertWithdrawAmount (amount) {
+            let tokenSymbol = this.toWrapToken.name.toLowerCase()
+
+            let decimals = parseInt(this.config.objSwapCoin[tokenSymbol].decimals)
+            return (new BigNumber(amount).multipliedBy(10 ** decimals)).toString(10)
+        },
+        convertAmount (amount) {
+            let tokenSymbol = this.toWrapToken.name.toLowerCase()
+
+            let decimals = parseInt(this.config.objSwapCoin[tokenSymbol].decimals)
+            return (new BigNumber(amount).div(10 ** decimals)).toString(10)
+        },
+        unwrapAll () {
+            this.amount = this.balance
         }
     }
 }
