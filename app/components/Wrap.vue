@@ -213,8 +213,8 @@
                         <p>
                             By {{ (wrapType === 'wrap') ? 'wrapping' : 'unwrapping' }}, you agree to the
                             <a
-                                href="https://docs.tomochain.com/legal/terms-of-use"
-                                target="_blank">
+                                :target="provider === 'tomowallet' ? '' : '_blank'"
+                                href="https://docs.tomochain.com/legal/terms-of-use">
                                 Terms and Conditions</a>
                         </p>
                     </b-form-checkbox>
@@ -351,7 +351,8 @@ export default {
             balance: 0,
             interval: '',
             hardwareWallet: '',
-            loading: false
+            loading: false,
+            provider: ''
         }
     },
     computed : {
@@ -380,6 +381,7 @@ export default {
     },
     mounted () {},
     created: async function () {
+        this.provider = this.NetworkProvider
         this.address = this.$store.state.address || await this.getAccount()
         this.config = store.get('configBridge') || await this.appConfig()
 
