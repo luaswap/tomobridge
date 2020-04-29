@@ -4,8 +4,8 @@
         <div
             v-if="step === 1">
             <b-form-group
+                :label="$t('hdPath')"
                 class="mb-4"
-                label="Select HD derivation path"
                 label-for="hdPath">
                 <b-form-input
                     v-model="hdPath"
@@ -14,18 +14,18 @@
                     placeholder="m/44’/889’/0’/0"/>
                 <b-form-text
                     v-if="type === 'ledger'">
-                    To unlock the wallet, try paths
+                    {{ $t('hardwareGuide1') }}
                     <span
                         class="hd-path"
                         @click="changePath(`m/44'/60'/0'`)">m/44'/60'/0'</span>
-                    or <span
+                    {{ $t('hardwareGuide2') }} <span
                         class="hd-path"
                         @click="changePath(`m/44'/60'/0'/0`)">m/44'/60'/0'/0</span>
-                    with Ethereum App, or try path
+                    {{ $t('hardwareGuide3') }}
                     <span
                         class="hd-path"
                         @click="changePath(`m/44'/889'/0'/0`)">m/44'/889'/0'/0</span>
-                    with TomoChain App (on Ledger).
+                    {{ $t('hardwareGuide4') }}
                 </b-form-text>
             </b-form-group>
             <div class="modal-buttons">

@@ -25,21 +25,23 @@
                         <b-nav-item
                             v-if="address"
                             to="/txs/">
-                            Transaction History<i class="nav-item__icon tb-long-arrow-right" />
+                            {{ $t('txHistory') }}<i class="nav-item__icon tb-long-arrow-right" />
                         </b-nav-item>
                         <b-nav-item-dropdown
-                            class="nav-item--dark"
-                            text="English">
-                            <b-dropdown-item class="current-lang">English</b-dropdown-item>
-                            <b-dropdown-item>Tiếng Việt</b-dropdown-item>
+                            :text="selectedLanguage"
+                            class="nav-item--dark">
+                            <b-dropdown-item
+                                class="current-lang"
+                                @click="changeLang('english')">English</b-dropdown-item>
+                                <!-- <b-dropdown-item
+                                @click="changeLang('vietnamese')">Tiếng Việt</b-dropdown-item> -->
                         </b-nav-item-dropdown>
                     </b-navbar-nav>
                 </b-collapse>
             </b-navbar>
             <custom-scrollbar id="wrapbox">
                 <p class="wrapbox__text">
-                    {{ wrapType === 'wrap' ? 'Wrap' : 'Unwrap' }}
-                    your token</p>
+                    {{ wrapType === 'wrap' ? $t('wrapChooseTokens') : $t('unwrapChooseTokens') }}</p>
                 <b-row class="wrapbox__row">
                     <b-col
                         cols="5">
@@ -130,12 +132,18 @@
                     <b-col>
                         <label
                             class="wrapbox__text"
-                            for="address-input">{{ toWrapSelected ? toWrapSelected.name : '' }} receive address
+                            for="address-input">
+                            {{
+                                $i18n.locale === 'vi' ?
+                                    `${$t('receiveAddress')} ${toWrapSelected ? toWrapSelected.name : ''}`
+                                    :
+                                    `${toWrapSelected ? toWrapSelected.name : ''} ${$t('receiveAddress')}`
+                            }}
                         </label>
                         <b-form-input
                             id="address-input"
                             v-model="receiveAddress"
-                            placeholder="Please connect your TOMO wallet…"/>
+                            :placeholder="$t('addressPlaceHolder')"/>
                     </b-col>
                 </b-row> -->
                 <b-row
@@ -144,7 +152,7 @@
                     <b-col>
                         <p
                             v-if="!mobileCheck && !address"
-                            class="wrapbox__text">Connect with</p>
+                            class="wrapbox__text">{{ $t('connectOptions') }}</p>
                         <div
                             v-if="!mobileCheck && !address"
                             class="wrapbox__buttons">
@@ -204,14 +212,14 @@
                         (toWrapSelected || {}).name : (fromWrapSelected || {}).name }}</p>
                         <p
                             v-if="loginError"
-                            class="text-error">Please connect your TOMO wallet</p>
+                            class="text-error">{{ $t('loginRequired') }}</p>
                     </b-col>
                 </b-row>
                 <div class="text-sm-center">
                     <b-form-checkbox
                         v-model="isAgreed">
                         <p>
-                            By {{ (wrapType === 'wrap') ? 'wrapping' : 'unwrapping' }}, you agree to the
+                            {{ wrapType === 'wrap' ? $t('wrapAgreement') : $t('unwrapAgreement') }}
                             <a
                                 :target="provider === 'tomowallet' ? '' : '_blank'"
                                 href="https://docs.tomochain.com/legal/terms-of-use">
@@ -247,7 +255,7 @@
         <b-modal
             id="privateKeyModal"
             ref="privateKeyModal"
-            title="Connect with Private Key"
+            :title="$t('privateKeyTitle')"
             centered
             scrollable
             hide-footer
@@ -258,7 +266,7 @@
         <b-modal
             id="mnemonicModal"
             ref="mnemonicModal"
-            title="Connect with Mnemonic"
+            :title="$t('mnemonicTitle')"
             centered
             scrollable
             hide-footer
@@ -270,7 +278,7 @@
         <b-modal
             id="hdWalletModal"
             ref="hdWalletModal"
-            title="Hareware wallet"
+            :title="$t('hardwareTitle')"
             centered
             scrollable
             size="md"
@@ -335,8 +343,7 @@ export default {
         return {
             fromData: [],
             toData: [],
-            languages: ['english', 'vietnamese'],
-            selectedLanguage: 'english',
+            selectedLanguage: this.$i18n.locale === 'en' ? 'English' : 'Tiếng Việt',
             fromWrapSelected: null,
             toWrapSelected: null,
             receiveAddress: '',
@@ -520,6 +527,21 @@ export default {
                 if (confirm('Download TomoWallet to open in app')) {
                     window.open('https://play.google.com/store/apps/details?id=com.tomochain.wallet&hl=en')
                 }
+            }
+        },
+
+        changeLang (lang) {
+            switch (lang) {
+            case 'english':
+                this.$i18n.locale = 'en'
+                this.selectedLanguage = 'English'
+                break
+            case 'vietnamese':
+                this.$i18n.locale = 'vi'
+                this.selectedLanguage = 'Tiếng Việt'
+                break
+            default:
+                break
             }
         },
 

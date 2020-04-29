@@ -1,9 +1,9 @@
 <template>
     <b-container class="step-two text-center">
         <div style="margin-bottom: 30px">
-            <h3 class="step-three__title">We are verifying your transaction...</h3>
+            <h3 class="step-three__title">{{ $t('verifyTx') }}</h3>
             <p>
-                Transaction hash:<br>
+                {{ $t('txhash2') }}:<br>
                 <a
                     :href="config.tomoscanUrl + '/txs/' + txHash"
                     class="step-three__tx-hash-link text-truncate"

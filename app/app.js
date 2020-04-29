@@ -15,6 +15,7 @@ import axios from 'axios'
 import Web3 from 'web3'
 import TransactionTx from 'ethereumjs-tx'
 import * as localStorage from 'store'
+import VueI18n from 'vue-i18n'
 import TrezorConnect from 'trezor-connect'
 
 import WrapperAbi from '../abis/WrapperAbi.json'
@@ -24,6 +25,8 @@ import Home from './components/Home.vue'
 import WrapExecution from './components/wrap/WrapExecution.vue'
 import UnWrapExecution from './components/unwrap/UnWrapExecution.vue'
 import Transaction from './components/Transaction.vue'
+import en from './assets/translation/en.json'
+import vi from './assets/translation/vi.json'
 
 Vue.use(VueClipboard)
 Vue.use(BootstrapVue)
@@ -40,6 +43,15 @@ Vue.use(Toasted, {
         }
     }
 })
+Vue.use(VueI18n)
+const i18n = new VueI18n({
+    locale: 'en',
+    messages: {
+        en,
+        vi
+    }
+})
+
 const store = new Vuex.Store({
     state: {
         address: null,
@@ -353,6 +365,7 @@ Vue.prototype.detectNetwork = async function (provider) {
         }
     } catch (error) {
         console.log(error)
+        throw error
     }
 }
 
@@ -421,6 +434,7 @@ Vue.prototype.$bus = EventBus
 
 new Vue({ // eslint-disable-line no-new
     el: '#app',
+    i18n,
     store,
     router: router,
     components: { App },

@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-container class="txs">
-            <h1 class="txs__headline">Transaction history</h1>
+            <h1 class="txs__headline">{{ $t('txHistory') }}</h1>
             <b-tabs
                 no-nav-style>
                 <b-tab
@@ -13,7 +13,7 @@
                         :per-page="wrapPerPage"
                         :class="loading ? 'table--loading' : ''"
                         :show-empty="true"
-                        empty-text="There are no transactions to show"
+                        :empty-text="$t('emptyText')"
                         stacked="lg"
                         class="txs__table">
 

@@ -1,9 +1,9 @@
 <template>
     <b-container class="step-three text-center">
         <div v-if="!success">
-            <h3 class="step-three__title">We are sending you...</h3>
+            <h3 class="step-three__title">{{ $t('sendingToken1') }}</h3>
             <p class="step-three__subtitle">
-                {{ convertAmount(inAmount) }} {{ fromToken.name || '' }} to address</p>
+                {{ convertAmount(inAmount) }} {{ fromToken.name || '' }} {{ $t('sendingToken2') }}</p>
             <a
                 href="#"
                 class="step-three__address">
@@ -38,7 +38,7 @@
             v-if="success"
             class="step-three__tx-hash">
             <p>
-                Transaction hash:
+                {{ t$('txHash2') }}:
                 <a
                     :href="config.tomoscanUrl + '/txs/' + txHash"
                     class="step-three__tx-hash-link text-truncate"

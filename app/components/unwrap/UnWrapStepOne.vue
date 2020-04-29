@@ -1,6 +1,6 @@
 <template>
     <b-container class="step-one text-center">
-        <h3 class="step-one__title">{{ coinName }} receive address</h3>
+        <h3 class="step-one__title">{{ coinName + ' ' + $t('unwrapreceiveAddress') }}</h3>
         <p class="step-one__subtitle">{{ receiveAddress }}</p>
         <div class="step-one__address-box">
             <b-form-input
@@ -11,14 +11,14 @@
         <div>
             <p
                 v-if="address">
-                Balance:
+                {{ $t('balance') }}:
                 <a
                     class="balance-btn"
                     @click="unwrapAll">{{ balance }}</a>
                 {{ fromWrapToken.name || '' }} {{ toWrapToken.name }}</p>
             <p
                 v-if="address">
-                Fee: {{ fee }} {{ fromWrapToken.name || '' }} {{ toWrapToken.name }}</p>
+                {{ $t('fee') }}: {{ fee }} {{ fromWrapToken.name || '' }} {{ toWrapToken.name }}</p>
         </div>
         <div class="step-one__buttons">
             <b-button

@@ -2,7 +2,7 @@
     <div id="unwrapbox">
         <div class="unwrap__info text-center">
             <p>
-                You are about to unwrap and then send your {{ toWrapToken.name }} to the address:
+                {{ $t('unwrapGuide1') + ' ' + toWrapToken.name + ' ' + $t('unwrapGuide2') }}:
             </p>
             <b-row class="wrapbox__row">
                 <b-col>
@@ -21,26 +21,25 @@
         </div>
         <div class="unwrap__confirm">
             <p class="unwrap-confirm__title">
-                Please confirm the following:
+                {{ $t('unwrapConfirm') }}:
             </p>
             <ul class="unwrap-confirm__list">
                 <li class="unwrap-confirm__item">
                     <b-form-checkbox
                         v-model="isCheckAddress">
-                        My {{ toWrapToken.name }}
-                        address has NOT been created on a centrailized exchange (e.g binance.com)
+                        {{ $t('unwrapConfirm1') + ' ' + toWrapToken.name + ' ' + $t('unwrapConfirm1-2') }}
                     </b-form-checkbox>
                 </li>
                 <li class="unwrap-confirm__item">
                     <b-form-checkbox
                         v-model="isCheckPrivateKey">
-                        I have a Private Key of {{ toWrapToken.name }} address entered above
+                        {{ $t('unwrapConfirm2') + ' ' + toWrapToken.name + ' ' + $t('unwrapConfirm2-2') }}
                     </b-form-checkbox>
                 </li>
                 <li class="unwrap-confirm__item">
                     <b-form-checkbox
                         v-model="isDoubleCheck">
-                        I have double checked that {{ toWrapToken.name }} address is correct
+                        {{ $t('unwrapConfirm3') + ' ' + toWrapToken.name + ' ' + $t('unwrapConfirm3-2') }}
                     </b-form-checkbox>
                 </li>
             </ul>
