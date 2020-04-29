@@ -8,8 +8,8 @@
             class="home-section__logo"
             src="/app/assets/images/logo-pc.svg" >
         <h1 class="home-section__headline">TomoBridge</h1>
-        <div class="home-section__title">Bring digital assets to TRC21 Tokens on TomoChain</div>
-        <div class="home-section__subtitle">The fastest, simplest and most secure way to wrap/unwrap tokens</div>
+        <div class="home-section__title">{{ $t('welcomeTitle1') }}</div>
+        <div class="home-section__subtitle">{{ $t('welcomeTitle2') }}</div>
     </b-col>
 </template>
 

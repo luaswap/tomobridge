@@ -3,14 +3,14 @@
         <div v-if="!success">
             <i class="tb-search step-two__icon"/>
             <p>
-                We are looking for your transaction<br>
-                Please stay tuned
+                {{ $t('lookingTx1') }}<br>
+                {{ $t('lookingTx2') }}
             </p>
         </div>
         <div
             v-if="success"
             style="margin-bottom: 30px">
-            <h3 class="step-three__title">We are verifying your transaction...</h3>
+            <h3 class="step-three__title">{{ $t('verifyTx') }}</h3>
             <p>
                 Transaction hash:
                 <a

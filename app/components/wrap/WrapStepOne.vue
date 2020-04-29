@@ -1,7 +1,7 @@
 <template>
     <b-container class="step-one text-center">
-        <h3 class="step-one__title">Here’s what you need to do next:</h3>
-        <p class="step-one__subtitle">Send {{ tokenName }} to the public address below</p>
+        <h3 class="step-one__title">{{ $t('wrapGuide1') }}:</h3>
+        <p class="step-one__subtitle">{{ $t('sendToAddress1') + ` ${tokenName} ` + $t('sendToAddress2') }}</p>
         <vue-qrcode
             :options="{ width: 200, color: { light: '#f6f7fa' } }"
             :value="addressQRCode"
@@ -17,8 +17,7 @@
                 class="step-one__copy"><i class="tb-copy"/> Copy</b-button>
         </div>
         <p class="step-one__subtitle">
-            After you've completed the transfer, click the "NEXT" button so
-            we can verify your transaction
+            {{ $t('wrapConfirm') }}
         </p>
         <div class="step-one__buttons">
             <b-button

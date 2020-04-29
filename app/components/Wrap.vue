@@ -33,15 +33,15 @@
                             <b-dropdown-item
                                 class="current-lang"
                                 @click="changeLang('english')">English</b-dropdown-item>
-                            <b-dropdown-item
-                                @click="changeLang('vietnamese')">Tiếng Việt</b-dropdown-item>
+                                <!-- <b-dropdown-item
+                                @click="changeLang('vietnamese')">Tiếng Việt</b-dropdown-item> -->
                         </b-nav-item-dropdown>
                     </b-navbar-nav>
                 </b-collapse>
             </b-navbar>
             <custom-scrollbar id="wrapbox">
                 <p class="wrapbox__text">
-                    {{ wrapType === 'wrap' ? $t('wrapChooseTokens') : $t('unWrapChooseTokens') }}</p>
+                    {{ wrapType === 'wrap' ? $t('wrapChooseTokens') : $t('unwrapChooseTokens') }}</p>
                 <b-row class="wrapbox__row">
                     <b-col
                         cols="5">
@@ -219,7 +219,7 @@
                     <b-form-checkbox
                         v-model="isAgreed">
                         <p>
-                            {{ wrapType === 'wrap' ? $t('wrapAgreement') : $t('unWrapAgreement') }}
+                            {{ wrapType === 'wrap' ? $t('wrapAgreement') : $t('unwrapAgreement') }}
                             <a
                                 href="https://docs.tomochain.com/legal/terms-of-use"
                                 target="_blank">
@@ -255,7 +255,7 @@
         <b-modal
             id="privateKeyModal"
             ref="privateKeyModal"
-            title="Connect with Private Key"
+            :title="$t('privateKeyTitle')"
             centered
             scrollable
             hide-footer
@@ -266,7 +266,7 @@
         <b-modal
             id="mnemonicModal"
             ref="mnemonicModal"
-            title="Connect with Mnemonic"
+            :title="$t('mnemonicTitle')"
             centered
             scrollable
             hide-footer
@@ -278,7 +278,7 @@
         <b-modal
             id="hdWalletModal"
             ref="hdWalletModal"
-            title="Hareware wallet"
+            :title="$t('hardwareTitle')"
             centered
             scrollable
             size="md"
