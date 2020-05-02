@@ -38,7 +38,7 @@
             v-if="success"
             class="step-three__tx-hash">
             <p>
-                {{ t$('txHash2') }}:
+                {{ $t('txHash2') }}:
                 <a
                     :href="config.tomoscanUrl + '/txs/' + txHash"
                     class="step-three__tx-hash-link text-truncate"
@@ -107,7 +107,7 @@ export default {
                 this.confirmation = inTx.Confirmations
                 this.inAmount = inTx.Amount
 
-                if (this.confirmation >= this.requiredConfirm && outTx.Hash) {
+                if (outTx.Hash) {
                     this.txHash = outTx.Hash
                     this.outAmount = outTx.Amount
                     clearInterval(this.interval)
