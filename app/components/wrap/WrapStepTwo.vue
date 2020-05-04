@@ -14,7 +14,7 @@
             <p>
                 Transaction hash:
                 <a
-                    href="#"
+                    :href="getTxExplorerUrl(txHash)"
                     class="step-three__tx-hash-link text-truncate"
                     target="_blank">
                     {{ txHash }}
@@ -47,6 +47,7 @@
 
 <script>
 import axios from 'axios'
+import urljoin from 'url-join'
 export default {
     name: 'App',
     components: {
@@ -63,7 +64,8 @@ export default {
             confirmation: 0,
             requiredConfirm: 0,
             success: false,
-            txHash: ''
+            txHash: '',
+            config: {}
         }
     },
     destroyed () {
@@ -74,6 +76,7 @@ export default {
     async updated () { },
     created: async function () {
         const parent = this.parent
+        this.config = parent.config
         this.requiredConfirm = parent.fromWrapToken.confirmations
 
         this.interval = setInterval(async () => {
@@ -119,6 +122,15 @@ export default {
             } else {
                 return Math.floor((current * 100) / total)
             }
+        },
+        getTxExplorerUrl (txHash) {
+            if (txHash) {
+                const coin = this.config.objSwapCoin[this.parent.fromWrapToken.name.toLowerCase()]
+                if (coin) {
+                    return urljoin(coin.explorerUrl, 'tx', txHash)
+                }
+            }
+            return '#'
         }
     }
 }
