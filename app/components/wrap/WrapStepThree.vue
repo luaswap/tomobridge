@@ -3,7 +3,7 @@
         <div v-if="!success">
             <h3 class="step-three__title">{{ $t('sendingToken1') }}</h3>
             <p class="step-three__subtitle">
-                {{ convertAmount(inAmount) }} {{ fromToken.name || '' }} {{ $t('sendingToken2') }}</p>
+                {{ convertAmount(inAmount) }} {{ toToken.name || '' }}-{{ fromToken.name || '' }} {{ $t('sendingToken2') }}</p>
             <a
                 href="#"
                 class="step-three__address">
