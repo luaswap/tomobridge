@@ -84,8 +84,9 @@ export default {
         async nextStep () {
             const par = this.parent
             try {
-                if (this.amount === '') {
-                    this.$toasted.show('Enter unwrap amount')
+                const coin = this.config.objSwapCoin[this.coinName.toLowerCase()]
+                if (this.checkMinimumWithdrawAmount()) {
+                    this.$toasted.show(`Minimum Withdrawal is: ${coin.minimumWithdrawal} ${this.coinName}`)
                 } else if (new BigNumber(this.amount).isLessThan(this.fee)) {
                     this.$toasted.show('Withdraw amount must be greater than withdraw fee')
                 } else {
@@ -211,6 +212,13 @@ export default {
         },
         unwrapAll () {
             this.amount = this.balance
+        },
+        checkMinimumWithdrawAmount () {
+            const coin = this.config.objSwapCoin[this.coinName.toLowerCase()]
+            if (new BigNumber(this.amount).isLessThan(new BigNumber(coin.minimumWithdrawal))) {
+                return false
+            }
+            return true
         }
     }
 }

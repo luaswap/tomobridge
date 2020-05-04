@@ -33,7 +33,8 @@
             "decimals": 8,
             "explorerUrl": "https://www.blockchain.com/btc/",
             "wrapperAddress": "",
-            "mainAddress": ""
+            "mainAddress": "",
+            "minimumWithdrawal": 0.001
         },
         {
             "name": "ETH",
@@ -42,7 +43,8 @@
             "decimals": 18,
             "explorerUrl": "https://etherscan.io/",
             "wrapperAddress": "",
-            "mainAddress": ""
+            "mainAddress": "",
+            "minimumWithdrawal": 0.02
         },
         {
             "name": "USDT",
@@ -51,7 +53,8 @@
             "decimals": 6,
             "explorerUrl": "https://etherscan.io/",
             "wrapperAddress": "",
-            "mainAddress": ""
+            "mainAddress": "",
+            "minimumWithdrawal": 2
         },
         {
             "name": "XLM",
