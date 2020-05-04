@@ -30,8 +30,8 @@
                             <b-dropdown-item
                                 class="current-lang"
                                 @click="changeLang('english')">English</b-dropdown-item>
-                            <b-dropdown-item
-                                @click="changeLang('vietnamese')">Tiếng Việt</b-dropdown-item>
+                                <!-- <b-dropdown-item
+                                @click="changeLang('vietnamese')">Tiếng Việt</b-dropdown-item> -->
                         </b-nav-item-dropdown>
                     </b-navbar-nav>
                 </b-collapse>

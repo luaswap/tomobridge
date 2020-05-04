@@ -89,18 +89,21 @@ export default {
                 } else if (new BigNumber(this.amount).isLessThan(this.fee)) {
                     this.$toasted.show('Withdraw amount must be greater than withdraw fee')
                 } else {
+                    const { contract, contractAddress } = this.getContract()
                     const provider = this.NetworkProvider
                     const chainConfig = this.config.blockchain
-                    par.loading = true
-
+                    const tomoBalance = await this.web3.eth.getBalance(this.address)
                     let txParams = {
                         from: this.address,
                         gasPrice: this.web3.utils.toHex(this.gasPrice),
                         gas: this.web3.utils.toHex(chainConfig.gas),
                         gasLimit: this.web3.utils.toHex(chainConfig.gas)
                     }
-                    const { contract, contractAddress } = this.getContract()
-                    if (provider === 'ledger' || provider === 'trezor') {
+
+                    if (new BigNumber(tomoBalance).isLessThan(new BigNumber(this.gasPrice))) {
+                        this.$toasted.show(`Not enough TOMO to sign transaction(${new BigNumber(tomoBalance).div(10 ** 18).toString(10)} TOMO)`)
+                    } else if (provider === 'ledger' || provider === 'trezor') {
+                        par.loading = true
                         let data = await contract.methods.burn(
                             this.web3.utils.toHex(this.convertWithdrawAmount(this.amount)),
                             this.string2byte(this.receiveAddress)
@@ -138,6 +141,7 @@ export default {
                             }
                         }
                     } else {
+                        par.loading = true
                         contract.methods.burn(
                             this.convertWithdrawAmount(this.amount),
                             this.string2byte(this.receiveAddress)

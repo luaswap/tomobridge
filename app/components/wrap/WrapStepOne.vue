@@ -8,8 +8,9 @@
             class="step-one__qr"/>
         <div class="step-one__address-box">
             <a
+                :href="getAddressUrl()"
                 class="step-one__address"
-                href="#">{{ depositAddress }}</a>
+                target="_blank">{{ depositAddress }}</a>
             <b-button
                 v-clipboard:copy="depositAddress"
                 v-clipboard:success="onCopy"
@@ -33,6 +34,7 @@
 
 <script>
 import VueQrcode from '@chenfengyuan/vue-qrcode'
+import urljoin from 'url-join'
 export default {
     name: 'App',
     components: {
@@ -48,16 +50,19 @@ export default {
         return {
             addressQRCode: '',
             depositAddress: '',
-            tokenName: ''
+            tokenName: '',
+            fromToken: {},
+            config: {}
         }
     },
     async updated () { },
     destroyed () { },
     created: async function () {
-        const swapData = this.parent.fromWrapToken
-        this.depositAddress = swapData.address
-        this.addressQRCode = swapData.address
-        this.tokenName = swapData.name
+        this.fromToken = this.parent.fromWrapToken
+        this.depositAddress = this.fromToken.address
+        this.addressQRCode = this.fromToken.address
+        this.tokenName = this.fromToken.name
+        this.config = this.parent.config
     },
     methods: {
         onCopy () {
@@ -69,6 +74,17 @@ export default {
         },
         back () {
             this.$router.push({ path: '/' })
+        },
+        getAddressUrl () {
+            try {
+                if (this.tokenName) {
+                    const coin = this.config.objSwapCoin[this.tokenName.toLowerCase()]
+
+                    return urljoin(coin.explorerUrl, 'address', this.depositAddress)
+                }
+            } catch (error) {
+                console.log(error)
+            }
         }
     }
 }

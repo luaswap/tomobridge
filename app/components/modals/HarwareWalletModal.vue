@@ -48,7 +48,7 @@
                         class="address_list__item">
                         <b-form-radio
                             v-model="hdWallet"
-                            :value="wallet.address"
+                            :value="index"
                             name="hdWallet">
                             <span class="address_list__address text-truncate text-primary">
                                 {{ wallet.address }}
