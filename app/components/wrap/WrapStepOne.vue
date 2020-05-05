@@ -2,6 +2,18 @@
     <b-container class="step-one text-center">
         <h3 class="step-one__title">{{ $t('wrapGuide1') }}:</h3>
         <p class="step-one__subtitle">{{ $t('sendToAddress1') + ` ${tokenName} ` + $t('sendToAddress2') }}</p>
+        <div>
+            <label class="step-one__warning">
+                {{ $t('wrapWarning') }} {{ minimumDeposit }} {{ tokenName }}
+            </label>
+            <i
+                id="warning"
+                class="tb-info mb-2" />
+            <b-tooltip
+                target="warning">
+                {{ $t('wranningTooltip') }} {{ tokenName }}
+            </b-tooltip>
+        </div>
         <vue-qrcode
             :options="{ width: 200, color: { light: '#f6f7fa' } }"
             :value="addressQRCode"
@@ -52,7 +64,8 @@ export default {
             depositAddress: '',
             tokenName: '',
             fromToken: {},
-            config: {}
+            config: {},
+            minimumDeposit: 0
         }
     },
     async updated () { },
@@ -63,6 +76,7 @@ export default {
         this.addressQRCode = this.fromToken.address
         this.tokenName = this.fromToken.name
         this.config = this.parent.config
+        this.minimumDeposit = this.config.objSwapCoin[this.tokenName.toLowerCase()].minimumWithdrawal
     },
     methods: {
         onCopy () {

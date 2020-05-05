@@ -3,7 +3,7 @@
         <div style="margin-bottom: 30px">
             <h3 class="step-three__title">{{ $t('verifyTx') }}</h3>
             <p>
-                {{ $t('txhash2') }}:<br>
+                {{ $t('txHash2') }}:<br>
                 <a
                     :href="config.tomoscanUrl + '/txs/' + txHash"
                     class="step-three__tx-hash-link text-truncate"

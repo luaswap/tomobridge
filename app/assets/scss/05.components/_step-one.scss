@@ -21,6 +21,17 @@
   }
 }
 
+.step-one__warning {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 50%;
+  text-decoration: underline;
+
+  @include media-breakpoint-up(lg) {
+    max-width: 45%;
+  }
+}
+
 .step-one__qr {
   background-color: $color-bg;
   border-radius: 4px;
