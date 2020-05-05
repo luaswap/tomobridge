@@ -80,7 +80,9 @@ export default {
             if (data && data.transaction) {
                 const inTx = data.transaction.InTx
                 const outTx = data.transaction.OutTx
-                this.inAmount = inTx.Amount
+                if (inTx.Hash === parent.transactionHash) {
+                    this.inAmount = inTx.Amount
+                }
 
                 if (outTx.Hash) {
                     this.txHash = inTx.Hash

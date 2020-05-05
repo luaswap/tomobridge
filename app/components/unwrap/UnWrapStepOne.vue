@@ -85,7 +85,7 @@ export default {
             const par = this.parent
             try {
                 const coin = this.config.objSwapCoin[this.coinName.toLowerCase()]
-                if (this.checkMinimumWithdrawAmount()) {
+                if (!this.checkMinimumWithdrawAmount()) {
                     this.$toasted.show(`Minimum Withdrawal is: ${coin.minimumWithdrawal} ${this.coinName}`)
                 } else if (new BigNumber(this.amount).isLessThan(this.fee)) {
                     this.$toasted.show('Withdraw amount must be greater than withdraw fee')
