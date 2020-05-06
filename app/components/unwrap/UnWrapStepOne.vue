@@ -93,7 +93,6 @@ export default {
                     const { contract, contractAddress } = this.getContract()
                     const provider = this.NetworkProvider
                     const chainConfig = this.config.blockchain
-                    const tomoBalance = await this.web3.eth.getBalance(this.address)
                     let txParams = {
                         from: this.address,
                         gasPrice: this.web3.utils.toHex(this.gasPrice),
@@ -101,9 +100,7 @@ export default {
                         gasLimit: this.web3.utils.toHex(chainConfig.gas)
                     }
 
-                    if (new BigNumber(tomoBalance).isLessThan(new BigNumber(this.gasPrice))) {
-                        this.$toasted.show(`Not enough TOMO to sign transaction(${new BigNumber(tomoBalance).div(10 ** 18).toString(10)} TOMO)`)
-                    } else if (provider === 'ledger' || provider === 'trezor') {
+                    if (provider === 'ledger' || provider === 'trezor') {
                         par.loading = true
                         let data = await contract.methods.burn(
                             this.web3.utils.toHex(this.convertWithdrawAmount(this.amount)),
