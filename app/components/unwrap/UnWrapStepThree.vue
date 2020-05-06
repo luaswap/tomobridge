@@ -22,7 +22,7 @@
             <p>
                 {{ $t('txHash2') }}:
                 <a
-                    :href="config.tomoscanUrl + '/txs/' + txHash"
+                    :href="getTxExplorerUrl(txHash)"
                     class="step-three__tx-hash-link text-truncate"
                     target="_blank">
                     {{ txHash }}
@@ -40,6 +40,7 @@
 <script>
 import BigNumber from 'bignumber.js'
 import axios from 'axios'
+import urljoin from 'url-join'
 export default {
     name: 'App',
     components: {
@@ -85,7 +86,7 @@ export default {
                 }
 
                 if (outTx.Hash) {
-                    this.txHash = inTx.Hash
+                    this.txHash = outTx.Hash
                     this.outAmount = outTx.Amount
                     clearInterval(this.interval)
                     this.success = true
@@ -121,6 +122,15 @@ export default {
             } else {
                 return Math.floor((current * 100) / total)
             }
+        },
+        getTxExplorerUrl (txHash) {
+            if (txHash) {
+                const coin = this.config.objSwapCoin[this.toToken.name.toLowerCase()]
+                if (coin) {
+                    return urljoin(coin.explorerUrl, 'tx', txHash)
+                }
+            }
+            return '#'
         }
     }
 }
