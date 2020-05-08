@@ -6,7 +6,7 @@
                 {{ convertAmount(inAmount) }} {{ toToken.name || '' }} {{ $t('sendingToken2') }}</p>
             <p
                 class="step-three__address">
-                {{ receiveAddress }}
+                {{ getAddressUrl(receiveAddress) }}
             </p>
         </div>
         <div
@@ -33,7 +33,7 @@
             v-if="success"
             :to="'/'"
             variant="primary"
-            class="step-three__button btn--big">Make another Unwrap</b-button>
+            class="step-three__button btn--big">Unwrap another token</b-button>
     </b-container>
 </template>
 
@@ -131,6 +131,17 @@ export default {
                 }
             }
             return '#'
+        },
+        getAddressUrl (address) {
+            try {
+                const coin = this.config.objSwapCoin[this.toToken.name.toLowerCase()]
+                if (coin) {
+                    return urljoin(coin.explorerUrl, 'address', address)
+                }
+                return '#'
+            } catch (error) {
+                console.log(error)
+            }
         }
     }
 }
