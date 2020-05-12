@@ -114,7 +114,7 @@ export default {
             const address = this.recAddress
             const config = this.parent.config
             // Check network
-            const network = config.blockchain.networkId === 89 ? 'prod' : 'testnet'
+            const network = config.blockchain.networkId === 88 ? 'prod' : 'testnet'
             switch (this.toWrapToken.name.toLowerCase()) {
             case 'btc':
                 return WAValidator.validate(address, 'BTC', network)

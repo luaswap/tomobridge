@@ -9,12 +9,13 @@ const { query, validationResult } = require('express-validator/check')
 router.get('/',
     async function (req, res, next) {
         try {
-            const page = 0
-            const limit = 100
+            const page = req.query.page >= 1 ? req.query.page - 1 : 0 || 0
+            const limit = parseInt(req.query.limit / 2) || 100
             const coin = req.query.coin || 'btc'
             let response = {
                 mainTxs: [],
-                wrapTxs: []
+                wrapTxs: [],
+                total: 0
             }
 
             const url = urljoin(
@@ -24,6 +25,7 @@ router.get('/',
             )
             const result = await axios.get(url)
             if (result && result.data) {
+                response.total = result.data.Total
                 await Promise.all(result.data.Data.map(item => {
                     if (item.InTx.Status === 'DEPOSITED') {
                         response.mainTxs.push(Object.assign(
