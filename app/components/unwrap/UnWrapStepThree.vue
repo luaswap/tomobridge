@@ -4,10 +4,12 @@
             <h3 class="step-three__title">{{ $t('sendingToken1') }}</h3>
             <p class="step-three__subtitle">
                 {{ convertAmount(inAmount) }} {{ toToken.name || '' }} {{ $t('sendingToken2') }}</p>
-            <p
-                class="step-three__address">
-                {{ getAddressUrl(receiveAddress) }}
-            </p>
+            <a
+                :href="getTxExplorerUrl(receiveAddress)"
+                class="step-three__address text-truncate"
+                target="_blank">
+                {{ receiveAddress }}
+            </a>
         </div>
         <div
             v-else
