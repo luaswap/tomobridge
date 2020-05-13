@@ -1,12 +1,16 @@
 <template>
     <b-container class="step-one text-center">
         <h3 class="step-one__title">{{ coinName + ' ' + $t('unwrapreceiveAddress') }}</h3>
-        <p class="step-one__subtitle">{{ receiveAddress }}</p>
+        <a
+            :href="getAddressUrl(receiveAddress)"
+            class="step-three__address"
+            target="_blank">
+            {{ receiveAddress }}</a>
         <div class="step-one__address-box">
             <b-form-input
                 v-model="amount"
                 placeholder="Enter unwrap amount"
-                type="number"/>
+                type="text"/>
         </div>
         <div>
             <p
@@ -37,6 +41,7 @@
 import VueQrcode from '@chenfengyuan/vue-qrcode'
 import BigNumber from 'bignumber.js'
 import store from 'store'
+import urljoin from 'url-join'
 export default {
     name: 'App',
     components: {
@@ -216,6 +221,17 @@ export default {
                 return false
             }
             return true
+        },
+        getAddressUrl (address) {
+            try {
+                const coin = this.config.objSwapCoin[this.coinName.toLowerCase()]
+                if (coin) {
+                    return urljoin(coin.explorerUrl, 'address', address)
+                }
+                return '#'
+            } catch (error) {
+                console.log(error)
+            }
         }
     }
 }
