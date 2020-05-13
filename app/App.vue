@@ -59,7 +59,7 @@ export default {
         }
     },
     async updated () {
-        this.selectedLanguage = this.$store.state.language
+        this.selectedLanguage = this.$store.state.language || 'English'
     },
     destroyed () { },
     created: async function () {

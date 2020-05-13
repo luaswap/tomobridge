@@ -5,7 +5,7 @@
             <p class="step-three__subtitle">
                 {{ convertAmount(inAmount) }} {{ toToken.name || '' }} {{ $t('sendingToken2') }}</p>
             <a
-                :href="getTxExplorerUrl(receiveAddress)"
+                :href="getAddressUrl(receiveAddress)"
                 class="step-three__address text-truncate"
                 target="_blank">
                 {{ receiveAddress }}
