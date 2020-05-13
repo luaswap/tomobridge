@@ -30,6 +30,8 @@
                             <b-dropdown-item
                                 class="current-lang"
                                 @click="changeLang('english')">English</b-dropdown-item>
+                            <b-dropdown-item
+                                @click="changeLang('turkish')">Turkish</b-dropdown-item>
                                 <!-- <b-dropdown-item
                                 @click="changeLang('vietnamese')">Tiếng Việt</b-dropdown-item> -->
                         </b-nav-item-dropdown>
@@ -48,7 +50,7 @@ export default {
     },
     data () {
         return {
-            selectedLanguage: this.$i18n.locale === 'en' ? 'English' : 'Tiếng Việt'
+            selectedLanguage: this.$store.state.language || 'English'
         }
     },
     computed: {
@@ -56,7 +58,9 @@ export default {
             return this.$store.state.address
         }
     },
-    async updated () { },
+    async updated () {
+        this.selectedLanguage = this.$store.state.language
+    },
     destroyed () { },
     created: async function () {
     },
@@ -66,10 +70,17 @@ export default {
             case 'english':
                 this.$i18n.locale = 'en'
                 this.selectedLanguage = 'English'
+                this.$store.state.language = 'English'
                 break
             case 'vietnamese':
                 this.$i18n.locale = 'vi'
                 this.selectedLanguage = 'Tiếng Việt'
+                this.$store.state.language = 'Tiếng Việt'
+                break
+            case 'turkish':
+                this.$i18n.locale = 'tr'
+                this.selectedLanguage = 'Turkish'
+                this.$store.state.language = 'Turkish'
                 break
             default:
                 break

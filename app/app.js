@@ -27,6 +27,7 @@ import UnWrapExecution from './components/unwrap/UnWrapExecution.vue'
 import Transaction from './components/Transaction.vue'
 import en from './assets/translation/en.json'
 import vi from './assets/translation/vi.json'
+import tr from './assets/translation/tr.json'
 
 Vue.use(VueClipboard)
 Vue.use(BootstrapVue)
@@ -48,7 +49,8 @@ const i18n = new VueI18n({
     locale: 'en',
     messages: {
         en,
-        vi
+        vi,
+        tr
     }
 })
 
