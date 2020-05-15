@@ -30,6 +30,8 @@
                     variant="primary">Confirm</b-button>
             </div>
         </b-form>
+        <div
+            :class="(loading ? 'tomo-loading' : '')"/>
     </div>
 </template>
 
@@ -53,7 +55,8 @@ export default {
     },
     data () {
         return {
-            privateKey: ''
+            privateKey: '',
+            loading: false
         }
     },
     validations: {
@@ -81,7 +84,7 @@ export default {
                 const config = self.config
                 let walletProvider
                 let provider
-                parent.loading = true
+                self.loading = true
                 provider = 'privateKey'
                 self.privateKey = self.privateKey.trim().replace(/^0x/, '')
                 walletProvider = new PrivateKeyProvider(self.privateKey, config.blockchain.rpc)
@@ -93,11 +96,11 @@ export default {
                     self.$store.state.address = address.toLowerCase()
                     parent.address = address
                     await parent.updateBalance()
-                    parent.loading = false
+                    self.loading = false
                     self.closePrivateKeyModal()
                 }
             } catch (error) {
-                parent.loading = false
+                self.loading = false
                 self.$toasted.show(
                     error.message || error, {
                         type : 'error'

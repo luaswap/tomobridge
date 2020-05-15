@@ -47,6 +47,8 @@
                     variant="primary">Confirm</b-button>
             </div>
         </b-form>
+        <div
+            :class="(loading ? 'tomo-loading' : '')"/>
     </div>
 </template>
 
@@ -72,7 +74,8 @@ export default {
     data () {
         return {
             hdPath: "m/44'/889'/0'/0", // HD DerivationPath of hardware wallet
-            mnemonic: ''
+            mnemonic: '',
+            loading: false
         }
     },
     validations: {
@@ -100,7 +103,7 @@ export default {
                 const config = self.config
                 let walletProvider
                 let provider
-                parent.loading = true
+                self.loading = true
                 provider = 'custom'
                 self.mnemonic = self.mnemonic.trim()
                 self.mnemonic = self.mnemonic.trim()
@@ -117,11 +120,11 @@ export default {
                     self.$store.state.address = address.toLowerCase()
                     parent.address = address
                     await parent.updateBalance()
-                    parent.loading = false
+                    self.loading = false
                     self.closeMnemonicModal()
                 }
             } catch (error) {
-                parent.loading = false
+                self.loading = false
                 self.$toasted.show(
                     error.message || error, {
                         type : 'error'
