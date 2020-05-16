@@ -88,7 +88,7 @@ export default {
                 this.txHash = inTx.Hash
                 this.success = true
                 if (this.confirmation >= this.requiredConfirm) {
-                    parent.fromWrapToken.amount = data.transaction.InTx.Amount
+                    parent.fromWrapToken.amount = inTx.Amount
                     setTimeout(() => {
                         clearInterval(this.interval)
                         parent.step++

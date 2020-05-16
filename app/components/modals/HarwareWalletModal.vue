@@ -192,7 +192,7 @@ export default {
             } catch (error) {
                 this.loading = false
                 document.body.style.cursor = 'default'
-                self.$toasted.show(error.message || error, {
+                this.$toasted.show(error.message || error, {
                     type : 'error'
                 })
             }

@@ -79,6 +79,8 @@ export default {
     async updated () {
         if (this.isCheckAddress && this.isCheckPrivateKey && this.isDoubleCheck) {
             this.allChecked = true
+        } else {
+            this.allChecked = false
         }
     },
     beforeDestroy () {

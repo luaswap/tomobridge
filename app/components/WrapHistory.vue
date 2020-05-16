@@ -143,7 +143,8 @@
                                         </span>
                                     </span>
                                     <span class="wrap-history__tx-qty">
-                                        <i class="tb-arrow-right"/>
+                                        <i :class="item.type.toLowerCase() === 'withdrawed' ? 'tb-arrow-left' : 'tb-arrow-right'"/>
+                                        <!-- <i class="tb-arrow-right"/> -->
                                         {{ item.value }} {{ fromWrapSelected.name }}
                                     </span>
                                 </p>
@@ -229,7 +230,8 @@
                                         </span>
                                     </span>
                                     <span class="wrap-history__tx-qty">
-                                        <i class="tb-arrow-right"/>
+                                        <i :class="item.type.toLowerCase() === 'burned' ? 'tb-arrow-left' : 'tb-arrow-right'"/>
+                                        <!-- <i class="tb-arrow-right"/> -->
                                         {{ item.value }} {{ toWrapSelected.name }} {{ fromWrapSelected.name }}
                                     </span>
                                 </p>
@@ -317,7 +319,10 @@ export default {
                     explorerUrl: this.getTxExplorerUrl(tx)
                 })
             })
-            response.data.wrapTxs.map(tx => {
+            response.data.wrapTxs.map((tx, index) => {
+                if (tx.Status.toLowerCase() === 'burned') {
+                    result1[index].type = 'withdrawed'
+                }
                 result2.push({
                     hash: tx.Hash,
                     from: tx.From,

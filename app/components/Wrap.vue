@@ -560,10 +560,19 @@ export default {
                     this.loading = true
                     const walletProvider = window.web3.currentProvider
                     const wjs = new Web3(walletProvider)
+                    const chainId = await wjs.eth.getId()
+                    if (this.config && chainId !== this.config.blockchain.networkId) {
+                        this.$toasted.show(`Make sure you choose tomochain network(current chain id: ${chainId},
+                        should be ${this.config.blockchain.networkId})`)
+                    }
 
                     await this.setupProvider('metamask', wjs)
                     this.address = await this.getAccount()
-                    await this.getBalance(this.config.swapCoin[0])
+                    if (this.fromWrapSelected.name !== 'TRC21') {
+                        await this.getBalance(this.fromWrapSelected)
+                    } else {
+                        await this.getBalance(this.toWrapSelected)
+                    }
                     if (this.balance === 'NaN') {
                         this.address = ''
                         throw Error('Metamask has to connect to TomoChain network')
@@ -608,10 +617,19 @@ export default {
                     this.loading = true
                     const walletProvider = window.tomoWeb3.currentProvider
                     const wjs = new Web3(walletProvider)
+                    const chainId = await wjs.eth.getId()
+                    if (this.config && chainId !== this.config.blockchain.networkId) {
+                        this.$toasted.show(`Make sure you choose tomochain network(current chain id: ${chainId},
+                        should be ${this.config.blockchain.networkId})`)
+                    }
 
                     await this.setupProvider('pantograph', wjs)
                     this.address = await this.getAccount()
-                    await this.getBalance(this.config.swapCoin[0])
+                    if (this.fromWrapSelected.name !== 'TRC21') {
+                        await this.getBalance(this.fromWrapSelected)
+                    } else {
+                        await this.getBalance(this.toWrapSelected)
+                    }
                     if (this.balance === 'NaN') {
                         this.address = ''
                         throw Error('Pantograph has to connect to TomoChain network')

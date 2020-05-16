@@ -8,11 +8,11 @@
                 <wrap />
             </b-row>
         </section>
-        <section
+        <!-- <section
             id="wrap-section"
             class="container-fluid">
             <WrapHistory />
-        </section>
+        </section> -->
     </div>
 </template>
 
