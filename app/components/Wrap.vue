@@ -3,12 +3,13 @@
         cols="12"
         lg="7"
         xl="6"
-        class="home-section__col home-section__col--right">
-        <div class="home-section__col-inner">
+        class="min-vh-100">
+        <div class="position-absolute txy-15 bg-white rounded-lg px-3 px-lg-5 pb-5 pt-3">
             <b-navbar
                 toggleable="md"
                 variant="white"
-                type="light">
+                type="light"
+                class="px-0 mb-4">
                 <b-navbar-brand to="/">
                     <img
                         class="d-lg-none"
@@ -41,216 +42,223 @@
                     </b-navbar-nav>
                 </b-collapse>
             </b-navbar>
-            <custom-scrollbar id="wrapbox">
-                <p class="wrapbox__text">
-                    {{ wrapType === 'wrap' ? $t('wrapChooseTokens') : $t('unwrapChooseTokens') }}</p>
-                <b-row class="wrapbox__row">
-                    <b-col
-                        cols="5">
-                        <multiselect
-                            id="fromwrap-select"
-                            v-model="fromWrapSelected"
-                            :options="fromData"
-                            :custom-label="customLabel"
-                            :show-labels="false"
-                            :allow-empty="false"
-                            track-by="name"
-                            @input="updateBalance">
-                            <template
-                                slot="singleLabel"
-                                slot-scope="props">
-                                <img
-                                    v-if="props.option.img"
-                                    :src="props.option.img"
-                                    :alt="props.option.name"
-                                    class="multiselect__img">
-                                <span class="multiselect__name">{{ props.option.name }}</span>
-                            </template>
-                            <template
-                                slot="option"
-                                slot-scope="props">
-                                <img
-                                    v-if="props.option.img"
-                                    :src="props.option.img"
-                                    :alt="props.option.name"
-                                    class="multiselect__img">
-                                <span class="multiselect__name">{{ props.option.name }}</span>
-                            </template>
-                        </multiselect>
-                        <p
-                            v-if="fromWrapError"
-                            style="white-space: nowrap"
-                            class="text-error">Please select</p>
-                    </b-col>
-                    <b-col
-                        cols="2">
-                        <b-button
-                            class="swap-btn"
-                            @click="changeWrap">
-                            Swap
-                            <i class="tb-swap-arrow-right"/>
-                            <i class="tb-swap-arrow-left"/>
+            <p class="wrapbox__text">
+                {{ wrapType === 'wrap' ? $t('wrapChooseTokens') : $t('unwrapChooseTokens') }}</p>
+            <b-row class="wrapbox__row">
+                <b-col
+                    cols="5">
+                    <multiselect
+                        id="fromwrap-select"
+                        v-model="fromWrapSelected"
+                        :options="fromData"
+                        :custom-label="customLabel"
+                        :show-labels="false"
+                        :allow-empty="false"
+                        track-by="name"
+                        @input="updateBalance">
+                        <template
+                            slot="singleLabel"
+                            slot-scope="props">
+                            <img
+                                v-if="props.option.img"
+                                :src="props.option.img"
+                                :alt="props.option.name"
+                                class="multiselect__img">
+                            <span class="multiselect__name">{{ props.option.name }}</span>
+                        </template>
+                        <template
+                            slot="option"
+                            slot-scope="props">
+                            <img
+                                v-if="props.option.img"
+                                :src="props.option.img"
+                                :alt="props.option.name"
+                                class="multiselect__img">
+                            <span class="multiselect__name">{{ props.option.name }}</span>
+                        </template>
+                    </multiselect>
+                    <p
+                        v-if="fromWrapError"
+                        style="white-space: nowrap"
+                        class="text-error">Please select</p>
+                </b-col>
+                <b-col
+                    cols="2">
+                    <b-button
+                        class="swap-btn"
+                        @click="changeWrap">
+                        Swap
+                        <i class="tb-swap-arrow-right"/>
+                        <i class="tb-swap-arrow-left"/>
+                    </b-button>
+                </b-col>
+                <b-col
+                    cols="5">
+                    <multiselect
+                        id="towrap-select"
+                        v-model="toWrapSelected"
+                        :options="toData"
+                        :custom-label="customLabel"
+                        :show-labels="false"
+                        :allow-empty="false"
+                        track-by="name"
+                        @input="updateBalance">
+                        <template
+                            slot="singleLabel"
+                            slot-scope="props">
+                            <img
+                                v-if="props.option.img"
+                                :src="props.option.img"
+                                :alt="props.option.name"
+                                class="multiselect__img">
+                            <span class="multiselect__name">{{ props.option.name }}</span>
+                        </template>
+                        <template
+                            slot="option"
+                            slot-scope="props">
+                            <img
+                                v-if="props.option.img"
+                                :src="props.option.img"
+                                :alt="props.option.name"
+                                class="multiselect__img">
+                            <span class="multiselect__name">{{ props.option.name }}</span>
+                        </template>
+                    </multiselect>
+                    <p
+                        v-if="toWrapError"
+                        style="white-space: nowrap"
+                        class="text-error">Please select</p>
+                </b-col>
+            </b-row>
+            <!-- <b-row class="wrapbox__row">
+                <b-col>
+                    <label
+                        class="wrapbox__text"
+                        for="address-input">
+                        {{
+                            $i18n.locale === 'vi' ?
+                                `${$t('receiveAddress')} ${toWrapSelected ? toWrapSelected.name : ''}`
+                                :
+                                `${toWrapSelected ? toWrapSelected.name : ''} ${$t('receiveAddress')}`
+                        }}
+                    </label>
+                    <b-form-input
+                        id="address-input"
+                        v-model="receiveAddress"
+                        :placeholder="$t('addressPlaceHolder')"/>
+                </b-col>
+            </b-row> -->
+            <b-row
+                id="login"
+                class="wrapbox__row">
+                <b-col>
+                    <p
+                        v-if="!mobileCheck && !address"
+                        class="wrapbox__text">{{ $t('connectOptions') }}</p>
+                    <div
+                        v-if="!mobileCheck && !address"
+                        class="wrapbox__buttons">
+                        <!-- <b-button
+                            @click="loginWallet">
+                            <img
+                                src="/app/assets/images/tomowallet.svg"
+                                alt="TomoWallet"
+                                style="width: 15px; height: 25px">
+                            <span>TomoWallet</span>
+                        </b-button> -->
+                        <b-button @click="loginPantograph">
+                            <img
+                                src="/app/assets/images/pantograph.png"
+                                alt="Private key">
+                            <span>Pantograph</span>
                         </b-button>
-                    </b-col>
-                    <b-col
-                        cols="5">
-                        <multiselect
-                            id="towrap-select"
-                            v-model="toWrapSelected"
-                            :options="toData"
-                            :custom-label="customLabel"
-                            :show-labels="false"
-                            :allow-empty="false"
-                            track-by="name"
-                            @input="updateBalance">
-                            <template
-                                slot="singleLabel"
-                                slot-scope="props">
-                                <img
-                                    v-if="props.option.img"
-                                    :src="props.option.img"
-                                    :alt="props.option.name"
-                                    class="multiselect__img">
-                                <span class="multiselect__name">{{ props.option.name }}</span>
-                            </template>
-                            <template
-                                slot="option"
-                                slot-scope="props">
-                                <img
-                                    v-if="props.option.img"
-                                    :src="props.option.img"
-                                    :alt="props.option.name"
-                                    class="multiselect__img">
-                                <span class="multiselect__name">{{ props.option.name }}</span>
-                            </template>
-                        </multiselect>
-                        <p
-                            v-if="toWrapError"
-                            style="white-space: nowrap"
-                            class="text-error">Please select</p>
-                    </b-col>
-                </b-row>
-                <!-- <b-row class="wrapbox__row">
-                    <b-col>
-                        <label
-                            class="wrapbox__text"
-                            for="address-input">
-                            {{
-                                $i18n.locale === 'vi' ?
-                                    `${$t('receiveAddress')} ${toWrapSelected ? toWrapSelected.name : ''}`
-                                    :
-                                    `${toWrapSelected ? toWrapSelected.name : ''} ${$t('receiveAddress')}`
-                            }}
-                        </label>
-                        <b-form-input
-                            id="address-input"
-                            v-model="receiveAddress"
-                            :placeholder="$t('addressPlaceHolder')"/>
-                    </b-col>
-                </b-row> -->
-                <b-row
-                    id="login"
-                    class="wrapbox__row">
-                    <b-col>
-                        <p
-                            v-if="!mobileCheck && !address"
-                            class="wrapbox__text">{{ $t('connectOptions') }}</p>
-                        <div
-                            v-if="!mobileCheck && !address"
-                            class="wrapbox__buttons">
-                            <!-- <b-button
-                                @click="loginWallet">
-                                <img
-                                    src="/app/assets/images/tomowallet.svg"
-                                    alt="TomoWallet"
-                                    style="width: 15px; height: 25px">
-                                <span>TomoWallet</span>
-                            </b-button> -->
-                            <b-button @click="loginPantograph">
-                                <img
-                                    src="/app/assets/images/pantograph.png"
-                                    alt="Private key">
-                                <span>Pantograph</span>
-                            </b-button>
-                            <b-button @click="loginMetamask">
-                                <img
-                                    src="/app/assets/images/metamask.png"
-                                    alt="Private key">
-                                <span>Metamask</span>
-                            </b-button>
-                            <b-button
-                                @click="loginHDWallet('ledger')">
-                                <img
-                                    src="/app/assets/images/ledger.svg"
-                                    alt="Ledger">
-                                <span>Ledger</span>
-                            </b-button>
-                            <b-button @click="loginPrivateKey">
-                                <img
-                                    src="/app/assets/images/key.svg"
-                                    alt="Private key">
-                                <span>Private key</span>
-                            </b-button>
-                            <b-button @click="loginMnemonic">
-                                <img
-                                    src="/app/assets/images/key.svg"
-                                    alt="Private key">
-                                <span>Mnemonic</span>
-                            </b-button>
-                            <b-button @click="loginHDWallet('trezor')">
-                                <img
-                                    src="/app/assets/images/trezorwallet.png"
-                                    alt="Trezor">
-                                <span>Trezor</span>
-                            </b-button>
-                        </div>
-                        <p
-                            v-if="address"
-                            style="margin-top: 1rem">Account: {{ !mobileCheck ? address : truncate(address, 20) }}</p>
-                        <p
-                            v-if="address && (toWrapSelected || fromWrapSelected)">
-                            Balance: {{ balance }} TRC21
-                            {{ ((fromWrapSelected || {}).name === 'TRC21') ?
-                        (toWrapSelected || {}).name : (fromWrapSelected || {}).name }}</p>
-                        <p
-                            v-if="loginError"
-                            class="text-error">{{ $t('loginRequired') }}</p>
-                    </b-col>
-                </b-row>
-                <div class="text-sm-center">
-                    <b-form-checkbox
-                        v-model="isAgreed">
-                        <p>
-                            {{ wrapType === 'wrap' ? $t('wrapAgreement') : $t('unwrapAgreement') }}
-                            <a
-                                :target="provider === 'tomowallet' ? '' : '_blank'"
-                                href="https://docs.tomochain.com/legal/terms-of-use">
-                                Terms and Conditions</a>
-                        </p>
-                    </b-form-checkbox>
-                    <b-button
-                        v-if="wrapType === 'wrap'"
-                        :disabled="!isAgreed || !fromWrapSelected || !toWrapSelected || !address"
-                        class="wrapbox__big-button btn--big"
-                        variant="primary"
-                        @click="wrapToken">Wrap Now</b-button>
-                    <b-button
-                        v-else
-                        :disabled="!isAgreed || !fromWrapSelected || !toWrapSelected || !address"
-                        class="wrapbox__big-button btn--big"
-                        variant="primary"
-                        @click="unWrapToken">
-                        UnWrap Now</b-button>
+                        <b-button @click="loginMetamask">
+                            <img
+                                src="/app/assets/images/metamask.png"
+                                alt="Private key">
+                            <span>Metamask</span>
+                        </b-button>
+                        <b-button
+                            @click="loginHDWallet('ledger')">
+                            <img
+                                src="/app/assets/images/ledger.svg"
+                                alt="Ledger">
+                            <span>Ledger</span>
+                        </b-button>
+                        <b-button @click="loginPrivateKey">
+                            <img
+                                src="/app/assets/images/key.svg"
+                                alt="Private key">
+                            <span>Private key</span>
+                        </b-button>
+                        <b-button @click="loginMnemonic">
+                            <img
+                                src="/app/assets/images/key.svg"
+                                alt="Private key">
+                            <span>Mnemonic</span>
+                        </b-button>
+                        <b-button @click="loginHDWallet('trezor')">
+                            <img
+                                src="/app/assets/images/trezorwallet.png"
+                                alt="Trezor">
+                            <span>Trezor</span>
+                        </b-button>
+                    </div>
                     <p
                         v-if="address"
-                        class="wrapbox__signout mt-3">
-                        <b-button
-                            variant="link"
-                            class="text-red"
-                            @click="signOut">Sign Out<i class="tb-long-arrow-right" /></b-button>
+                        style="margin-top: 1rem">Account: {{ !mobileCheck ? address : truncate(address, 20) }}</p>
+                    <p
+                        v-if="address && (toWrapSelected || fromWrapSelected)">
+                        Balance:
+                        <strong>
+                            {{ balance }} TRC21
+                            {{ ((fromWrapSelected || {}).name === 'TRC21') ?
+                    (toWrapSelected || {}).name : (fromWrapSelected || {}).name }}</strong></p>
+                    <p
+                        v-if="loginError"
+                        class="text-error">{{ $t('loginRequired') }}</p>
+                </b-col>
+            </b-row>
+            <div class="text-sm-center">
+                <b-form-checkbox
+                    v-model="isAgreed">
+                    <p>
+                        {{ wrapType === 'wrap' ? $t('wrapAgreement') : $t('unwrapAgreement') }}
+                        <a
+                            :target="provider === 'tomowallet' ? '' : '_blank'"
+                            href="https://docs.tomochain.com/legal/terms-of-use">
+                            Terms and Conditions</a>
                     </p>
-                </div>
-            </custom-scrollbar>
+                </b-form-checkbox>
+                <b-button
+                    v-if="wrapType === 'wrap'"
+                    :disabled="!isAgreed || !fromWrapSelected || !toWrapSelected || !address"
+                    class="wrapbox__big-button btn--big"
+                    variant="primary"
+                    @click="wrapToken">Wrap Now</b-button>
+                <b-button
+                    v-else
+                    :disabled="!isAgreed || !fromWrapSelected || !toWrapSelected || !address"
+                    class="wrapbox__big-button btn--big"
+                    variant="primary"
+                    @click="unWrapToken">
+                    UnWrap Now</b-button>
+                <p
+                    v-if="address"
+                    class="wrapbox__signout mt-3">
+                    <b-button
+                        variant="link"
+                        class="text-red"
+                        @click="signOut">Sign Out<i class="tb-long-arrow-right" /></b-button>
+                </p>
+            </div>
+            <div
+                v-if="!address"
+                class="text-center mb-3 w-100 position-absolute left-0 bottom-0 ">
+                <a
+                    href="https://tomob.tomochain.com"
+                    target="_blank">Swap TOMO-TOMOB</a>
+            </div>
         </div>
 
         <!-- Login Modals-->

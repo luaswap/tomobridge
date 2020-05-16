@@ -3,7 +3,7 @@
         id="wrap-history"
         class="container">
         <h1 class="wrap-history__headline text-center">{{ $t('wrapHistory') }}</h1>
-        <b-row class="wrap-history__row align-items-center">
+        <b-row class="wrap-history__row align-items-center justify-content-center">
             <b-col cols="5">
                 <multiselect
                     v-model="fromWrapSelected"
@@ -33,7 +33,7 @@
                     </template>
                 </multiselect>
             </b-col>
-            <b-col cols="2">
+            <b-col cols="1">
                 <b-button
                     class="swap-btn">
                     Swap
@@ -71,7 +71,7 @@
                 </multiselect>
             </b-col>
         </b-row>
-        <b-row class="wrap-history__row">
+        <b-row class="wrap-history__row center justify-content-center">
             <b-col
                 cols="12"
                 md="6"
@@ -154,7 +154,7 @@
                 </div>
             </b-col>
             <b-col
-                cols="2"
+                cols="1"
                 class="d-none d-xl-block" />
             <b-col
                 cols="12"
