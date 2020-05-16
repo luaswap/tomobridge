@@ -3,8 +3,8 @@
         cols="12"
         lg="7"
         xl="6"
-        class="h-100">
-        <div class="bg-white rounded-lg px-3 px-lg-5 pb-5 pt-3 h-100">
+        class="min-vh-100">
+        <div class="position-absolute txy-15 bg-white rounded-lg px-3 px-lg-5 pb-5 pt-3">
             <b-navbar
                 toggleable="md"
                 variant="white"

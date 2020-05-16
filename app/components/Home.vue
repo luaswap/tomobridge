@@ -3,7 +3,7 @@
         <section
             id="home-section"
             class="container-fluid">
-            <b-row class="align-items-lg-center h-100">
+            <b-row class="align-items-lg-center">
                 <welcome />
                 <wrap />
             </b-row>

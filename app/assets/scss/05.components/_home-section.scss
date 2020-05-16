@@ -1,28 +1,39 @@
 #home-section {
   background-color: $color-background;
   overflow: hidden;
-  padding: 15px;
   .navbar {
     box-shadow: none;
   }
 
   @include media-breakpoint-up(lg) {
     height: 100vh;
-    padding: 30px;
     .navbar {
       background-color: transparent !important;
     }
   }
 }
+
 .rounded-lg {
   border-radius: 10px !important;
 }
+
+.top-0 {
+  top: 0!important;
+}
+
+.txy-15 {
+  top: 15px;
+  bottom: 15px;
+  left: 15px;
+  right: 15px;
+}
+
 .left-0 {
-  left: 0;
+  left: 0!important;
 }
 
 .bottom-0 {
-  bottom: 0;
+  bottom: 0!important;
 }
 
 .home-section__col--right {
