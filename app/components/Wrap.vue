@@ -560,6 +560,11 @@ export default {
                     this.loading = true
                     const walletProvider = window.web3.currentProvider
                     const wjs = new Web3(walletProvider)
+                    const chainId = await wjs.eth.getId()
+                    if (this.config && chainId !== this.config.blockchain.networkId) {
+                        this.$toasted.show(`Make sure you choose tomochain network(current chain id: ${chainId},
+                        should be ${this.config.blockchain.networkId})`)
+                    }
 
                     await this.setupProvider('metamask', wjs)
                     this.address = await this.getAccount()
@@ -612,6 +617,11 @@ export default {
                     this.loading = true
                     const walletProvider = window.tomoWeb3.currentProvider
                     const wjs = new Web3(walletProvider)
+                    const chainId = await wjs.eth.getId()
+                    if (this.config && chainId !== this.config.blockchain.networkId) {
+                        this.$toasted.show(`Make sure you choose tomochain network(current chain id: ${chainId},
+                        should be ${this.config.blockchain.networkId})`)
+                    }
 
                     await this.setupProvider('pantograph', wjs)
                     this.address = await this.getAccount()
