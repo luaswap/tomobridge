@@ -3,13 +3,15 @@
         cols="12"
         lg="5"
         xl="6"
-        class="text-center d-none d-lg-block home-section__col home-section__col--left">
-        <img
-            class="home-section__logo"
-            src="/app/assets/images/logo-pc.svg" >
-        <h1 class="home-section__headline">TomoBridge</h1>
-        <div class="home-section__title">{{ $t('welcomeTitle1') }}</div>
-        <div class="home-section__subtitle">{{ $t('welcomeTitle2') }}</div>
+        class="text-center d-none d-lg-block">
+        <div class="inner">
+            <img
+                class="home-section__logo"
+                src="/app/assets/images/logo-pc.svg" >
+            <h1 class="home-section__headline">TomoBridge</h1>
+            <div class="home-section__title">{{ $t('welcomeTitle1') }}</div>
+            <div class="home-section__subtitle">{{ $t('welcomeTitle2') }}</div>
+        </div>
     </b-col>
 </template>
 

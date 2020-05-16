@@ -9,7 +9,7 @@
                     <b-form-input
                         id="address-input"
                         v-model="recAddress"
-                        placeholder="Please your receive address"/>
+                        :placeholder="$t('unwrapPlaceholder')"/>
                     <p
                         v-if="!isAddress"
                         class="text-error">Invalid {{ toWrapToken.name }} address</p>

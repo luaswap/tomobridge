@@ -43,6 +43,7 @@
     "unwrapConfirm3": "I have double checked that the",
     "unwrapConfirm3-2": "address entered is correct",
     "unwrapreceiveAddress": "receive address",
+    "unwrapPlaceholder": "Your receive address",
     "youWithdrawn": "You’ve withdrawn",
     "emptyText": "There are no transactions to show",
     "loginRequired": "Please connect your TOMO wallet",

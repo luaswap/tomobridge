@@ -1,18 +1,28 @@
 #home-section {
   background-color: $color-background;
   overflow: hidden;
-
+  padding: 15px;
   .navbar {
     box-shadow: none;
   }
 
   @include media-breakpoint-up(lg) {
     height: 100vh;
-
+    padding: 30px;
     .navbar {
       background-color: transparent !important;
     }
   }
+}
+.rounded-lg {
+  border-radius: 10px !important;
+}
+.left-0 {
+  left: 0;
+}
+
+.bottom-0 {
+  bottom: 0;
 }
 
 .home-section__col--right {
@@ -29,7 +39,6 @@
 
     .home-section__col-inner {
       height: 100%;
-      margin: 0 15px;
     }
   }
 }
@@ -38,7 +47,6 @@
   @include media-breakpoint-up(lg) {
     background-color: #fff;
     border-radius: 10px;
-    margin: 15px 0;
   }
 }
 
