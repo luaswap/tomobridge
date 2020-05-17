@@ -226,7 +226,7 @@
                         {{ wrapType === 'wrap' ? $t('wrapAgreement') : $t('unwrapAgreement') }}
                         <a
                             :target="provider === 'tomowallet' ? '' : '_blank'"
-                            href="https://docs.tomochain.com/legal/terms-of-use">
+                            href="https://docs.tomochain.com/tomobridge/terms-of-use">
                             Terms and Conditions</a>
                     </p>
                 </b-form-checkbox>
