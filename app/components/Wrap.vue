@@ -239,6 +239,7 @@
                     <div class="row flex-row-reverse tomo-footer">
                         <div class="col-12 col-xl-4 text-center text-xl-right mb-2 mb-xl-0">
                             <a
+                                v-if="!address"
                                 href="https://tomob.tomochain.com"
                                 class="text-nowrap"
                                 target="_blank">Swap TOMO-TOMOB</a>
@@ -248,18 +249,21 @@
                                 <ul class="p-0 m-0">
                                     <li>
                                         <a
-                                            href="https://docs.tomochain.com/tomobridge/faq"
-                                            target="_blank">FAQ</a>
+                                            :target="provider === 'tomowallet' ? '' : '_blank'"
+                                            href="https://docs.tomochain.com/tomobridge/faq">
+                                            FAQ</a>
                                     </li>
                                     <li>
                                         <a
-                                            href="https://docs.tomochain.com/tomobridge/fee-structure"
-                                            target="_blank">Fee Structure</a>
+                                            :target="provider === 'tomowallet' ? '' : '_blank'"
+                                            href="https://docs.tomochain.com/tomobridge/fee-structure">
+                                            Fee Structure</a>
                                     </li>
                                     <li>
                                         <a
-                                            href="https://docs.tomochain.com/tomobridge/trc21-wrapped-token-information"
-                                            target="_blank">TRC21 Wrapped Tokens</a>
+                                            :target="provider === 'tomowallet' ? '' : '_blank'"
+                                            href="https://docs.tomochain.com/tomobridge/trc21-wrapped-token-information">
+                                            TRC21 Wrapped Tokens</a>
                                     </li>
                                 </ul>
                             </div>
