@@ -93,65 +93,6 @@
                         </p> -->
                     </div>
                 </div>
-                <div class="wrap-history__txs">
-                    <div class="wrap-history__txs-header">
-                        <h4 class="wrap-history__title">Transactions</h4>
-                        <!-- <a
-                            href="#"
-                            class="wrap-history__txs-link">View all
-                            <i class="tb-long-arrow-right"/>
-                        </a> -->
-                    </div>
-                    <custom-scrollbar>
-                        <ul class="wrap-history__txs-list">
-                            <li
-                                v-for="(item, index) in mainTxs"
-                                :key="index"
-                                class="wrap-history__txs-item">
-                                <p class="wrap-history__tx-row text-truncate">
-                                    <span>TX#{{ index }}:</span>
-                                    <a
-                                        :href="item.explorerUrl"
-                                        class="wrap-history__tx-hash"
-                                        target="_blank">
-                                        {{ item.hash }}
-                                    </a>
-                                </p>
-                                <p class="wrap-history__tx-row">
-                                    <span class="wrap-history__tx-from">
-                                        <span class="wrap-history__tx-text">From: </span>
-                                        <span class="wrap-history__tx-addr">
-                                            <p>{{ truncate(item.from, 20) }}</p>
-                                        </span>
-                                    </span>
-                                    <span
-                                        :id="`timestamp__${index}`"
-                                        class="wrap-history__tx-date">
-                                        {{ item.createdAt }}
-                                        <b-tooltip
-                                            :target="`timestamp__${index}`"
-                                            placement="topright">
-                                            {{ item.dateTooltip }}
-                                        </b-tooltip>
-                                    </span>
-                                </p>
-                                <p class="wrap-history__tx-row">
-                                    <span class="wrap-history__tx-to">
-                                        <span class="wrap-history__tx-text">To: </span>
-                                        <span class="wrap-history__tx-addr">
-                                            <p>{{ truncate(item.to, 20) }}</p>
-                                        </span>
-                                    </span>
-                                    <span class="wrap-history__tx-qty">
-                                        <i :class="item.type.toLowerCase() === 'withdrawed' ? 'tb-arrow-left' : 'tb-arrow-right'"/>
-                                        <!-- <i class="tb-arrow-right"/> -->
-                                        {{ item.value }} {{ fromWrapSelected.name }}
-                                    </span>
-                                </p>
-                            </li>
-                        </ul>
-                    </custom-scrollbar>
-                </div>
             </b-col>
             <b-col
                 cols="1"
@@ -178,7 +119,13 @@
                         </p> -->
                     </div>
                 </div>
-
+            </b-col>
+        </b-row>
+        <b-row class="wrap-history__row center justify-content-center">
+            <b-col
+                cols="12"
+                md="6"
+                xl="5">
                 <div class="wrap-history__txs">
                     <div class="wrap-history__txs-header">
                         <h4 class="wrap-history__title">Transactions</h4>
@@ -188,7 +135,78 @@
                             <i class="tb-long-arrow-right"/>
                         </a> -->
                     </div>
-                    <custom-scrollbar>
+                    <custom-scrollbar
+                        id="scroll-left"
+                        @ps-scroll-y="scrollLeftHandle">
+                        <ul class="wrap-history__txs-list">
+                            <li
+                                v-for="(item, index) in mainTxs"
+                                :key="index"
+                                class="wrap-history__txs-item">
+                                <p class="wrap-history__tx-row text-truncate">
+                                    <span>TX#{{ index }}:</span>
+                                    <a
+                                        :href="item.explorerUrl"
+                                        class="wrap-history__tx-hash"
+                                        target="_blank">
+                                        {{ item.hash }}
+                                    </a>
+                                </p>
+                                <p class="wrap-history__tx-row text-nowrap">
+                                    <span class="wrap-history__tx-from">
+                                        <span class="wrap-history__tx-text pr-1">From: </span>
+                                        <span class="wrap-history__tx-addr">
+                                            <span>{{ truncate(item.from, 20) }}</span>
+                                        </span>
+                                    </span>
+                                    <span
+                                        :id="`timestamp__${index}`"
+                                        class="wrap-history__tx-date">
+                                        {{ item.createdAt }}
+                                        <b-tooltip
+                                            :target="`timestamp__${index}`"
+                                            placement="topright">
+                                            {{ item.dateTooltip }}
+                                        </b-tooltip>
+                                    </span>
+                                </p>
+                                <p class="wrap-history__tx-row text-nowrap">
+                                    <span class="wrap-history__tx-to">
+                                        <span class="wrap-history__tx-text pr-1">To: </span>
+                                        <span class="wrap-history__tx-addr">
+                                            <span>{{ truncate(item.to, 20) }}</span>
+                                        </span>
+                                    </span>
+                                    <span class="wrap-history__tx-qty">
+                                        <i :class="item.type.toLowerCase() === 'withdrawed' ? 'tb-arrow-left' : 'tb-arrow-right'"/>
+                                        <!-- <i class="tb-arrow-right"/> -->
+                                        {{ item.value }} {{ fromWrapSelected.name }}
+                                    </span>
+                                </p>
+                            </li>
+                        </ul>
+                    </custom-scrollbar>
+                </div>
+            </b-col>
+            <b-col
+                cols="1"
+                class="d-none d-xl-block" />
+            <b-col
+                cols="12"
+                md="6"
+                xl="5">
+                <div class="wrap-history__txs">
+                    <div class="wrap-history__txs-header">
+                        <h4 class="wrap-history__title">Transactions</h4>
+                        <!-- <a
+                            href="#"
+                            class="wrap-history__txs-link">View all
+                            <i class="tb-long-arrow-right"/>
+                        </a> -->
+                    </div>
+                    <custom-scrollbar
+                        id="scroll-right"
+                        @ps-scroll-y="scrollRightHandle">
                         <ul
                             class="wrap-history__txs-list">
                             <li
@@ -204,11 +222,11 @@
                                         {{ item.hash }}
                                     </a>
                                 </p>
-                                <p class="wrap-history__tx-row">
+                                <p class="wrap-history__tx-row text-nowrap">
                                     <span class="wrap-history__tx-from">
-                                        <span class="wrap-history__tx-text">From: </span>
+                                        <span class="wrap-history__tx-text pr-1">From: </span>
                                         <span class="wrap-history__tx-addr">
-                                            <p>{{ truncate(item.from, 20) }}</p>
+                                            <span>{{ truncate(item.from, 20) }}</span>
                                         </span>
                                     </span>
                                     <span
@@ -222,11 +240,11 @@
                                         </b-tooltip>
                                     </span>
                                 </p>
-                                <p class="wrap-history__tx-row">
+                                <p class="wrap-history__tx-row text-nowrap">
                                     <span class="wrap-history__tx-to">
-                                        <span class="wrap-history__tx-text">To: </span>
+                                        <span class="wrap-history__tx-text pr-1">To: </span>
                                         <span class="wrap-history__tx-addr">
-                                            <p>{{ truncate(item.to, 20) }}</p>
+                                            <span>{{ truncate(item.to, 20) }}</span>
                                         </span>
                                     </span>
                                     <span class="wrap-history__tx-qty">
@@ -448,6 +466,13 @@ export default {
             } catch (error) {
                 console.log(error)
             }
+        },
+        scrollLeftHandle (event) {
+            console.log(event)
+            document.getElementById('scroll-right').scrollTop = document.getElementById('scroll-left').scrollTop
+        },
+        scrollRightHandle (event) {
+            document.getElementById('scroll-left').scrollTop = document.getElementById('scroll-right').scrollTop
         }
     }
 }
