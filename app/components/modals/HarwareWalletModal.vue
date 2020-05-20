@@ -29,10 +29,10 @@
                 </b-form-text>
             </b-form-group>
             <div class="modal-buttons">
-                <b-button @click="closeModal">Cancel</b-button>
+                <b-button @click="closeModal">{{ $t('cancelBtn') }}</b-button>
                 <b-button
                     variant="primary"
-                    @click="unlock">Connect</b-button>
+                    @click="unlock">{{ $t('connectBtn') }}</b-button>
             </div>
         </div>
         <!-- Unlock wallet -->

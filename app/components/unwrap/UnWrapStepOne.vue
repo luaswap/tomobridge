@@ -27,11 +27,11 @@
         <div class="step-one__buttons">
             <b-button
                 class="btn--big"
-                @click="back">Cancel</b-button>
+                @click="back">{{ $t('cancelBtn') }}</b-button>
             <b-button
                 class="btn--big"
                 variant="primary"
-                @click="nextStep">Unwrap</b-button>
+                @click="nextStep">{{ $t('unwrapBtn') }}</b-button>
         </div>
     </b-container>
 </template>

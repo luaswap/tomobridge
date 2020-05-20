@@ -12,7 +12,7 @@
             style="margin-bottom: 30px">
             <h3 class="step-three__title">{{ $t('verifyTx') }}</h3>
             <p>
-                Transaction hash:
+                {{ $t('txHash2') }}:
                 <a
                     :href="getTxExplorerUrl(txHash)"
                     class="step-three__tx-hash-link text-truncate"
@@ -33,7 +33,7 @@
                             {{ calculatePercentage(confirmation, requiredConfirm) }}%</span>
                     </div>
                 </div>
-                <span class="progress-bar__total">{{ requiredConfirm }} Confirmation blocks</span>
+                <span class="progress-bar__total">{{ requiredConfirm }} {{ $t('confirmationBlocks') }}</span>
             </div>
             <!-- <div class="step-three__fee text-primary">
                 Fee: 1 TOMO
@@ -41,7 +41,7 @@
         </div>
         <b-button
             class="step-two__button btn--big"
-            @click="back">Back</b-button>
+            @click="back">{{ $t('backBtn') }}</b-button>
     </b-container>
 </template>
 
