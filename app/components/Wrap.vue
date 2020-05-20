@@ -88,7 +88,6 @@
                         <b-button
                             class="swap-btn"
                             @click="changeWrap">
-                            Swap
                             <i class="tb-swap-arrow-right"/>
                             <i class="tb-swap-arrow-left"/>
                         </b-button>
@@ -189,10 +188,10 @@
                         </div>
                         <p
                             v-if="address"
-                            style="margin-top: 1rem">Account: {{ !mobileCheck ? address : truncate(address, 20) }}</p>
+                            style="margin-top: 1rem">{{ $t('account') }}: {{ !mobileCheck ? address : truncate(address, 20) }}</p>
                         <p
                             v-if="address && (toWrapSelected || fromWrapSelected)">
-                            Balance:
+                            {{ $t('balance') }}:
                             <strong>
                                 {{ balance }} TRC21
                                 {{ ((fromWrapSelected || {}).name === 'TRC21') ?
@@ -210,7 +209,7 @@
                             <a
                                 :target="provider === 'tomowallet' ? '' : '_blank'"
                                 href="https://docs.tomochain.com/tomobridge/terms-of-use">
-                                Terms and Conditions</a>
+                                {{ $t('termsAndConditions') }}</a>
                         </p>
                     </b-form-checkbox>
                     <b-button
@@ -218,21 +217,21 @@
                         :disabled="!isAgreed || !fromWrapSelected || !toWrapSelected || !address"
                         class="wrapbox__big-button btn--big"
                         variant="primary"
-                        @click="wrapToken">Wrap Now</b-button>
+                        @click="wrapToken">{{ $t('wrapNowBtn') }}</b-button>
                     <b-button
                         v-else
                         :disabled="!isAgreed || !fromWrapSelected || !toWrapSelected || !address"
                         class="wrapbox__big-button btn--big"
                         variant="primary"
                         @click="unWrapToken">
-                        UnWrap Now</b-button>
+                        {{ $t('unwrapNowBtn') }}</b-button>
                     <p
                         v-if="address"
                         class="wrapbox__signout mt-3">
                         <b-button
                             variant="link"
                             class="text-red"
-                            @click="signOut">Sign Out<i class="tb-long-arrow-right" /></b-button>
+                            @click="signOut">{{ $t('signOutBtn') }}<i class="tb-long-arrow-right" /></b-button>
                     </p>
                 </div>
                 <div class="position-absolute bottom-0 w-100">

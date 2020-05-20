@@ -27,7 +27,7 @@
                 v-clipboard:copy="depositAddress"
                 v-clipboard:success="onCopy"
                 variant="primary"
-                class="step-one__copy"><i class="tb-copy"/> Copy</b-button>
+                class="step-one__copy"><i class="tb-copy"/>{{ $t('copyBtn') }}</b-button>
         </div>
         <p class="step-one__subtitle">
             {{ $t('wrapConfirm') }}
@@ -35,11 +35,11 @@
         <div class="step-one__buttons">
             <b-button
                 class="btn--big"
-                @click="back">Cancel</b-button>
+                @click="back">{{ $t('cancelBtn') }}</b-button>
             <b-button
                 class="btn--big"
                 variant="primary"
-                @click="nextStep">Confirm transaction</b-button>
+                @click="nextStep">{{ $t('confirmTransaction') }}</b-button>
         </div>
     </b-container>
 </template>

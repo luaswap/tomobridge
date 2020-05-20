@@ -47,7 +47,7 @@
                 :disabled="!allChecked"
                 class="unwrap-confirm__button btn--big"
                 variant="primary"
-                @click="unWrapToken">Continue to Unwrap</b-button>
+                @click="unWrapToken">{{ $t('continueUnwrapBtn') }}</b-button>
         </div>
     </div>
 </template>

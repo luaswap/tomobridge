@@ -22,7 +22,7 @@
                             {{ calculatePercentage(confirmation, requiredConfirm) }}%</span>
                     </div>
                 </div>
-                <span class="progress-bar__total">{{ requiredConfirm }} Blocks</span>
+                <span class="progress-bar__total">{{ requiredConfirm }} {{ $t('blocks') }}</span>
             </div>
             <!-- <div class="step-three__fee text-primary">
                 Fee: 1 TOMO
@@ -30,7 +30,7 @@
         </div>
         <b-button
             class="step-two__button btn--big"
-            @click="back">Back</b-button>
+            @click="back">{{ $t('backBtn') }}</b-button>
     </b-container>
 </template>
 
@@ -83,14 +83,6 @@ export default {
                     parent.step++
                 }, 2000)
             }
-            // const data = await this.scanTX()
-            // if (data && data.transaction && data.transaction.InTx) {
-            //     if (data.transaction.InTx.Status === 'BURNED') {
-            //         parent.toWrapToken.amount = data.transaction.InTx.Amount
-            //         clearInterval(this.interval)
-            //         parent.step++
-            //     }
-            // }
         }, 5000)
     },
     methods: {

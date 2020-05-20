@@ -35,7 +35,7 @@
             v-if="success"
             :to="'/'"
             variant="primary"
-            class="step-three__button btn--big">Unwrap another token</b-button>
+            class="step-three__button btn--big">{{ $t('unwrapAnotherTokenBtn') }}</b-button>
     </b-container>
 </template>
 

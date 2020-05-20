@@ -31,7 +31,7 @@
             class="step-three__success">
             <i class="tb-check-circle-o step-three__icon text-primary"/>
             <h3 class="step-three__title">
-                You’ve received {{ convertAmount(outAmount) }}
+                {{ $t('youReceived') }} {{ convertAmount(outAmount) }}
                 {{ toToken.name }}-{{ fromToken.name || '' }}</h3>
         </div>
         <div
@@ -51,7 +51,7 @@
             v-if="success"
             :to="'/'"
             variant="primary"
-            class="step-three__button btn--big">Wrap another token</b-button>
+            class="step-three__button btn--big">{{ $t('wrapAnotherTokenBtn') }}</b-button>
     </b-container>
 </template>
 
