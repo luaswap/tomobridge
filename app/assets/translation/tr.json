@@ -76,5 +76,6 @@
     "backBtn": "Povratak",
     "confirmationBlocks": "Blokovi za potvrdu",
     "balance": "Bakiye",
-    "account": "Račun"
+    "account": "Račun",
+    "doneCheckingTx": "Bunu kapatabilir ve işleminizi"
 }

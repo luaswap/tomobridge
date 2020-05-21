@@ -76,5 +76,6 @@
     "confirmationBlocks": "Confirmation blocks",
     "emptyText": "There are no transactions to show",
     "balance": "Balance",
-    "account": "Account"
+    "account": "Account",
+    "doneCheckingTx": "You can close this and check your transaction in"
 }

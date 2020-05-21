@@ -22,23 +22,33 @@
             </p>
         </div>
         <div
-            v-if="success"
-            class="step-three__progress">
-            <div class="progress-bar">
-                <div class="progress-bar__inner">
-                    <div
-                        :style="`width: ${calculatePercentage(confirmation, requiredConfirm)}%;`"
-                        class="progress-bar__bar">
-                        <span class="progress-bar__number text-primary">
-                            {{ calculatePercentage(confirmation, requiredConfirm) }}%</span>
+            v-if="success">
+            <div
+                class="step-three__progress">
+                <div class="progress-bar">
+                    <div class="progress-bar__inner">
+                        <div
+                            :style="`width: ${calculatePercentage(confirmation, requiredConfirm)}%;`"
+                            class="progress-bar__bar">
+                            <span class="progress-bar__number text-primary">
+                                {{ calculatePercentage(confirmation, requiredConfirm) }}%</span>
+                        </div>
                     </div>
+                    <span class="progress-bar__total">{{ requiredConfirm }} {{ $t('confirmationBlocks') }}</span>
                 </div>
-                <span class="progress-bar__total">{{ requiredConfirm }} {{ $t('confirmationBlocks') }}</span>
+                <!-- <div class="step-three__fee text-primary">
+                    Fee: 1 TOMO
+                    </div> -->
             </div>
-            <!-- <div class="step-three__fee text-primary">
-                Fee: 1 TOMO
-                </div> -->
+            <span>({{ $t('doneCheckingTx') }}
+                <b-link
+                    :to="'/txs'">
+                    Transaction History
+                </b-link>
+                )
+            </span>
         </div>
+
         <b-button
             class="step-two__button btn--big"
             @click="back">{{ $t('backBtn') }}</b-button>
