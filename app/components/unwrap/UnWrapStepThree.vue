@@ -10,6 +10,13 @@
                 target="_blank">
                 {{ receiveAddress }}
             </a>
+            <span>({{ $t('doneCheckingTx') }}
+                <b-link
+                    :to="'/txs'">
+                    Transaction History
+                </b-link>
+                )
+            </span>
         </div>
         <div
             v-else

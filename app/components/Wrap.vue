@@ -226,7 +226,7 @@
                         @click="unWrapToken">
                         {{ $t('unwrapNowBtn') }}</b-button>
                     <p
-                        v-if="address"
+                        v-if="!mobileCheck && address"
                         class="wrapbox__signout mt-3">
                         <b-button
                             variant="link"

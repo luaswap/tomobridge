@@ -21,7 +21,7 @@
         <div class="step-one__address-box">
             <a
                 :href="getAddressUrl()"
-                class="step-one__address"
+                class="step-one__address text-break"
                 target="_blank">{{ depositAddress }}</a>
             <b-button
                 v-clipboard:copy="depositAddress"

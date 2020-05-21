@@ -75,15 +75,18 @@ export default {
     destroyed () {
     },
     created: async function () {
-        if (!this.$store.state.address) {
-            this.$router.push({
-                path: '/'
-            })
-        }
         this.config = store.get('configBridge') || await this.appConfig()
         this.fromWrapToken = this.$route.params.fromWrapToken
         this.toWrapToken = this.$route.params.toWrapToken
         this.receiveAddress = this.$route.params.receiveAddress
+
+        if (!this.$store.state.address ||
+            !this.fromWrapToken ||
+            !this.toWrapToken) {
+            this.$router.push({
+                path: '/'
+            })
+        }
     },
     methods: {}
 }

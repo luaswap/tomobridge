@@ -9,6 +9,13 @@
                 class="step-three__address">
                 {{ receiveAddress }}
             </a>
+            <span>({{ $t('doneCheckingTx') }}
+                <b-link
+                    :to="'/txs'">
+                    Transaction History
+                </b-link>
+                )
+            </span>
             <!-- <div class="step-three__progress">
                 <div class="progress-bar">
                     <div class="progress-bar__inner">
