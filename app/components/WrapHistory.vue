@@ -155,8 +155,15 @@
                                 <p class="wrap-history__tx-row text-nowrap">
                                     <span class="wrap-history__tx-from">
                                         <span class="wrap-history__tx-text pr-1">From: </span>
-                                        <span class="wrap-history__tx-addr">
+                                        <span
+                                            :id="`fromOuter__${index}`"
+                                            class="wrap-history__tx-addr">
                                             <span>{{ truncate(item.from, 20) }}</span>
+                                            <b-tooltip
+                                                :target="`fromOuter__${index}`"
+                                                placement="topright">
+                                                {{ item.from }}
+                                            </b-tooltip>
                                         </span>
                                     </span>
                                     <span
@@ -173,8 +180,15 @@
                                 <p class="wrap-history__tx-row text-nowrap">
                                     <span class="wrap-history__tx-to">
                                         <span class="wrap-history__tx-text pr-1">To: </span>
-                                        <span class="wrap-history__tx-addr">
+                                        <span
+                                            :id="`toOuter__${index}`"
+                                            class="wrap-history__tx-addr">
                                             <span>{{ truncate(item.to, 20) }}</span>
+                                            <b-tooltip
+                                                :target="`toOuter__${index}`"
+                                                placement="topright">
+                                                {{ item.to }}
+                                            </b-tooltip>
                                         </span>
                                     </span>
                                     <span class="wrap-history__tx-qty">
@@ -225,8 +239,15 @@
                                 <p class="wrap-history__tx-row text-nowrap">
                                     <span class="wrap-history__tx-from">
                                         <span class="wrap-history__tx-text pr-1">From: </span>
-                                        <span class="wrap-history__tx-addr">
+                                        <span
+                                            :id="`fromwrap__${index}`"
+                                            class="wrap-history__tx-addr">
                                             <span>{{ truncate(item.from, 20) }}</span>
+                                            <b-tooltip
+                                                :target="`fromwrap__${index}`"
+                                                placement="topright">
+                                                {{ item.from }}
+                                            </b-tooltip>
                                         </span>
                                     </span>
                                     <span
@@ -243,8 +264,15 @@
                                 <p class="wrap-history__tx-row text-nowrap">
                                     <span class="wrap-history__tx-to">
                                         <span class="wrap-history__tx-text pr-1">To: </span>
-                                        <span class="wrap-history__tx-addr">
+                                        <span
+                                            :id="`towrap__${index}`"
+                                            class="wrap-history__tx-addr">
                                             <span>{{ truncate(item.to, 20) }}</span>
+                                            <b-tooltip
+                                                :target="`towrap__${index}`"
+                                                placement="topright">
+                                                {{ item.to }}
+                                            </b-tooltip>
                                         </span>
                                     </span>
                                     <span class="wrap-history__tx-qty">
