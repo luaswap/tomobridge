@@ -66,8 +66,7 @@ router.get('/',
 router.get('/getWrapTxs', [
     query('limit')
         .isInt({ min: 0, max: 200 }).optional().withMessage('limit should greater than 0 and less than 200'),
-    query('page').isNumeric({ no_symbols: true }).optional().withMessage('page must be number'),
-    query('address').exists().withMessage('Account address is required.')
+    query('page').isNumeric({ no_symbols: true }).optional().withMessage('page must be number')
 ], async function (req, res, next) {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
@@ -77,11 +76,12 @@ router.get('/getWrapTxs', [
         const page = req.query.page >= 1 ? req.query.page - 1 : 0 || 0
         const limit = parseInt(req.query.limit / 2) || 10
         const address = req.query.address || ''
+        const coin = req.query.coin || ''
 
         const url = urljoin(
             config.get('serverAPI'),
             '/transactions',
-            `?type=deposit&tomo=${address}&page=${page}&limit=${limit}`
+            `?type=deposit&tomo=${address}&page=${page}&limit=${limit}&coin=${coin}`
         )
         const result = await axios.get(url)
         if (result && result.data) {
@@ -95,8 +95,7 @@ router.get('/getWrapTxs', [
 router.get('/getUnwrapTxs', [
     query('limit')
         .isInt({ min: 0, max: 200 }).optional().withMessage('limit should greater than 0 and less than 200'),
-    query('page').isNumeric({ no_symbols: true }).optional().withMessage('page must be number'),
-    query('address').exists().withMessage('Account address is required.')
+    query('page').isNumeric({ no_symbols: true }).optional().withMessage('page must be number')
 ], async function (req, res, next) {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
@@ -106,11 +105,12 @@ router.get('/getUnwrapTxs', [
         const page = req.query.page >= 1 ? req.query.page - 1 : 0 || 0
         const limit = parseInt(req.query.limit / 2) || 10
         const address = req.query.address || ''
+        const coin = req.query.coin || ''
 
         const url = urljoin(
             config.get('serverAPI'),
             '/transactions',
-            `?type=withdraw&tomo=${address}&page=${page}&limit=${limit}`
+            `?type=withdraw&tomo=${address}&page=${page}&limit=${limit}&coin=${coin}`
         )
         const result = await axios.get(url)
         if (result && result.data) {
