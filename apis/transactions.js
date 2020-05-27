@@ -85,11 +85,12 @@ router.get('/getWrapTxs', [
         const page = req.query.page >= 1 ? req.query.page - 1 : 0 || 0
         const limit = parseInt(req.query.limit / 2) || 10
         const address = req.query.address || ''
+        const coin = req.query.coin || ''
 
         const url = urljoin(
             config.get('serverAPI'),
             '/transactions',
-            `?type=deposit&tomo=${address}&page=${page}&limit=${limit}`
+            `?type=deposit&tomo=${address}&page=${page}&limit=${limit}&coin=${coin}`
         )
         const result = await axios.get(url)
         if (result && result.data) {
@@ -114,11 +115,12 @@ router.get('/getUnwrapTxs', [
         const page = req.query.page >= 1 ? req.query.page - 1 : 0 || 0
         const limit = parseInt(req.query.limit / 2) || 10
         const address = req.query.address || ''
+        const coin = req.query.coin || ''
 
         const url = urljoin(
             config.get('serverAPI'),
             '/transactions',
-            `?type=withdraw&tomo=${address}&page=${page}&limit=${limit}`
+            `?type=withdraw&tomo=${address}&page=${page}&limit=${limit}&coin=${coin}`
         )
         const result = await axios.get(url)
         if (result && result.data) {
