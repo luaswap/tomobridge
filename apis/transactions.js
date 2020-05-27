@@ -75,7 +75,7 @@ router.get('/getWrapTxs', [
     query('limit')
         .isInt({ min: 0, max: 200 }).optional().withMessage("'limit' should greater than 0 and less than 200"),
     query('page').isNumeric({ no_symbols: true }).optional().withMessage("'page' must be number"),
-    query('address').exists().isLength({ min: 42, max: 42 }).withMessage("'address' is incorrect")
+    query('address').optional().isLength({ min: 42, max: 42 }).withMessage("'address' is incorrect")
 ], async function (req, res, next) {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
@@ -105,7 +105,7 @@ router.get('/getUnwrapTxs', [
     query('limit')
         .isInt({ min: 0, max: 200 }).optional().withMessage("'limit' should greater than 0 and less than 200"),
     query('page').isNumeric({ no_symbols: true }).optional().withMessage("'page' must be number"),
-    query('address').exists().isLength({ min: 42, max: 42 }).withMessage("'address' is incorrect")
+    query('address').optional().isLength({ min: 42, max: 42 }).withMessage("'address' is incorrect")
 ], async function (req, res, next) {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
