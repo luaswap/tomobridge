@@ -21,6 +21,7 @@
     "db": {
         "uri": "mongodb://mongodb:27017/tomobridge"
     },
+    "GA": "UA-124597188-5",
     "truffle": {
         "privateKey": "",
         "minCapacity": "10"

@@ -34,6 +34,7 @@ router.get('/', async function (req, res, next) {
             swapCoin.push(c)
         }
     }
+    appConfig.GA = config.get('GA')
 
     appConfig.swapCoin = swapCoin
 
