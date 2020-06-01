@@ -196,9 +196,6 @@
                                 {{ balance }} TRC21
                                 {{ ((fromWrapSelected || {}).name === 'TRC21') ?
                         (toWrapSelected || {}).name : (fromWrapSelected || {}).name }}</strong></p>
-                        <p
-                            v-if="loginError"
-                            class="text-error">{{ $t('loginRequired') }}</p>
                     </b-col>
                 </b-row>
                 <div class="text-sm-center">

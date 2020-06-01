@@ -17,6 +17,7 @@ import TransactionTx from 'ethereumjs-tx'
 import * as localStorage from 'store'
 import VueI18n from 'vue-i18n'
 import TrezorConnect from 'trezor-connect'
+import VueAnalytics from 'vue-analytics'
 
 import WrapperAbi from '../abis/WrapperAbi.json'
 
@@ -326,16 +327,6 @@ Vue.prototype.sendSignedTransaction = function (txParams, signature) {
     })
 }
 
-const getConfig = Vue.prototype.appConfig = async function () {
-    let config = await axios.get('/api/config')
-    config.data.objSwapCoin = {}
-    config.data.swapCoin.forEach(c => {
-        config.data.objSwapCoin[c.name.toLowerCase()] = c
-    })
-
-    return config.data
-}
-
 Vue.prototype.detectNetwork = async function (provider) {
     try {
         let wjs = this.web3
@@ -429,6 +420,25 @@ const router = new VueRouter({
         { path: '/txs', component: Transaction, name: 'Transaction' }
     ]
 })
+
+const getConfig = Vue.prototype.appConfig = async function () {
+    let config = await axios.get('/api/config')
+    config.data.objSwapCoin = {}
+    config.data.swapCoin.forEach(c => {
+        config.data.objSwapCoin[c.name.toLowerCase()] = c
+    })
+    console.log(config)
+    Vue.use(VueAnalytics, {
+        id: config.data.GA,
+        linkers: ['bridge.tomochain.com'],
+        router,
+        autoTraking: {
+            screenView: true
+        }
+    })
+
+    return config.data
+}
 
 const EventBus = new Vue()
 
