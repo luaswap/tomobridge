@@ -17,7 +17,6 @@ import TransactionTx from 'ethereumjs-tx'
 import * as localStorage from 'store'
 import VueI18n from 'vue-i18n'
 import TrezorConnect from 'trezor-connect'
-import VueAnalytics from 'vue-analytics'
 
 import WrapperAbi from '../abis/WrapperAbi.json'
 
@@ -426,15 +425,6 @@ const getConfig = Vue.prototype.appConfig = async function () {
     config.data.objSwapCoin = {}
     config.data.swapCoin.forEach(c => {
         config.data.objSwapCoin[c.name.toLowerCase()] = c
-    })
-    console.log(config)
-    Vue.use(VueAnalytics, {
-        id: config.data.GA,
-        linkers: ['bridge.tomochain.com'],
-        router,
-        autoTraking: {
-            screenView: true
-        }
     })
 
     return config.data
