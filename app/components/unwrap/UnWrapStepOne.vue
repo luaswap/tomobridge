@@ -91,9 +91,9 @@ export default {
             try {
                 const coin = this.config.objSwapCoin[this.coinName.toLowerCase()]
                 if (!this.checkMinimumWithdrawAmount()) {
-                    this.$toasted.show(`Minimum Withdrawal is: ${coin.minimumWithdrawal} ${this.coinName}`)
+                    this.$toasted.show(`${this.$t('minimumWithdraw')} ${coin.minimumWithdrawal} ${this.coinName}`)
                 } else if (new BigNumber(this.amount).isLessThan(this.fee)) {
-                    this.$toasted.show('Withdraw amount must be greater than withdraw fee')
+                    this.$toasted.show(this.$t('notEnoughFee'))
                 } else {
                     const { contract, contractAddress } = this.getContract()
                     const provider = this.NetworkProvider

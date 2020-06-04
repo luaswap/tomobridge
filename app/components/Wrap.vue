@@ -642,8 +642,8 @@ export default {
                     const wjs = new Web3(walletProvider)
                     const chainId = await wjs.eth.getId()
                     if (this.config && chainId !== this.config.blockchain.networkId) {
-                        this.$toasted.show(`Make sure you choose tomochain network(current chain id: ${chainId},
-                        should be ${this.config.blockchain.networkId})`)
+                        this.$toasted.show(`${this.$t('wrongChain1')} ${chainId}
+                        ${this.$t('wrongChain2')} ${this.config.blockchain.networkId}`)
                     }
 
                     await this.setupProvider('pantograph', wjs)
@@ -671,7 +671,16 @@ export default {
                 if (this.wrapType === 'unwrap') {
                     const fee = this.config.objSwapCoin[this.toWrapSelected.name.toLowerCase()].withdrawFee
                     if (this.balance < fee) {
-                        this.$toasted.show(`Not enough TRC21 ${this.toWrapSelected.name} for withdraw fee(${fee})`)
+                        switch (this.$i18n.locale) {
+                        case 'en':
+                            this.$toasted.show(`Not enough TRC21 ${this.toWrapSelected.name} for withdraw fee(${fee})`)
+                            break
+                        case 'tr':
+                            this.$toasted.show(`Çekim ücreti (${fee}) için yeterli "TRC21 ${this.toWrapSelected.name}" yok.`)
+                            break
+                        default:
+                            break
+                        }
                         return false
                     } else {
                         return true

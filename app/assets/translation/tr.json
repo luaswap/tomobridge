@@ -77,5 +77,11 @@
     "confirmationBlocks": "Blokovi za potvrdu",
     "balance": "Bakiye",
     "account": "Adres",
-    "doneCheckingTx": "Bunu kapatabilir ve işleminizi"
+    "doneCheckingTx": "Bunu kapatabilir ve işleminizi",
+
+    "comment7": "------------------------Warning toast--------------",
+    "notEnoughFee": "Çekim miktarı, çekim ücretinden fazla olmalıdır",
+    "minimumWithdraw": "Minimum Çekim:",
+    "wrongChain1": "TomoChain ağını seçtiğinizden emin olun (mevcut chain id:",
+    "wrongChain2": ", olması gereken:"
 }
