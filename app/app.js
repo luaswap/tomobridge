@@ -42,7 +42,8 @@ Vue.use(Toasted, {
         onClick : (e, toastObject) => {
             toastObject.goAway(0)
         }
-    }
+    },
+    singleton: true
 })
 Vue.use(VueI18n)
 const i18n = new VueI18n({
