@@ -74,14 +74,28 @@
     "connectBtn": "Connect",
     "backBtn": "Back",
     "confirmationBlocks": "Confirmation blocks",
-    "emptyText": "There are no transactions to show",
     "balance": "Balance",
     "account": "Account",
     "doneCheckingTx": "You can close this and check your transaction in",
+    "deposited": "DEPOSITED",
+    "mint": "MINT",
+    "burned": "BURNED",
+    "withdrawed": "WITHDRAWED",
+    "depositing": "DEPOSITING",
+    "withdrawing": "WITHDRAWING",
 
     "comment7": "------------------------Warning toast-------------------",
     "notEnoughFee": "Withdraw amount must be greater than withdraw fee",
     "minimumWithdraw": "Minimum Withdrawal is",
     "wrongChain1": "Make sure you choose tomochain network, current chain id:",
-    "wrongChain2": ", should be"
+    "wrongChain2": ", should be",
+
+    "comment8": "----------------------------Transaction history table------------------------",
+    "inTxHashLabel": "In Tx Hash",
+    "outTxHashLabel": "Out Tx Hash",
+    "statusLabel": "Status",
+    "tokenLabel": "Token",
+    "quantityLabel": "Quantity",
+    "ageLabel": "Age",
+    "emptyText": "There are no transactions to show"
 }

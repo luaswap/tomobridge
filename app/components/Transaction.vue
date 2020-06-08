@@ -81,7 +81,7 @@
                         :per-page="UnwrapPerPage"
                         :class="loading ? 'table--loading' : ''"
                         :show-empty="true"
-                        empty-text="There are no transactions to show"
+                        :empty-text="$t('emptyText')"
                         stacked="lg"
                         class="txs__table">
 
@@ -154,21 +154,21 @@ export default {
     data () {
         return {
             fields: [
-                { key: 'inTxHash', label: 'In Tx Hash' },
-                { key: 'outTxHash', label: 'Out Tx Hash' },
-                { key: 'status', label: 'Status' },
-                { key: 'token', label: 'Token' },
-                { key: 'quantity', label: 'Quantity' },
-                { key: 'createdAt', label: 'Age' }
+                { key: 'inTxHash', label: this.$t('inTxHashLabel') },
+                { key: 'outTxHash', label: this.$t('outTxHashLabel') },
+                { key: 'status', label: this.$t('statusLabel') },
+                { key: 'token', label: this.$t('tokenLabel') },
+                { key: 'quantity', label: this.$t('quantityLabel') },
+                { key: 'createdAt', label: this.$t('ageLabel') }
             ],
             wrapItems: [],
             unwrapItems: [],
             loading: false,
             totalWrapRows: 10,
-            wrapPerPage: 14,
+            wrapPerPage: 7,
             currentWrapPage: 1,
             totalUnwrapRows: 10,
-            UnwrapPerPage: 17,
+            UnwrapPerPage: 7,
             currentUnwrapPage: 1,
             tableCssClass: '',
             address: '',
@@ -176,7 +176,9 @@ export default {
             interval: ''
         }
     },
-    async updated () { },
+    async updated () {
+        moment.locale(this.$i18n.locale)
+    },
     destroyed () {
         if (this.interval) {
             clearInterval(this.interval)
@@ -218,7 +220,7 @@ export default {
                             outTxHash: tx.OutTx.Hash || '',
                             createdAt: moment(tx.CreatedAt * 1000).fromNow(),
                             dateTooltip: moment(tx.CreatedAt * 1000).format('lll'),
-                            status: this.checkStatus(tx.InTx) + (tx.OutTx.Status ? `, ${tx.OutTx.Status}` : ''),
+                            status: this.checkStatus(tx.InTx) + (tx.OutTx.Status ? `, ${this.$t(tx.OutTx.Status.toLowerCase())}` : ''),
                             token: tx.InTx.CoinType,
                             quantity: this.convertAmount(tx.InTx.CoinType, tx.InTx.Amount),
                             inTxExplorerUrl: this.getTxExplorerUrl(tx.InTx),
@@ -250,7 +252,7 @@ export default {
                             outTxHash: tx.OutTx.Hash || '',
                             createdAt: moment(tx.CreatedAt * 1000).fromNow(),
                             dateTooltip: moment(tx.CreatedAt * 1000).format('lll'),
-                            status: tx.InTx.Status + (tx.OutTx.Status ? `, ${this.checkStatus(tx.OutTx)}` : ''),
+                            status: this.$t(tx.InTx.Status.toLowerCase()) + (tx.OutTx.Status ? `, ${this.checkStatus(tx.OutTx)}` : ''),
                             token: this.changeTokenName(tx.InTx.CoinType),
                             quantity: this.convertAmount(tx.InTx.CoinType, tx.InTx.Amount),
                             inTxExplorerUrl: this.getTxExplorerUrl(tx.InTx),
@@ -283,14 +285,18 @@ export default {
             }
             if (tokenSymbol) {
                 let decimals = parseInt(this.config.objSwapCoin[tokenSymbol].decimals)
-                return (new BigNumber(amount).div(10 ** decimals)).toString(10)
+                return (new BigNumber(amount).div(10 ** decimals)).toFixed(4).toString(10)
             } else { return '' }
         },
         checkStatus (tx) {
             if (tx.Status === 'DEPOSITING' || tx.Status === 'WITHDRAWING') {
                 const coin = this.config.objSwapCoin[tx.CoinType.toLowerCase()]
-                return `${tx.Status}(${tx.Confirmations}/${coin.confirmations})`
-            } else { return tx.Status.toUpperCase() }
+                // return `${tx.Status}(${tx.Confirmations}/${coin.confirmations})`
+                return `${this.$t(tx.Status.toLowerCase())}(${tx.Confirmations}/${coin.confirmations})`
+            } else {
+                // return tx.Status.toUpperCase()
+                return this.$t(tx.Status.toLowerCase()).toUpperCase()
+            }
         },
         wrapPageChange (page) {
             this.currentWrapPage = page
