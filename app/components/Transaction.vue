@@ -48,12 +48,21 @@
                         </template>
 
                         <template
-                            slot="hash"
+                            slot="inTxHash"
                             slot-scope="data">
                             <p class="text-truncate">
                                 <a
-                                    :href="data.item.txExplorerUrl"
-                                    target="_blank">{{ data.item.hash }}</a>
+                                    :href="data.item.inTxExplorerUrl"
+                                    target="_blank">{{ data.item.inTxHash }}</a>
+                            </p>
+                        </template>
+                        <template
+                            slot="outTxHash"
+                            slot-scope="data">
+                            <p class="text-truncate">
+                                <a
+                                    :href="data.item.outTxExplorerUrl"
+                                    target="_blank">{{ data.item.outTxHash }}</a>
                             </p>
                         </template>
                     </b-table>
@@ -102,12 +111,21 @@
                         </template>
 
                         <template
-                            slot="hash"
+                            slot="inTxHash"
                             slot-scope="data">
                             <p class="text-truncate">
                                 <a
-                                    :href="data.item.txExplorerUrl"
-                                    target="_blank">{{ data.item.hash }}</a>
+                                    :href="data.item.inTxExplorerUrl"
+                                    target="_blank">{{ data.item.inTxHash }}</a>
+                            </p>
+                        </template>
+                        <template
+                            slot="outTxHash"
+                            slot-scope="data">
+                            <p class="text-truncate">
+                                <a
+                                    :href="data.item.outTxExplorerUrl"
+                                    target="_blank">{{ data.item.outTxHash }}</a>
                             </p>
                         </template>
                     </b-table>
@@ -136,7 +154,8 @@ export default {
     data () {
         return {
             fields: [
-                { key: 'hash', label: 'Tx Hash' },
+                { key: 'inTxHash', label: 'In Tx Hash' },
+                { key: 'outTxHash', label: 'Out Tx Hash' },
                 { key: 'status', label: 'Status' },
                 { key: 'token', label: 'Token' },
                 { key: 'quantity', label: 'Quantity' },
@@ -146,10 +165,10 @@ export default {
             unwrapItems: [],
             loading: false,
             totalWrapRows: 10,
-            wrapPerPage: 10,
+            wrapPerPage: 14,
             currentWrapPage: 1,
             totalUnwrapRows: 10,
-            UnwrapPerPage: 10,
+            UnwrapPerPage: 17,
             currentUnwrapPage: 1,
             tableCssClass: '',
             address: '',
@@ -195,25 +214,16 @@ export default {
                     this.totalWrapRows = result.data.Total
                     result.data.Data.map(tx => {
                         items.push({
-                            hash: tx.InTx.Hash,
+                            inTxHash: tx.InTx.Hash || '',
+                            outTxHash: tx.OutTx.Hash || '',
                             createdAt: moment(tx.CreatedAt * 1000).fromNow(),
                             dateTooltip: moment(tx.CreatedAt * 1000).format('lll'),
-                            status: this.checkStatus(tx.InTx),
+                            status: this.checkStatus(tx.InTx) + (tx.OutTx.Status ? `, ${tx.OutTx.Status}` : ''),
                             token: tx.InTx.CoinType,
                             quantity: this.convertAmount(tx.InTx.CoinType, tx.InTx.Amount),
-                            txExplorerUrl: this.getTxExplorerUrl(tx.InTx)
+                            inTxExplorerUrl: this.getTxExplorerUrl(tx.InTx),
+                            outTxExplorerUrl: this.getTxExplorerUrl(tx.OutTx)
                         })
-                        if (tx.OutTx.Hash !== '') {
-                            items.push({
-                                hash: tx.OutTx.Hash,
-                                createdAt: moment(tx.CreatedAt * 1000).fromNow(),
-                                dateTooltip: moment(tx.CreatedAt * 1000).format('lll'),
-                                status: tx.OutTx.Status,
-                                token: this.changeTokenName(tx.OutTx.CoinType),
-                                quantity: this.convertAmount(tx.OutTx.CoinType, tx.OutTx.Amount),
-                                txExplorerUrl: this.getTxExplorerUrl(tx.OutTx)
-                            })
-                        }
                     })
                     this.wrapItems = items
                 }
@@ -236,25 +246,16 @@ export default {
                     this.totalUnwrapRows = result.data.Total
                     result.data.Data.map(tx => {
                         items.push({
-                            hash: tx.InTx.Hash,
+                            inTxHash: tx.InTx.Hash || '',
+                            outTxHash: tx.OutTx.Hash || '',
                             createdAt: moment(tx.CreatedAt * 1000).fromNow(),
                             dateTooltip: moment(tx.CreatedAt * 1000).format('lll'),
-                            status: tx.InTx.Status,
+                            status: tx.InTx.Status + (tx.OutTx.Status ? `, ${this.checkStatus(tx.OutTx)}` : ''),
                             token: this.changeTokenName(tx.InTx.CoinType),
                             quantity: this.convertAmount(tx.InTx.CoinType, tx.InTx.Amount),
-                            txExplorerUrl: this.getTxExplorerUrl(tx.InTx)
+                            inTxExplorerUrl: this.getTxExplorerUrl(tx.InTx),
+                            outTxExplorerUrl: this.getTxExplorerUrl(tx.OutTx)
                         })
-                        if (tx.OutTx.Hash !== '') {
-                            items.push({
-                                hash: tx.OutTx.Hash,
-                                createdAt: moment(tx.CreatedAt * 1000).fromNow(),
-                                dateTooltip: moment(tx.CreatedAt * 1000).format('lll'),
-                                status: this.checkStatus(tx.OutTx),
-                                token: tx.OutTx.CoinType,
-                                quantity: this.convertAmount(tx.OutTx.CoinType, tx.OutTx.Amount),
-                                txExplorerUrl: this.getTxExplorerUrl(tx.OutTx)
-                            })
-                        }
                     })
                     this.unwrapItems = items
                 }
@@ -308,6 +309,9 @@ export default {
                 return urljoin(this.config.tomoscanUrl, 'txs', tx.Hash)
             }
             return '#'
+        },
+        changeTokenName (token) {
+            return token.replace('TOMO', '')
         }
     }
 }
