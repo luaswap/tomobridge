@@ -48,12 +48,21 @@
                         </template>
 
                         <template
-                            slot="hash"
+                            slot="inTxHash"
                             slot-scope="data">
                             <p class="text-truncate">
                                 <a
-                                    :href="data.item.txExplorerUrl"
-                                    target="_blank">{{ data.item.hash }}</a>
+                                    :href="data.item.inTxExplorerUrl"
+                                    target="_blank">{{ data.item.inTxHash }}</a>
+                            </p>
+                        </template>
+                        <template
+                            slot="outTxHash"
+                            slot-scope="data">
+                            <p class="text-truncate">
+                                <a
+                                    :href="data.item.outTxExplorerUrl"
+                                    target="_blank">{{ data.item.outTxHash }}</a>
                             </p>
                         </template>
                     </b-table>
@@ -72,7 +81,7 @@
                         :per-page="UnwrapPerPage"
                         :class="loading ? 'table--loading' : ''"
                         :show-empty="true"
-                        empty-text="There are no transactions to show"
+                        :empty-text="$t('emptyText')"
                         stacked="lg"
                         class="txs__table">
 
@@ -102,12 +111,21 @@
                         </template>
 
                         <template
-                            slot="hash"
+                            slot="inTxHash"
                             slot-scope="data">
                             <p class="text-truncate">
                                 <a
-                                    :href="data.item.txExplorerUrl"
-                                    target="_blank">{{ data.item.hash }}</a>
+                                    :href="data.item.inTxExplorerUrl"
+                                    target="_blank">{{ data.item.inTxHash }}</a>
+                            </p>
+                        </template>
+                        <template
+                            slot="outTxHash"
+                            slot-scope="data">
+                            <p class="text-truncate">
+                                <a
+                                    :href="data.item.outTxExplorerUrl"
+                                    target="_blank">{{ data.item.outTxHash }}</a>
                             </p>
                         </template>
                     </b-table>
@@ -136,20 +154,21 @@ export default {
     data () {
         return {
             fields: [
-                { key: 'hash', label: 'Tx Hash' },
-                { key: 'status', label: 'Status' },
-                { key: 'token', label: 'Token' },
-                { key: 'quantity', label: 'Quantity' },
-                { key: 'createdAt', label: 'Age' }
+                { key: 'inTxHash', label: this.$t('inTxHashLabel') },
+                { key: 'outTxHash', label: this.$t('outTxHashLabel') },
+                { key: 'status', label: this.$t('statusLabel') },
+                { key: 'token', label: this.$t('tokenLabel') },
+                { key: 'quantity', label: this.$t('quantityLabel') },
+                { key: 'createdAt', label: this.$t('ageLabel') }
             ],
             wrapItems: [],
             unwrapItems: [],
             loading: false,
             totalWrapRows: 10,
-            wrapPerPage: 10,
+            wrapPerPage: 7,
             currentWrapPage: 1,
             totalUnwrapRows: 10,
-            UnwrapPerPage: 10,
+            UnwrapPerPage: 7,
             currentUnwrapPage: 1,
             tableCssClass: '',
             address: '',
@@ -157,7 +176,9 @@ export default {
             interval: ''
         }
     },
-    async updated () { },
+    async updated () {
+        moment.locale(this.$i18n.locale)
+    },
     destroyed () {
         if (this.interval) {
             clearInterval(this.interval)
@@ -195,25 +216,16 @@ export default {
                     this.totalWrapRows = result.data.Total
                     result.data.Data.map(tx => {
                         items.push({
-                            hash: tx.InTx.Hash,
+                            inTxHash: tx.InTx.Hash || '',
+                            outTxHash: tx.OutTx.Hash || '',
                             createdAt: moment(tx.CreatedAt * 1000).fromNow(),
                             dateTooltip: moment(tx.CreatedAt * 1000).format('lll'),
-                            status: this.checkStatus(tx.InTx),
+                            status: this.checkStatus(tx.InTx) + (tx.OutTx.Status ? `, ${this.$t(tx.OutTx.Status.toLowerCase())}` : ''),
                             token: tx.InTx.CoinType,
                             quantity: this.convertAmount(tx.InTx.CoinType, tx.InTx.Amount),
-                            txExplorerUrl: this.getTxExplorerUrl(tx.InTx)
+                            inTxExplorerUrl: this.getTxExplorerUrl(tx.InTx),
+                            outTxExplorerUrl: this.getTxExplorerUrl(tx.OutTx)
                         })
-                        if (tx.OutTx.Hash !== '') {
-                            items.push({
-                                hash: tx.OutTx.Hash,
-                                createdAt: moment(tx.CreatedAt * 1000).fromNow(),
-                                dateTooltip: moment(tx.CreatedAt * 1000).format('lll'),
-                                status: tx.OutTx.Status,
-                                token: this.changeTokenName(tx.OutTx.CoinType),
-                                quantity: this.convertAmount(tx.OutTx.CoinType, tx.OutTx.Amount),
-                                txExplorerUrl: this.getTxExplorerUrl(tx.OutTx)
-                            })
-                        }
                     })
                     this.wrapItems = items
                 }
@@ -236,25 +248,16 @@ export default {
                     this.totalUnwrapRows = result.data.Total
                     result.data.Data.map(tx => {
                         items.push({
-                            hash: tx.InTx.Hash,
+                            inTxHash: tx.InTx.Hash || '',
+                            outTxHash: tx.OutTx.Hash || '',
                             createdAt: moment(tx.CreatedAt * 1000).fromNow(),
                             dateTooltip: moment(tx.CreatedAt * 1000).format('lll'),
-                            status: tx.InTx.Status,
+                            status: this.$t(tx.InTx.Status.toLowerCase()) + (tx.OutTx.Status ? `, ${this.checkStatus(tx.OutTx)}` : ''),
                             token: this.changeTokenName(tx.InTx.CoinType),
                             quantity: this.convertAmount(tx.InTx.CoinType, tx.InTx.Amount),
-                            txExplorerUrl: this.getTxExplorerUrl(tx.InTx)
+                            inTxExplorerUrl: this.getTxExplorerUrl(tx.InTx),
+                            outTxExplorerUrl: this.getTxExplorerUrl(tx.OutTx)
                         })
-                        if (tx.OutTx.Hash !== '') {
-                            items.push({
-                                hash: tx.OutTx.Hash,
-                                createdAt: moment(tx.CreatedAt * 1000).fromNow(),
-                                dateTooltip: moment(tx.CreatedAt * 1000).format('lll'),
-                                status: this.checkStatus(tx.OutTx),
-                                token: tx.OutTx.CoinType,
-                                quantity: this.convertAmount(tx.OutTx.CoinType, tx.OutTx.Amount),
-                                txExplorerUrl: this.getTxExplorerUrl(tx.OutTx)
-                            })
-                        }
                     })
                     this.unwrapItems = items
                 }
@@ -282,14 +285,18 @@ export default {
             }
             if (tokenSymbol) {
                 let decimals = parseInt(this.config.objSwapCoin[tokenSymbol].decimals)
-                return (new BigNumber(amount).div(10 ** decimals)).toString(10)
+                return (new BigNumber(amount).div(10 ** decimals)).toFixed(4).toString(10)
             } else { return '' }
         },
         checkStatus (tx) {
             if (tx.Status === 'DEPOSITING' || tx.Status === 'WITHDRAWING') {
                 const coin = this.config.objSwapCoin[tx.CoinType.toLowerCase()]
-                return `${tx.Status}(${tx.Confirmations}/${coin.confirmations})`
-            } else { return tx.Status.toUpperCase() }
+                // return `${tx.Status}(${tx.Confirmations}/${coin.confirmations})`
+                return `${this.$t(tx.Status.toLowerCase())}(${tx.Confirmations}/${coin.confirmations})`
+            } else {
+                // return tx.Status.toUpperCase()
+                return this.$t(tx.Status.toLowerCase()).toUpperCase()
+            }
         },
         wrapPageChange (page) {
             this.currentWrapPage = page
@@ -308,6 +315,9 @@ export default {
                 return urljoin(this.config.tomoscanUrl, 'txs', tx.Hash)
             }
             return '#'
+        },
+        changeTokenName (token) {
+            return token.replace('TOMO', '')
         }
     }
 }

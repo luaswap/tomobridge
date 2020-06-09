@@ -70,7 +70,6 @@
     "transaction": "İşlemler",
 
     "comment6": "-------------------------Other-------------------",
-    "emptyText": "Gösterilecek işlem yok",
     "cancelBtn": "İptal",
     "connectBtn": "Bağlanmak",
     "backBtn": "Povratak",
@@ -78,10 +77,25 @@
     "balance": "Bakiye",
     "account": "Adres",
     "doneCheckingTx": "Bunu kapatabilir ve işleminizi",
+    "deposited": "YÜKLENMIŞ",
+    "mint": "ÜRETILMIŞ",
+    "burned": "YAKILMIŞ",
+    "withdrawed": "ÇEKILMIŞ",
+    "depositing": "YÜKLENIYOR",
+    "withdrawing": "ÇEKILIYOR",
 
     "comment7": "------------------------Warning toast--------------",
     "notEnoughFee": "Çekim miktarı, çekim ücretinden fazla olmalıdır",
     "minimumWithdraw": "Minimum Çekim:",
     "wrongChain1": "TomoChain ağını seçtiğinizden emin olun (mevcut chain id:",
-    "wrongChain2": ", olması gereken:"
+    "wrongChain2": ", olması gereken:",
+
+    "comment8": "----------------------------Transaction history table------------------------",
+    "inTxHashLabel": "Gelen Tx Hash",
+    "outTxHashLabel": "Giden Tx Hash",
+    "statusLabel": "Durum",
+    "tokenLabel": "Token",
+    "quantityLabel": "Miktar",
+    "ageLabel": "Yaş",
+    "emptyText": "Gösterilecek işlem yok"
 }

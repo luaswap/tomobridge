@@ -362,10 +362,6 @@ Vue.prototype.detectNetwork = async function (provider) {
     }
 }
 
-Vue.prototype.changeTokenName = function (token) {
-    return token.replace('TOMO', 'TRC21 ')
-}
-
 Vue.prototype.string2byte = function (str) {
     let byteArray = []
     for (let j = 0; j < str.length; j++) {

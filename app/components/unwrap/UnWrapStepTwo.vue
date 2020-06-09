@@ -28,13 +28,13 @@
                 Fee: 1 TOMO
             </div> -->
         </div>
-        <span>({{ $t('doneCheckingTx') }}
+        <!-- <span>({{ $t('doneCheckingTx') }}
             <b-link
                 :to="'/txs'">
                 Transaction History
             </b-link>
             )
-        </span>
+        </span> -->
         <b-button
             class="step-two__button btn--big"
             @click="back">{{ $t('backBtn') }}</b-button>
