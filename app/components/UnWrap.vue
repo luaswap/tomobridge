@@ -19,7 +19,7 @@
                 <a href="#">{{ receiveAddress }}</a>
             </p> -->
         </div>
-        <div class="unwrap__confirm">
+        <!-- <div class="unwrap__confirm">
             <p class="unwrap-confirm__title">
                 {{ $t('unwrapConfirm') }}:
             </p>
@@ -48,7 +48,12 @@
                 class="unwrap-confirm__button btn--big"
                 variant="primary"
                 @click="unWrapToken">{{ $t('continueUnwrapBtn') }}</b-button>
-        </div>
+        </div> -->
+        <b-button
+            :disabled="!recAddress"
+            class="unwrap-confirm__button btn--big"
+            variant="primary"
+            @click="unWrapToken">{{ $t('continueUnwrapBtn') }}</b-button>
     </div>
 </template>
 
