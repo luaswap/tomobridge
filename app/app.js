@@ -17,6 +17,8 @@ import TransactionTx from 'ethereumjs-tx'
 import * as localStorage from 'store'
 import VueI18n from 'vue-i18n'
 import TrezorConnect from 'trezor-connect'
+import _get from 'lodash.get'
+import _omit from 'lodash.omit'
 
 import WrapperAbi from '../abis/WrapperAbi.json'
 
@@ -339,6 +341,16 @@ Vue.prototype.detectNetwork = async function (provider) {
                     wjs = new Web3(p)
                 }
                 break
+            case 'pantograph':
+                if (window.tomoWeb3) {
+                    if (window.tomoWeb3.currentProvider) {
+                        let pp = window.tomoWeb3.currentProvider
+                        wjs = new Web3(pp)
+                    } else {
+                        wjs = window.tomoWeb3
+                    }
+                }
+                break
             case 'trezor':
             case 'ledger':
                 if (provider === 'ledger') {
@@ -369,6 +381,27 @@ Vue.prototype.string2byte = function (str) {
     }
 
     return byteArray
+}
+
+Vue.prototype.setStorage = (key, object) => {
+    sessionStorage.setItem(
+        'global',
+        JSON.stringify({
+            ...JSON.parse(sessionStorage.getItem('global')),
+            [key]: object
+        })
+    )
+}
+
+Vue.prototype.getStorage = key => {
+    return _get(JSON.parse(sessionStorage.getItem('global')), [key])
+}
+
+Vue.prototype.removeStorage = key => {
+    sessionStorage.setItem(
+        'global',
+        JSON.stringify(_omit(JSON.parse(sessionStorage.getItem('global')), key))
+    )
 }
 
 Vue.prototype.serializeQuery = function (params, prefix) {
@@ -415,6 +448,12 @@ const router = new VueRouter({
         { path: '/unwrapToken', component: UnWrapExecution, name: 'UnWrapExecution' },
         { path: '/txs', component: Transaction, name: 'Transaction' }
     ]
+})
+
+router.beforeEach(async (to, from, next) => {
+    const provider = Vue.prototype.NetworkProvider || (Vue.prototype.getStorage('account') || {}).network || null
+    await Vue.prototype.detectNetwork(provider)
+    next()
 })
 
 const getConfig = Vue.prototype.appConfig = async function () {

@@ -72,26 +72,26 @@ export default {
     },
     created: async function () {
         this.config = store.get('configBridge') || await this.appConfig()
-        this.fromWrapToken = this.$route.params.fromWrapToken
-        this.toWrapToken = this.$route.params.toWrapToken
+        this.fromWrapToken = this.$route.params.fromWrapToken || {}
+        this.toWrapToken = this.$route.params.toWrapToken || {}
         if (!this.$store.state.address ||
-            !this.fromWrapToken ||
-            !this.toWrapToken) {
+            !this.fromWrapToken.name ||
+            !this.toWrapToken.name) {
             this.$router.push({
                 path: '/'
             })
-        }
-
-        const wrapData = await axios.post(
-            '/api/wrap/getAddress',
-            {
-                wrapCoin: this.fromWrapToken.name,
-                receiveAddress: this.receiveAddress
+        } else {
+            const wrapData = await axios.post(
+                '/api/wrap/getAddress',
+                {
+                    wrapCoin: this.fromWrapToken.name,
+                    receiveAddress: this.receiveAddress
+                }
+            )
+            if (wrapData && wrapData.data) {
+                this.fromWrapToken.address = wrapData.data.address
+                this.step = 1
             }
-        )
-        if (wrapData && wrapData.data) {
-            this.fromWrapToken.address = wrapData.data.address
-            this.step = 1
         }
     },
     methods: {}

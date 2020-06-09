@@ -40,11 +40,20 @@ export default {
             const wjs = new Web3(window.web3.currentProvider)
             await this.setupProvider('tomowallet', wjs)
             this.address = await this.getAccount()
+            this.setStorage(
+                'account',
+                {
+                    address: this.address,
+                    network: 'tomowallet'
+                }
+            )
             if (this.address) {
                 this.$store.state.address = this.address.toLowerCase()
             }
         } else {
-            this.address = this.$store.state.address || await this.getAccount()
+            const storage = this.getStorage('account') || {}
+            this.address = storage.address ||
+                this.$store.state.address || await this.getAccount()
         }
     },
     methods: { }
