@@ -19,11 +19,15 @@
                 <a href="#">{{ receiveAddress }}</a>
             </p> -->
         </div>
-        <!-- <div class="unwrap__confirm">
-            <p class="unwrap-confirm__title">
+        <div class="unwrap__confirm">
+            <!-- <p class="unwrap-confirm__title">
                 {{ $t('unwrapConfirm') }}:
+            </p> -->
+            <p class="unwrap-confirm__title text-danger pb-3">
+                <!-- {{ $t('unwrapConfirm') }}: -->
+                {{ $t('unWrapWarningText') }}
             </p>
-            <ul class="unwrap-confirm__list">
+            <!-- <ul class="unwrap-confirm__list">
                 <li class="unwrap-confirm__item">
                     <b-form-checkbox
                         v-model="isCheckAddress">
@@ -42,18 +46,13 @@
                         {{ $t('unwrapConfirm3') + ' ' + toWrapToken.name + ' ' + $t('unwrapConfirm3-2') }}
                     </b-form-checkbox>
                 </li>
-            </ul>
+            </ul> -->
             <b-button
-                :disabled="!allChecked"
+                :disabled="!recAddress"
                 class="unwrap-confirm__button btn--big"
                 variant="primary"
                 @click="unWrapToken">{{ $t('continueUnwrapBtn') }}</b-button>
-        </div> -->
-        <b-button
-            :disabled="!recAddress"
-            class="unwrap-confirm__button btn--big"
-            variant="primary"
-            @click="unWrapToken">{{ $t('continueUnwrapBtn') }}</b-button>
+        </div>
     </div>
 </template>
 
