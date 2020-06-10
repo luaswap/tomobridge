@@ -544,6 +544,7 @@ export default {
                 address: null,
                 hdPath: ''
             })
+            this.removeStorage('account')
         },
         loginWallet () {
             if (this.mobileCheck) {
@@ -591,6 +592,13 @@ export default {
 
                     await this.setupProvider('metamask', wjs)
                     this.address = await this.getAccount()
+                    this.setStorage(
+                        'account',
+                        {
+                            address: this.address,
+                            network: 'metamask'
+                        }
+                    )
                     if (this.fromWrapSelected.name !== 'TRC21') {
                         await this.getBalance(this.fromWrapSelected)
                     } else {
@@ -648,6 +656,13 @@ export default {
 
                     await this.setupProvider('pantograph', wjs)
                     this.address = await this.getAccount()
+                    this.setStorage(
+                        'account',
+                        {
+                            address: this.address,
+                            network: 'pantograph'
+                        }
+                    )
                     if (this.fromWrapSelected.name !== 'TRC21') {
                         await this.getBalance(this.fromWrapSelected)
                     } else {

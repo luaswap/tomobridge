@@ -50,19 +50,24 @@ export default {
     },
     data () {
         return {
-            selectedLanguage: this.$store.state.language || 'English'
+            selectedLanguage: this.$store.state.language || 'English',
+            address: ''
         }
     },
     computed: {
-        address: function () {
-            return this.$store.state.address
-        }
     },
     async updated () {
         this.selectedLanguage = this.$store.state.language || 'English'
+        this.address = this.$store.state.address
     },
     destroyed () { },
     created: async function () {
+        const storage = this.getStorage('account') || {}
+        this.address = storage.address || this.$store.state.address || await this.getAccount()
+        if (this.address) {
+            this.NetworkProvider = storage.network
+            this.$store.state.address = this.address
+        }
     },
     methods: {
         changeLang (lang) {

@@ -183,6 +183,14 @@ export default {
                     await this.setupProvider('ledger', walletProvider)
                 }
                 const address = await this.getAccount()
+
+                this.setStorage(
+                    'account',
+                    {
+                        address: address,
+                        network: this.type
+                    }
+                )
                 parent.address = address
                 this.$store.state.address = address.toLowerCase()
                 await parent.updateBalance()
