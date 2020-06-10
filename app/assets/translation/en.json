@@ -46,6 +46,7 @@
     "unwrapPlaceholder": "Your receive address",
     "youWithdrawn": "You’ve withdrawn",
     "unwrapAnotherTokenBtn": "Unwrap another token",
+    "unWrapWarningText": "Do not withdraw directly to a crowdfund or ICO address, as your account will not be credited with tokens from such sales.",
 
     "comment4": "-------------- Login sections --------------------",
     "privateKeyTitle": "Connect with Private Key",

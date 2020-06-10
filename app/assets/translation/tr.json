@@ -46,6 +46,7 @@
     "unwrapPlaceholder": "Alma adresiniz",
     "youWithdrawn": "Çekim Yaptınız",
     "unwrapAnotherTokenBtn": "Odmotajte još jedan tokeni",
+    "unWrapWarningText": "ICO veya kitlesel fonlama adreslerine çekim yapmayınız, tokenler hesabınıza ulaşamaz.",
 
     "comment4": "-------------- Login sections --------------------",
     "privateKeyTitle": "Özel Anahtar ile Bağlan",
