@@ -30,6 +30,7 @@ import Transaction from './components/Transaction.vue'
 import en from './assets/translation/en.json'
 import vi from './assets/translation/vi.json'
 import tr from './assets/translation/tr.json'
+import ja from './assets/translation/ja.json'
 
 Vue.use(VueClipboard)
 Vue.use(BootstrapVue)
@@ -53,7 +54,8 @@ const i18n = new VueI18n({
     messages: {
         en,
         vi,
-        tr
+        tr,
+        ja
     }
 })
 

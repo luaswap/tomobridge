@@ -36,7 +36,9 @@
                                     class="current-lang"
                                     @click="changeLang('english')">English</b-dropdown-item>
                                 <b-dropdown-item
-                                    @click="changeLang('turkish')">Turkish</b-dropdown-item>
+                                    @click="changeLang('turkish')">Türk</b-dropdown-item>
+                                <b-dropdown-item
+                                    @click="changeLang('japanese')">日本語</b-dropdown-item>
                                     <!-- <b-dropdown-item
                                     @click="changeLang('vietnamese')">Tiếng Việt</b-dropdown-item> -->
                             </b-nav-item-dropdown>
@@ -570,8 +572,13 @@ export default {
                 break
             case 'turkish':
                 this.$i18n.locale = 'tr'
-                this.selectedLanguage = 'Turkish'
-                this.$store.state.language = 'Turkish'
+                this.selectedLanguage = 'Türk'
+                this.$store.state.language = 'Türk'
+                break
+            case 'japanese':
+                this.$i18n.locale = 'ja'
+                this.selectedLanguage = '日本語'
+                this.$store.state.language = '日本語'
                 break
             default:
                 break
