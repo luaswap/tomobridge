@@ -13,7 +13,7 @@
             <span>({{ $t('doneCheckingTx') }}
                 <b-link
                     :to="'/txs'">
-                    Transaction History
+                    {{ $t('txHistory') }}
                 </b-link>
                 )
             </span>
