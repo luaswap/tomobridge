@@ -248,6 +248,12 @@
                                     <li>
                                         <a
                                             :target="provider === 'tomowallet' ? '' : '_blank'"
+                                            href="https://forms.gle/cU1XU3b8EUMxB6yA6">
+                                            Submit a request</a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            :target="provider === 'tomowallet' ? '' : '_blank'"
                                             href="https://docs.tomochain.com/tomobridge/faq">
                                             FAQ</a>
                                     </li>
