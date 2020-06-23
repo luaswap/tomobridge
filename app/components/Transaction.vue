@@ -177,7 +177,11 @@ export default {
         }
     },
     async updated () {
-        moment.locale(this.$i18n.locale)
+        if (this.$i18n.locale === 'cn') {
+            moment.locale('zh-cn')
+        } else {
+            moment.locale(this.$i18n.locale)
+        }
     },
     destroyed () {
         if (this.interval) {
