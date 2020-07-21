@@ -104,8 +104,6 @@ export default {
                         parent.step++
                     }, 2000)
                 }
-            } else {
-                this.success = false
             }
         }, 5000)
     },
