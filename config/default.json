@@ -58,6 +58,36 @@
             "minimumWithdrawal": 2
         },
         {
+            "name": "JRT",
+            "img": "/app/assets/images/crypto-logos/jrt.png",
+            "confirmations": 12,
+            "decimals": 18,
+            "explorerUrl": "https://etherscan.io/",
+            "wrapperAddress": "",
+            "mainAddress": "",
+            "minimumWithdrawal": 10
+        },
+        {
+            "name": "YFI",
+            "img": "/app/assets/images/crypto-logos/yfi.png",
+            "confirmations": 12,
+            "decimals": 18,
+            "explorerUrl": "https://etherscan.io/",
+            "wrapperAddress": "",
+            "mainAddress": "",
+            "minimumWithdrawal": 0.001
+        },
+        {
+            "name": "VNDC",
+            "img": "/app/assets/images/crypto-logos/vndc.png",
+            "confirmations": 12,
+            "decimals": 0,
+            "explorerUrl": "https://etherscan.io/",
+            "wrapperAddress": "",
+            "mainAddress": "",
+            "minimumWithdrawal": 1000
+        },
+        {
             "name": "XLM",
             "img": "/app/assets/images/crypto-logos/xlm.png"
         }
