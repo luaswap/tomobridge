@@ -425,7 +425,7 @@ export default {
     created: async function () {
         this.provider = this.NetworkProvider
         this.address = this.$store.state.address || await this.getAccount()
-        this.config = store.get('configBridge') || await this.appConfig()
+        this.config = await this.appConfig() // || store.get('configBridge')
 
         this.fromData = this.config.swapCoin || []
         this.toData = this.config.swapToken || []
