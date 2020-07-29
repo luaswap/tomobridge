@@ -5,10 +5,10 @@ const Web3 = require('web3')
 const BigNumber = require('bignumber.js')
 const WrapperAbi = require('../abis/WrapperAbi.json')
 const router = express.Router()
-let swapCoin = []
 
 router.get('/', async function (req, res, next) {
     let appConfig = {}
+    let swapCoin = []
     appConfig.blockchain = config.get('blockchain')
     appConfig.swapToken = config.get('swapToken')
     let tomoscanUrl = config.get('tomoscanUrl')
