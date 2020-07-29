@@ -82,7 +82,6 @@ Vue.prototype.setupProvider = async function (provider, wjs) {
         Vue.prototype.web3 = wjs
         Vue.prototype.WrapperAbi = WrapperAbi
         let config
-        console.log(localStorage.get('configBridge'))
         if (localStorage.get('configBridge')) {
             config = localStorage.get('configBridge')
         } else {
