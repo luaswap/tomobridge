@@ -135,7 +135,9 @@ export default {
             if (txHash) {
                 const coin = this.config.objSwapCoin[this.parent.fromWrapToken.name.toLowerCase()]
                 if (coin) {
-                    return urljoin(coin.explorerUrl, 'tx', txHash)
+                    if (coin.explorerUrl.includes('tomochain')) {
+                        return urljoin(coin.explorerUrl, 'txs', txHash)
+                    } else { return urljoin(coin.explorerUrl, 'tx', txHash) }
                 }
             }
             return '#'

@@ -358,7 +358,7 @@ import PrivateKeyModal from './modals/PrivateKeyModal'
 import HardwareWalletModal from './modals/HarwareWalletModal'
 import SelectAddressModal from './modals/SelectAddressModal'
 import MnemonicModal from './modals/MnemonicModal'
-import store from 'store'
+// import store from 'store'
 import BigNumber from 'bignumber.js'
 import WrapperAbi from '../../abis/WrapperAbi.json'
 
@@ -547,7 +547,7 @@ export default {
             } else { this.toWrapError = false }
         },
         signOut () {
-            store.clearAll()
+            // store.clearAll()
             this.address = ''
             this.receiveAddress = ''
             this.$store.replaceState({

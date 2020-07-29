@@ -475,7 +475,9 @@ export default {
             if (tx.CoinType) {
                 const coin = this.config.objSwapCoin[tx.CoinType.toLowerCase()]
                 if (coin) {
-                    return urljoin(coin.explorerUrl, 'tx', tx.Hash)
+                    if (coin.explorerUrl.includes('tomochain')) {
+                        return urljoin(coin.explorerUrl, 'txs', tx.Hash)
+                    } else { return urljoin(coin.explorerUrl, 'tx', tx.Hash) }
                 }
                 return urljoin(this.config.tomoscanUrl, 'txs', tx.Hash)
             }
