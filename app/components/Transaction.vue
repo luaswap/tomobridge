@@ -286,6 +286,18 @@ export default {
             case 'tomousdt':
                 tokenSymbol = 'usdt'
                 break
+            case 'jrt':
+            case 'tomojrt':
+                tokenSymbol = 'jrt'
+                break
+            case 'yfi':
+            case 'tomoyfi':
+                tokenSymbol = 'yfi'
+                break
+            case 'vndc':
+            case 'tomovndc':
+                tokenSymbol = 'vndc'
+                break
             }
             if (tokenSymbol) {
                 let decimals = parseInt(this.config.objSwapCoin[tokenSymbol].decimals)

@@ -126,6 +126,9 @@ export default {
                 return WAValidator.validate(address, 'BTC', network)
             case 'eth':
             case 'usdt':
+            case 'jrt':
+            case 'yfi':
+            case 'vndc':
                 return this.web3.utils.isAddress(address)
             default:
                 return false
