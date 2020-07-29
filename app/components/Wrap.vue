@@ -705,7 +705,7 @@ export default {
             try {
                 if (this.wrapType === 'unwrap') {
                     const fee = this.config.objSwapCoin[this.toWrapSelected.name.toLowerCase()].withdrawFee
-                    if (this.balance < fee) {
+                    if (new BigNumber(this.balance).isLessThanOrEqualTo(new BigNumber(fee))) {
                         switch (this.$i18n.locale) {
                         case 'en':
                             this.$toasted.show(`Not enough TRC21 ${this.toWrapSelected.name} for withdraw fee(${fee})`)
