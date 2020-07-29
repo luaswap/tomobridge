@@ -30,7 +30,7 @@
         {
             "name": "BTC",
             "img": "/app/assets/images/crypto-logos/btc.png",
-            "confirmations": 6,
+            "confirmations": 2,
             "decimals": 8,
             "explorerUrl": "https://www.blockchain.com/btc/",
             "wrapperAddress": "",
@@ -40,7 +40,7 @@
         {
             "name": "ETH",
             "img": "/app/assets/images/crypto-logos/eth.png",
-            "confirmations": 12,
+            "confirmations": 6,
             "decimals": 18,
             "explorerUrl": "https://etherscan.io/",
             "wrapperAddress": "",
@@ -50,7 +50,7 @@
         {
             "name": "USDT",
             "img": "/app/assets/images/crypto-logos/usdt.png",
-            "confirmations": 12,
+            "confirmations": 6,
             "decimals": 6,
             "explorerUrl": "https://etherscan.io/",
             "wrapperAddress": "",
@@ -60,7 +60,7 @@
         {
             "name": "JRT",
             "img": "/app/assets/images/crypto-logos/jrt.png",
-            "confirmations": 12,
+            "confirmations": 6,
             "decimals": 18,
             "explorerUrl": "https://etherscan.io/",
             "wrapperAddress": "",
@@ -70,7 +70,7 @@
         {
             "name": "YFI",
             "img": "/app/assets/images/crypto-logos/yfi.png",
-            "confirmations": 12,
+            "confirmations": 6,
             "decimals": 18,
             "explorerUrl": "https://etherscan.io/",
             "wrapperAddress": "",
@@ -80,16 +80,42 @@
         {
             "name": "VNDC",
             "img": "/app/assets/images/crypto-logos/vndc.png",
-            "confirmations": 12,
+            "confirmations": 6,
             "decimals": 0,
             "explorerUrl": "https://etherscan.io/",
             "wrapperAddress": "",
             "mainAddress": "",
-            "minimumWithdrawal": 1000
+            "minimumWithdrawal": 25000
         },
         {
-            "name": "XLM",
-            "img": "/app/assets/images/crypto-logos/xlm.png"
+            "name": "FTT",
+            "img": "/app/assets/images/crypto-logos/ftx.png",
+            "confirmations": 6,
+            "decimals": 18,
+            "explorerUrl": "https://etherscan.io/",
+            "wrapperAddress": "",
+            "mainAddress": "",
+            "minimumWithdrawal": 0
+        },
+        {
+            "name": "BUSD",
+            "img": "/app/assets/images/crypto-logos/busd.png",
+            "confirmations": 6,
+            "decimals": 18,
+            "explorerUrl": "https://etherscan.io/",
+            "wrapperAddress": "",
+            "mainAddress": "",
+            "minimumWithdrawal": 0
+        },
+        {
+            "name": "ORBYT",
+            "img": "/app/assets/images/crypto-logos/orbyt.png",
+            "confirmations": 6,
+            "decimals": 18,
+            "explorerUrl": "https://scan.tomochain.com/",
+            "wrapperAddress": "",
+            "mainAddress": "",
+            "minimumWithdrawal": 0
         }
     ],
     "swapToken": [

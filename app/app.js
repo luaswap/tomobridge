@@ -81,8 +81,14 @@ Vue.prototype.setupProvider = async function (provider, wjs) {
     if (wjs instanceof Web3) {
         Vue.prototype.web3 = wjs
         Vue.prototype.WrapperAbi = WrapperAbi
-        const config = await getConfig()
-        localStorage.set('configBridge', config)
+        let config
+        console.log(localStorage.get('configBridge'))
+        if (localStorage.get('configBridge')) {
+            config = localStorage.get('configBridge')
+        } else {
+            config = await getConfig()
+            localStorage.set('configBridge', config)
+        }
     }
 }
 
@@ -466,6 +472,7 @@ const getConfig = Vue.prototype.appConfig = async function () {
     config.data.swapCoin.forEach(c => {
         config.data.objSwapCoin[c.name.toLowerCase()] = c
     })
+    localStorage.set('configBridge', config.data)
 
     return config.data
 }
