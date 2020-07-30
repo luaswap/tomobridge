@@ -89,7 +89,7 @@
         },
         {
             "name": "FTT",
-            "img": "/app/assets/images/crypto-logos/ftx.png",
+            "img": "/app/assets/images/crypto-logos/ftt.png",
             "confirmations": 6,
             "decimals": 18,
             "explorerUrl": "https://etherscan.io/",

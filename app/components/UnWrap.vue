@@ -129,6 +129,7 @@ export default {
             case 'jrt':
             case 'yfi':
             case 'vndc':
+            case 'ftt':
                 return this.web3.utils.isAddress(address)
             default:
                 return false
