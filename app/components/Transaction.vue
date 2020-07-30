@@ -298,6 +298,10 @@ export default {
             case 'tomovndc':
                 tokenSymbol = 'vndc'
                 break
+            case 'ftt':
+            case 'tomoftt':
+                tokenSymbol = 'ftt'
+                break
             }
             if (tokenSymbol) {
                 let decimals = parseInt(this.config.objSwapCoin[tokenSymbol].decimals)
