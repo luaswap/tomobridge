@@ -81,13 +81,11 @@ Vue.prototype.setupProvider = async function (provider, wjs) {
     if (wjs instanceof Web3) {
         Vue.prototype.web3 = wjs
         Vue.prototype.WrapperAbi = WrapperAbi
-        let config
-        if (localStorage.get('configBridge')) {
-            config = localStorage.get('configBridge')
-        } else {
-            config = await getConfig()
-            localStorage.set('configBridge', config)
-        }
+        let config = localStorage.get('configBridge')
+        const { data } = await axios.get('/api/config/getTokenConfig')
+        config.swapCoin = data.swapCoin
+        config.objSwapCoin = data.objSwapCoin
+        localStorage.set('configBridge', config)
     }
 }
 

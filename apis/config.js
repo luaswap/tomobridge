@@ -8,7 +8,6 @@ const router = express.Router()
 
 router.get('/', async function (req, res, next) {
     let appConfig = {}
-    let swapCoin = []
     appConfig.blockchain = config.get('blockchain')
     appConfig.swapToken = config.get('swapToken')
     let tomoscanUrl = config.get('tomoscanUrl')
@@ -17,27 +16,47 @@ router.get('/', async function (req, res, next) {
     }
     appConfig.tomoscanUrl = tomoscanUrl
 
+    appConfig.GA = config.get('GA')
+
+    appConfig.swapCoin = config.get('swapCoin')
+
+    return res.json(appConfig)
+})
+
+router.get('/getTokenConfig', async function (req, res, next) {
+    let appConfig = {}
+    let swapCoin = []
+    const blockchain = config.get('blockchain')
+
     if (swapCoin.length !== config.swapCoin.length) {
-        let rpc = appConfig.blockchain.rpc
+        let rpc = blockchain.rpc
         let web3 = new Web3(rpc)
+
         swapCoin = await Promise.all(config.swapCoin.map(async s => {
             const c = JSON.parse(JSON.stringify(s))
             let contract = web3.eth.Contract(
                 WrapperAbi.abi,
                 s.wrapperAddress
             )
+
             const decimalsPromise = contract.methods.decimals().call() || 0
             const depositFeePromise = contract.methods.DEPOSIT_FEE().call() || 0
             const withdrawFeePromise = contract.methods.WITHDRAW_FEE().call() || 0
+
             const decimals = await decimalsPromise
+            const depositFee = await depositFeePromise
+            const withdrawFee = await withdrawFeePromise
 
             c.decimals = decimals
-            c.depositFee = new BigNumber(await depositFeePromise).dividedBy(10 ** decimals).toString(10)
-            c.withdrawFee = new BigNumber(await withdrawFeePromise).dividedBy(10 ** decimals).toString(10)
+            c.depositFee = new BigNumber(depositFee).dividedBy(10 ** decimals).toString(10)
+            c.withdrawFee = new BigNumber(withdrawFee).dividedBy(10 ** decimals).toString(10)
             return c
         }))
     }
-    appConfig.GA = config.get('GA')
+    appConfig.objSwapCoin = {}
+    swapCoin.map(c => {
+        appConfig.objSwapCoin[c.name.toLowerCase()] = c
+    })
 
     appConfig.swapCoin = swapCoin
 
