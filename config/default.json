@@ -116,6 +116,16 @@
             "wrapperAddress": "",
             "mainAddress": "",
             "minimumWithdrawal": 0
+        },
+        {
+            "name": "DEC",
+            "img": "/app/assets/images/crypto-logos/dec.png",
+            "confirmations": 6,
+            "decimals": 18,
+            "explorerUrl": "https://etherscan.io/",
+            "wrapperAddress": "",
+            "mainAddress": "",
+            "minimumWithdrawal": 20
         }
     ],
     "swapToken": [
