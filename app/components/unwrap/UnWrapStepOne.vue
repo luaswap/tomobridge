@@ -71,8 +71,8 @@ export default {
     destroyed () { },
     created: async function () {
         this.coinName = this.toWrapToken.name
-        this.fee = this.toWrapToken.withdrawFee
         this.config = store.get('configBridge') || await this.appConfig() || {}
+        this.fee = this.config.objSwapCoin[this.coinName.toLowerCase()].withdrawFee
 
         this.web3.eth.getGasPrice().then(result => {
             this.gasPrice = result
