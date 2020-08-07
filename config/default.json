@@ -35,7 +35,9 @@
             "explorerUrl": "https://www.blockchain.com/btc/",
             "wrapperAddress": "",
             "mainAddress": "",
-            "minimumWithdrawal": 0.001
+            "minimumWithdrawal": 0.001,
+            "tokenAddress": "",
+            "network": "bitcoin"
         },
         {
             "name": "ETH",
@@ -45,7 +47,9 @@
             "explorerUrl": "https://etherscan.io/",
             "wrapperAddress": "",
             "mainAddress": "",
-            "minimumWithdrawal": 0.02
+            "minimumWithdrawal": 0.02,
+            "tokenAddress": "",
+            "network": "ethereum"
         },
         {
             "name": "USDT",
@@ -55,7 +59,9 @@
             "explorerUrl": "https://etherscan.io/",
             "wrapperAddress": "",
             "mainAddress": "",
-            "minimumWithdrawal": 2
+            "minimumWithdrawal": 2,
+            "tokenAddress": "0xdac17f958d2ee523a2206206994597c13d831ec7",
+            "network": "ethereum"
         },
         {
             "name": "JRT",
@@ -65,7 +71,9 @@
             "explorerUrl": "https://etherscan.io/",
             "wrapperAddress": "",
             "mainAddress": "",
-            "minimumWithdrawal": 10
+            "minimumWithdrawal": 10,
+            "tokenAddress": "0x8a9c67fee641579deba04928c4bc45f66e26343a",
+            "network": "ethereum"
         },
         {
             "name": "YFI",
@@ -75,7 +83,9 @@
             "explorerUrl": "https://etherscan.io/",
             "wrapperAddress": "",
             "mainAddress": "",
-            "minimumWithdrawal": 0.001
+            "minimumWithdrawal": 0.001,
+            "tokenAddress": "0x0bc529c00c6401aef6d220be8c6ea1667f6ad93e",
+            "network": "ethereum"
         },
         {
             "name": "VNDC",
@@ -85,7 +95,9 @@
             "explorerUrl": "https://etherscan.io/",
             "wrapperAddress": "",
             "mainAddress": "",
-            "minimumWithdrawal": 25000
+            "minimumWithdrawal": 25000,
+            "tokenAddress": "0x1f3f677ecc58f6a1f9e2cf410df4776a8546b5de",
+            "network": "ethereum"
         },
         {
             "name": "FTT",
@@ -95,7 +107,9 @@
             "explorerUrl": "https://etherscan.io/",
             "wrapperAddress": "",
             "mainAddress": "",
-            "minimumWithdrawal": 0
+            "minimumWithdrawal": 0,
+            "tokenAddress": "0x50d1c9771902476076ecfc8b2a83ad6b9355a4c9",
+            "network": "ethereum"
         },
         {
             "name": "BUSD",
@@ -105,7 +119,9 @@
             "explorerUrl": "https://etherscan.io/",
             "wrapperAddress": "",
             "mainAddress": "",
-            "minimumWithdrawal": 0
+            "minimumWithdrawal": 0,
+            "tokenAddress": "0x4Fabb145d64652a948d72533023f6E7A623C7C53",
+            "network": "ethereum"
         },
         {
             "name": "ORBYT",
@@ -115,7 +131,9 @@
             "explorerUrl": "https://scan.tomochain.com/",
             "wrapperAddress": "",
             "mainAddress": "",
-            "minimumWithdrawal": 0
+            "minimumWithdrawal": 0,
+            "tokenAddress": "0x4dd28c75b28f05df193b4e1bbb61cd186eb968c6",
+            "network": "tomochain"
         },
         {
             "name": "DEC",
@@ -125,7 +143,9 @@
             "explorerUrl": "https://etherscan.io/",
             "wrapperAddress": "",
             "mainAddress": "",
-            "minimumWithdrawal": 20
+            "minimumWithdrawal": 20,
+            "tokenAddress": "0x30f271c9e86d2b7d00a6376cd96a1cfbd5f0b9b3",
+            "network": "ethereum"
         }
     ],
     "swapToken": [
