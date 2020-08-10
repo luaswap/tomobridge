@@ -131,6 +131,7 @@ export default {
             case 'vndc':
             case 'ftt':
             case 'dec':
+            case 'srm':
                 return this.web3.utils.isAddress(address)
             default:
                 return false

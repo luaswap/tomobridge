@@ -306,6 +306,10 @@ export default {
             case 'tomodec':
                 tokenSymbol = 'dec'
                 break
+            case 'srm':
+            case 'tomosrm':
+                tokenSymbol = 'srm'
+                break
             }
             if (tokenSymbol) {
                 let decimals = parseInt(this.config.objSwapCoin[tokenSymbol].decimals)
