@@ -146,6 +146,18 @@
             "minimumWithdrawal": 20,
             "tokenAddress": "0x30f271c9e86d2b7d00a6376cd96a1cfbd5f0b9b3",
             "network": "ethereum"
+        },
+        {
+            "name": "SRM",
+            "img": "/app/assets/images/crypto-logos/srm.png",
+            "confirmations": 6,
+            "decimals": 6,
+            "explorerUrl": "https://etherscan.io/",
+            "wrapperAddress": "",
+            "mainAddress": "",
+            "minimumWithdrawal": 20,
+            "tokenAddress": "0x476c5e26a75bd202a9683ffd34359c0cc15be0ff",
+            "network": "ethereum"
         }
     ],
     "swapToken": [
