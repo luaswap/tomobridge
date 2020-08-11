@@ -121,17 +121,10 @@ export default {
             const config = this.parent.config
             // Check network
             const network = config.blockchain.networkId === 88 ? 'prod' : 'testnet'
-            switch (this.toWrapToken.name.toLowerCase()) {
-            case 'btc':
+            switch (this.toWrapToken.network.toLowerCase()) {
+            case 'bitcoin':
                 return WAValidator.validate(address, 'BTC', network)
-            case 'eth':
-            case 'usdt':
-            case 'jrt':
-            case 'yfi':
-            case 'vndc':
-            case 'ftt':
-            case 'dec':
-            case 'srm':
+            case 'ethereum':
                 return this.web3.utils.isAddress(address)
             default:
                 return false
