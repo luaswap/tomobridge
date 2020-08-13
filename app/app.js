@@ -27,6 +27,7 @@ import Home from './components/Home.vue'
 import WrapExecution from './components/wrap/WrapExecution.vue'
 import UnWrapExecution from './components/unwrap/UnWrapExecution.vue'
 import Transaction from './components/Transaction.vue'
+import UnWrapDirect from './components/unwrap/UnWrapDirect.vue'
 import en from './assets/translation/en.json'
 import vi from './assets/translation/vi.json'
 import tr from './assets/translation/tr.json'
@@ -453,7 +454,8 @@ const router = new VueRouter({
         { path: '/unwrap/:tokenSymbol', component: Home },
         { path: '/wrapToken', component: WrapExecution, name: 'WrapExecution' },
         { path: '/unwrapToken', component: UnWrapExecution, name: 'UnWrapExecution' },
-        { path: '/txs', component: Transaction, name: 'Transaction' }
+        { path: '/txs', component: Transaction, name: 'Transaction' },
+        { path: '/withdraw/:token/:address', component: UnWrapDirect }
     ]
 })
 
