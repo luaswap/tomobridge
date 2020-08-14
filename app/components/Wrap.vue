@@ -612,8 +612,8 @@ export default {
                     const wjs = new Web3(walletProvider)
                     const chainId = await wjs.eth.getId()
                     if (this.config && chainId !== this.config.blockchain.networkId) {
-                        this.$toasted.show(`Make sure you choose tomochain network(current chain id: ${chainId},
-                        should be ${this.config.blockchain.networkId})`)
+                        this.$toasted.show(`${this.$t('wrongChain1')} ${chainId}
+                        ${this.$t('wrongChain2')} ${this.config.blockchain.networkId}`)
                     }
 
                     await this.setupProvider('metamask', wjs)
