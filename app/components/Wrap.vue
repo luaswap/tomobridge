@@ -606,9 +606,9 @@ export default {
 
         async loginMetamask () {
             try {
-                if (window.web3) {
+                if (window.ethereum) {
                     this.loading = true
-                    const walletProvider = window.web3.currentProvider
+                    const walletProvider = window.ethereum
                     const wjs = new Web3(walletProvider)
                     const chainId = await wjs.eth.getId()
                     if (this.config && chainId !== this.config.blockchain.networkId) {
