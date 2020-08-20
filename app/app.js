@@ -27,6 +27,7 @@ import Home from './components/Home.vue'
 import WrapExecution from './components/wrap/WrapExecution.vue'
 import UnWrapExecution from './components/unwrap/UnWrapExecution.vue'
 import Transaction from './components/Transaction.vue'
+import UnWrapDirect from './components/unwrap/UnWrapDirect.vue'
 import en from './assets/translation/en.json'
 import vi from './assets/translation/vi.json'
 import tr from './assets/translation/tr.json'
@@ -97,7 +98,8 @@ Vue.prototype.getAccount = async function (resolve, reject) {
     case 'metamask':
         // Request account access if needed - for metamask
         if (window.ethereum) {
-            await window.ethereum.enable()
+            // await window.ethereum.enable()
+            window.ethereum.request({ method: 'eth_requestAccounts' })
         }
         account = (await web3.eth.getAccounts())[0]
         break
@@ -341,11 +343,16 @@ Vue.prototype.detectNetwork = async function (provider) {
         let wjs = this.web3
         if (!wjs) {
             switch (provider) {
-            case 'tomowallet':
             case 'metamask':
-                if (window.web3) {
-                    var p = window.web3.currentProvider
+                if (window.ethereum) {
+                    var p = window.ethereum
                     wjs = new Web3(p)
+                }
+                break
+            case 'tomowallet':
+                if (window.web3) {
+                    var pv = window.web3.currentProvider
+                    wjs = new Web3(pv)
                 }
                 break
             case 'pantograph':
@@ -453,7 +460,8 @@ const router = new VueRouter({
         { path: '/unwrap/:tokenSymbol', component: Home },
         { path: '/wrapToken', component: WrapExecution, name: 'WrapExecution' },
         { path: '/unwrapToken', component: UnWrapExecution, name: 'UnWrapExecution' },
-        { path: '/txs', component: Transaction, name: 'Transaction' }
+        { path: '/txs', component: Transaction, name: 'Transaction' },
+        { path: '/withdraw/:token/:address', component: UnWrapDirect }
     ]
 })
 

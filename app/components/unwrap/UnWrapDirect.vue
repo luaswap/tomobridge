@@ -1,5 +1,9 @@
 <template>
-    <div id="unwrapbox">
+    <div
+        id="unwrapbox"
+        class="container mt-5">
+        <div
+            :class="(loading ? 'tomo-loading' : '')"/>
         <div class="unwrap__info text-center">
             <p>
                 {{ $t('unwrapGuide1') + ' ' + toWrapToken.name + ' ' + $t('unwrapGuide2') }}:
@@ -57,17 +61,15 @@
 </template>
 
 <script>
+import store from 'store'
+import Web3 from 'web3'
+import axios from 'axios'
 import WAValidator from 'wallet-address-validator'
 export default {
     name: 'App',
     components: {
     },
-    props: {
-        parent: {
-            type: Object,
-            default: () => {}
-        }
-    },
+    props: { },
     data () {
         return {
             isCheckAddress: false,
@@ -76,8 +78,10 @@ export default {
             allChecked: false,
             fromWrapToken: {},
             toWrapToken: {},
-            recAddress: '',
-            isAddress: true
+            recAddress: this.$route.params.address || '',
+            isAddress: true,
+            token: this.$route.params.token || '',
+            loading: false
         }
     },
     async updated () {
@@ -95,30 +99,56 @@ export default {
     },
     destroyed () { },
     created: async function () {
-        this.toWrapToken = this.parent.toWrapSelected
+        this.loading = true
+        if (window.web3 && window.web3.currentProvider &&
+            window.web3.currentProvider.isTomoWallet) {
+            const wjs = new Web3(window.web3.currentProvider)
+            await this.setupProvider('tomowallet', wjs)
+            this.address = await this.getAccount()
+            this.setStorage(
+                'account',
+                {
+                    address: this.address,
+                    network: 'tomowallet'
+                }
+            )
+            if (this.address) {
+                this.$store.state.address = this.address.toLowerCase()
+            }
+        }
+
+        if (!this.address) {
+            this.loading = false
+            this.$router.push('/')
+        } else {
+            this.config = await this.appConfig()
+            const { data } = await axios.get('/api/config/getTokenConfig')
+            this.config.swapCoin = data.swapCoin
+            this.config.objSwapCoin = data.objSwapCoin
+            store.set('configBridge', this.config)
+
+            this.toWrapToken = this.config.objSwapCoin[this.token]
+            this.fromWrapToken = this.config.swapToken[0]
+            this.loading = false
+        }
     },
     methods: {
         unWrapToken () {
-            const parent = this.parent
             this.isAddress = this.isValidAddresss()
-            if (parent.address && this.isAddress) {
-                parent.receiveAddress = this.recAddress
+            if (this.isAddress) {
                 this.$router.push({
                     name: 'UnWrapExecution',
                     params: {
-                        parent,
                         receiveAddress: this.recAddress,
-                        fromWrapToken: this.$store.state.fromWrapToken,
-                        toWrapToken: this.$store.state.toWrapToken
+                        fromWrapToken: this.fromWrapToken,
+                        toWrapToken: this.toWrapToken
                     }
                 })
-            } else {
-                parent.loginError = true
             }
         },
         isValidAddresss () {
             const address = this.recAddress
-            const config = this.parent.config
+            const config = this.config
             // Check network
             const network = config.blockchain.networkId === 88 ? 'prod' : 'testnet'
             switch (this.toWrapToken.network.toLowerCase()) {

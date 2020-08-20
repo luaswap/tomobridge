@@ -271,45 +271,9 @@ export default {
             }
         },
         convertAmount (coin, amount) {
-            let tokenSymbol
-
-            switch (coin.toLowerCase()) {
-            case 'eth':
-            case 'tomoeth':
-                tokenSymbol = 'eth'
-                break
-            case 'btc':
-            case 'tomobtc':
-                tokenSymbol = 'btc'
-                break
-            case 'usdt':
-            case 'tomousdt':
-                tokenSymbol = 'usdt'
-                break
-            case 'jrt':
-            case 'tomojrt':
-                tokenSymbol = 'jrt'
-                break
-            case 'yfi':
-            case 'tomoyfi':
-                tokenSymbol = 'yfi'
-                break
-            case 'vndc':
-            case 'tomovndc':
-                tokenSymbol = 'vndc'
-                break
-            case 'ftt':
-            case 'tomoftt':
-                tokenSymbol = 'ftt'
-                break
-            case 'dec':
-            case 'tomodec':
-                tokenSymbol = 'dec'
-                break
-            case 'srm':
-            case 'tomosrm':
-                tokenSymbol = 'srm'
-                break
+            let tokenSymbol = coin.toLowerCase()
+            if (tokenSymbol.includes('tomo')) {
+                tokenSymbol = tokenSymbol.replace('tomo', '')
             }
             if (tokenSymbol) {
                 let decimals = parseInt(this.config.objSwapCoin[tokenSymbol].decimals)

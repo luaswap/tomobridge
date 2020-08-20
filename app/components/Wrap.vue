@@ -353,6 +353,7 @@
 import Web3 from 'web3'
 import Multiselect from 'vue-multiselect'
 import CustomScrollbar from 'vue-custom-scrollbar'
+import store from 'store'
 import UnWrap from './UnWrap'
 import PrivateKeyModal from './modals/PrivateKeyModal'
 import HardwareWalletModal from './modals/HarwareWalletModal'
@@ -425,7 +426,11 @@ export default {
     created: async function () {
         this.provider = this.NetworkProvider
         this.address = this.$store.state.address || await this.getAccount()
-        this.config = await this.appConfig() // || store.get('configBridge')
+        if (this.address) {
+            this.config = store.get('configBridge')
+        } else {
+            this.config = await this.appConfig()
+        }
 
         this.fromData = this.config.swapCoin || []
         this.toData = this.config.swapToken || []
@@ -502,10 +507,11 @@ export default {
                 self.loginError = true
             }
         },
-        unWrapToken () {
+        async unWrapToken () {
             const self = this
             self.checkselectedWrapToken()
-            if (self.address && !self.fromWrapError && !self.toWrapError && self.checkWithdrawFee()) {
+            const isWithdrawable = await self.checkWithdrawFee()
+            if (self.address && !self.fromWrapError && !self.toWrapError && isWithdrawable) {
                 self.$store.state.fromWrapToken = self.fromWrapSelected
                 self.$store.state.toWrapToken = self.toWrapSelected
                 self.receiveAddress = ''
@@ -600,14 +606,14 @@ export default {
 
         async loginMetamask () {
             try {
-                if (window.web3) {
+                if (window.ethereum) {
                     this.loading = true
-                    const walletProvider = window.web3.currentProvider
+                    const walletProvider = window.ethereum
                     const wjs = new Web3(walletProvider)
                     const chainId = await wjs.eth.getId()
                     if (this.config && chainId !== this.config.blockchain.networkId) {
-                        this.$toasted.show(`Make sure you choose tomochain network(current chain id: ${chainId},
-                        should be ${this.config.blockchain.networkId})`)
+                        this.$toasted.show(`${this.$t('wrongChain1')} ${chainId}
+                        ${this.$t('wrongChain2')} ${this.config.blockchain.networkId}`)
                     }
 
                     await this.setupProvider('metamask', wjs)
@@ -701,10 +707,14 @@ export default {
                 this.$toasted.show(error, { type: 'erroor' })
             }
         },
-        checkWithdrawFee () {
+        async checkWithdrawFee () {
             try {
                 if (this.wrapType === 'unwrap') {
-                    const fee = this.config.objSwapCoin[this.toWrapSelected.name.toLowerCase()].withdrawFee
+                    const { contract } = this.getContract(this.toWrapSelected)
+
+                    const withdrawFee = await contract.methods.WITHDRAW_FEE().call() || 0
+
+                    const fee = new BigNumber(withdrawFee).div(10 ** this.toWrapSelected.decimals).toString(10)
                     if (new BigNumber(this.balance).isLessThanOrEqualTo(new BigNumber(fee))) {
                         switch (this.$i18n.locale) {
                         case 'en':
