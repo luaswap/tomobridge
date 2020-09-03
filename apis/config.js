@@ -34,7 +34,7 @@ router.get('/getTokenConfig', async function (req, res, next) {
 
         swapCoin = await Promise.all(config.swapCoin.map(async s => {
             const c = JSON.parse(JSON.stringify(s))
-            let contract = web3.eth.Contract(
+            let contract = new web3.eth.Contract(
                 WrapperAbi.abi,
                 s.wrapperAddress
             )
