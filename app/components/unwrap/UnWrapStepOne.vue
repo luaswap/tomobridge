@@ -105,7 +105,7 @@ export default {
                         gasLimit: this.web3.utils.toHex(chainConfig.gas)
                     }
 
-                    if (provider === 'ledger' || provider === 'trezor') {
+                    if (provider === 'ledger' || provider === 'trezor' || provider === 'trustwallet') {
                         par.loading = true
                         let data = await contract.methods.burn(
                             this.web3.utils.toHex(this.convertWithdrawAmount(this.amount)),
@@ -116,8 +116,6 @@ export default {
                             data,
                             to: contractAddress
                         }
-                        // bypass hardware wallet to sign tx
-                        txParams.value = this.web3.utils.toHex(0)
                         const nonce = await this.web3.eth.getTransactionCount(this.address)
 
                         Object.assign(
@@ -125,11 +123,12 @@ export default {
                             dataTx,
                             txParams,
                             {
-                                nonce: this.web3.utils.toHex(nonce)
+                                nonce: this.web3.utils.toHex(nonce),
+                                value: this.web3.utils.toHex(0) // bypass hardware wallet to sign tx
                             }
                         )
                         let signature = await this.signTransaction(dataTx)
-                        delete dataTx.value
+                        // delete dataTx.value
                         const txHash = await this.sendSignedTransaction(dataTx, signature)
                         if (txHash) {
                             par.transactionHash = txHash

@@ -189,6 +189,12 @@
                                     alt="Trezor">
                                 <span>Trezor</span>
                             </b-button>
+                            <b-button @click="loginTrust('trezor')">
+                                <img
+                                    src="/app/assets/images/walletconnect.png"
+                                    alt="Trezor">
+                                <span>WalletConnect</span>
+                            </b-button>
                         </div>
                         <p
                             v-if="address"
@@ -460,6 +466,9 @@ export default {
         if (this.address) {
             await this.updateBalance()
         }
+        this.$bus.$on('walletconnect', () => {
+            this.signOut()
+        })
     },
     methods: {
         async updateBalance (newValue) {
@@ -556,11 +565,18 @@ export default {
             // store.clearAll()
             this.address = ''
             this.receiveAddress = ''
+            const connector = this.walletConnector
+
+            if (connector && connector.connected) {
+                connector.killSession()
+            }
+            this.removeStorage('account')
+            store.remove('walletconnect')
             this.$store.replaceState({
                 address: null,
-                hdPath: ''
+                hdPath: '',
+                walletConnector: {}
             })
-            this.removeStorage('account')
         },
         loginWallet () {
             if (this.mobileCheck) {
@@ -650,7 +666,7 @@ export default {
         getContract (id) {
             let swapCoin = this.config.objSwapCoin
             let tokenSymbol = id.name.toLowerCase()
-            let contract = this.web3.eth.Contract(
+            let contract = new this.web3.eth.Contract(
                 WrapperAbi.abi,
                 swapCoin[tokenSymbol].wrapperAddress
             )
@@ -734,6 +750,46 @@ export default {
             } catch (error) {
                 this.$toasted.show(error, { type: 'error' })
                 return false
+            }
+        },
+        async loginTrust () {
+            const config = this.config
+            const walletProvider = new Web3(new Web3.providers.HttpProvider(config.blockchain.rpc))
+            await this.setupProvider('trustwallet', walletProvider)
+            this.address = await this.getAccount()
+            if (!this.address) {
+                const connector = this.walletConnector || store.get('walletconnect')
+                if (connector.bridge && !connector.connected) {
+                    connector.on('connect', async (error, payload) => {
+                        if (error) {
+                            this.$toasted.show(error)
+                        }
+                        const { accounts } = payload.params[0]
+                        this.address = accounts[0]
+                        this.$store.state.address = this.address.toLowerCase()
+                        this.setStorage(
+                            'account',
+                            {
+                                address: this.address,
+                                network: 'trustwallet'
+                            }
+                        )
+                        this.connectWallet(connector, this)
+                        await this.updateBalance()
+                    })
+                }
+            } else {
+                const connector = this.walletConnector || store.get('walletconnect')
+                this.$store.state.address = this.address.toLowerCase()
+                this.setStorage(
+                    'account',
+                    {
+                        address: this.address,
+                        network: 'trustwallet'
+                    }
+                )
+                this.connectWallet(connector, this)
+                await this.updateBalance()
             }
         }
     }

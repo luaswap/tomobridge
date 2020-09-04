@@ -19,6 +19,8 @@ import VueI18n from 'vue-i18n'
 import TrezorConnect from 'trezor-connect'
 import _get from 'lodash.get'
 import _omit from 'lodash.omit'
+import WalletConnect from '@walletconnect/client'
+import QRCodeModal from '@walletconnect/qrcode-modal'
 
 import WrapperAbi from '../abis/WrapperAbi.json'
 
@@ -143,6 +145,29 @@ Vue.prototype.getAccount = async function (resolve, reject) {
         )
         localStorage.set('trezorPayload', { xpub: payload.xpub })
         break
+    case 'trustwallet':
+        // create new connector
+        const connector = new WalletConnect({
+            bridge: 'https://bridge.walletconnect.org',
+            qrcodeModal: QRCodeModal
+        })
+        const config = localStorage.get('configBridge')
+        connector.rpcUrl = config.blockchain.rpc
+        connector.chainId = config.blockchain.networkId
+        connector.networkId = config.blockchain.networkId
+        Vue.prototype.walletConnector = connector
+
+        if (!connector.connected) {
+            // create new session
+            await connector.createSession({
+                chainId: config.blockchain.networkId
+            })
+            account = connector.accounts[0] || ''
+        } else {
+            Vue.prototype.connectWallet(connector)
+            account = connector.accounts[0] || ''
+        }
+        break
     default:
         break
     }
@@ -151,6 +176,35 @@ Vue.prototype.getAccount = async function (resolve, reject) {
             your Ethereum client is configured correctly.`)
     }
     return account
+}
+
+Vue.prototype.connectWallet = (connector, vue) => {
+    if (connector) {
+        connector.on('session_update', async (error, payload) => {
+            console.log(`connector.on('session_update')`)
+
+            if (error) {
+                throw error
+            }
+        })
+
+        connector.on('connect', (error, payload) => {
+            console.log(`connector.on('connect')`)
+            if (error) {
+                throw error
+            }
+        })
+
+        connector.on('disconnect', (error, payload) => {
+            console.log(`connector.on('disconnect')`)
+            Vue.prototype.removeStorage('account')
+            localStorage.remove('walletconnect')
+            Vue.prototype.$bus.$emit('walletconnect', 'logged out')
+            if (error) {
+                throw error
+            }
+        })
+    }
 }
 
 Vue.prototype.HDWalletCreate = (payload, index) => {
@@ -277,11 +331,11 @@ Vue.prototype.loadMultipleLedgerWallets = async function (offset, limit) {
  */
 Vue.prototype.signTransaction = async function (txParams) {
     try {
+        const config = localStorage.get('configBridge') || await getConfig()
         const path = localStorage.get('hdDerivationPath')
         const provider = Vue.prototype.NetworkProvider
         let signature
         if (provider === 'ledger') {
-            const config = localStorage.get('configBridge') || await getConfig()
             const chainConfig = config.blockchain
             const rawTx = new TransactionTx(txParams)
             rawTx.v = Buffer.from([chainConfig.networkId])
@@ -298,6 +352,26 @@ Vue.prototype.signTransaction = async function (txParams) {
             })
             signature = result.payload
         }
+        if (provider === 'trustwallet') {
+            if (!Vue.prototype.walletConnector) {
+                throw new Error('Wallet has disconnected. Please login again!')
+            }
+            const rawTx = new TransactionTx(txParams)
+            const Hash = '0x' + rawTx.hash(false).toString('hex')
+            const msgParams = [
+                txParams.from.toLowerCase(),
+                Hash
+            ]
+            const result = await Vue.prototype.walletConnector.signMessage(msgParams)
+
+            const signatureBuffer = ethUtils.toBuffer(result)
+            const signatureParams = ethUtils.fromRpcSig(signatureBuffer)
+            signature = {
+                v: ethUtils.intToHex(signatureParams.v),
+                r: ethUtils.bufferToHex(signatureParams.r),
+                s: ethUtils.bufferToHex(signatureParams.s)
+            }
+        }
         return signature
     } catch (error) {
         console.log(error)
@@ -313,6 +387,7 @@ Vue.prototype.signTransaction = async function (txParams) {
 Vue.prototype.sendSignedTransaction = function (txParams, signature) {
     return new Promise((resolve, reject) => {
         try {
+            let serializedTx
             // "hexify" the keys
             Object.keys(signature).map((key, _) => {
                 if (signature[key].startsWith('0x')) {
@@ -320,10 +395,12 @@ Vue.prototype.sendSignedTransaction = function (txParams, signature) {
                 } else signature[key] = '0x' + signature[key]
             })
             let txObj = Object.assign({}, txParams, signature)
-            let tx = new TransactionTx(txObj)
-            let serializedTx = '0x' + tx.serialize().toString('hex')
+            const tx = new TransactionTx(txObj)
+
+            serializedTx = '0x' + tx.serialize().toString('hex')
             // web3 v0.2, method name is sendRawTransaction
             // You are using web3 v1.0. The method was renamed to sendSignedTransaction.
+
             Vue.prototype.web3.eth.sendSignedTransaction(
                 serializedTx
             ).on('transactionHash', (txHash) => {
@@ -367,6 +444,7 @@ Vue.prototype.detectNetwork = async function (provider) {
                 break
             case 'trezor':
             case 'ledger':
+            case 'trustwallet':
                 if (provider === 'ledger') {
                     if (!Vue.prototype.appEth) {
                         let transport = await Transport.create()
