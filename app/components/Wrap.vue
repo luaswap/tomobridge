@@ -49,7 +49,7 @@
                 </b-navbar>
                 <p class="wrapbox__text">
                     {{ wrapType === 'wrap' ? $t('wrapChooseTokens') : $t('unwrapChooseTokens') }}</p>
-                <b-row class="wrapbox__row">
+                <b-row class="wrapbox__row mb-lg-4">
                     <b-col
                         cols="5">
                         <multiselect
@@ -136,14 +136,14 @@
                 </b-row>
                 <b-row
                     id="login"
-                    class="wrapbox__row">
+                    class="wrapbox__row mb-lg-4">
                     <b-col>
                         <p
                             v-if="!mobileCheck && !address"
                             class="wrapbox__text">{{ $t('connectOptions') }}</p>
                         <div
                             v-if="!mobileCheck && !address"
-                            class="wrapbox__buttons">
+                            class="wrapbox__buttons m-0">
                             <!-- <b-button
                                 @click="loginWallet">
                                 <img
