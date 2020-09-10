@@ -21,7 +21,7 @@ router.get('/', async function (req, res, next) {
     appConfig.GA = config.get('GA')
 
     appConfig.swapCoin = await Promise.all(swapCoin.map(s => {
-        s.image = urljoin(config.get('tokenListAPI'), `${s.tokenAddressTomo}.png`)
+        s.image = urljoin(config.get('tokenListAPI'), `${s.wrapperAddress}.png`)
         return s
     }))
 
