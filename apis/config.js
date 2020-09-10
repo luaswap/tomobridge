@@ -5,9 +5,11 @@ const Web3 = require('web3')
 const BigNumber = require('bignumber.js')
 const WrapperAbi = require('../abis/WrapperAbi.json')
 const router = express.Router()
+const urljoin = require('url-join')
 
 router.get('/', async function (req, res, next) {
     let appConfig = {}
+    const swapCoin = JSON.parse(JSON.stringify(config.get('swapCoin')))
     appConfig.blockchain = config.get('blockchain')
     appConfig.swapToken = config.get('swapToken')
     let tomoscanUrl = config.get('tomoscanUrl')
@@ -18,7 +20,10 @@ router.get('/', async function (req, res, next) {
 
     appConfig.GA = config.get('GA')
 
-    appConfig.swapCoin = config.get('swapCoin')
+    appConfig.swapCoin = await Promise.all(swapCoin.map(s => {
+        s.image = urljoin(config.get('tokenListAPI'), `${s.tokenAddressTomo}.png`)
+        return s
+    }))
 
     return res.json(appConfig)
 })

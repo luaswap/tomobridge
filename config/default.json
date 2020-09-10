@@ -18,6 +18,7 @@
     "tomoscanUrl": "http://localhost:3003",
     "tomoscanAPI": "https://scan.tomochain.com",
     "serverAPI": "",
+    "tokenListAPI": "https://raw.githubusercontent.com/tomochain/tokens/master/tokens",
     "db": {
         "uri": "mongodb://mongodb:27017/tomobridge"
     },

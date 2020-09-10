@@ -65,8 +65,8 @@
                                 slot="singleLabel"
                                 slot-scope="props">
                                 <img
-                                    v-if="props.option.img"
-                                    :src="props.option.img"
+                                    v-if="props.option.image"
+                                    :src="props.option.image"
                                     :alt="props.option.name"
                                     class="multiselect__img">
                                 <span class="multiselect__name">{{ props.option.name }}</span>
@@ -75,8 +75,8 @@
                                 slot="option"
                                 slot-scope="props">
                                 <img
-                                    v-if="props.option.img"
-                                    :src="props.option.img"
+                                    v-if="props.option.image"
+                                    :src="props.option.image"
                                     :alt="props.option.name"
                                     class="multiselect__img">
                                 <span class="multiselect__name">{{ props.option.name }}</span>
@@ -111,8 +111,8 @@
                                 slot="singleLabel"
                                 slot-scope="props">
                                 <img
-                                    v-if="props.option.img"
-                                    :src="props.option.img"
+                                    v-if="props.option.image"
+                                    :src="props.option.image"
                                     :alt="props.option.name"
                                     class="multiselect__img">
                                 <span class="multiselect__name">{{ props.option.name }}</span>
@@ -121,8 +121,8 @@
                                 slot="option"
                                 slot-scope="props">
                                 <img
-                                    v-if="props.option.img"
-                                    :src="props.option.img"
+                                    v-if="props.option.image"
+                                    :src="props.option.image"
                                     :alt="props.option.name"
                                     class="multiselect__img">
                                 <span class="multiselect__name">{{ props.option.name }}</span>
