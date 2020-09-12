@@ -43,6 +43,7 @@ router.get('/getTokenConfig', async function (req, res, next) {
                 WrapperAbi.abi,
                 s.wrapperAddress
             )
+						s.image = urljoin(config.get('tokenListAPI'), `${s.wrapperAddress.toLowerCase()}.png`)
 
             const decimalsPromise = contract.methods.decimals().call() || 0
             const depositFeePromise = contract.methods.DEPOSIT_FEE().call() || 0
