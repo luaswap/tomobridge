@@ -101,7 +101,7 @@ Vue.prototype.getAccount = async function (resolve, reject) {
         // Request account access if needed - for metamask
         if (window.ethereum) {
             // await window.ethereum.enable()
-            window.ethereum.request({ method: 'eth_requestAccounts' })
+            await window.ethereum.request({ method: 'eth_requestAccounts' })
         }
         account = (await web3.eth.getAccounts())[0]
         break
