@@ -34,6 +34,7 @@
                         </div>
                     </a>
                     <a
+                        v-if="mobileCheck"
                         class="row btn-tm"
                         @click="redirect('tomob')">
                         <div class="col-5 text-right">
