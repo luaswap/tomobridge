@@ -173,7 +173,7 @@ export default {
             }
         },
         back () {
-            this.$router.push({ path: '/' })
+            this.$router.push({ path: '/unwrap' })
         },
         getContract () {
             let id = this.toWrapToken

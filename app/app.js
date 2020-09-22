@@ -534,7 +534,7 @@ Vue.prototype.truncate = function (fullStr, strLen) {
 const router = new VueRouter({
     mode: 'history',
     routes: [
-        { path: '/', component: Home },
+        { path: '/', component: Product },
         { path: '/wrap', component: Home },
         { path: '/wrap/:tokenSymbol', component: Home },
         { path: '/unwrap/:tokenSymbol', component: Home },
