@@ -72,7 +72,8 @@ export default {
     created: async function () {
         this.coinName = this.toWrapToken.name
         this.config = store.get('configBridge') || await this.appConfig() || {}
-        this.fee = this.config.objSwapCoin[this.coinName.toLowerCase()].withdrawFee
+        // this.fee = this.config.objSwapCoin[this.coinName.toLowerCase()].withdrawFee
+        await this.getWithdrawFee()
 
         this.web3.eth.getGasPrice().then(result => {
             this.gasPrice = result
@@ -173,7 +174,7 @@ export default {
             }
         },
         back () {
-            this.$router.push({ path: '/unwrap' })
+            this.$router.push({ path: '/wrap' })
         },
         getContract () {
             let id = this.toWrapToken
@@ -231,6 +232,16 @@ export default {
             } catch (error) {
                 console.log(error)
             }
+        },
+        async getWithdrawFee () {
+            const coin = this.config.objSwapCoin[this.coinName.toLowerCase()]
+            console.log(coin)
+            const contract = new this.web3.eth.Contract(
+                this.WrapperAbi.abi,
+                coin.wrapperAddress
+            )
+            const feeBN = await contract.methods.WITHDRAW_FEE().call()
+            this.fee = new BigNumber(feeBN).div(10 ** coin.decimals).toString(10)
         }
     }
 }

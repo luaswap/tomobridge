@@ -431,12 +431,13 @@ export default {
     mounted () {},
     created: async function () {
         this.provider = this.NetworkProvider
-        this.address = this.$store.state.address || await this.getAccount()
-        if (this.address) {
-            this.config = store.get('configBridge')
-        } else {
-            this.config = await this.appConfig()
-        }
+        this.address = this.$store.state.address // || await this.getAccount()
+        this.config = await this.appConfig()
+        // if (this.address) {
+        //     this.config = store.get('configBridge')
+        // } else {
+        //     this.config = await this.appConfig()
+        // }
 
         this.fromData = this.config.swapCoin || []
         this.toData = this.config.swapToken || []
@@ -562,7 +563,7 @@ export default {
             } else { this.toWrapError = false }
         },
         signOut () {
-            // store.clearAll()
+            store.clearAll()
             this.address = ''
             this.receiveAddress = ''
             const connector = this.walletConnector

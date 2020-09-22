@@ -18,8 +18,8 @@
             <div class="item-product">
                 <div class="box-btn">
                     <a
-                        href="https://tomob.tomochain.com"
-                        class="row btn-tm">
+                        class="row btn-tm"
+                        @click="redirect('tomoe')">
                         <div class="col-5 text-right">
                             Swap TOMO
                         </div>
@@ -34,8 +34,8 @@
                         </div>
                     </a>
                     <a
-                        href="https://tomob.tomochain.com"
-                        class="row btn-tm">
+                        class="row btn-tm"
+                        @click="redirect('tomob')">
                         <div class="col-5 text-right">
                             Swap TOMO
                         </div>
@@ -51,7 +51,7 @@
                     </a>
                     <a
                         class="row btn-tm"
-                        @click="abc">
+                        @click="redirect('bridge')">
                         <div class="col-5 text-right">
                             Swap Tokens<br>on other chains
                         </div>
@@ -67,7 +67,9 @@
                     </a>
                 </div>
                 <div>
-                    <b-form-checkbox class="mt-5">
+                    <b-form-checkbox
+                        v-model="isAgreed"
+                        class="mt-5">
                         I agree to the
                         <a
                             href="https://docs.tomochain.com/tomobridge/terms-of-use"
@@ -76,7 +78,9 @@
                         </a>
                         and the Privacy Policy.
                     </b-form-checkbox>
-                    <p class="error my-2">
+                    <p
+                        v-if="checkError"
+                        class="error my-2">
                         <b-icon
                             class="mr-2 m1 light-h"
                             icon="exclamation-circle"
@@ -93,25 +97,25 @@
                             <ul class="p-0 m-0">
                                 <li>
                                     <a
-                                        :target="provider === 'tomowallet' ? '' : '_blank'"
+                                        :target="mobileCheck ? '' : '_blank'"
                                         href="https://forms.gle/cU1XU3b8EUMxB6yA6">
                                         Submit a request</a>
                                 </li>
                                 <li>
                                     <a
-                                        :target="provider === 'tomowallet' ? '' : '_blank'"
+                                        :target="mobileCheck ? '' : '_blank'"
                                         href="https://docs.tomochain.com/tomobridge/faq">
                                         FAQ</a>
                                 </li>
                                 <li>
                                     <a
-                                        :target="provider === 'tomowallet' ? '' : '_blank'"
+                                        :target="mobileCheck ? '' : '_blank'"
                                         href="https://docs.tomochain.com/tomobridge/fee-structure">
                                         Fee Structure</a>
                                 </li>
                                 <li>
                                     <a
-                                        :target="provider === 'tomowallet' ? '' : '_blank'"
+                                        :target="mobileCheck ? '' : '_blank'"
                                         href="https://docs.tomochain.com/tomobridge/trc21-wrapped-token-information">
                                         Token Information</a>
                                 </li>
@@ -131,17 +135,41 @@ export default {
     components: {
     },
     data () {
-        return { }
+        return {
+            checkError: false,
+            isAgreed: false
+        }
+    },
+    computed : {
+        mobileCheck: () => {
+            const isAndroid = navigator.userAgent.match(/Android/i)
+            const isIOS = navigator.userAgent.match(/iPhone|iPad|iPod/i)
+            return (isAndroid || isIOS)
+        }
     },
     async updated () { },
     destroyed () { },
-    created: async function () {},
+    created: async function () { },
     methods: {
-      abc () {
-        this.$router.push({
-          path: '/wrap'
-        })
-      }
+        redirect (product) {
+            if (!this.isAgreed) {
+                this.checkError = true
+            } else {
+                switch (product) {
+                case 'bridge':
+                    this.$router.push({ path: '/wrap' })
+                    break
+                case 'tomob':
+                    window.location.href = 'https://tomob.tomochain.com'
+                    break
+                case 'tomoe':
+                    window.location.href = 'https://tomoe.tomochain.com'
+                    break
+                default:
+                    break
+                }
+            }
+        }
     }
 }
 </script>
