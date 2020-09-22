@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import App from './App.vue'
-import BootstrapVue from 'bootstrap-vue'
+import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import Vuex from 'vuex'
@@ -26,6 +26,7 @@ import WrapperAbi from '../abis/WrapperAbi.json'
 
 // Components
 import Home from './components/Home.vue'
+import Product from './components/Product.vue'
 import WrapExecution from './components/wrap/WrapExecution.vue'
 import UnWrapExecution from './components/unwrap/UnWrapExecution.vue'
 import Transaction from './components/Transaction.vue'
@@ -38,6 +39,7 @@ import cn from './assets/translation/cn.json'
 
 Vue.use(VueClipboard)
 Vue.use(BootstrapVue)
+Vue.use(BootstrapVueIcons)
 Vue.use(VueRouter)
 Vue.use(Vuex)
 Vue.use(Toasted, {
@@ -539,7 +541,8 @@ const router = new VueRouter({
         { path: '/wrapToken', component: WrapExecution, name: 'WrapExecution' },
         { path: '/unwrapToken', component: UnWrapExecution, name: 'UnWrapExecution' },
         { path: '/txs', component: Transaction, name: 'Transaction' },
-        { path: '/withdraw/:token/:address', component: UnWrapDirect }
+        { path: '/withdraw/:token/:address', component: UnWrapDirect },
+        { path: '/product', component: Product }
     ]
 })
 

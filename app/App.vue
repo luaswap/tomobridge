@@ -1,49 +1,59 @@
 <template>
-    <div id="app">
-        <b-navbar
-            v-if="$route.path !== '/' && !$route.params.tokenSymbol && $route.path !== '/withdraw'"
-            sticky
-            toggleable="md"
-            variant="white"
-            type="light">
-            <b-container>
-                <b-navbar-brand to="/">
+    <div
+        id="app"
+        class="bg-body">
+        <b-container class="container-medium">
+            <div class="open-product text-center">
+                <b-navbar-brand
+                    class="py-3"
+                    to="/">
                     <img
+                        class="logo-bri"
                         src="/app/assets/images/logo.svg"
                         alt="TomoBridge" >
                 </b-navbar-brand>
-                <b-navbar-toggle target="nav-collapse">
-                    <span />
-                </b-navbar-toggle>
-                <b-collapse
-                    id="nav-collapse"
-                    is-nav>
-                    <b-navbar-nav class="ml-auto navbar-buttons">
-                        <b-nav-item
-                            v-if="address"
-                            to="/txs/">
-                            {{ $t('txHistory') }}<i class="nav-item__icon tb-long-arrow-right" />
-                        </b-nav-item>
-                        <b-nav-item-dropdown
-                            :text="selectedLanguage"
-                            class="nav-item--dark">
-                            <b-dropdown-item
-                                class="current-lang"
-                                @click="changeLang('english')">English</b-dropdown-item>
-                            <b-dropdown-item
-                                @click="changeLang('turkish')">Türk</b-dropdown-item>
-                            <b-dropdown-item
-                                @click="changeLang('japanese')">日本語</b-dropdown-item>
-                            <b-dropdown-item
-                                @click="changeLang('chinese')">简体中文</b-dropdown-item>
-                                <!-- <b-dropdown-item
-                                @click="changeLang('vietnamese')">Tiếng Việt</b-dropdown-item> -->
-                        </b-nav-item-dropdown>
-                    </b-navbar-nav>
-                </b-collapse>
+                <h3 class="h3 pb-4 mb-2 text-center">
+                    Cross-chain portal to transfer assets <br class="d-none d-md-block">between TomoChains and other Blockchains
+                </h3>
+            </div>
+            <router-view />
+        </b-container>
+        <div class="py-4">
+            <b-container>
+                <div class="row flex-row-reverse tomo-footer">
+                    <div class="col-12">
+                        <div class="tomo-meta-links text-center">
+                            <ul class="p-0 m-0">
+                                <li>
+                                    <a
+                                        :target="provider === 'tomowallet' ? '' : '_blank'"
+                                        href="https://forms.gle/cU1XU3b8EUMxB6yA6">
+                                        Submit a request</a>
+                                </li>
+                                <li>
+                                    <a
+                                        :target="provider === 'tomowallet' ? '' : '_blank'"
+                                        href="https://docs.tomochain.com/tomobridge/faq">
+                                        FAQ</a>
+                                </li>
+                                <li>
+                                    <a
+                                        :target="provider === 'tomowallet' ? '' : '_blank'"
+                                        href="https://docs.tomochain.com/tomobridge/fee-structure">
+                                        Fee Structure</a>
+                                </li>
+                                <li>
+                                    <a
+                                        :target="provider === 'tomowallet' ? '' : '_blank'"
+                                        href="https://docs.tomochain.com/tomobridge/trc21-wrapped-token-information">
+                                        Token Information</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </b-container>
-        </b-navbar>
-        <router-view />
+        </div>
     </div>
 </template>
 
