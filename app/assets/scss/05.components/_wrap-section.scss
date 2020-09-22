@@ -172,24 +172,10 @@
   }
 }
 .tomo-footer {
-  @include fsz(14);
-  @media screen and (min-width: 1440px){
-    @include fsz(15);
-  }
-  @media (min-width: 1025px) and (max-width: 1365px){
-    @include fsz(13);
-  }
-  // padding: 2em 0;
+  @include fsz(13);
   @include media-breakpoint-down(sm) {
-    @include fsz(14);
     text-align: center;
   }
-  @media screen and (max-width: 320px){
-    @include fsz(13);
-  }
-  // .row {
-  //     align-items: flex-end;
-  // }
   .tomo-meta-links {
     ul {
       @include media-breakpoint-down(md) {
@@ -210,15 +196,14 @@
           }
           &::after {
               content: "";
-              background: #464555;
+              background: rgba(#888, .3);
               width: 1px;
-              height: 15px;
+              height: 12px;
               position: absolute;
               right: 0;
-              margin-top: 4px;
+              margin-top: 6px;
               @include media-breakpoint-down(md) {
-                  height: 12px;
-                  margin-top: 5px;
+                  height: 10px;
               }
           }
           &:last-child {
@@ -229,9 +214,11 @@
               }
           }
           a {
-              color: #464555;
+              // color: #242428;
+              color: #888;
+              text-decoration: none;
               &:hover {
-                  color: #5565c7;
+                  color: #069c7c;
               }
           }
       }

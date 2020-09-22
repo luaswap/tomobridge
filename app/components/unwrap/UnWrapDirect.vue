@@ -119,7 +119,7 @@ export default {
 
         if (!this.address) {
             this.loading = false
-            this.$router.push('/')
+            this.$router.push('/wrap')
         } else {
             this.config = await this.appConfig()
             const { data } = await axios.get('/api/config/getTokenConfig')

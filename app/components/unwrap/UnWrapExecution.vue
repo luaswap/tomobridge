@@ -84,7 +84,7 @@ export default {
             !this.fromWrapToken.name ||
             !this.toWrapToken.name) {
             this.$router.push({
-                path: '/'
+                path: '/wrap'
             })
         }
     },

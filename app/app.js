@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import App from './App.vue'
-import BootstrapVue from 'bootstrap-vue'
+import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import Vuex from 'vuex'
@@ -26,6 +26,7 @@ import WrapperAbi from '../abis/WrapperAbi.json'
 
 // Components
 import Home from './components/Home.vue'
+import Product from './components/Product.vue'
 import WrapExecution from './components/wrap/WrapExecution.vue'
 import UnWrapExecution from './components/unwrap/UnWrapExecution.vue'
 import Transaction from './components/Transaction.vue'
@@ -38,6 +39,7 @@ import cn from './assets/translation/cn.json'
 
 Vue.use(VueClipboard)
 Vue.use(BootstrapVue)
+Vue.use(BootstrapVueIcons)
 Vue.use(VueRouter)
 Vue.use(Vuex)
 Vue.use(Toasted, {
@@ -85,9 +87,9 @@ Vue.prototype.setupProvider = async function (provider, wjs) {
         Vue.prototype.web3 = wjs
         Vue.prototype.WrapperAbi = WrapperAbi
         let config = localStorage.get('configBridge')
-        const { data } = await axios.get('/api/config/getTokenConfig')
-        config.swapCoin = data.swapCoin
-        config.objSwapCoin = data.objSwapCoin
+        // const { data } = await axios.get('/api/config/getTokenConfig')
+        // config.swapCoin = data.swapCoin
+        // config.objSwapCoin = data.objSwapCoin
         localStorage.set('configBridge', config)
     }
 }
@@ -532,14 +534,15 @@ Vue.prototype.truncate = function (fullStr, strLen) {
 const router = new VueRouter({
     mode: 'history',
     routes: [
-        { path: '/', component: Home },
+        { path: '/', component: Product },
         { path: '/wrap', component: Home },
         { path: '/wrap/:tokenSymbol', component: Home },
         { path: '/unwrap/:tokenSymbol', component: Home },
         { path: '/wrapToken', component: WrapExecution, name: 'WrapExecution' },
         { path: '/unwrapToken', component: UnWrapExecution, name: 'UnWrapExecution' },
         { path: '/txs', component: Transaction, name: 'Transaction' },
-        { path: '/withdraw/:token/:address', component: UnWrapDirect }
+        { path: '/withdraw/:token/:address', component: UnWrapDirect },
+        { path: '/product', component: Product }
     ]
 })
 

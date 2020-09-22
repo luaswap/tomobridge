@@ -87,7 +87,7 @@ export default {
             par.step++
         },
         back () {
-            this.$router.push({ path: '/' })
+            this.$router.push({ path: '/wrap' })
         },
         getAddressUrl () {
             try {
