@@ -14,7 +14,7 @@
                             font-scale="2" />
                     </div>
                     <div class="col-5">
-                        Ethereum (TOMOE - ERC20)
+                        Ethereum<br>(TOMOE - ERC20)
                     </div>
                 </div>
                 <div
@@ -29,13 +29,13 @@
                             font-scale="2" />
                     </div>
                     <div class="col-5">
-                        Binance Chain (TOMOB - BEP2)
+                        Binance Chain<br>(TOMOB - BEP2)
                     </div>
                 </div>
                 <div
                     class="row btn-tm">
                     <div class="col-5 text-right">
-                        Swap Other Chain Tokens
+                        Swap Tokens<br>on other chains
                     </div>
                     <div class="col-2 text-center">
                         <b-icon
@@ -44,7 +44,7 @@
                             font-scale="2" />
                     </div>
                     <div class="col-5">
-                        TomoChain Network (TRC21)
+                        TomoChain<br>Network (TRC21)
                     </div>
                 </div>
             </div>
@@ -62,7 +62,7 @@
                     <b-icon
                         class="mr-2 m1 light-h"
                         icon="exclamation-circle"
-                        font-scale="1" /> Please indicate that you have read and agreed to the Terms of use and Privacy policy
+                        font-scale="1" />Please indicate that you have read and agreed to the Terms of Use and Privacy Policy
                 </p>
             </div>
         </div>
