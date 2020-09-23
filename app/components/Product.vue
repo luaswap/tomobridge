@@ -73,11 +73,16 @@
                         class="mt-5">
                         I agree to the
                         <a
-                            href="https://docs.tomochain.com/tomobridge/privacy-policy"
+                            href="https://docs.tomochain.com/tomobridge/terms-of-use"
                             target="_blank">
                             Terms of Use
                         </a>
-                        and the Privacy Policy.
+                        and the
+                        <a
+                            href="https://docs.tomochain.com/tomobridge/privacy-policy"
+                            target="_blank">
+                            Privacy Policy
+                        </a>
                     </b-form-checkbox>
                     <p
                         v-if="checkError"
