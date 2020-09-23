@@ -1,7 +1,7 @@
 {
   "name": "tomobridge",
-  "version": "1.0.0",
-  "description": "Fee by any token",
+  "version": "1.1.0",
+  "description": "BRING DIGITAL ASSETS TO TRC21 TOKENS ON TOMOCHAIN",
   "main": "index.js",
   "directories": {
     "test": "test"
