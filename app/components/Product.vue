@@ -21,7 +21,7 @@
                         class="row btn-tm"
                         @click="redirect('tomoe')">
                         <div class="col-5 text-right">
-                            Swap TOMO
+                            TOMO
                         </div>
                         <div class="col-2 text-center">
                             <b-icon
@@ -34,11 +34,11 @@
                         </div>
                     </a>
                     <a
-                        v-if="mobileCheck"
+                        v-if="!mobileCheck"
                         class="row btn-tm"
                         @click="redirect('tomob')">
                         <div class="col-5 text-right">
-                            Swap TOMO
+                            TOMO
                         </div>
                         <div class="col-2 text-center">
                             <b-icon
@@ -54,7 +54,7 @@
                         class="row btn-tm"
                         @click="redirect('bridge')">
                         <div class="col-5 text-right">
-                            Swap Tokens<br>on other chains
+                            Tokens<br>on other chains
                         </div>
                         <div class="col-2 text-center">
                             <b-icon
@@ -73,7 +73,7 @@
                         class="mt-5">
                         I agree to the
                         <a
-                            href="https://docs.tomochain.com/tomobridge/terms-of-use"
+                            href="https://docs.tomochain.com/tomobridge/privacy-policy"
                             target="_blank">
                             Terms of Use
                         </a>
