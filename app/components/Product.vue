@@ -70,7 +70,7 @@
                 <div>
                     <b-form-checkbox
                         v-model="isAgreed"
-                        class="mt-5">
+                        class="mt-4">
                         I agree to the
                         <a
                             href="https://docs.tomochain.com/tomobridge/terms-of-use"
