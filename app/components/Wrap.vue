@@ -431,7 +431,25 @@ export default {
     mounted () {},
     created: async function () {
         this.provider = this.NetworkProvider
-        this.address = this.$store.state.address // || await this.getAccount()
+        if (window.web3 && window.web3.currentProvider &&
+            window.web3.currentProvider.isTomoWallet) {
+            const wjs = new Web3(window.web3.currentProvider)
+            await this.setupProvider('tomowallet', wjs)
+            this.address = await this.getAccount()
+            this.setStorage(
+                'account',
+                {
+                    address: this.address,
+                    network: 'tomowallet'
+                }
+            )
+            if (this.address) {
+                this.$store.state.address = this.address.toLowerCase()
+            }
+        } else {
+            const storage = this.getStorage('account') || {}
+            this.address = storage.address || this.$store.state.address
+        }
         this.config = await this.appConfig()
         // if (this.address) {
         //     this.config = store.get('configBridge')
