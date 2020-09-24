@@ -21,16 +21,16 @@
                         class="row btn-tm"
                         @click="redirect('tomoe')">
                         <div class="col-5 text-right">
-                            TOMO
+                            TOMO<br><span>TomoChain</span>
                         </div>
                         <div class="col-2 text-center">
                             <b-icon
                                 class="light-h"
                                 icon="arrow-left-right"
-                                font-scale="2" />
+                                font-scale="1.5" />
                         </div>
                         <div class="col-5">
-                            Ethereum<br>(TOMOE - ERC20)
+                            TOMOE - ERC20<br><span>Ethereum</span>
                         </div>
                     </a>
                     <a
@@ -38,32 +38,32 @@
                         class="row btn-tm"
                         @click="redirect('tomob')">
                         <div class="col-5 text-right">
-                            TOMO
+                            TOMO<br><span>TomoChain</span>
                         </div>
                         <div class="col-2 text-center">
                             <b-icon
                                 class="light-h"
                                 icon="arrow-left-right"
-                                font-scale="2" />
+                                font-scale="1.5" />
                         </div>
                         <div class="col-5">
-                            Binance Chain<br>(TOMOB - BEP2)
+                            TOMOB - BEP2<br><span>Binance Chain</span>
                         </div>
                     </a>
                     <a
                         class="row btn-tm"
                         @click="redirect('bridge')">
                         <div class="col-5 text-right">
-                            Tokens<br>on other chains
+                            Tokens<br><span>on other chains</span>
                         </div>
                         <div class="col-2 text-center">
                             <b-icon
                                 class="light-h"
                                 icon="arrow-left-right"
-                                font-scale="2" />
+                                font-scale="1.5" />
                         </div>
                         <div class="col-5">
-                            TomoChain<br>Network (TRC21)
+                            TRC21 tokens<br><span>on TomoChain</span>
                         </div>
                     </a>
                 </div>
