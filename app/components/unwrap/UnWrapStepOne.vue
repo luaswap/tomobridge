@@ -163,7 +163,7 @@ export default {
                             }).catch(error => {
                                 console.log(error)
                                 par.loading = false
-                                this.$toasted.show(error, { type: 'error' })
+                                this.$toasted.show(error.message ? error.message : error, { type: 'error' })
                             })
                     }
                 }
