@@ -18,8 +18,7 @@
                         class="txs__table">
 
                         <template
-                            slot="createdAt"
-                            slot-scope="data">
+                            v-slot:cell(createdAt)="data">
                             <span :id="`timestamp__wrap_${data.index}`">{{ data.item.createdAt }}</span>
                             <b-tooltip :target="`timestamp__wrap_${data.index}`">
                                 {{ data.item.dateTooltip }}
@@ -48,8 +47,7 @@
                         </template>
 
                         <template
-                            slot="inTxHash"
-                            slot-scope="data">
+                            v-slot:cell(inTxHash)="data">
                             <p class="text-truncate">
                                 <a
                                     :href="data.item.inTxExplorerUrl"
@@ -57,8 +55,7 @@
                             </p>
                         </template>
                         <template
-                            slot="outTxHash"
-                            slot-scope="data">
+                            v-slot:cell(outTxHash)="data">
                             <p class="text-truncate">
                                 <a
                                     :href="data.item.outTxExplorerUrl"
@@ -86,8 +83,7 @@
                         class="txs__table">
 
                         <template
-                            slot="createdAt"
-                            slot-scope="data">
+                            v-slot:cell(createdAt)="data">
                             <span :id="`timestamp__unwrap_${data.index}`">{{ data.item.createdAt }}</span>
                             <b-tooltip :target="`timestamp__unwrap_${data.index}`">
                                 {{ data.item.dateTooltip }}
@@ -111,8 +107,7 @@
                         </template>
 
                         <template
-                            slot="inTxHash"
-                            slot-scope="data">
+                            v-slot:cell(inTxHash)="data">
                             <p class="text-truncate">
                                 <a
                                     :href="data.item.inTxExplorerUrl"
@@ -120,8 +115,7 @@
                             </p>
                         </template>
                         <template
-                            slot="outTxHash"
-                            slot-scope="data">
+                            v-slot:cell(outTxHash)="data">
                             <p class="text-truncate">
                                 <a
                                     :href="data.item.outTxExplorerUrl"

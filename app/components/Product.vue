@@ -154,7 +154,8 @@ export default {
         }
     },
     async updated () { },
-    destroyed () { },
+    destroyed () {
+    },
     created: async function () { },
     methods: {
         redirect (product) {
@@ -166,9 +167,11 @@ export default {
                     this.$router.push({ path: '/wrap' })
                     break
                 case 'tomob':
+                    this.isAgreed = false
                     window.location.href = 'https://tomob.tomochain.com'
                     break
                 case 'tomoe':
+                    this.isAgreed = false
                     window.location.href = 'https://tomoe.tomochain.com'
                     break
                 default:
