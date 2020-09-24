@@ -12,7 +12,7 @@
                         alt="TomoBridge" >
                 </b-navbar-brand>
                 <h3 class="h3 pb-4 mb-2 text-center">
-                    Cross-chain portal to transfer assets <br class="d-none d-md-block">between TomoChains and other Blockchains
+                    Cross-chain portal to transfer assets <br class="d-none d-md-block">between TomoChain and other Blockchains
                 </h3>
             </div>
             <div class="item-product">
