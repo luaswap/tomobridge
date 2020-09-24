@@ -1,7 +1,11 @@
 <template>
     <div id="app">
         <b-navbar
-            v-if="$route.path !== '/' && !$route.params.tokenSymbol && $route.path !== '/withdraw'"
+            v-if="$route.path !== '/' &&
+                !$route.params.tokenSymbol &&
+                $route.path !== '/withdraw' &&
+                $route.path !== '/wrap' &&
+            $route.path !== '/product'"
             sticky
             toggleable="md"
             variant="white"
