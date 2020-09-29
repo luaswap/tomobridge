@@ -40,7 +40,7 @@
         </div>
         <b-button
             v-if="success"
-            :to="'/'"
+            :to="'/wrap'"
             variant="primary"
             class="step-three__button btn--big">{{ $t('unwrapAnotherTokenBtn') }}</b-button>
     </b-container>

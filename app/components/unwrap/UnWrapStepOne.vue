@@ -235,7 +235,6 @@ export default {
         },
         async getWithdrawFee () {
             const coin = this.config.objSwapCoin[this.coinName.toLowerCase()]
-            console.log(coin)
             const contract = new this.web3.eth.Contract(
                 this.WrapperAbi.abi,
                 coin.wrapperAddress
