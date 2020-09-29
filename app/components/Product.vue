@@ -105,7 +105,7 @@
                                     <a
                                         :target="mobileCheck ? '' : '_blank'"
                                         href="https://forms.gle/cU1XU3b8EUMxB6yA6">
-                                        Submit a request</a>
+                                        Open a Support Ticket</a>
                                 </li>
                                 <li>
                                     <a
