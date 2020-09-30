@@ -282,13 +282,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div
-                    v-if="!address"
-                    class="text-center mb-3 w-100 position-absolute left-0 bottom-0 ">
-                    <a
-                        href="https://tomob.tomochain.com"
-                        target="_blank">Swap TOMO-TOMOB</a>
-                </div> -->
             </div>
         </div>
 
@@ -339,17 +332,6 @@
             hide-footer>
             <UnWrap :parent="this" />
         </b-modal>
-
-        <b-modal
-            id="selectAddressModal"
-            ref="selectAddressModal"
-            title="Ledger"
-            centered
-            scrollable
-            size="md"
-            hide-footer>
-            <SelectAddressModal :parent="this" />
-        </b-modal>
         <div
             :class="(loading ? 'tomo-loading' : '')"/>
     </b-col>
@@ -363,7 +345,6 @@ import store from 'store'
 import UnWrap from './UnWrap'
 import PrivateKeyModal from './modals/PrivateKeyModal'
 import HardwareWalletModal from './modals/HarwareWalletModal'
-import SelectAddressModal from './modals/SelectAddressModal'
 import MnemonicModal from './modals/MnemonicModal'
 // import store from 'store'
 import BigNumber from 'bignumber.js'
@@ -377,7 +358,6 @@ export default {
         UnWrap,
         PrivateKeyModal,
         HardwareWalletModal,
-        SelectAddressModal,
         MnemonicModal
     },
     mixins: [],
@@ -451,11 +431,6 @@ export default {
             this.address = storage.address || this.$store.state.address
         }
         this.config = await this.appConfig()
-        // if (this.address) {
-        //     this.config = store.get('configBridge')
-        // } else {
-        //     this.config = await this.appConfig()
-        // }
 
         this.fromData = this.config.swapCoin || []
         this.toData = this.config.swapToken || []
