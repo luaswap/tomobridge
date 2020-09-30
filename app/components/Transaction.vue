@@ -1,6 +1,13 @@
 <template>
     <div>
         <b-container class="txs">
+            <b-link
+                to="/wrap"
+                class="d-flex align-items-center font-weight-bold mt-4 text-dark">
+                <b-icon-arrow-left
+                    class="mr-3"
+                    font-scale="1.5"/>BACK
+            </b-link>
             <h1 class="txs__headline">{{ $t('txHistory') }}</h1>
             <b-tabs
                 no-nav-style>

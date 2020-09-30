@@ -80,7 +80,6 @@
 <script>
 import store from 'store'
 import Web3 from 'web3'
-import SelectAddressModal from './SelectAddressModal'
 import CustomScrollbar from 'vue-custom-scrollbar'
 
 const defaultWalletNumber = 5
@@ -88,7 +87,6 @@ const defaultWalletNumber = 5
 export default {
     name: 'App',
     components: {
-        SelectAddressModal,
         CustomScrollbar
     },
     props: {
