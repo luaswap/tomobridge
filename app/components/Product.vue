@@ -20,7 +20,7 @@
                     <a
                         class="row btn-tm"
                         @click="redirect('tomoe')">
-                        <div class="col-5 text-right">
+                        <div class="col-5 px-0 text-right">
                             TOMO<br><span>TomoChain</span>
                         </div>
                         <div class="col-2 text-center">
@@ -29,7 +29,7 @@
                                 icon="arrow-left-right"
                                 font-scale="1.5" />
                         </div>
-                        <div class="col-5">
+                        <div class="col-5 px-0">
                             TOMOE - ERC20<br><span>Ethereum</span>
                         </div>
                     </a>
@@ -37,7 +37,7 @@
                         v-if="!mobileCheck"
                         class="row btn-tm"
                         @click="redirect('tomob')">
-                        <div class="col-5 text-right">
+                        <div class="col-5 px-0 text-right">
                             TOMO<br><span>TomoChain</span>
                         </div>
                         <div class="col-2 text-center">
@@ -46,14 +46,30 @@
                                 icon="arrow-left-right"
                                 font-scale="1.5" />
                         </div>
-                        <div class="col-5">
+                        <div class="col-5 px-0">
                             TOMOB - BEP2<br><span>Binance Chain</span>
                         </div>
                     </a>
                     <a
                         class="row btn-tm"
+                        @click="redirect('sollet')">
+                        <div class="col-5 px-0 text-right">
+                            LUA & TOMOE - ERC20<br><span>Ethereum</span>
+                        </div>
+                        <div class="col-2 text-center">
+                            <b-icon
+                                class="light-h"
+                                icon="arrow-left-right"
+                                font-scale="1.5" />
+                        </div>
+                        <div class="col-5 px-0">
+                            WRAPPED LUA & TOMOE - SPL<br><span>Solana</span>
+                        </div>
+                    </a>
+                    <a
+                        class="row btn-tm"
                         @click="redirect('bridge')">
-                        <div class="col-5 text-right">
+                        <div class="col-5 px-0 text-right">
                             Tokens<br><span>on other chains</span>
                         </div>
                         <div class="col-2 text-center">
@@ -62,7 +78,7 @@
                                 icon="arrow-left-right"
                                 font-scale="1.5" />
                         </div>
-                        <div class="col-5">
+                        <div class="col-5 px-0">
                             TRC21 tokens<br><span>on TomoChain</span>
                         </div>
                     </a>
@@ -70,7 +86,7 @@
                 <div>
                     <b-form-checkbox
                         v-model="isAgreed"
-                        class="mt-4">
+                        class="mt-5 text-lg-center">
                         I agree to the
                         <a
                             href="https://docs.tomochain.com/tomobridge/terms-of-use"
@@ -173,6 +189,10 @@ export default {
                 case 'tomoe':
                     this.isAgreed = false
                     window.location.href = 'https://tomoe.tomochain.com'
+                    break
+                case 'sollet':
+                    this.isAgreed = false
+                    window.location.href = 'https://www.sollet.io'
                     break
                 default:
                     break
