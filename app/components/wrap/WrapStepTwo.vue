@@ -92,7 +92,7 @@ export default {
         this.interval = setInterval(async () => {
             const data = await this.scanTX()
             if (data && data.transaction && data.transaction.InTx &&
-                data.transaction.OutTx.Hash === '') {
+                parent.expireTime > data.transaction.UpdatedAt) {
                 const inTx = data.transaction.InTx
                 this.confirmation = (inTx.Confirmations > 0) ? inTx.Confirmations : 0
                 this.txHash = inTx.Hash

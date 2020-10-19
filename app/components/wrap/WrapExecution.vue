@@ -63,7 +63,8 @@ export default {
             fromWrapToken: {},
             toWrapToken: {},
             receiveAddress: this.$route.params.receiveAddress || '',
-            config: {}
+            config: {},
+            expireTime: ''
         }
     },
     async updated () {
@@ -81,6 +82,9 @@ export default {
                 path: '/wrap'
             })
         } else {
+            const currentTime = new Date()
+            this.expireTime = new Date()
+            this.expireTime.setMinutes(currentTime.getMinutes() + 2)
             const wrapData = await axios.post(
                 '/api/wrap/getAddress',
                 {
