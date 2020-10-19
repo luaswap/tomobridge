@@ -38,7 +38,7 @@ router.get('/', async function (req, res, next) {
     appConfig.swapCoin = data.Data.map(d => {
         return {
             name: d.symbol,
-            confirmations: d.confirmations,
+            confirmations: d.confirms,
             decimals: d.decimals,
             minimumWithdrawal: new BigNumber(d.min_deposit_value).div(10 ** d.decimals).toString(10),
             image: urljoin(config.get('tokenListAPI'), `${d.wrap_smart_contract.toLowerCase()}.png`),
