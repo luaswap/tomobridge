@@ -71,6 +71,7 @@ export default {
     data () {
         return {
             interval: '',
+            interval2: '',
             confirmation: 0,
             requiredConfirm: 0,
             success: false,
@@ -89,21 +90,35 @@ export default {
         this.config = parent.config
         this.requiredConfirm = parent.fromWrapToken.confirmations
 
+        let _self = this
         this.interval = setInterval(async () => {
             const data = await this.scanTX()
             if (data && data.transaction && data.transaction.InTx &&
-                parent.expireTime > data.transaction.UpdatedAt) {
-                const inTx = data.transaction.InTx
-                this.confirmation = (inTx.Confirmations > 0) ? inTx.Confirmations : 0
-                this.txHash = inTx.Hash
-                this.success = true
-                if (this.confirmation >= this.requiredConfirm) {
-                    parent.fromWrapToken.amount = inTx.Amount
-                    setTimeout(() => {
-                        clearInterval(this.interval)
-                        parent.step++
-                    }, 2000)
-                }
+                data.transaction.OutTx.Hash === '') {
+                clearInterval(_self.interval)
+
+                _self.interval2 = setInterval(async () => {
+                    const data = await this.scanTX()
+                    const inTx = data.transaction.InTx
+                    _self.confirmation = (inTx.Confirmations > 0) ? inTx.Confirmations : 0
+
+                    _self.txHash = inTx.Hash
+                    _self.success = true
+                    if (_self.confirmation >= _self.requiredConfirm) {
+                        parent.fromWrapToken.amount = inTx.Amount
+                        setTimeout(() => {
+                            clearInterval(_self.interval2)
+                            parent.step++
+                        }, 2000)
+                    } else if (data.transaction.OutTx.Hash) {
+                        _self.confirmation = _self.requiredConfirm
+                        parent.fromWrapToken.amount = inTx.Amount
+                        setTimeout(() => {
+                            clearInterval(_self.interval2)
+                            parent.step++
+                        }, 2000)
+                    }
+                }, 5000)
             }
         }, 5000)
     },
