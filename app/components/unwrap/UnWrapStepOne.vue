@@ -64,7 +64,8 @@ export default {
             toWrapToken: this.parent.toWrapToken || {},
             config: {},
             balance: 0,
-            fee: 0
+            fee: 0,
+            receiveAmount: 0
         }
     },
     async updated () { },
@@ -96,6 +97,7 @@ export default {
                 } else if (new BigNumber(this.amount).isLessThan(this.fee)) {
                     this.$toasted.show(this.$t('notEnoughFee'))
                 } else {
+                    this.checkReceiveAmount(coin)
                     const { contract, contractAddress } = this.getContract()
                     const provider = this.NetworkProvider
                     const chainConfig = this.config.blockchain
@@ -241,6 +243,13 @@ export default {
             )
             const feeBN = await contract.methods.WITHDRAW_FEE().call()
             this.fee = new BigNumber(feeBN).div(10 ** coin.decimals).toString(10)
+        },
+        async checkReceiveAmount (coin) {
+            const parent = this.parent
+            parent.receiveAmount = new BigNumber(this.amount).minus(new BigNumber(this.fee)).toNumber()
+            if (new BigNumber(this.amount).isLessThan(new BigNumber(coin.minimumWithdrawal))) {
+                parent.receiveAmount = 0
+            }
         }
     }
 }

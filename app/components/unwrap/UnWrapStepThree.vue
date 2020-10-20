@@ -3,7 +3,7 @@
         <div v-if="!success">
             <h3 class="step-three__title">{{ $t('sendingToken1') }}</h3>
             <p class="step-three__subtitle">
-                {{ convertAmount(inAmount) }} {{ toToken.name || '' }} {{ $t('sendingToken2') }}</p>
+                {{ inAmount }} {{ toToken.name || '' }} {{ $t('sendingToken2') }}</p>
             <a
                 :href="getAddressUrl(receiveAddress)"
                 class="step-three__address text-truncate"
@@ -83,7 +83,8 @@ export default {
     created: async function () {
         const parent = this.parent
         this.config = parent.config
-        this.inAmount = this.toToken.amount
+        // this.inAmount = this.toToken.amount
+        this.inAmount = parent.receiveAmount
         this.scanTX()
             .then(data => {
                 const inTx = data.transaction.InTx
@@ -101,13 +102,12 @@ export default {
                 const outTx = data.transaction.OutTx
                 if (inTx.Hash === parent.transactionHash) {
                     this.inAmount = inTx.Amount
-                }
-
-                if (outTx.Hash) {
-                    this.txHash = outTx.Hash
-                    this.outAmount = outTx.Amount
-                    clearInterval(this.interval)
-                    this.success = true
+                    if (outTx.Hash) {
+                        this.txHash = outTx.Hash
+                        this.outAmount = outTx.Amount
+                        clearInterval(this.interval)
+                        this.success = true
+                    }
                 }
             }
         }, 5000)
@@ -121,7 +121,7 @@ export default {
             let tokenSymbol = this.toToken.name.toLowerCase()
 
             let decimals = parseInt(this.config.objSwapCoin[tokenSymbol].decimals)
-            return (new BigNumber(amount).div(10 ** decimals)).toString(10)
+            return (new BigNumber(amount).div(10 ** decimals)).toString(10) || '~'
         },
         async scanTX () {
             const parent = this.parent
