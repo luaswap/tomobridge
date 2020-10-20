@@ -67,7 +67,8 @@ export default {
             receiveAddress: '',
             config: {},
             transactionHash: '',
-            loading: false
+            loading: false,
+            receiveAmount: 0
         }
     },
     async updated () {

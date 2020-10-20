@@ -75,12 +75,13 @@ export default {
         const receipt = await this.web3.eth.getTransactionReceipt(this.txHash)
         const signedBlock = receipt.blockNumber
 
-        const data = await this.scanTX()
-        if (data && data.transaction && data.transaction.InTx) {
-            if (data.transaction.InTx.Status === 'BURNED') {
-                parent.toWrapToken.amount = data.transaction.InTx.Amount
-            }
-        }
+        // const data = await this.scanTX()
+        // if (data && data.transaction && data.transaction.InTx) {
+        //     if (data.transaction.InTx.Status === 'BURNED' &&
+        //         this.txHash === data.transaction.InTx.Hash) {
+        //         parent.toWrapToken.amount = data.transaction.InTx.Amount
+        //     }
+        // }
         this.interval = setInterval(async () => {
             const currentBlock = await this.web3.eth.getBlockNumber()
             this.confirmation = currentBlock - signedBlock
