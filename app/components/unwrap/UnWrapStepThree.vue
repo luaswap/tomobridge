@@ -85,15 +85,15 @@ export default {
         this.config = parent.config
         // this.inAmount = this.toToken.amount
         this.inAmount = parent.receiveAmount
-        this.scanTX()
-            .then(data => {
-                const inTx = data.transaction.InTx
-                if (inTx.Hash === parent.transactionHash) {
-                    this.inAmount = inTx.Amount
-                }
-            }).catch(e => {
-                this.$toasted.show(e, { type: 'error' })
-            })
+        // this.scanTX()
+        //     .then(data => {
+        //         const inTx = data.transaction.InTx
+        //         if (inTx.Hash === parent.transactionHash) {
+        //             this.inAmount = inTx.Amount
+        //         }
+        //     }).catch(e => {
+        //         this.$toasted.show(e, { type: 'error' })
+        //     })
 
         this.interval = setInterval(async () => {
             const data = await this.scanTX()
@@ -101,7 +101,7 @@ export default {
                 const inTx = data.transaction.InTx
                 const outTx = data.transaction.OutTx
                 if (inTx.Hash === parent.transactionHash) {
-                    this.inAmount = inTx.Amount
+                    // this.inAmount = inTx.Amount
                     if (outTx.Hash) {
                         this.txHash = outTx.Hash
                         this.outAmount = outTx.Amount
