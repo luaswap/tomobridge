@@ -83,6 +83,9 @@ export default {
         if (this.interval) {
             clearInterval(this.interval)
         }
+        if (this.interval2) {
+            clearInterval(this.interval2)
+        }
     },
     async updated () { },
     created: async function () {
