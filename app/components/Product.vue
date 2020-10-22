@@ -50,7 +50,7 @@
                             TOMOB - BEP2<br><span>Binance Chain</span>
                         </div>
                     </a>
-                    <a
+                    <!-- <a
                         class="row btn-tm"
                         @click="redirect('sollet')">
                         <div class="col-5 px-0 text-right">
@@ -65,7 +65,7 @@
                         <div class="col-5 px-0">
                             WRAPPED LUA & TOMOE - SPL<br><span>Solana</span>
                         </div>
-                    </a>
+                    </a> -->
                     <a
                         class="row btn-tm"
                         @click="redirect('bridge')">
