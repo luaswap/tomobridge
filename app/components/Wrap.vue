@@ -564,6 +564,7 @@ export default {
             store.clearAll()
             this.address = ''
             this.receiveAddress = ''
+            this.networkWarning = ''
             const connector = this.walletConnector
 
             if (connector && connector.connected) {
