@@ -209,6 +209,9 @@
                     </b-col>
                 </b-row>
                 <div class="text-sm-center">
+                    <div
+                        v-if="networkWarning"
+                        class="text-danger" >{{ networkWarning }}</div>
                     <b-form-checkbox
                         v-model="isAgreed">
                         <p>
@@ -381,7 +384,8 @@ export default {
             interval: '',
             hardwareWallet: '',
             loading: false,
-            provider: ''
+            provider: '',
+            networkWarning: ''
         }
     },
     computed : {
@@ -463,6 +467,7 @@ export default {
         this.$bus.$on('walletconnect', () => {
             this.signOut()
         })
+        this.checkNetwork()
     },
     methods: {
         async updateBalance (newValue) {
@@ -784,6 +789,17 @@ export default {
                 )
                 this.connectWallet(connector, this)
                 await this.updateBalance()
+            }
+        },
+        async checkNetwork () {
+            if (this.web3) {
+                const chainId = await this.web3.eth.getId()
+                    if (this.config && chainId !== this.config.blockchain.networkId) {
+                        this.networkWarning = `${this.$t('wrongChain1')} ${chainId}
+                            ${this.$t('wrongChain2')} ${this.config.blockchain.networkId}`
+                    } else {
+                        this.networkWarning = ''
+                    }
             }
         }
     }
