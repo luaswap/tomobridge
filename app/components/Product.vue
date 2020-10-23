@@ -63,7 +63,7 @@
                                 font-scale="1.5" />
                         </div>
                         <div class="col-5 px-0">
-                            WRAPPED LUA & TOMOE - SPL<br><span>Solana</span>
+                            WRAPPED LUA & TOMO - SPL<br><span>Solana</span>
                         </div>
                     </a>
                     <a
