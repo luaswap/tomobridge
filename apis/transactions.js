@@ -17,7 +17,7 @@ router.get('/', [
         return next(errors.array())
     }
     try {
-        const page = req.query.page >= 1 ? req.query.page - 1 : 0 || 0
+        const page = parseInt(req.query.page) || 0
         const limit = parseInt(req.query.limit) || 100
         const coin = req.query.coin || 'btc'
         let response = {
@@ -82,7 +82,7 @@ router.get('/getWrapTxs', [
         return next(errors.array())
     }
     try {
-        const page = req.query.page >= 1 ? req.query.page - 1 : 0 || 0
+        const page = parseInt(req.query.page) || 0
         const limit = parseInt(req.query.limit) || 10
         const address = req.query.address || ''
         const coin = req.query.coin || ''
@@ -112,7 +112,7 @@ router.get('/getUnwrapTxs', [
         return next(errors.array())
     }
     try {
-        const page = req.query.page >= 1 ? req.query.page - 1 : 0 || 0
+        const page = parseInt(req.query.page) || 0
         const limit = parseInt(req.query.limit) || 10
         const address = req.query.address || ''
         const coin = req.query.coin || ''
