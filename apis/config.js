@@ -69,13 +69,32 @@ router.get('/getTokenConfig', async function (req, res, next) {
         let rpc = blockchain.rpc
         let web3 = new Web3(rpc)
 
-        swapCoin = await Promise.all(config.swapCoin.map(async s => {
+        const { data } = await axios.get(
+            urljoin(config.get('serverAPI'), 'tokens?page=1&limit=1000')
+        )
+        const swapCoinData = data.Data.map(d => {
+            return {
+                name: d.symbol,
+                confirmations: d.confirms,
+                decimals: d.decimals,
+                minimumWithdrawal: new BigNumber(d.min_deposit_value).div(10 ** d.decimals).toString(10),
+                image: urljoin(config.get('tokenListAPI'), `${d.wrap_smart_contract.toLowerCase()}.png`),
+                wrapperAddress: d.wrap_smart_contract,
+                tokenName: d.name,
+                network: getChainInfo(d.chain)[0],
+                explorerUrl: getChainInfo(d.chain)[1],
+                mainAddress: d.multisig_wallet,
+                tokenAddress: d.address,
+                coingecko_id: d.coingecko_id || ''
+            }
+        })
+
+        swapCoin = await Promise.all(swapCoinData.map(async s => {
             const c = JSON.parse(JSON.stringify(s))
             let contract = new web3.eth.Contract(
                 WrapperAbi.abi,
                 s.wrapperAddress
             )
-            c.image = urljoin(config.get('tokenListAPI'), `${c.wrapperAddress.toLowerCase()}.png`)
 
             const decimalsPromise = contract.methods.decimals().call() || 0
             const depositFeePromise = contract.methods.DEPOSIT_FEE().call() || 0
