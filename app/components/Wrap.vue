@@ -795,12 +795,12 @@ export default {
         async checkNetwork () {
             if (this.web3) {
                 const chainId = await this.web3.eth.getId()
-                    if (this.config && chainId !== this.config.blockchain.networkId) {
-                        this.networkWarning = `${this.$t('wrongChain1')} ${chainId}
-                            ${this.$t('wrongChain2')} ${this.config.blockchain.networkId}`
-                    } else {
-                        this.networkWarning = ''
-                    }
+                if (this.config && chainId !== this.config.blockchain.networkId) {
+                    this.networkWarning = `${this.$t('wrongChain1')} ${chainId}
+                        ${this.$t('wrongChain2')} ${this.config.blockchain.networkId}`
+                } else {
+                    this.networkWarning = ''
+                }
             }
         }
     }

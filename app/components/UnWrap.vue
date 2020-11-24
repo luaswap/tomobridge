@@ -6,10 +6,29 @@
             </p>
             <b-row class="wrapbox__row">
                 <b-col>
+                    <!-- <qrcode-stream
+                        class="scan-qrcode"
+                        variant="success"
+                        @decode="onDecode"
+                        @init="onInit">
+                        <span class="tb-qr-code">
+                            <qrcode-stream
+                                @decode="onDecode"
+                                @init="onInit" />
+                        </span>
+                    </qrcode-stream> -->
                     <b-form-input
                         id="address-input"
                         v-model="recAddress"
                         :placeholder="$t('unwrapPlaceholder')"/>
+                    <span class="tb-qr-code scan-qrcode">
+                        <qrcode-stream
+                            @decode="onDecode"
+                            @init="onInit" />
+                    </span>
+                    <p
+                        v-if="!qrcodeError"
+                        class="text-error">{{ qrcodeError }}</p>
                     <p
                         v-if="!isAddress"
                         class="text-error">Invalid {{ toWrapToken.name }} address</p>
@@ -58,9 +77,11 @@
 
 <script>
 import WAValidator from 'wallet-address-validator'
+import QrcodeStream from 'vue-qrcode-reader'
 export default {
     name: 'App',
     components: {
+        QrcodeStream
     },
     props: {
         parent: {
@@ -77,7 +98,8 @@ export default {
             fromWrapToken: {},
             toWrapToken: {},
             recAddress: '',
-            isAddress: true
+            isAddress: true,
+            qrcodeError: ''
         }
     },
     async updated () {
@@ -128,6 +150,30 @@ export default {
                 return this.web3.utils.isAddress(address)
             default:
                 return false
+            }
+        },
+        onDecode (result) {
+            this.recAddress = result
+        },
+        async onInit (promise) {
+            try {
+                console.log(promise)
+                await promise
+            } catch (error) {
+                console.log(error)
+                if (error.name === 'NotAllowedError') {
+                    this.error = 'ERROR: you need to grant camera access permisson'
+                } else if (error.name === 'NotFoundError') {
+                    this.error = 'ERROR: no camera on this device'
+                } else if (error.name === 'NotSupportedError') {
+                    this.error = 'ERROR: secure context required (HTTPS, localhost)'
+                } else if (error.name === 'NotReadableError') {
+                    this.error = 'ERROR: is the camera already in use?'
+                } else if (error.name === 'OverconstrainedError') {
+                    this.error = 'ERROR: installed cameras are not suitable'
+                } else if (error.name === 'StreamApiNotSupportedError') {
+                    this.error = 'ERROR: Stream API is not supported in this browser'
+                }
             }
         }
     }
