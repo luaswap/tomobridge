@@ -6,24 +6,25 @@
             </p>
             <b-row class="wrapbox__row">
                 <b-col>
-                    <b-form-input
-                        id="address-input"
-                        v-model="recAddress"
-                        :placeholder="$t('unwrapPlaceholder')"/>
-                    <span class="tb-qr-code st-pst" />
-                    <b-button
-                        class="scan-qrcode"
-                        variant="success">
-                        <qrcode-stream
-                            v-if="!recAddress"
-                            @decode="onDecode"
-                            @init="onInit" />
-                    </b-button>
-                    <!-- <span class="tb-qr-code scan-qrcode">
-                        <qrcode-stream
-                            @decode="onDecode"
-                            @init="onInit" />
-                    </span> -->
+                    <b-input-group>
+                        <b-form-input
+                            id="address-input"
+                            :value="mobileCheck ? truncate(recAddress, 26) : recAddress"
+                            v-model="recAddress"
+                            :placeholder="$t('unwrapPlaceholder')"/>
+                        <b-input-group-append
+                            v-if="mobileCheck">
+                            <b-button
+                                class=""
+                                @click="turnCameraOn">
+                                <span class="tb-qr-code" />
+                            </b-button>
+                        </b-input-group-append>
+                    </b-input-group>
+                    <qrcode-stream
+                        v-if="cameraOn"
+                        @decode="onDecode"
+                        @init="onInit" />
                     <p
                         v-if="!qrcodeError"
                         class="text-error">{{ qrcodeError }}</p>
@@ -97,7 +98,15 @@ export default {
             toWrapToken: {},
             recAddress: '',
             isAddress: true,
-            qrcodeError: ''
+            qrcodeError: '',
+            cameraOn: false
+        }
+    },
+    computed: {
+        mobileCheck: () => {
+            const isAndroid = navigator.userAgent.match(/Android/i)
+            const isIOS = navigator.userAgent.match(/iPhone|iPad|iPod/i)
+            return (isAndroid || isIOS)
         }
     },
     async updated () {
@@ -152,10 +161,10 @@ export default {
         },
         onDecode (result) {
             this.recAddress = result
+            this.cameraOn = false
         },
         async onInit (promise) {
             try {
-                console.log(promise)
                 await promise
             } catch (error) {
                 console.log(error)
@@ -173,6 +182,9 @@ export default {
                     this.error = 'ERROR: Stream API is not supported in this browser'
                 }
             }
+        },
+        turnCameraOn () {
+            this.cameraOn = true
         }
     }
 }
