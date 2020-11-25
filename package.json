@@ -66,6 +66,7 @@
     "vue-custom-scrollbar": "^1.1.0",
     "vue-i18n": "^8.15.4",
     "vue-multiselect": "^2.1.6",
+    "vue-qrcode-reader": "^2.3.15",
     "vuex": "^3.1.2",
     "wallet-address-validator": "^0.2.4",
     "web3": "^1.0.0-beta.55",

@@ -118,3 +118,27 @@
     }
   }
 }
+
+.scan-qrcode {
+  background: transparent!important;
+  color: black!important;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  position: absolute;
+  left: 15px;
+  top: 0;
+  padding: 0;
+  >span {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+  }
+}
+
+.st-pst {
+  position: absolute;
+  top: 18px;
+  right: 25px;
+}

@@ -38,14 +38,12 @@
 
 <script>
 
-import VueQrcode from '@chenfengyuan/vue-qrcode'
 import BigNumber from 'bignumber.js'
 import store from 'store'
 import urljoin from 'url-join'
 export default {
     name: 'App',
     components: {
-        VueQrcode
     },
     props: {
         parent: {

@@ -6,10 +6,28 @@
             </p>
             <b-row class="wrapbox__row">
                 <b-col>
-                    <b-form-input
-                        id="address-input"
-                        v-model="recAddress"
-                        :placeholder="$t('unwrapPlaceholder')"/>
+                    <b-input-group>
+                        <b-form-input
+                            id="address-input"
+                            :value="mobileCheck ? truncate(recAddress, 26) : recAddress"
+                            v-model="recAddress"
+                            :placeholder="$t('unwrapPlaceholder')"/>
+                        <b-input-group-append
+                            v-if="mobileCheck">
+                            <b-button
+                                class=""
+                                @click="turnCameraOn">
+                                <span class="tb-qr-code" />
+                            </b-button>
+                        </b-input-group-append>
+                    </b-input-group>
+                    <qrcode-stream
+                        v-if="cameraOn"
+                        @decode="onDecode"
+                        @init="onInit" />
+                    <p
+                        v-if="!qrcodeError"
+                        class="text-error">{{ qrcodeError }}</p>
                     <p
                         v-if="!isAddress"
                         class="text-error">Invalid {{ toWrapToken.name }} address</p>
@@ -58,9 +76,11 @@
 
 <script>
 import WAValidator from 'wallet-address-validator'
+import { QrcodeStream } from 'vue-qrcode-reader'
 export default {
     name: 'App',
     components: {
+        QrcodeStream
     },
     props: {
         parent: {
@@ -77,7 +97,16 @@ export default {
             fromWrapToken: {},
             toWrapToken: {},
             recAddress: '',
-            isAddress: true
+            isAddress: true,
+            qrcodeError: '',
+            cameraOn: false
+        }
+    },
+    computed: {
+        mobileCheck: () => {
+            const isAndroid = navigator.userAgent.match(/Android/i)
+            const isIOS = navigator.userAgent.match(/iPhone|iPad|iPod/i)
+            return (isAndroid || isIOS)
         }
     },
     async updated () {
@@ -129,6 +158,33 @@ export default {
             default:
                 return false
             }
+        },
+        onDecode (result) {
+            this.recAddress = result
+            this.cameraOn = false
+        },
+        async onInit (promise) {
+            try {
+                await promise
+            } catch (error) {
+                console.log(error)
+                if (error.name === 'NotAllowedError') {
+                    this.error = 'ERROR: you need to grant camera access permisson'
+                } else if (error.name === 'NotFoundError') {
+                    this.error = 'ERROR: no camera on this device'
+                } else if (error.name === 'NotSupportedError') {
+                    this.error = 'ERROR: secure context required (HTTPS, localhost)'
+                } else if (error.name === 'NotReadableError') {
+                    this.error = 'ERROR: is the camera already in use?'
+                } else if (error.name === 'OverconstrainedError') {
+                    this.error = 'ERROR: installed cameras are not suitable'
+                } else if (error.name === 'StreamApiNotSupportedError') {
+                    this.error = 'ERROR: Stream API is not supported in this browser'
+                }
+            }
+        },
+        turnCameraOn () {
+            this.cameraOn = true
         }
     }
 }

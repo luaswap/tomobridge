@@ -5,6 +5,7 @@ input[type='password'] {
   border-radius: 4px;
   font-size: 15px;
   height: auto;
+  padding: 15px;
 
   @extend %transition;
 

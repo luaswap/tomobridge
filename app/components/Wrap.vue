@@ -415,10 +415,14 @@ export default {
     mounted () {},
     created: async function () {
         this.provider = this.NetworkProvider
-        if (window.web3 && window.web3.currentProvider &&
-            window.web3.currentProvider.isTomoWallet) {
-            const wjs = new Web3(window.web3.currentProvider)
-            await this.setupProvider('tomowallet', wjs)
+        if (this.mobileCheck && window.web3 && window.web3.currentProvider) {
+            if (window.web3.currentProvider.isTomoWallet) {
+                const wjs = new Web3(window.web3.currentProvider)
+                await this.setupProvider('tomowallet', wjs)
+            } else {
+                const wjs = new Web3(window.web3.currentProvider)
+                await this.setupProvider('metamask', wjs)
+            }
             this.address = await this.getAccount()
             this.setStorage(
                 'account',
@@ -795,12 +799,12 @@ export default {
         async checkNetwork () {
             if (this.web3) {
                 const chainId = await this.web3.eth.getId()
-                    if (this.config && chainId !== this.config.blockchain.networkId) {
-                        this.networkWarning = `${this.$t('wrongChain1')} ${chainId}
-                            ${this.$t('wrongChain2')} ${this.config.blockchain.networkId}`
-                    } else {
-                        this.networkWarning = ''
-                    }
+                if (this.config && chainId !== this.config.blockchain.networkId) {
+                    this.networkWarning = `${this.$t('wrongChain1')} ${chainId}
+                        ${this.$t('wrongChain2')} ${this.config.blockchain.networkId}`
+                } else {
+                    this.networkWarning = ''
+                }
             }
         }
     }
