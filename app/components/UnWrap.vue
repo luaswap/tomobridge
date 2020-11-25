@@ -6,26 +6,24 @@
             </p>
             <b-row class="wrapbox__row">
                 <b-col>
-                    <!-- <qrcode-stream
-                        class="scan-qrcode"
-                        variant="success"
-                        @decode="onDecode"
-                        @init="onInit">
-                        <span class="tb-qr-code">
-                            <qrcode-stream
-                                @decode="onDecode"
-                                @init="onInit" />
-                        </span>
-                    </qrcode-stream> -->
                     <b-form-input
                         id="address-input"
                         v-model="recAddress"
                         :placeholder="$t('unwrapPlaceholder')"/>
-                    <span class="tb-qr-code scan-qrcode">
+                    <span class="tb-qr-code st-pst" />
+                    <b-button
+                        class="scan-qrcode"
+                        variant="success">
+                        <qrcode-stream
+                            v-if="!recAddress"
+                            @decode="onDecode"
+                            @init="onInit" />
+                    </b-button>
+                    <!-- <span class="tb-qr-code scan-qrcode">
                         <qrcode-stream
                             @decode="onDecode"
                             @init="onInit" />
-                    </span>
+                    </span> -->
                     <p
                         v-if="!qrcodeError"
                         class="text-error">{{ qrcodeError }}</p>
@@ -77,7 +75,7 @@
 
 <script>
 import WAValidator from 'wallet-address-validator'
-import QrcodeStream from 'vue-qrcode-reader'
+import { QrcodeStream } from 'vue-qrcode-reader'
 export default {
     name: 'App',
     components: {

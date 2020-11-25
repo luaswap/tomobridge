@@ -415,7 +415,7 @@ export default {
     mounted () {},
     created: async function () {
         this.provider = this.NetworkProvider
-        if (mobileCheck && window.web3 && window.web3.currentProvider) {
+        if (this.mobileCheck && window.web3 && window.web3.currentProvider) {
             if (window.web3.currentProvider.isTomoWallet) {
                 const wjs = new Web3(window.web3.currentProvider)
                 await this.setupProvider('tomowallet', wjs)
