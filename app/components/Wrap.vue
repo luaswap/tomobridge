@@ -351,7 +351,6 @@ import HardwareWalletModal from './modals/HarwareWalletModal'
 import MnemonicModal from './modals/MnemonicModal'
 // import store from 'store'
 import BigNumber from 'bignumber.js'
-import WrapperAbi from '../../abis/WrapperAbi.json'
 
 export default {
     name: 'App',
@@ -671,7 +670,7 @@ export default {
             let swapCoin = this.config.objSwapCoin
             let tokenSymbol = id.name.toLowerCase()
             let contract = new this.web3.eth.Contract(
-                WrapperAbi.abi,
+                this.TomoBridgeTokenAbi.abi,
                 swapCoin[tokenSymbol].wrapperAddress
             )
             return { contract, contractAddress: swapCoin[tokenSymbol].wrapperAddress }

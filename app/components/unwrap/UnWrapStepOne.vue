@@ -22,7 +22,9 @@
                 {{ fromWrapToken.name || '' }} {{ toWrapToken.name }}</p>
             <p
                 v-if="address">
-                {{ $t('fee') }}: {{ fee }} {{ fromWrapToken.name || '' }} {{ toWrapToken.name }}</p>
+                {{ $t('fee') }}: {{ fee }}
+                {{ tomoFeeMode ? '' : fromWrapToken.name || '' }}
+                {{ tomoFeeMode ? 'TOMO' : toWrapToken.name }}</p>
         </div>
         <div class="step-one__buttons">
             <b-button
@@ -63,7 +65,11 @@ export default {
             config: {},
             balance: 0,
             fee: 0,
-            receiveAmount: 0
+            receiveAmount: 0,
+            contract: '',
+            contractAddress: '',
+            feeAmount: '',
+            tomoFeeMode: false
         }
     },
     async updated () { },
@@ -71,7 +77,10 @@ export default {
     created: async function () {
         this.coinName = this.toWrapToken.name
         this.config = store.get('configBridge') || await this.appConfig() || {}
-        // this.fee = this.config.objSwapCoin[this.coinName.toLowerCase()].withdrawFee
+        const { contract, contractAddress } = await this.getContract()
+        this.contract = contract
+        this.contractAddress = contractAddress
+        this.tomoFeeMode = await this.contract.methods.TOMO_FEE_MODE.call()
         await this.getWithdrawFee()
 
         this.web3.eth.getGasPrice().then(result => {
@@ -96,10 +105,10 @@ export default {
                     this.$toasted.show(this.$t('notEnoughFee'))
                 } else {
                     this.checkReceiveAmount(coin)
-                    const { contract, contractAddress } = this.getContract()
                     const provider = this.NetworkProvider
                     const chainConfig = this.config.blockchain
                     let txParams = {
+                        value: this.tomoFeeMode ? this.web3.utils.toHex(this.feeAmount) : this.web3.utils.toHex(0),
                         from: this.address,
                         gasPrice: this.web3.utils.toHex(this.gasPrice),
                         gas: this.web3.utils.toHex(chainConfig.gas),
@@ -108,14 +117,14 @@ export default {
 
                     if (provider === 'ledger' || provider === 'trezor' || provider === 'trustwallet') {
                         par.loading = true
-                        let data = await contract.methods.burn(
+                        let data = await this.contract.methods.burn(
                             this.web3.utils.toHex(this.convertWithdrawAmount(this.amount)),
                             this.string2byte(this.receiveAddress)
                         ).encodeABI()
 
                         const dataTx = {
                             data,
-                            to: contractAddress
+                            to: this.contractAddress
                         }
                         const nonce = await this.web3.eth.getTransactionCount(this.address)
 
@@ -124,8 +133,7 @@ export default {
                             dataTx,
                             txParams,
                             {
-                                nonce: this.web3.utils.toHex(nonce),
-                                value: this.web3.utils.toHex(0) // bypass hardware wallet to sign tx
+                                nonce: this.web3.utils.toHex(nonce)
                             }
                         )
                         let signature = await this.signTransaction(dataTx)
@@ -145,7 +153,7 @@ export default {
                         }
                     } else {
                         par.loading = true
-                        contract.methods.burn(
+                        this.contract.methods.burn(
                             this.convertWithdrawAmount(this.amount),
                             this.string2byte(this.receiveAddress)
                         ).send(txParams)
@@ -181,7 +189,8 @@ export default {
             let swapCoin = this.config.objSwapCoin
             let tokenSymbol = id.name.toLowerCase()
             let contract = new this.web3.eth.Contract(
-                this.WrapperAbi.abi,
+                // this.WrapperAbi.abi,
+                this.TomoBridgeTokenAbi.abi,
                 swapCoin[tokenSymbol].wrapperAddress.toLowerCase()
             )
             return { contract, contractAddress: swapCoin[tokenSymbol].wrapperAddress }
@@ -189,9 +198,9 @@ export default {
         async getBalance () {
             try {
                 if (this.address) {
-                    const { contract } = this.getContract()
-                    if (contract) {
-                        const balance = await contract.methods.balanceOf(this.address).call()
+                    // const { contract } = this.getContract()
+                    if (this.contract) {
+                        const balance = await this.contract.methods.balanceOf(this.address).call()
                         this.balance = this.convertAmount(balance)
                     }
                 }
@@ -235,16 +244,23 @@ export default {
         },
         async getWithdrawFee () {
             const coin = this.config.objSwapCoin[this.coinName.toLowerCase()]
-            const contract = new this.web3.eth.Contract(
-                this.WrapperAbi.abi,
-                coin.wrapperAddress
-            )
-            const feeBN = await contract.methods.WITHDRAW_FEE().call()
-            this.fee = new BigNumber(feeBN).div(10 ** coin.decimals).toString(10)
+            let feeBN
+            if (this.tomoFeeMode) {
+                feeBN = await this.contract.methods.WITHDRAW_FEE_TOMO().call()
+                this.fee = new BigNumber(feeBN).div(10 ** 18).toString(10)
+                this.feeAmount = new BigNumber(feeBN).toString(10)
+            } else {
+                feeBN = await this.contract.methods.WITHDRAW_FEE().call()
+                this.fee = new BigNumber(feeBN).div(10 ** coin.decimals).toString(10)
+            }
         },
         async checkReceiveAmount (coin) {
             const parent = this.parent
-            parent.receiveAmount = new BigNumber(this.amount).minus(new BigNumber(this.fee)).toNumber()
+            if (this.tomoFeeMode) {
+                parent.receiveAmount = this.amount
+            } else {
+                parent.receiveAmount = new BigNumber(this.amount).minus(new BigNumber(this.fee)).toNumber()
+            }
             if (new BigNumber(this.amount).isLessThan(new BigNumber(coin.minimumWithdrawal))) {
                 parent.receiveAmount = 0
             }

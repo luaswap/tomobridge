@@ -23,6 +23,7 @@ import WalletConnect from '@walletconnect/client'
 import QRCodeModal from '@walletconnect/qrcode-modal'
 
 import WrapperAbi from '../abis/WrapperAbi.json'
+import TomoBridgeTokenAbi from '../abis/TomoBridgeWrapToken.json'
 
 // Components
 import Home from './components/Home.vue'
@@ -86,6 +87,7 @@ Vue.prototype.setupProvider = async function (provider, wjs) {
     if (wjs instanceof Web3) {
         Vue.prototype.web3 = wjs
         Vue.prototype.WrapperAbi = WrapperAbi
+        Vue.prototype.TomoBridgeTokenAbi = TomoBridgeTokenAbi
         let config = localStorage.get('configBridge')
         // const { data } = await axios.get('/api/config/getTokenConfig')
         // config.swapCoin = data.swapCoin
