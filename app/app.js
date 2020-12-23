@@ -89,9 +89,6 @@ Vue.prototype.setupProvider = async function (provider, wjs) {
         Vue.prototype.WrapperAbi = WrapperAbi
         Vue.prototype.TomoBridgeTokenAbi = TomoBridgeTokenAbi
         let config = localStorage.get('configBridge')
-        // const { data } = await axios.get('/api/config/getTokenConfig')
-        // config.swapCoin = data.swapCoin
-        // config.objSwapCoin = data.objSwapCoin
         localStorage.set('configBridge', config)
     }
 }

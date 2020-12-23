@@ -16,22 +16,6 @@
                 </b-link>
                 )
             </span>
-            <!-- <div class="step-three__progress">
-                <div class="progress-bar">
-                    <div class="progress-bar__inner">
-                        <div
-                            :style="`width: ${calculatePercentage(confirmation, requiredConfirm)}%;`"
-                            class="progress-bar__bar">
-                            <span class="progress-bar__number text-primary">
-                                {{ calculatePercentage(confirmation, requiredConfirm) }}%</span>
-                        </div>
-                    </div>
-                    <span class="progress-bar__total">{{ requiredConfirm }} Blocks</span>
-                </div>
-                <div class="step-three__fee text-primary">
-                    Fee: 1 TOMO
-                </div>
-            </div> -->
         </div>
         <div
             v-if="success"
