@@ -731,23 +731,46 @@ export default {
                 if (this.wrapType === 'unwrap') {
                     const { contract } = this.getContract(this.toWrapSelected)
 
-                    const withdrawFee = await contract.methods.WITHDRAW_FEE().call() || 0
+                    const tomoFeeMode = await this.contract.methods.TOMO_FEE_MODE.call()
+                    let withdrawFee, fee
 
-                    const fee = new BigNumber(withdrawFee).div(10 ** this.toWrapSelected.decimals).toString(10)
-                    if (new BigNumber(this.balance).isLessThanOrEqualTo(new BigNumber(fee))) {
-                        switch (this.$i18n.locale) {
-                        case 'en':
-                            this.$toasted.show(`Not enough TRC21 ${this.toWrapSelected.name} for withdraw fee(${fee})`)
-                            break
-                        case 'tr':
-                            this.$toasted.show(`Çekim ücreti (${fee}) için yeterli "TRC21 ${this.toWrapSelected.name}" yok.`)
-                            break
-                        default:
-                            break
+                    if (tomoFeeMode) {
+                        withdrawFee = await this.contract.methods.WITHDRAW_FEE_TOMO().call()
+                        fee = new BigNumber(withdrawFee)
+                        const userBalance = await this.web3.eth.getBalance(this.address)
+                        if (new BigNumber(userBalance).isLessThanOrEqualTo(fee)) {
+                            switch (this.$i18n.locale) {
+                            case 'en':
+                                this.$toasted.show(`Not enough TOMO for withdraw fee(${fee.div(10 ** 18).toString(10)})`)
+                                break
+                            case 'tr':
+                                this.$toasted.show(`Çekim ücreti (${fee.div(10 ** 18).toString(10)}) için yeterli "TOMO" yok.`)
+                                break
+                            default:
+                                break
+                            }
+                            return false
+                        } else {
+                            return true
                         }
-                        return false
                     } else {
-                        return true
+                        withdrawFee = await contract.methods.WITHDRAW_FEE().call() || 0
+                        fee = new BigNumber(withdrawFee).div(10 ** this.toWrapSelected.decimals).toString(10)
+                        if (new BigNumber(this.balance).isLessThanOrEqualTo(new BigNumber(fee))) {
+                            switch (this.$i18n.locale) {
+                            case 'en':
+                                this.$toasted.show(`Not enough TRC21 ${this.toWrapSelected.name} for withdraw fee(${fee})`)
+                                break
+                            case 'tr':
+                                this.$toasted.show(`Çekim ücreti (${fee}) için yeterli "TRC21 ${this.toWrapSelected.name}" yok.`)
+                                break
+                            default:
+                                break
+                            }
+                            return false
+                        } else {
+                            return true
+                        }
                     }
                 }
             } catch (error) {
