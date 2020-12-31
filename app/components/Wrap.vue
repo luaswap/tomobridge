@@ -731,11 +731,11 @@ export default {
                 if (this.wrapType === 'unwrap') {
                     const { contract } = this.getContract(this.toWrapSelected)
 
-                    const tomoFeeMode = await this.contract.methods.TOMO_FEE_MODE.call()
+                    const tomoFeeMode = await contract.methods.TOMO_FEE_MODE.call()
                     let withdrawFee, fee
 
                     if (tomoFeeMode) {
-                        withdrawFee = await this.contract.methods.WITHDRAW_FEE_TOMO().call()
+                        withdrawFee = await contract.methods.WITHDRAW_FEE_TOMO().call()
                         fee = new BigNumber(withdrawFee)
                         const userBalance = await this.web3.eth.getBalance(this.address)
                         if (new BigNumber(userBalance).isLessThanOrEqualTo(fee)) {
