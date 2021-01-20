@@ -27,8 +27,13 @@
     "verifyTx": "We are verifying your transaction...",
     "sendingToken1": "We are sending you...",
     "sendingToken2": "to address",
-    "youReceived": "You’ve received",
+    "youReceived": "You have received",
     "wrapAnotherTokenBtn": "Wrap another token",
+    "tokenWarning": "This wrapped token is issued by a third party and has NOT been verified by the TomoChain team. Make sure to check the token's contract address before deposit. If the token you send does not have a wrapped version on TomoChain network, your fund will be lost and will NOT be recovered.",
+    "tokenWarningCheck1": "I have checked the token's contract address",
+    "tokenWarningCheck2": "I confirm I am sending the correct token",
+    "viewOnEtherscan": "View on Etherscan",
+    "viewOnTomoscan": "View on Tomoscan",
 
     "comment3": "----------------- Unwrap pages -------------------",
     "unwrapBtn": "Unwrap",
@@ -84,6 +89,7 @@
     "withdrawed": "WITHDRAWED",
     "depositing": "DEPOSITING",
     "withdrawing": "WITHDRAWING",
+    "confirm": "Confirm",
 
     "comment7": "------------------------Warning toast-------------------",
     "notEnoughFee": "Withdraw amount must be greater than withdraw fee",
