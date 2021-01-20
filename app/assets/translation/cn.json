@@ -29,6 +29,11 @@
 	"sendingToken2": "前往地址",
 	"youReceived": "已收到代币",
 	"wrapAnotherTokenBtn": "卷藏其他的代币",
+	"tokenWarning": "此包装的令牌是由第三方发行的，尚未被TomoChain团队验证。请确保在存款前检查令牌的合同地址。如果您发送的令牌在TomoChain网络上没有包装的版本，则您的资金将丢失并且将无法收回。",
+    "tokenWarningCheck1": "我已经检查了令牌的合同地址",
+    "tokenWarningCheck2": "我确认我发送了正确的令牌",
+    "viewOnEtherscan": "在Etherscan上查看",
+    "viewOnTomoscan": "在Tomoscan上查看",
 
 	"comment3": "----------------- Unwrap pages/ 拆解页面 -------------------",
 	"unwrapBtn": "拆解",
@@ -84,6 +89,7 @@
 	"withdrawed": "已提取",
 	"depositing": "正在汇款",
 	"withdrawing": "正在提取",
+	"confirm": "确认",
 
 	"comment7": "------------------------Warning toast/ 警告-------------------",
 	"notEnoughFee": "提取金额必须大于提款手续费",

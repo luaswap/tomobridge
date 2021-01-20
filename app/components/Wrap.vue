@@ -59,8 +59,10 @@
                             :custom-label="customLabel"
                             :show-labels="false"
                             :allow-empty="false"
+                            :close-on-select="true"
                             track-by="name"
-                            @input="updateBalance">
+                            @input="updateBalance"
+                            @select="selectAction">
                             <template
                                 slot="singleLabel"
                                 slot-scope="props">
@@ -69,6 +71,10 @@
                                     :src="props.option.image"
                                     class="multiselect__img">
                                 <span class="multiselect__name">{{ props.option.name }}</span>
+                                <i
+                                    v-if="(verifiedList.indexOf((props.option.wrapperAddress || '').toLowerCase()) > 0)
+                                    || props.option.name === 'BTC' || props.option.name === 'ETH'"
+                                    class="tb-check-circle-o multiselect_greentick" />
                             </template>
                             <template
                                 slot="option"
@@ -78,6 +84,10 @@
                                     :src="props.option.image"
                                     class="multiselect__img">
                                 <span class="multiselect__name">{{ props.option.name }}</span>
+                                <i
+                                    v-if="(verifiedList.indexOf((props.option.wrapperAddress || '').toLowerCase()) > 0)
+                                    || props.option.name === 'BTC' || props.option.name === 'ETH'"
+                                    class="tb-check-circle-o multiselect_greentick" />
                             </template>
                         </multiselect>
                         <p
@@ -103,8 +113,10 @@
                             :custom-label="customLabel"
                             :show-labels="false"
                             :allow-empty="false"
+                            :close-on-select="true"
                             track-by="name"
-                            @input="updateBalance">
+                            @input="updateBalance"
+                            @select="selectAction">
                             <template
                                 slot="singleLabel"
                                 slot-scope="props">
@@ -113,6 +125,10 @@
                                     :src="props.option.image"
                                     class="multiselect__img">
                                 <span class="multiselect__name">{{ props.option.name }}</span>
+                                <i
+                                    v-if="(verifiedList.indexOf((props.option.wrapperAddress || '').toLowerCase()) > 0)
+                                    || props.option.name === 'BTC' || props.option.name === 'ETH'"
+                                    class="tb-check-circle-o multiselect_greentick" />
                             </template>
                             <template
                                 slot="option"
@@ -122,6 +138,9 @@
                                     :src="props.option.image"
                                     class="multiselect__img">
                                 <span class="multiselect__name">{{ props.option.name }}</span>
+                                <i
+                                    v-if="verifiedList.indexOf((props.option.wrapperAddress || '').toLowerCase()) > 0"
+                                    class="tb-check-circle-o multiselect_greentick" />
                             </template>
                         </multiselect>
                         <p
@@ -331,6 +350,19 @@
             hide-footer>
             <UnWrap :parent="this" />
         </b-modal>
+        <b-modal
+            id="tokenWarningModal"
+            ref="tokenWarningModal"
+            centered
+            scrollable
+            size="md"
+            hide-footer>
+            <template #modal-title>
+                Warning
+                <i class="tb-warning " />
+            </template>
+            <TokenWarningModal :parent="this" />
+        </b-modal>
         <div
             :class="(loading ? 'tomo-loading' : '')"/>
     </b-col>
@@ -341,10 +373,12 @@ import Web3 from 'web3'
 import Multiselect from 'vue-multiselect'
 import CustomScrollbar from 'vue-custom-scrollbar'
 import store from 'store'
+import axios from 'axios'
 import UnWrap from './UnWrap'
 import PrivateKeyModal from './modals/PrivateKeyModal'
 import HardwareWalletModal from './modals/HarwareWalletModal'
 import MnemonicModal from './modals/MnemonicModal'
+import TokenWarningModal from './modals/TokenWarningModal'
 // import store from 'store'
 import BigNumber from 'bignumber.js'
 
@@ -356,7 +390,8 @@ export default {
         UnWrap,
         PrivateKeyModal,
         HardwareWalletModal,
-        MnemonicModal
+        MnemonicModal,
+        TokenWarningModal
     },
     mixins: [],
     data () {
@@ -380,7 +415,9 @@ export default {
             hardwareWallet: '',
             loading: false,
             provider: '',
-            networkWarning: ''
+            networkWarning: '',
+            verifiedList: [],
+            selectedToken: {}
         }
     },
     computed : {
@@ -434,6 +471,15 @@ export default {
             this.address = storage.address || this.$store.state.address
         }
         this.config = await this.appConfig()
+        axios.get(this.config.verifiedListAPI)
+            .then(response => {
+                if (response.data) {
+                    this.verifiedList = response.data
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            })
 
         this.fromData = this.config.swapCoin || []
         this.toData = this.config.swapToken || []
@@ -823,6 +869,16 @@ export default {
                 } else {
                     this.networkWarning = ''
                 }
+            }
+        },
+        selectAction (token) {
+            if (token.name.toLowerCase() === 'btc' || token.name.toLowerCase() === 'eth' ||
+                this.verifiedList.indexOf(token.wrapperAddress.toLowerCase()) < 0
+            ) {
+                setTimeout(() => {
+                    this.selectedToken = token
+                    this.$refs.tokenWarningModal.show()
+                }, 0)
             }
         }
     }
