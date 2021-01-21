@@ -29,6 +29,11 @@
 	"sendingToken2": "アドレスへ",
 	"youReceived": "トークンを受け取りました",
 	"wrapAnotherTokenBtn": "他のトークンをラップする",
+	"tokenWarning": "このラップされたトークンはサードパーティによって発行されTomoChainチームによって検証されていません。入金前に必ずトークンの契約アドレスを確認してください。送信するトークンのTomoChainネットワークにラップされたバージョンがない場合、資金は失われ、回収されません。",
+    "tokenWarningCheck1": "トークンの契約アドレスを確認しました",
+    "tokenWarningCheck2": "正しいトークンを送信していることを確認します",
+    "viewOnEtherscan": "Etherscanで表示",
+    "viewOnTomoscan": "Tomoscanで表示",
 
 	"comment3": "----------------- Unwrap pages/ アンラップページ -------------------",
 	"unwrapBtn": "アンラップ",
@@ -84,6 +89,7 @@
 	"withdrawed": "引き出しました",
 	"depositing": "入金しています",
 	"withdrawing": "引き出しています",
+	"confirmBtn": "確認",
 
 	"comment7": "------------------------Warning toast/ 警告-------------------",
 	"notEnoughFee": "引き出し金額は引き出し手数料よりも多くなければなりません",

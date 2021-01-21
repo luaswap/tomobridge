@@ -29,6 +29,7 @@ router.get('/', async function (req, res, next) {
     appConfig.tomoscanUrl = tomoscanUrl
 
     appConfig.GA = config.get('GA')
+    appConfig.verifiedListAPI = config.get('verifiedListAPI')
 
     const { data } = await axios.get(
         urljoin(config.get('serverAPI'), 'tokens?page=1&limit=1000')

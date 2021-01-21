@@ -29,6 +29,11 @@
     "sendingToken2": "şu adrese",
     "youReceived": "Primili ste",
     "wrapAnotherTokenBtn": "Zamotajte još jedan tokeni",
+    "tokenWarning": "This wrapped token is issued by a third party and has NOT been verified by the TomoChain team. Make sure to check the token's contract address before deposit. If the token you send does not have a wrapped version on TomoChain network, your fund will be lost and will NOT be recovered.",
+    "tokenWarningCheck1": "Jetonun sözleşme adresini kontrol ettim",
+    "tokenWarningCheck2": "Doğru jetonu gönderdiğimi onaylıyorum",
+    "viewOnEtherscan": "Etherscan üzerinde görüntüle",
+    "viewOnTomoscan": "Tomoscan üzerinde görüntüle",
 
     "comment3": "----------------- Unwrap pages -------------------",
     "unwrapBtn": "Unwraple",
@@ -84,6 +89,7 @@
     "withdrawed": "ÇEKILMIŞ",
     "depositing": "YÜKLENIYOR",
     "withdrawing": "ÇEKILIYOR",
+    "confirmBtn": "Onaylamak",
 
     "comment7": "------------------------Warning toast--------------",
     "notEnoughFee": "Çekim miktarı, çekim ücretinden fazla olmalıdır",

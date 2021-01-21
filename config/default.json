@@ -19,6 +19,7 @@
     "tomoscanAPI": "https://scan.tomochain.com",
     "serverAPI": "",
     "tokenListAPI": "https://raw.githubusercontent.com/tomochain/tokens/master/tokens",
+    "verifiedListAPI": "https://raw.githubusercontent.com/tomochain/tokens/master/verifiedlist.json",
     "db": {
         "uri": "mongodb://mongodb:27017/tomobridge"
     },
