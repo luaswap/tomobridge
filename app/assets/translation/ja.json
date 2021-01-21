@@ -89,7 +89,7 @@
 	"withdrawed": "引き出しました",
 	"depositing": "入金しています",
 	"withdrawing": "引き出しています",
-	"confirm": "確認",
+	"confirmBtn": "確認",
 
 	"comment7": "------------------------Warning toast/ 警告-------------------",
 	"notEnoughFee": "引き出し金額は引き出し手数料よりも多くなければなりません",

@@ -89,7 +89,7 @@
     "withdrawed": "WITHDRAWED",
     "depositing": "DEPOSITING",
     "withdrawing": "WITHDRAWING",
-    "confirm": "Confirm",
+    "confirmBtn": "Confirm",
 
     "comment7": "------------------------Warning toast-------------------",
     "notEnoughFee": "Withdraw amount must be greater than withdraw fee",

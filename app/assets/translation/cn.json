@@ -89,7 +89,7 @@
 	"withdrawed": "已提取",
 	"depositing": "正在汇款",
 	"withdrawing": "正在提取",
-	"confirm": "确认",
+	"confirmBtn": "确认",
 
 	"comment7": "------------------------Warning toast/ 警告-------------------",
 	"notEnoughFee": "提取金额必须大于提款手续费",

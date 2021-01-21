@@ -89,7 +89,7 @@
     "withdrawed": "ÇEKILMIŞ",
     "depositing": "YÜKLENIYOR",
     "withdrawing": "ÇEKILIYOR",
-    "confirm": "Onaylamak",
+    "confirmBtn": "Onaylamak",
 
     "comment7": "------------------------Warning toast--------------",
     "notEnoughFee": "Çekim miktarı, çekim ücretinden fazla olmalıdır",

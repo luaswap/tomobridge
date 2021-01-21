@@ -356,6 +356,8 @@
             centered
             scrollable
             size="md"
+            no-close-on-backdrop
+            no-close-on-esc
             hide-footer>
             <template #modal-title>
                 Warning
