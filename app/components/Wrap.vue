@@ -608,7 +608,6 @@ export default {
             } else { this.toWrapError = false }
         },
         signOut () {
-            store.clearAll()
             this.address = ''
             this.receiveAddress = ''
             this.networkWarning = ''
