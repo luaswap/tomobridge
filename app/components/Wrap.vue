@@ -873,9 +873,9 @@ export default {
             }
         },
         selectAction (token) {
-            if (token.name.toLowerCase() === 'btc' || token.name.toLowerCase() === 'eth' ||
-                this.verifiedList.indexOf(token.wrapperAddress.toLowerCase()) < 0
-            ) {
+            if (token.name.toLowerCase() === 'btc' || token.name.toLowerCase() === 'eth') {
+                this.selectedToken = token
+            } else if (this.verifiedList.indexOf(token.wrapperAddress.toLowerCase()) < 0) {
                 setTimeout(() => {
                     this.selectedToken = token
                     this.$refs.tokenWarningModal.show()
