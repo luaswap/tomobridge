@@ -94,7 +94,8 @@
     "comment7": "------------------------Warning toast-------------------",
     "notEnoughFee": "Withdraw amount must be greater than withdraw fee",
     "minimumWithdraw": "Minimum Withdrawal is",
-    "wrongChain1": "Make sure you choose tomochain network, current chain id:",
+    "wrongChain1": "Make sure you choose tomochain network",
+    "wrongChain1-old": "Make sure you choose tomochain network, current chain id:",
     "wrongChain2": ", should be",
 
     "comment8": "----------------------------Transaction history table------------------------",

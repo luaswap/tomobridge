@@ -440,6 +440,7 @@ export default {
         if (self.toWrapSelected !== null) {
             self.toWrapError = false
         }
+        await self.checkNetwork()
     },
     destroyed () {
         if (this.interval) {
@@ -672,11 +673,11 @@ export default {
                     this.loading = true
                     const walletProvider = window.ethereum
                     const wjs = new Web3(walletProvider)
-                    const chainId = await wjs.eth.getId()
-                    if (this.config && chainId !== this.config.blockchain.networkId) {
-                        this.$toasted.show(`${this.$t('wrongChain1')} ${chainId}
-                        ${this.$t('wrongChain2')} ${this.config.blockchain.networkId}`)
-                    }
+                    // const chainId = await wjs.eth.getId()
+                    // if (this.config && chainId !== this.config.blockchain.networkId) {
+                    //     this.$toasted.show(`${this.$t('wrongChain1')} ${chainId}
+                    //     ${this.$t('wrongChain2')} ${this.config.blockchain.networkId}`)
+                    // }
 
                     await this.setupProvider('metamask', wjs)
                     this.address = await this.getAccount()
@@ -736,11 +737,11 @@ export default {
                     this.loading = true
                     const walletProvider = window.tomoWeb3.currentProvider
                     const wjs = new Web3(walletProvider)
-                    const chainId = await wjs.eth.getId()
-                    if (this.config && chainId !== this.config.blockchain.networkId) {
-                        this.$toasted.show(`${this.$t('wrongChain1')} ${chainId}
-                        ${this.$t('wrongChain2')} ${this.config.blockchain.networkId}`)
-                    }
+                    // const chainId = await wjs.eth.getId()
+                    // if (this.config && chainId !== this.config.blockchain.networkId) {
+                    //     this.$toasted.show(`${this.$t('wrongChain1')} ${chainId}
+                    //     ${this.$t('wrongChain2')} ${this.config.blockchain.networkId}`)
+                    // }
 
                     await this.setupProvider('pantograph', wjs)
                     this.address = await this.getAccount()
@@ -865,8 +866,9 @@ export default {
             if (this.web3) {
                 const chainId = await this.web3.eth.getId()
                 if (this.config && chainId !== this.config.blockchain.networkId) {
-                    this.networkWarning = `${this.$t('wrongChain1')} ${chainId}
-                        ${this.$t('wrongChain2')} ${this.config.blockchain.networkId}`
+                    this.networkWarning = `${this.$t('wrongChain1')}`
+                    // this.networkWarning = `${this.$t('wrongChain1')} ${chainId}
+                    //     ${this.$t('wrongChain2')} ${this.config.blockchain.networkId}`
                 } else {
                     this.networkWarning = ''
                 }
