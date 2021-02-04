@@ -94,7 +94,8 @@
 	"comment7": "------------------------Warning toast/ 警告-------------------",
 	"notEnoughFee": "引き出し金額は引き出し手数料よりも多くなければなりません",
 	"minimumWithdraw": "最低引き出し金額",
-	"wrongChain1": "Tomochainネットワーク、現在のチェーンIDを選択していることを確認してください",
+	"wrongChain1": "Tomochainネットワーク、を選択していることを確認してください",
+	"wrongChain1-old": "Tomochainネットワーク、現在のチェーンIDを選択していることを確認してください",
 	"wrongChain2": "必要がある",
 
 	"comment8": "----------------------------Transaction history table/ 取引履歴テーブル------------------------",

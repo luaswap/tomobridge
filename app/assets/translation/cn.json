@@ -94,7 +94,8 @@
 	"comment7": "------------------------Warning toast/ 警告-------------------",
 	"notEnoughFee": "提取金额必须大于提款手续费",
 	"minimumWithdraw": "最低提取金额",
-	"wrongChain1": "请确认是否选择了Tomochain网络、当前的链ID",
+	"wrongChain1": "请确认是否选择了Tomochain网络",
+	"wrongChain1-old": "请确认是否选择了Tomochain网络、当前的链ID",
 	"wrongChain2": "有必要",
 
 	"comment8": "----------------------------Transaction history table/ 交易历史表------------------------",
