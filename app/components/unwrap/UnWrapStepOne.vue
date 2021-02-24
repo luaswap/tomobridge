@@ -48,7 +48,7 @@
             </template>
             Due to the sky-high gas fees on Ethereum, TomoBridge withdrawal transactions will take longer to process.
             <div class="modal-buttons mt-4">
-                <b-button @click="closeModal">Cancel</b-button>
+                <b-button @click="closeModal">Quit</b-button>
                 <b-button
                     variant="primary"
                     @click="nextStep">Continue</b-button>
