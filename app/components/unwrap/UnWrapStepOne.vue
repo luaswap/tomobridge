@@ -33,8 +33,27 @@
             <b-button
                 class="btn--big"
                 variant="primary"
-                @click="nextStep">{{ $t('unwrapBtn') }}</b-button>
+                @click="beforeWithdraw">{{ $t('unwrapBtn') }}</b-button>
         </div>
+        <b-modal
+            id="withdrawWarningModal"
+            ref="withdrawWarningModal"
+            centered
+            scrollable
+            size="md"
+            no-close-on-esc
+            hide-footer>
+            <template #modal-title>
+                <div class="text-danger">Warning <i class="tb-warning " /></div>
+            </template>
+            Due to the sky-high gas fees on Ethereum, TomoBridge withdrawal transactions will take longer to process.
+            <div class="modal-buttons mt-4">
+                <b-button @click="closeModal">Cancel</b-button>
+                <b-button
+                    variant="primary"
+                    @click="nextStep">Continue</b-button>
+            </div>
+        </b-modal>
     </b-container>
 </template>
 
@@ -43,6 +62,7 @@
 import BigNumber from 'bignumber.js'
 import store from 'store'
 import urljoin from 'url-join'
+import axios from 'axios'
 export default {
     name: 'App',
     components: {
@@ -69,7 +89,8 @@ export default {
             contract: '',
             contractAddress: '',
             feeAmount: '',
-            tomoFeeMode: false
+            tomoFeeMode: false,
+            showWithdrawWarning: false
         }
     },
     async updated () { },
@@ -140,6 +161,7 @@ export default {
                         // delete dataTx.value
                         const txHash = await this.sendSignedTransaction(dataTx, signature)
                         if (txHash) {
+                            this.$refs.withdrawWarningModal.hide()
                             par.transactionHash = txHash
                             let check = true
                             while (check) {
@@ -158,6 +180,7 @@ export default {
                             this.string2byte(this.receiveAddress)
                         ).send(txParams)
                             .on('transactionHash', async (txHash) => {
+                                this.$refs.withdrawWarningModal.hide()
                                 par.transactionHash = txHash
                                 let check = true
                                 while (check) {
@@ -263,6 +286,36 @@ export default {
             }
             if (new BigNumber(this.amount).isLessThan(new BigNumber(coin.minimumWithdrawal))) {
                 parent.receiveAmount = 0
+            }
+        },
+        async checkETHGasPrice () {
+            try {
+                // gwei = 250
+                const { data } = await axios.get(
+                    'https://api.etherscan.io/api?module=gastracker&action=gasestimate&gasprice=250000000000'
+                )
+                const estimateTime = data.result / 60
+                if (estimateTime > 15) {
+                    this.showWithdrawWarning = true
+                } else {
+                    this.showWithdrawWarning = false
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        },
+        showWarningModal () {
+            this.$refs.withdrawWarningModal.show()
+        },
+        closeModal () {
+            this.$refs.withdrawWarningModal.hide()
+        },
+        async beforeWithdraw () {
+            await this.checkETHGasPrice()
+            if (this.showWithdrawWarning) {
+                this.showWarningModal()
+            } else {
+                this.nextStep()
             }
         }
     }
