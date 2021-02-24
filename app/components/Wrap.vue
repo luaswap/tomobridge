@@ -360,8 +360,7 @@
             no-close-on-esc
             hide-footer>
             <template #modal-title>
-                Warning
-                <i class="tb-warning " />
+                <div class="text-danger">Warning <i class="tb-warning " /></div>
             </template>
             <TokenWarningModal :parent="this" />
         </b-modal>
