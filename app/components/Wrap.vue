@@ -228,7 +228,7 @@
                         v-if="networkWarning"
                         class="text-danger" >{{ networkWarning }}</div>
                     <div
-                        v-if="fromWrapSelected.wrapperAddress.toLowerCase() === litWrappedAddress"
+                        v-if="(fromWrapSelected.wrapperAddress && fromWrapSelected.wrapperAddress.toLowerCase() === litWrappedAddress)"
                         class="text-danger" >Lition depositing is currently blocked</div>
                     <b-form-checkbox
                         v-model="isAgreed">
@@ -243,7 +243,7 @@
                     <b-button
                         v-if="wrapType === 'wrap'"
                         :disabled="!isAgreed || !fromWrapSelected || !toWrapSelected || !address
-                        || fromWrapSelected.wrapperAddress.toLowerCase() === litWrappedAddress"
+                        || (fromWrapSelected.wrapperAddress && fromWrapSelected.wrapperAddress.toLowerCase() === litWrappedAddress)"
                         class="wrapbox__big-button btn--big"
                         variant="primary"
                         @click="wrapToken">{{ $t('wrapNowBtn') }}</b-button>
@@ -423,7 +423,7 @@ export default {
             networkWarning: '',
             verifiedList: [],
             selectedToken: {},
-            litWrappedAddress: '0xf9787e76750c1e731054cf4cc97a2e3f490db360'
+            litWrappedAddress: '0xaad540ac542c3688652a3fc7b8e21b3fc1d097e9'// '0xf9787e76750c1e731054cf4cc97a2e3f490db360'
         }
     },
     computed : {
