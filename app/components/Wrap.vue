@@ -423,7 +423,7 @@ export default {
             networkWarning: '',
             verifiedList: [],
             selectedToken: {},
-            litWrappedAddress: '0xaad540ac542c3688652a3fc7b8e21b3fc1d097e9'// '0xf9787e76750c1e731054cf4cc97a2e3f490db360'
+            litWrappedAddress: '0xf9787e76750c1e731054cf4cc97a2e3f490db360'
         }
     },
     computed : {
