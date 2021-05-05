@@ -404,8 +404,8 @@ export default {
             fromData: [],
             toData: [],
             selectedLanguage: this.$store.state.language || 'English',
-            fromWrapSelected: null,
-            toWrapSelected: null,
+            fromWrapSelected: {},
+            toWrapSelected: {},
             receiveAddress: '',
             isAgreed: false,
             privateKey: '',
@@ -509,7 +509,7 @@ export default {
                 if (t.name.toLowerCase() === (this.$route.params.tokenSymbol || '').toLowerCase()) {
                     this.fromWrapSelected = t
                 }
-                this.fromWrapSelected = this.fromWrapSelected || this.fromData[0]
+                this.fromWrapSelected = this.fromData[0]
             })
         }
 

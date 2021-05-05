@@ -16,6 +16,7 @@
 	"comment2": "---------------- Wrap pages/ ラップページ ------------------------",
 	"wrapGuide1": "次にやるべきです",
 	"sendToAddress1": "送信",
+	"sendToAddress1Token": "送信",
 	"sendToAddress2": "以下のアドレスまで",
 	"wrapWarning": "*１回の最低数量は",
 	"wranningTooltip": "最低数量以下でデポジットするとラップしたトークンを受け取れない場合があります",
