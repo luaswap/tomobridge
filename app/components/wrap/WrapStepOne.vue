@@ -1,7 +1,11 @@
 <template>
     <b-container class="step-one text-center">
         <h3 class="step-one__title">{{ $t('wrapGuide1') }}:</h3>
-        <p class="step-one__subtitle">{{ $t('sendToAddress1') + ` ${tokenName} ` + $t('sendToAddress2') }}</p>
+        <p class="step-one__subtitle">
+            {{ ((tokenName !== 'ETH' && tokenName !== 'BTC') ?
+                $t('sendToAddress1Token')
+            : $t('sendToAddress1')) + ` ${tokenName} ` + $t('sendToAddress2') }}
+        </p>
         <div>
             <label class="step-one__warning">
                 {{ $t('wrapWarning') }} {{ minimumDeposit }} {{ tokenName }}

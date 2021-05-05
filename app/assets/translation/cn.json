@@ -16,6 +16,7 @@
 	"comment2": "---------------- Wrap pages/ 卷藏页面 ------------------------",
 	"wrapGuide1": "接下来应该做",
 	"sendToAddress1": "发送",
+	"sendToAddress1Token": "发送",
 	"sendToAddress2": "到以下的地址",
 	"wrapWarning": "*一次最少的数量为",
 	"wranningTooltip": "如果您的入金少于最低数量，则可能不会收到卷藏的代币",

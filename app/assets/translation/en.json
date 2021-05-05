@@ -15,7 +15,8 @@
 
     "comment2": "----------------Wrap pages ------------------------",
     "wrapGuide1": "Here’s what you need to do next",
-    "sendToAddress1": "Send",
+    "sendToAddress1": "Send native",
+    "sendToAddress1Token": "Send ERC20",
     "sendToAddress2": "to the public address below",
     "wrapWarning": "*Minimum deposit is",
     "wranningTooltip": "You might not receive TRC Token if you deposit below minimum deposit amount of",
