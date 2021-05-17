@@ -276,7 +276,7 @@ export default {
             if (tokenSymbol.includes('tomo')) {
                 tokenSymbol = tokenSymbol.replace('tomo', '')
             }
-            if (tokenSymbol) {
+            if (tokenSymbol !== 'lit') {
                 let decimals = parseInt(this.config.objSwapCoin[tokenSymbol].decimals)
                 return (new BigNumber(amount).div(10 ** decimals)).toFixed(4).toString(10)
             } else { return '' }
@@ -284,7 +284,6 @@ export default {
         checkStatus (tx) {
             if (tx.Status === 'DEPOSITING' || tx.Status === 'WITHDRAWING') {
                 const coin = this.config.objSwapCoin[tx.CoinType.toLowerCase()]
-                // return `${tx.Status}(${tx.Confirmations}/${coin.confirmations})`
                 return `${this.$t(tx.Status.toLowerCase())}(${tx.Confirmations}/${coin.confirmations})`
             } else {
                 // return tx.Status.toUpperCase()
@@ -300,7 +299,7 @@ export default {
             this.getUnwrapTxs()
         },
         getTxExplorerUrl (tx) {
-            if (tx.CoinType) {
+            if (tx.CoinType.toLowerCase() !== 'lit') {
                 const coin = this.config.objSwapCoin[tx.CoinType.toLowerCase()]
                 if (coin) {
                     if (coin.explorerUrl.includes('tomochain')) {
