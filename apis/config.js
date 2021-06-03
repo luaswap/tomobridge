@@ -19,7 +19,6 @@ const getChainInfo = (chain) => {
 
 router.get('/', async function (req, res, next) {
     let appConfig = {}
-    // const swapCoin = JSON.parse(JSON.stringify(config.get('swapCoin')))
     appConfig.blockchain = config.get('blockchain')
     appConfig.swapToken = config.get('swapToken')
     let tomoscanUrl = config.get('tomoscanUrl')
@@ -34,7 +33,24 @@ router.get('/', async function (req, res, next) {
     const { data } = await axios.get(
         urljoin(config.get('serverAPI'), 'tokens?page=1&limit=1000')
     )
+    let wbtc = {}
     appConfig.swapCoin = data.Data.map(d => {
+        if (d.symbol.toLowerCase() === 'wbtc') {
+            wbtc = {
+                name: d.symbol,
+                confirmations: d.confirms,
+                decimals: d.decimals,
+                minimumWithdrawal: new BigNumber(d.min_deposit_value).div(10 ** d.decimals).toString(10),
+                image: urljoin(config.get('tokenListAPI'), `${d.wrap_smart_contract.toLowerCase()}.png`),
+                wrapperAddress: d.wrap_smart_contract,
+                tokenName: d.name,
+                network: getChainInfo(d.chain)[0],
+                explorerUrl: getChainInfo(d.chain)[1],
+                mainAddress: d.multisig_wallet,
+                tokenAddress: d.address,
+                coingecko_id: d.coingecko_id || ''
+            }
+        }
         return {
             name: d.symbol,
             confirmations: d.confirms,
@@ -51,10 +67,9 @@ router.get('/', async function (req, res, next) {
         }
     })
 
-    // appConfig.swapCoin = await Promise.all(swapCoin.map(s => {
-    //     s.image = urljoin(config.get('tokenListAPI'), `${s.wrapperAddress.toLowerCase()}.png`)
-    //     return s
-    // }))
+    appConfig.swapCoin = appConfig.swapCoin.filter(d => d.name.toLowerCase() !== 'wbtc')
+    // add wbtc to second position
+    appConfig.swapCoin.splice(1, 0, wbtc)
 
     return res.json(appConfig)
 })
