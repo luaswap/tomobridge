@@ -53,7 +53,7 @@
     "lodash.map": "^4.6.0",
     "lodash.omit": "^4.5.0",
     "moment": "^2.24.0",
-    "mongoose": "^5.5.12",
+    "mongoose": "^5.7.5",
     "morgan": "^1.9.1",
     "remove": "^0.1.5",
     "solc": "^0.4.25",
