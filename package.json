@@ -98,7 +98,7 @@
     "nodemon": "^1.19.0",
     "postcss-loader": "^3.0.0",
     "sass-loader": "^7.1.0",
-    "stylelint": "^13.1.0",
+    "stylelint": "^15.10.1",
     "stylelint-config-standard": "^20.0.0",
     "stylelint-order": "^4.0.0",
     "truffle": "^5.0.19",
